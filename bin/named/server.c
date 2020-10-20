@@ -112,6 +112,10 @@
 
 #include <bind9/check.h>
 
+#ifdef HAVE_FIPS_MODE
+#include <openssl/crypto.h>
+#endif /* ifdef HAVE_FIPS_MODE */
+
 #include <named/config.h>
 #include <named/control.h>
 #if defined(HAVE_GEOIP2)
