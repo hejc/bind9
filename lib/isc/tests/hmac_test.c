@@ -126,8 +126,10 @@ isc_hmac_init_test(void **state) {
 
 	expect_assert_failure(isc_hmac_init(hmac, NULL, 0, ISC_MD_MD5));
 
+#ifndef HAVE_FIPS_MODE
 	assert_int_equal(isc_hmac_init(hmac, "", 0, ISC_MD_MD5), ISC_R_SUCCESS);
 	assert_int_equal(isc_hmac_reset(hmac), ISC_R_SUCCESS);
+#endif /* ifdef HAVE_FIPS_MODE */
 
 	assert_int_equal(isc_hmac_init(hmac, "", 0, ISC_MD_SHA1),
 			 ISC_R_SUCCESS);
@@ -210,6 +212,7 @@ isc_hmac_final_test(void **state) {
 	assert_int_equal(isc_hmac_final(hmac, digest, NULL), ISC_R_SUCCESS);
 }
 
+#ifndef HAVE_FIPS_MODE
 static void
 isc_hmac_md5_test(void **state) {
 	isc_hmac_t *hmac = *state;
@@ -307,6 +310,7 @@ isc_hmac_md5_test(void **state) {
 		      1);
 #endif /* if 0 */
 }
+#endif /* HAVE_FIPS_MODE */
 
 static void
 isc_hmac_sha1_test(void **state) {
@@ -915,8 +919,10 @@ main(void) {
 		cmocka_unit_test_setup_teardown(isc_hmac_reset_test, _reset,
 						_reset),
 
-		/* isc_hmac_init() -> isc_hmac_update() -> isc_hmac_final() */
+	/* isc_hmac_init() -> isc_hmac_update() -> isc_hmac_final() */
+#ifndef HAVE_FIPS_MODE
 		cmocka_unit_test(isc_hmac_md5_test),
+#endif /* ifdef HAVE_FIPS_MODE */
 		cmocka_unit_test(isc_hmac_sha1_test),
 		cmocka_unit_test(isc_hmac_sha224_test),
 		cmocka_unit_test(isc_hmac_sha256_test),

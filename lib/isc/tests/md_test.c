@@ -119,8 +119,10 @@ isc_md_init_test(void **state) {
 
 	assert_int_equal(isc_md_init(md, NULL), ISC_R_NOTIMPLEMENTED);
 
+#ifndef HAVE_FIPS_MODE
 	assert_int_equal(isc_md_init(md, ISC_MD_MD5), ISC_R_SUCCESS);
 	assert_int_equal(isc_md_reset(md), ISC_R_SUCCESS);
+#endif /* HAVE_FIPS_MODE */
 
 	assert_int_equal(isc_md_init(md, ISC_MD_SHA1), ISC_R_SUCCESS);
 	assert_int_equal(isc_md_reset(md), ISC_R_SUCCESS);
@@ -196,6 +198,7 @@ isc_md_final_test(void **state) {
 	assert_int_equal(isc_md_final(md, digest, NULL), ISC_R_SUCCESS);
 }
 
+#ifndef HAVE_FIPS_MODE
 static void
 isc_md_md5_test(void **state) {
 	isc_md_t *md = *state;
@@ -219,6 +222,7 @@ isc_md_md5_test(void **state) {
 			       "01234567890123456789012345678901234567890"),
 		    "57EDF4A22BE3C955AC49DA2E2107B67A", 1);
 }
+#endif /* HAVE_FIPS_MODE */
 
 static void
 isc_md_sha1_test(void **state) {
@@ -553,8 +557,10 @@ main(void) {
 		cmocka_unit_test_setup_teardown(isc_md_reset_test, _reset,
 						_reset),
 
-		/* isc_md_init() -> isc_md_update() -> isc_md_final() */
+	/* isc_md_init() -> isc_md_update() -> isc_md_final() */
+#ifndef HAVE_FIPS_MODE
 		cmocka_unit_test(isc_md_md5_test),
+#endif /* HAVE_FIPS_MODE */
 		cmocka_unit_test(isc_md_sha1_test),
 		cmocka_unit_test(isc_md_sha224_test),
 		cmocka_unit_test(isc_md_sha256_test),
