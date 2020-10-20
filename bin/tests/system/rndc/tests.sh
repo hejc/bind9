@@ -347,16 +347,18 @@ done
 if [ $ret != 0 ]; then echo_i "failed"; fi
 status=$((status+ret))
 
-n=$((n+1))
-echo_i "testing rndc with hmac-md5 ($n)"
-ret=0
-$RNDC -s 10.53.0.4 -p ${EXTRAPORT1} -c ns4/key1.conf status > /dev/null 2>&1 || ret=1
-for i in 2 3 4 5 6
-do
-        $RNDC -s 10.53.0.4 -p ${EXTRAPORT1} -c ns4/key${i}.conf status > /dev/null 2>&1 && ret=1
-done
-if [ $ret != 0 ]; then echo_i "failed"; fi
-status=$((status+ret))
+if ! $FEATURETEST --have-fips; then
+        n=$((n+1))
+        echo_i "testing rndc with hmac-md5 ($n)"
+        ret=0
+        $RNDC -s 10.53.0.4 -p ${EXTRAPORT1} -c ns4/key1.conf status > /dev/null 2>&1 || ret=1
+        for i in 2 3 4 5 6
+        do
+                $RNDC -s 10.53.0.4 -p ${EXTRAPORT1} -c ns4/key${i}.conf status > /dev/null 2>&1 && ret=1
+        done
+        if [ $ret != 0 ]; then echo_i "failed"; fi
+        status=$((status+ret))
+fi
 
 n=$((n+1))
 echo_i "testing rndc with hmac-sha1 ($n)"
