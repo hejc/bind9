@@ -119,14 +119,14 @@ isc_hmac_init_test(void **state) {
 	isc_hmac_t *hmac = *state;
 	assert_non_null(hmac);
 
-	expect_assert_failure(isc_hmac_init(NULL, "", 0, ISC_MD_MD5));
-
 	assert_int_equal(isc_hmac_init(hmac, "", 0, NULL),
 			 ISC_R_NOTIMPLEMENTED);
 
+#ifndef HAVE_FIPS_MODE
+	expect_assert_failure(isc_hmac_init(NULL, "", 0, ISC_MD_MD5));
+
 	expect_assert_failure(isc_hmac_init(hmac, NULL, 0, ISC_MD_MD5));
 
-#ifndef HAVE_FIPS_MODE
 	assert_int_equal(isc_hmac_init(hmac, "", 0, ISC_MD_MD5), ISC_R_SUCCESS);
 	assert_int_equal(isc_hmac_reset(hmac), ISC_R_SUCCESS);
 #endif /* ifdef HAVE_FIPS_MODE */
