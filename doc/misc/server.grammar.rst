@@ -22,6 +22,7 @@
   	request-expire <boolean>;
   	request-ixfr <boolean>;
   	request-nsid <boolean>;
+  	require-cookie <boolean>;
   	send-cookie <boolean>;
   	tcp-keepalive <boolean>;
   	tcp-only <boolean>;

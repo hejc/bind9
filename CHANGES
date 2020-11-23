@@ -1,3 +1,9 @@
+5764.	[func]		You can now specify if a server must return a DNS
+			COOKIE before accepting the response over UDP.
+			[GL #2295]
+
+			server <prefix> { require-cookie <yes_or_no>; };
+
 5763.	[bug]		Fix a bug in DoT code leading to an abort when
 			a zone transfer ends with an unexpected DNS message.
 			[GL #3004]

@@ -4651,6 +4651,15 @@ The ``request-nsid`` clause determines whether the local server adds
 an NSID EDNS option to requests sent to the server. This overrides
 ``request-nsid`` set at the view or option level.
 
+The ``require-cookie`` clause determines whether ``named`` accepts
+a UDP response without a DNS COOKIE. If a DNS COOKIE is missing
+from the response, then ``named`` will retry the request over TCP.
+If ``false``, the answer is accepted without falling back to TCP
+unless the ``named`` has otherwise learnt the server supports DNS
+COOKIE in which case it will still fallback to TCP.
+
+If the response is validly TSIG signed TCP fallback does not occur.
+
 The ``send-cookie`` clause determines whether the local server adds
 a COOKIE EDNS option to requests sent to the server. This overrides
 ``send-cookie`` set at the view or option level. The ``named`` server
