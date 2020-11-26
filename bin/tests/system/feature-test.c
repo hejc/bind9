@@ -37,7 +37,7 @@ usage(void) {
 	fprintf(stderr, "\t--enable-dnstap\n");
 	fprintf(stderr, "\t--gethostname\n");
 	fprintf(stderr, "\t--gssapi\n");
-	fprintf(stderr, "\t--have-fips\n");
+	fprintf(stderr, "\t--have-fips-mode\n");
 	fprintf(stderr, "\t--have-geoip2\n");
 	fprintf(stderr, "\t--have-libxml2\n");
 	fprintf(stderr, "\t--ipv6only=no\n");
@@ -101,7 +101,7 @@ main(int argc, char **argv) {
 #endif /* HAVE_GSSAPI */
 	}
 
-	if (strcmp(argv[1], "--have-fips") == 0) {
+	if (strcmp(argv[1], "--have-fips-mode") == 0) {
 #ifdef HAVE_FIPS_MODE
 		return (0);
 #else  /* ifdef HAVE_FIPS_MODE */
