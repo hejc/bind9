@@ -25,7 +25,7 @@ sha512="jI/Pa4qRu96t76Pns5Z/Ndxbn3QCkwcxLOgt9vgvnJw5wqTRvNyk3FtD6yIMd1dWVlqZ+Y4f
 
 status=0
 
-if ! $FEATURETEST --have-fips; then
+if ! $FEATURETEST --have-fips-mode; then
 	echo_i "fetching using hmac-md5 (old form)"
 	ret=0
 	$DIG $DIGOPTS example.nil. -y "md5:$md5" @10.53.0.1 soa > dig.out.md5.old || ret=1
@@ -88,7 +88,7 @@ fi
 #	Truncated TSIG
 #
 #
-if ! $FEATURETEST --have-fips; then
+if ! $FEATURETEST --have-fips-mode; then
 	echo_i "fetching using hmac-md5 (trunc)"
 	ret=0
 	$DIG $DIGOPTS example.nil. -y "hmac-md5-80:md5-trunc:$md5" @10.53.0.1 soa > dig.out.md5.trunc || ret=1
@@ -144,7 +144,7 @@ fi
 #	Check for bad truncation.
 #
 #
-if ! $FEATURETEST --have-fips; then
+if ! $FEATURETEST --have-fips-mode; then
 	echo_i "fetching using hmac-md5-80 (BADTRUNC)"
 	ret=0
 	$DIG $DIGOPTS example.nil. -y "hmac-md5-80:md5:$md5" @10.53.0.1 soa > dig.out.md5-80 || ret=1
