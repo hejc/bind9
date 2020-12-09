@@ -608,6 +608,29 @@ unit:gcc:oraclelinux7:amd64:
     - job: gcc:oraclelinux7:amd64
       artifacts: true
 
+# Jobs for scheduled GCC builds on Oracle Linux 7 (amd64) with FIPS mode
+
+gcc:fips:amd64:
+  variables:
+    CC: gcc
+    CFLAGS: "${CFLAGS_COMMON}"
+    EXTRA_CONFIGURE: "--enable-dnstap --with-libidn2 --enable-fips-mode"
+  <<: *oraclelinux_7_amd64_image
+  <<: *build_job
+  only:
+    - schedules
+    - web
+
+unit:gcc:fips:amd64:
+  <<: *oraclelinux_7_amd64_image
+  <<: *unit_test_job
+  needs:
+    - job: gcc:fips:amd64
+      artifacts: true
+  only:
+    - schedules
+    - web
+
 # Jobs for regular GCC builds on Oracle Linux 8 (amd64)
 
 gcc:oraclelinux8:amd64:
