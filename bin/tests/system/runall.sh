@@ -80,7 +80,6 @@ if [ "$NOPARALLEL" = "" ]; then
         # of parallel execution of system tests, and use that.
         $SHELL parallel.sh > parallel.mk
         make -f parallel.mk -j "$numproc" check
-        $SHELL ./runsequential.sh
         $SHELL ./testsummary.sh || status=1
     fi
 else
