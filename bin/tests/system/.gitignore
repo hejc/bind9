@@ -17,6 +17,5 @@ parallel.mk
 /resolve
 /run.sh
 /run.log
-/start.sh
 /stop.sh
 /ifconfig.sh
