@@ -9,80 +9,65 @@
 # See the COPYRIGHT file distributed with this work for additional
 # information regarding copyright ownership.
 
-# Creates the system tests output file from the various test.output.* files.  It
-# then searches that file and prints the number of tests passed, failed, not
-# run.  It also checks whether the IP addresses 10.53.0.[1-8] were set up and,
-# if not, prints a warning.
+# The script investigates test-suite.log and systests.output files and prints
+# the number of core dumps, assertion failures, and ThreadSanitizer reports
+# identified.
 #
 # Usage:
-#    testsummary.sh [-n]
-#
-# -n	Do NOT delete the individual test.output.* files after concatenating
-#	them into systests.output.
+#    testsummary.sh
 #
 # Status return:
 # 0 - no tests failed
 # 1 - one or more tests failed
 
+# shellcheck source=conf.sh
 . ./conf.sh
 
-keepfile=0
+status=0
 
-while getopts "n" flag; do
-    case $flag in
-	n) keepfile=1 ;;
-	*) exit 1 ;;
-    esac
-done
-
-if [ "$(find . -name 'test.output.*' 2>/dev/null | wc -l)" -eq 0 ]; then
-    echowarn "I:No 'test.output.*' files were found."
-    echowarn "I:Printing summary from pre-existing 'systests.output'."
-else
+TEST_FILE=test-suite.log
+if [ "$(find . -name 'test.output.*' 2>/dev/null | wc -l)" -gt 0 ]; then
     cat test.output.* > systests.output
-    if [ $keepfile -eq 0 ]; then
-        rm -f test.output.*
-    fi
+    TEST_FILE=systests.output
 fi
 
-if [ ! -f systests.output ]; then
-    echowarn "I:No 'systests.output' file found."
+if [ ! -s "${TEST_FILE}" ]; then
+    echowarn "I:File ${TEST_FILE} was not found."
     exit 1
 fi
 
-status=0
 echoinfo "I:System test result summary:"
-echoinfo "$(grep 'R:[a-z0-9_-][a-z0-9_-]*:[A-Z][A-Z]*' systests.output | cut -d':' -f3 | sort | uniq -c | sed -e 's/^/I:/')"
-
-FAILED_TESTS=$(grep 'R:[a-z0-9_-][a-z0-9_-]*:FAIL' systests.output | cut -d':' -f2 | sort | sed -e 's/^/I:      /')
-if [ -n "${FAILED_TESTS}" ]; then
-	echoinfo "I:The following system tests failed:"
-	echoinfo "${FAILED_TESTS}"
-	status=1
+if [ "${TEST_FILE}" = systests.output ]; then
+    echoinfo "$(grep 'R:[a-z0-9_-][a-z0-9_-]*:[A-Z][A-Z]*' "${TEST_FILE}" | cut -d':' -f3 | sort | uniq -c | sed -e 's/^/I:/')"
+else
+    echoinfo "$(sed -ne '/^# /s/^# //p' "${TEST_FILE}" | sed -e 's/^/I:      /')"
 fi
 
-CRASHED_TESTS=$(find . \( -name 'core' -or -name 'core.*' -or -name '*.core' \) ! -name '*.txt' | cut -d'/' -f2 | sort -u | sed -e 's/^/I:      /')
+FAILED_TESTS=$(grep 'R:[a-z0-9_-][a-z0-9_-]*:FAIL' "${TEST_FILE}" | cut -d':' -f2 | sort | sed -e 's/^/I:      /')
+if [ -n "${FAILED_TESTS}" ]; then
+       echoinfo "I:The following system tests failed:"
+       echoinfo "${FAILED_TESTS}"
+       status=1
+fi
+
+CRASHED_TESTS=$(awk -F: '/I:.*:Core dump\(s\) found/ { print $2 }' "${TEST_FILE}" | sort -u | sed -e 's/^/I:      /')
 if [ -n "${CRASHED_TESTS}" ]; then
 	echoinfo "I:Core dumps were found for the following system tests:"
 	echoinfo "${CRASHED_TESTS}"
+	status=1
 fi
 
-ASSERTION_FAILED_TESTS=$(find . -name named.run -print0 | xargs -0 grep "assertion failure" | cut -d'/' -f2 | sort -u | sed -e 's/^/I:      /')
+ASSERTION_FAILED_TESTS=$(awk -F: '/I:.*:.*assertion failure\(s\) found/ { print $2 }' "${TEST_FILE}" | sort -u | sed -e 's/^/I:      /')
 if [ -n "${ASSERTION_FAILED_TESTS}" ]; then
 	echoinfo "I:Assertion failures were detected for the following system tests:"
 	echoinfo "${ASSERTION_FAILED_TESTS}"
+	status=1
 fi
 
-TSAN_REPORT_TESTS=$(find . -name 'tsan.*' | cut -d'/' -f2 | sort -u | sed -e 's/^/I:      /')
+TSAN_REPORT_TESTS=$(awk -F: '/I:.*:.*sanitizer report\(s\) found/ { print $2 }' "${TEST_FILE}" | sort -u | sed -e 's/^/I:      /')
 if [ -n "${TSAN_REPORT_TESTS}" ]; then
 	echoinfo "I:ThreadSanitizer reported issues for the following system tests:"
 	echoinfo "${TSAN_REPORT_TESTS}"
-fi
-
-RESULTS_FOUND=$(grep -c 'R:[a-z0-9_-][a-z0-9_-]*:[A-Z][A-Z]*' systests.output)
-TESTS_RUN=$(echo "${SUBDIRS}" | wc -w)
-if [ "${RESULTS_FOUND}" -ne "${TESTS_RUN}" ]; then
-	echofail "I:Found ${RESULTS_FOUND} test results, but ${TESTS_RUN} tests were run"
 	status=1
 fi
 

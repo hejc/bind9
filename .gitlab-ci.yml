@@ -309,6 +309,7 @@ stages:
     - test -n "${OUT_OF_TREE_WORKSPACE}" && cd "${OUT_OF_TREE_WORKSPACE}"
     - test -d bind-* && cd bind-*
     - cat bin/tests/system/test-suite.log
+    - ( cd bin/tests/system && sh testsummary.sh )
     - *save_out_of_tree_workspace
 
 .system_test: &system_test_job
@@ -329,6 +330,7 @@ stages:
   <<: *system_test_common
   after_script:
     - cat bin/tests/system/test-suite.log
+    - ( cd bin/tests/system && sh testsummary.sh )
     - find bin -name 'tsan.*' -exec python3 util/parse_tsan.py {} \;
   artifacts:
     expire_in: "1 day"
