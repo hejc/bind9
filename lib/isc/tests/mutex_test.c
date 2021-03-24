@@ -42,6 +42,13 @@
 
 static unsigned int workers = 0;
 
+static bool skip_long_tests = false;
+#define SKIP_IN_CI             \
+	if (skip_long_tests) { \
+		skip();        \
+		return;        \
+	}
+
 static int
 _setup(void **state) {
 	isc_result_t result;
@@ -93,14 +100,14 @@ isc_mutex_test(void **state) {
 
 #define ITERS 20
 
-#define DC  200
-#define MIN 800
-#define MAX 1600
+#define DC	200
+#define CNT_MIN 800
+#define CNT_MAX 1600
 
 static size_t shared_counter = 0;
 static size_t expected_counter = SIZE_MAX;
-static isc_mutex_t lock = ISC_MUTEX_INITIALIZER;
-static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static isc_mutex_t lock;
+static pthread_mutex_t mutex;
 
 static isc_threadresult_t
 pthread_mutex_thread(isc_threadarg_t arg) {
@@ -136,6 +143,17 @@ isc_mutex_thread(isc_threadarg_t arg) {
 
 static void
 isc_mutex_benchmark(void **state) {
+	UNUSED(state);
+
+#if defined(__SANITIZE_THREAD__)
+	UNUSED(expected_counter);
+	UNUSED(pthread_mutex_thread);
+	UNUSED(isc_mutex_thread);
+
+	skip();
+#else
+	SKIP_IN_CI;
+
 	isc_thread_t *threads = isc_mem_get(test_mctx,
 					    sizeof(*threads) * workers);
 	isc_time_t ts1, ts2;
@@ -143,14 +161,17 @@ isc_mutex_benchmark(void **state) {
 	isc_result_t result;
 	int dc;
 	size_t cont;
-
-	UNUSED(state);
+	int r;
 
 	memset(threads, 0, sizeof(*threads) * workers);
 
-	expected_counter = ITERS * workers * LOOPS * ((MAX - MIN) / DC + 1);
+	expected_counter = ITERS * workers * LOOPS *
+			   ((CNT_MAX - CNT_MIN) / DC + 1);
 
 	/* PTHREAD MUTEX */
+
+	r = pthread_mutex_init(&mutex, NULL);
+	assert_int_not_equal(r, -1);
 
 	result = isc_time_now_hires(&ts1);
 	assert_int_equal(result, ISC_R_SUCCESS);
@@ -158,8 +179,9 @@ isc_mutex_benchmark(void **state) {
 	shared_counter = 0;
 	dc = DC;
 	for (size_t l = 0; l < ITERS; l++) {
-		for (cont = (dc > 0) ? MIN : MAX; cont <= MAX && cont >= MIN;
-		     cont += dc) {
+		for (cont = (dc > 0) ? CNT_MIN : CNT_MAX;
+		     cont <= CNT_MAX && cont >= CNT_MIN; cont += dc)
+		{
 			for (size_t i = 0; i < workers; i++) {
 				isc_thread_create(pthread_mutex_thread, &cont,
 						  &threads[i]);
@@ -182,7 +204,12 @@ isc_mutex_benchmark(void **state) {
 	       shared_counter, workers, t / 1000000.0,
 	       shared_counter / (t / 1000000.0));
 
+	r = pthread_mutex_destroy(&mutex);
+	assert_int_not_equal(r, -1);
+
 	/* ISC MUTEX */
+
+	isc_mutex_init(&lock);
 
 	result = isc_time_now_hires(&ts1);
 	assert_int_equal(result, ISC_R_SUCCESS);
@@ -190,8 +217,9 @@ isc_mutex_benchmark(void **state) {
 	dc = DC;
 	shared_counter = 0;
 	for (size_t l = 0; l < ITERS; l++) {
-		for (cont = (dc > 0) ? MIN : MAX; cont <= MAX && cont >= MIN;
-		     cont += dc) {
+		for (cont = (dc > 0) ? CNT_MIN : CNT_MAX;
+		     cont <= CNT_MAX && cont >= CNT_MIN; cont += dc)
+		{
 			for (size_t i = 0; i < workers; i++) {
 				isc_thread_create(isc_mutex_thread, &cont,
 						  &threads[i]);
@@ -214,7 +242,10 @@ isc_mutex_benchmark(void **state) {
 	       shared_counter, workers, t / 1000000.0,
 	       shared_counter / (t / 1000000.0));
 
+	isc_mutex_destroy(&lock);
+
 	isc_mem_put(test_mctx, threads, sizeof(*threads) * workers);
+#endif /* __SANITIZE_THREAD__ */
 }
 
 /*
@@ -223,13 +254,15 @@ isc_mutex_benchmark(void **state) {
 
 int
 main(void) {
+	if (getenv("CI") != NULL && getenv("CI_ENABLE_ALL_TESTS") == NULL) {
+		skip_long_tests = true;
+	}
+
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(isc_mutex_test, _setup,
 						_teardown),
-#if !defined(__SANITIZE_THREAD__)
 		cmocka_unit_test_setup_teardown(isc_mutex_benchmark, _setup,
 						_teardown),
-#endif /* __SANITIZE_THREAD__ */
 	};
 
 	return (cmocka_run_group_tests(tests, NULL, NULL));
