@@ -38,6 +38,7 @@
 #include <isc/util.h>
 
 #include "isctest.h"
+#include "rwlock_p.h"
 
 #define LOOPS	   100000
 #define DELAY_LOOP 1
@@ -107,7 +108,9 @@ static int
 rwlock_setup(void **state) {
 	UNUSED(state);
 
-	isc_rwlock_init(&rwlock, 0, 0);
+	isc__rwlock_setworkers(2 + ncpus * 2);
+
+	isc_rwlock_init_ex(&rwlock, ISC_RWLOCK_IMPL_RW_WP);
 
 	if (sem_init(&sem1, 0, 0) == -1) {
 		return (errno);
@@ -184,15 +187,15 @@ static void
 isc_rwlock_tryupgrade_test(void **state) {
 	UNUSED(state);
 
-#if USE_PTHREAD_RWLOCK
+#if __SANITIZE_THREAD__
 	skip();
-#else
+#else  /* __SANITIZE_THREAD */
 	isc_result_t result;
 	isc_rwlock_lock(&rwlock, isc_rwlocktype_read);
 	result = isc_rwlock_tryupgrade(&rwlock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	isc_rwlock_unlock(&rwlock, isc_rwlocktype_write);
-#endif /* !USE_PTHREAD_RWLOCK */
+#endif /* __SANITIZE_THREAD__ */
 }
 
 static isc_threadresult_t
@@ -303,7 +306,8 @@ isc_rwlock_thread(isc_threadarg_t arg) {
 }
 
 static void
-isc__rwlock_benchmark(isc_thread_t *threads, unsigned int nthreads, uint8_t pct) {
+isc__rwlock_benchmark(isc_thread_t *threads, unsigned int nthreads,
+		      uint8_t pct) {
 	isc_time_t ts1, ts2;
 	double t;
 	isc_result_t result;

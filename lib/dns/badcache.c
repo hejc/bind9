@@ -76,7 +76,7 @@ dns_badcache_init(isc_mem_t *mctx, unsigned int size, dns_badcache_t **bcp) {
 	memset(bc, 0, sizeof(dns_badcache_t));
 
 	isc_mem_attach(mctx, &bc->mctx);
-	isc_rwlock_init(&bc->lock, 0, 0);
+	isc_rwlock_init(&bc->lock);
 
 	bc->table = isc_mem_get(bc->mctx, sizeof(*bc->table) * size);
 	bc->tlocks = isc_mem_get(bc->mctx, sizeof(isc_mutex_t) * size);

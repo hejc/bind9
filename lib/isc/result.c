@@ -221,7 +221,7 @@ static void
 initialize_action(void) {
 	isc_result_t result;
 
-	isc_rwlock_init(&lock, 0, 0);
+	isc_rwlock_init(&lock);
 	ISC_LIST_INIT(description_tables);
 	ISC_LIST_INIT(identifier_tables);
 

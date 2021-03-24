@@ -14,6 +14,7 @@
 #include <isc/util.h>
 
 #include "netmgr_p.h"
+#include "rwlock_p.h"
 #include "socket_p.h"
 #include "task_p.h"
 #include "timer_p.h"
@@ -34,6 +35,8 @@ isc_managers_create(isc_mem_t *mctx, size_t workers, size_t quantum,
 	 * it 4x just to be on the safe side.
 	 */
 	isc_hp_init(4 * workers);
+
+	isc__rwlock_setworkers(3 + workers * 2);
 
 	REQUIRE(netmgrp != NULL && *netmgrp == NULL);
 	isc__netmgr_create(mctx, workers, &netmgr);

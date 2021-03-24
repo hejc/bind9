@@ -1459,7 +1459,7 @@ dns_rpz_new_zones(dns_rpz_zones_t **rpzsp, char *rps_cstr, size_t rps_cstr_size,
 	zones = isc_mem_get(mctx, sizeof(*zones));
 	memset(zones, 0, sizeof(*zones));
 
-	isc_rwlock_init(&zones->search_lock, 0, 0);
+	isc_rwlock_init(&zones->search_lock);
 	isc_mutex_init(&zones->maint_lock);
 	isc_refcount_init(&zones->refs, 1);
 	isc_refcount_init(&zones->irefs, 1);

@@ -208,7 +208,7 @@ typedef struct dns_include dns_include_t;
 	} while (0)
 #endif /* ifdef DNS_ZONE_CHECKLOCK */
 
-#define ZONEDB_INITLOCK(l)    isc_rwlock_init((l), 0, 0)
+#define ZONEDB_INITLOCK(l)    isc_rwlock_init((l))
 #define ZONEDB_DESTROYLOCK(l) isc_rwlock_destroy(l)
 #define ZONEDB_LOCK(l, t)     RWLOCK((l), (t))
 #define ZONEDB_UNLOCK(l, t)   RWUNLOCK((l), (t))
@@ -18489,7 +18489,7 @@ zonemgr_keymgmt_init(dns_zonemgr_t *zmgr) {
 		.bits = KEYMGMT_BITS_MIN,
 	};
 	isc_mem_attach(zmgr->mctx, &mgmt->mctx);
-	isc_rwlock_init(&mgmt->lock, 0, 0);
+	isc_rwlock_init(&mgmt->lock);
 
 	size = HASHSIZE(mgmt->bits);
 	mgmt->table = isc_mem_get(mgmt->mctx, sizeof(*mgmt->table) * size);
@@ -18762,13 +18762,13 @@ dns_zonemgr_create(isc_mem_t *mctx, isc_taskmgr_t *taskmgr,
 	for (size_t i = 0; i < UNREACH_CACHE_SIZE; i++) {
 		atomic_init(&zmgr->unreachable[i].expire, 0);
 	}
-	isc_rwlock_init(&zmgr->rwlock, 0, 0);
+	isc_rwlock_init(&zmgr->rwlock);
 
 	zmgr->transfersin = 10;
 	zmgr->transfersperns = 2;
 
 	/* Unreachable lock. */
-	isc_rwlock_init(&zmgr->urlock, 0, 0);
+	isc_rwlock_init(&zmgr->urlock);
 
 	/* Create a single task for queueing of SOA queries. */
 	result = isc_task_create(taskmgr, 1, &zmgr->task);

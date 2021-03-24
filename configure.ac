@@ -581,21 +581,6 @@ AC_CHECK_FUNCS([flockfile getc_unlocked])
 #
 AC_CHECK_FUNCS([sysconf])
 
-#
-# Do we want to use pthread rwlock?
-#
-# [pairwise: --enable-pthread-rwlock, --disable-pthread-rwlock]
-AC_ARG_ENABLE([pthread_rwlock],
-	      [AS_HELP_STRING([--enable-pthread-rwlock],
-			      [use pthread rwlock instead of internal rwlock implementation])],
-	      [], [enable_pthread_rwlock=no])
-
-AS_IF([test "$enable_pthread_rwlock" = "yes"],
-      [AC_CHECK_FUNCS([pthread_rwlock_rdlock], [],
-		      [AC_MSG_ERROR([pthread_rwlock_rdlock requested but not found])])
-       AC_DEFINE([USE_PTHREAD_RWLOCK],[1],[Define if you want to use pthread rwlock implementation])
-      ])
-
 CRYPTO=OpenSSL
 
 #

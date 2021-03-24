@@ -123,7 +123,7 @@ dns_ntatable_create(dns_view_t *view, isc_taskmgr_t *taskmgr,
 		goto cleanup_task;
 	}
 
-	isc_rwlock_init(&ntatable->rwlock, 0, 0);
+	isc_rwlock_init(&ntatable->rwlock);
 
 	ntatable->shuttingdown = false;
 	ntatable->timermgr = timermgr;

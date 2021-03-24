@@ -954,7 +954,7 @@ gcc:tsan:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=thread"
     LDFLAGS: "-fsanitize=thread"
-    EXTRA_CONFIGURE: "--with-libidn2 --enable-pthread-rwlock --without-jemalloc"
+    EXTRA_CONFIGURE: "--with-libidn2 --without-jemalloc"
 
 system:gcc:tsan:
   variables:
@@ -981,7 +981,7 @@ clang:tsan:
     CC: "${CLANG}"
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=thread"
     LDFLAGS: "-fsanitize=thread"
-    EXTRA_CONFIGURE: "--with-libidn2 --enable-pthread-rwlock --without-jemalloc"
+    EXTRA_CONFIGURE: "--with-libidn2 --without-jemalloc"
 
 system:clang:tsan:
   variables:

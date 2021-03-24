@@ -51,7 +51,7 @@ dns_fwdtable_create(isc_mem_t *mctx, dns_fwdtable_t **fwdtablep) {
 		goto cleanup_fwdtable;
 	}
 
-	isc_rwlock_init(&fwdtable->rwlock, 0, 0);
+	isc_rwlock_init(&fwdtable->rwlock);
 	fwdtable->mctx = NULL;
 	isc_mem_attach(mctx, &fwdtable->mctx);
 	fwdtable->magic = FWDTABLEMAGIC;

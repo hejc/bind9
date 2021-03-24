@@ -22,6 +22,8 @@
 
 ISC_LANG_BEGINDECLS
 
+#define ISC_MUTEX_INITIALIZER PTHREAD_MUTEX_INITIALIZER
+
 /*!
  * Supply mutex attributes that enable deadlock detection
  * (helpful when debugging).  This is system dependent and
