@@ -38,6 +38,7 @@ check_PROGRAMS =	\
 	random_test	\
 	regex_test	\
 	result_test	\
+	rwlock_test	\
 	safe_test	\
 	siphash_test	\
 	sockaddr_test	\
