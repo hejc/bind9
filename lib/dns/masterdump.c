@@ -1508,6 +1508,10 @@ master_dump_done_cb(void *data, isc_result_t result) {
 		result = dctx->result;
 	}
 
+	isc_log_write(dns_lctx, ISC_LOGCATEGORY_GENERAL,
+		      DNS_LOGMODULE_MASTERDUMP, ISC_LOG_ERROR, "dump end: %s",
+		      isc_result_totext(result));
+
 	(dctx->done)(dctx->done_arg, result);
 	dns_dumpctx_detach(&dctx);
 }
@@ -1715,9 +1719,6 @@ dumptostream(dns_dumpctx_t *dctx) {
 	dns_name_t *name;
 	dns_fixedname_t fixname;
 
-	isc_log_write(dns_lctx, ISC_LOGCATEGORY_GENERAL,
-		      DNS_LOGMODULE_MASTERDUMP, ISC_LOG_ERROR, "dump begin");
-
 	bufmem = isc_mem_get(dctx->mctx, initial_buffer_length);
 
 	isc_buffer_init(&buffer, bufmem, initial_buffer_length);
@@ -1774,10 +1775,6 @@ dumptostream(dns_dumpctx_t *dctx) {
 	if (result == ISC_R_NOMORE) {
 		result = ISC_R_SUCCESS;
 	}
-
-	isc_log_write(dns_lctx, ISC_LOGCATEGORY_GENERAL,
-		      DNS_LOGMODULE_MASTERDUMP, ISC_LOG_ERROR, "dump end: %s",
-		      isc_result_totext(result));
 
 cleanup:
 	RUNTIME_CHECK(dns_dbiterator_pause(dctx->dbiter) == ISC_R_SUCCESS);
@@ -1899,6 +1896,9 @@ dns_master_dumpasync(isc_mem_t *mctx, dns_db_t *db, dns_dbversion_t *version,
 	if (result != ISC_R_SUCCESS) {
 		goto cleanup;
 	}
+
+	isc_log_write(dns_lctx, ISC_LOGCATEGORY_GENERAL,
+		      DNS_LOGMODULE_MASTERDUMP, ISC_LOG_ERROR, "dump begin");
 
 	result = dumpctx_create(mctx, db, version, style, f, &dctx, format,
 				header);
