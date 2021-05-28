@@ -99,6 +99,8 @@ struct dns_xfrin_ctx {
 
 	isc_nm_t *netmgr;
 
+	isc_result_t result;
+
 	isc_refcount_t connects; /*%< Connect in progress */
 	isc_refcount_t sends;	 /*%< Send in progress */
 	isc_refcount_t recvs;	 /*%< Receive in progress */
@@ -212,8 +214,10 @@ static isc_result_t
 axfr_apply(dns_xfrin_ctx_t *xfr);
 static isc_result_t
 axfr_commit(dns_xfrin_ctx_t *xfr);
-static isc_result_t
-axfr_finalize(dns_xfrin_ctx_t *xfr);
+static void
+axfr_finalize_cb(void *data);
+static void
+axfr_finalize_done_cb(void *data, isc_result_t result);
 
 static isc_result_t
 ixfr_init(dns_xfrin_ctx_t *xfr);
@@ -360,15 +364,49 @@ failure:
 	return (result);
 }
 
-static isc_result_t
-axfr_finalize(dns_xfrin_ctx_t *xfr) {
-	isc_result_t result;
+static void
+ixfr_finalize(dns_xfrin_ctx_t *xfr) {
+	/*
+	 * Close the journal.
+	 */
+	if (xfr->ixfr.journal != NULL) {
+		dns_journal_destroy(&xfr->ixfr.journal);
+	}
 
-	CHECK(dns_zone_replacedb(xfr->zone, xfr->db, true));
+	/*
+	 * Inform the caller we succeeded.
+	 */
+	if (xfr->done != NULL) {
+		(xfr->done)(xfr->zone, ISC_R_SUCCESS);
+		xfr->done = NULL;
+	}
 
-	result = ISC_R_SUCCESS;
-failure:
-	return (result);
+	atomic_store(&xfr->shuttingdown, true);
+	xfr->shutdown_result = ISC_R_SUCCESS;
+}
+
+static void
+axfr_finalize_cb(void *data) {
+	dns_xfrin_ctx_t *xfr = data;
+
+	xfr->result = dns_zone_replacedb(xfr->zone, xfr->db, true);
+}
+
+static void
+axfr_finalize_done_cb(void *data, isc_result_t result) {
+	dns_xfrin_ctx_t *xfr = data;
+
+	if (result == ISC_R_SUCCESS && xfr->result != ISC_R_SUCCESS) {
+		result = xfr->result;
+	}
+
+	if (result != ISC_R_SUCCESS) {
+		xfrin_fail(xfr, result, "failed while receiving responses");
+	} else {
+		ixfr_finalize(xfr);
+	}
+
+	dns_xfrin_detach(&xfr);
 }
 
 /**************************************************************************/
@@ -1496,26 +1534,15 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 		CHECK(xfrin_send_request(xfr));
 		break;
 	case XFRST_AXFR_END:
-		CHECK(axfr_finalize(xfr));
-		/* FALLTHROUGH */
+		isc_nm_work_enqueue(xfr->netmgr, axfr_finalize_cb,
+				    axfr_finalize_done_cb, xfr);
+		if (msg != NULL) {
+			dns_message_detach(&msg);
+		}
+		isc_nmhandle_detach(&xfr->readhandle);
+		return;
 	case XFRST_IXFR_END:
-		/*
-		 * Close the journal.
-		 */
-		if (xfr->ixfr.journal != NULL) {
-			dns_journal_destroy(&xfr->ixfr.journal);
-		}
-
-		/*
-		 * Inform the caller we succeeded.
-		 */
-		if (xfr->done != NULL) {
-			(xfr->done)(xfr->zone, ISC_R_SUCCESS);
-			xfr->done = NULL;
-		}
-
-		atomic_store(&xfr->shuttingdown, true);
-		xfr->shutdown_result = ISC_R_SUCCESS;
+		ixfr_finalize(xfr);
 		break;
 	default:
 		/*
@@ -1639,7 +1666,8 @@ xfrin_destroy(dns_xfrin_ctx_t *xfr) {
 		}
 		xfrin_log(xfr, ISC_LOG_DEBUG(99), "freeing transfer context");
 		/*
-		 * xfr->zone must not be detached before xfrin_log() is called.
+		 * xfr->zone must not be detached before xfrin_log() is
+		 * called.
 		 */
 		dns_zone_idetach(&xfr->zone);
 	}
