@@ -7256,6 +7256,10 @@ pps_timer_tick(isc_task_t *task, isc_event_t *event) {
 	 */
 	dns_pps = (requests - oldrequests) / 1200;
 	oldrequests = requests;
+
+	isc_log_write(named_g_lctx, NAMED_LOGCATEGORY_GENERAL,
+		      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR, "PPS: %u",
+		      dns_pps);
 }
 
 /*
@@ -8986,7 +8990,7 @@ load_configuration(const char *filename, named_server_t *server,
 	}
 	server->heartbeat_interval = heartbeat_interval;
 
-	isc_interval_set(&interval, 1200, 0);
+	isc_interval_set(&interval, 1, 0);
 	CHECK(isc_timer_reset(server->pps_timer, isc_timertype_ticker, NULL,
 			      &interval, false));
 
