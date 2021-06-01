@@ -99,8 +99,6 @@ struct dns_xfrin_ctx {
 
 	isc_nm_t *netmgr;
 
-	isc_result_t result;
-
 	isc_refcount_t connects; /*%< Connect in progress */
 	isc_refcount_t sends;	 /*%< Send in progress */
 	isc_refcount_t recvs;	 /*%< Receive in progress */
@@ -187,6 +185,14 @@ struct dns_xfrin_ctx {
 	unsigned char *firstsoa_data;
 };
 
+typedef struct dns_xfrin_offload {
+	dns_xfrin_ctx_t *xfr;
+	isc_nmhandle_t *handle;
+	isc_result_t result;
+	dns_message_t *msg;
+	size_t used;
+} dns_xfrin_offload_t;
+
 #define XFRIN_MAGIC    ISC_MAGIC('X', 'f', 'r', 'I')
 #define VALID_XFRIN(x) ISC_MAGIC_VALID(x, XFRIN_MAGIC)
 
@@ -251,6 +257,9 @@ xfrin_destroy(dns_xfrin_ctx_t *xfr);
 
 static void
 xfrin_fail(dns_xfrin_ctx_t *xfr, isc_result_t result, const char *msg);
+static void
+xfrin_reset(dns_xfrin_ctx_t *xfr);
+
 static isc_result_t
 render(dns_message_t *msg, isc_mem_t *mctx, isc_buffer_t *buf);
 
@@ -387,17 +396,19 @@ ixfr_finalize(dns_xfrin_ctx_t *xfr) {
 
 static void
 axfr_finalize_cb(void *data) {
-	dns_xfrin_ctx_t *xfr = data;
+	dns_xfrin_offload_t *offload = data;
+	dns_xfrin_ctx_t *xfr = offload->xfr;
 
-	xfr->result = dns_zone_replacedb(xfr->zone, xfr->db, true);
+	offload->result = dns_zone_replacedb(xfr->zone, xfr->db, true);
 }
 
 static void
 axfr_finalize_done_cb(void *data, isc_result_t result) {
-	dns_xfrin_ctx_t *xfr = data;
+	dns_xfrin_offload_t *offload = data;
+	dns_xfrin_ctx_t *xfr = offload->xfr;
 
-	if (result == ISC_R_SUCCESS && xfr->result != ISC_R_SUCCESS) {
-		result = xfr->result;
+	if (result == ISC_R_SUCCESS && offload->result != ISC_R_SUCCESS) {
+		result = offload->result;
 	}
 
 	if (result != ISC_R_SUCCESS) {
@@ -406,7 +417,235 @@ axfr_finalize_done_cb(void *data, isc_result_t result) {
 		ixfr_finalize(xfr);
 	}
 
-	dns_xfrin_detach(&xfr);
+	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
+	isc_nmhandle_detach(&xfr->readhandle);
+	isc_nmhandle_detach(&offload->handle);
+	isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+	dns_xfrin_detach(&xfr); /* recv_xfr */
+}
+
+static void
+xfrin_consume(void *data) {
+	isc_result_t result = ISC_R_UNSET;
+	dns_xfrin_offload_t *offload = data;
+	dns_xfrin_ctx_t *xfr = offload->xfr;
+	dns_message_t *msg = offload->msg;
+	dns_name_t *name = NULL;
+	const dns_name_t *tsigowner = NULL;
+
+	for (result = dns_message_firstname(msg, DNS_SECTION_QUESTION);
+	     result == ISC_R_SUCCESS;
+	     result = dns_message_nextname(msg, DNS_SECTION_QUESTION))
+	{
+		dns_rdataset_t *rds = NULL;
+
+		name = NULL;
+		dns_message_currentname(msg, DNS_SECTION_QUESTION, &name);
+		if (!dns_name_equal(name, &xfr->name)) {
+			offload->result = DNS_R_FORMERR;
+			xfrin_log(xfr, ISC_LOG_DEBUG(3),
+				  "question name mismatch");
+			return;
+		}
+		rds = ISC_LIST_HEAD(name->list);
+		INSIST(rds != NULL);
+		if (rds->type != xfr->reqtype) {
+			offload->result = DNS_R_FORMERR;
+			xfrin_log(xfr, ISC_LOG_DEBUG(3),
+				  "question type mismatch");
+			return;
+		}
+		if (rds->rdclass != xfr->rdclass) {
+			offload->result = DNS_R_FORMERR;
+			xfrin_log(xfr, ISC_LOG_DEBUG(3),
+				  "question class mismatch");
+			return;
+		}
+	}
+	if (result != ISC_R_NOMORE) {
+		offload->result = result;
+		return;
+	}
+
+	/*
+	 * Does the server know about IXFR?  If it doesn't we will get
+	 * a message with a empty answer section or a potentially a CNAME /
+	 * DNAME, the later is handled by xfr_rr() which will return FORMERR
+	 * if the first RR in the answer section is not a SOA record.
+	 */
+	if (xfr->reqtype == dns_rdatatype_ixfr &&
+	    xfr->state == XFRST_INITIALSOA &&
+	    msg->counts[DNS_SECTION_ANSWER] == 0)
+	{
+		xfrin_log(xfr, ISC_LOG_DEBUG(3),
+			  "empty answer section, retrying with AXFR");
+		offload->result = ISC_R_TRYAXFR;
+		return;
+	}
+
+	if (xfr->reqtype == dns_rdatatype_soa &&
+	    (msg->flags & DNS_MESSAGEFLAG_AA) == 0) {
+		offload->result = DNS_R_NOTAUTHORITATIVE;
+		return;
+	}
+
+	result = dns_message_checksig(msg, dns_zone_getview(xfr->zone));
+	if (result != ISC_R_SUCCESS) {
+		xfrin_log(xfr, ISC_LOG_DEBUG(3), "TSIG check failed: %s",
+			  isc_result_totext(result));
+		offload->result = result;
+		return;
+	}
+
+	for (result = dns_message_firstname(msg, DNS_SECTION_ANSWER);
+	     result == ISC_R_SUCCESS;
+	     result = dns_message_nextname(msg, DNS_SECTION_ANSWER))
+	{
+		dns_rdataset_t *rds = NULL;
+
+		name = NULL;
+		dns_message_currentname(msg, DNS_SECTION_ANSWER, &name);
+		for (rds = ISC_LIST_HEAD(name->list); rds != NULL;
+		     rds = ISC_LIST_NEXT(rds, link))
+		{
+			for (result = dns_rdataset_first(rds);
+			     result == ISC_R_SUCCESS;
+			     result = dns_rdataset_next(rds))
+			{
+				dns_rdata_t rdata = DNS_RDATA_INIT;
+				dns_rdataset_current(rds, &rdata);
+				result = xfr_rr(xfr, name, rds->ttl, &rdata);
+				if (result != ISC_R_SUCCESS) {
+					offload->result = result;
+					return;
+				}
+			}
+		}
+	}
+	if (result != ISC_R_NOMORE) {
+		offload->result = result;
+		return;
+	}
+
+	if (dns_message_gettsig(msg, &tsigowner) != NULL) {
+		/*
+		 * Reset the counter.
+		 */
+		xfr->sincetsig = 0;
+
+		/*
+		 * Free the last tsig, if there is one.
+		 */
+		if (xfr->lasttsig != NULL) {
+			isc_buffer_free(&xfr->lasttsig);
+		}
+
+		/*
+		 * Update the last tsig pointer.
+		 */
+		result = dns_message_getquerytsig(msg, xfr->mctx,
+						  &xfr->lasttsig);
+		if (result != ISC_R_SUCCESS) {
+			offload->result = result;
+			return;
+		}
+	} else if (dns_message_gettsigkey(msg) != NULL) {
+		xfr->sincetsig++;
+		if (xfr->sincetsig > 100 || xfr->nmsg == 0 ||
+		    xfr->state == XFRST_AXFR_END ||
+		    xfr->state == XFRST_IXFR_END)
+		{
+			offload->result = DNS_R_EXPECTEDTSIG;
+			return;
+		}
+	}
+
+	offload->result = ISC_R_SUCCESS;
+}
+
+static void
+xfrin_consume_done(void *data, isc_result_t result) {
+	dns_xfrin_offload_t *offload = data;
+	dns_xfrin_ctx_t *xfr = offload->xfr;
+
+	if (result == ISC_R_SUCCESS && offload->result != ISC_R_SUCCESS) {
+		result = offload->result;
+	}
+
+	if (result == ISC_R_TRYAXFR) {
+		fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
+		isc_nmhandle_detach(&xfr->readhandle);
+		dns_message_detach(&offload->msg);
+
+		xfrin_reset(xfr);
+		xfr->reqtype = dns_rdatatype_soa;
+		xfr->state = XFRST_SOAQUERY;
+		result = xfrin_start(xfr);
+		if (result != ISC_R_SUCCESS) {
+			xfrin_fail(xfr, result, "failed setting up socket");
+		}
+		isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+		dns_xfrin_detach(&xfr);
+		return;
+	} else if (result != ISC_R_SUCCESS) {
+		goto failure;
+	}
+
+	/*
+	 * Update the number of messages received.
+	 */
+	xfr->nmsg++;
+
+	/*
+	 * Update the number of bytes received.
+	 */
+	xfr->nbytes += offload->used;
+
+	/*
+	 * Take the context back.
+	 */
+	INSIST(xfr->tsigctx == NULL);
+	xfr->tsigctx = offload->msg->tsigctx;
+	offload->msg->tsigctx = NULL;
+
+	dns_message_detach(&offload->msg);
+
+	switch (xfr->state) {
+	case XFRST_GOTSOA:
+		xfr->reqtype = dns_rdatatype_axfr;
+		xfr->state = XFRST_INITIALSOA;
+		CHECK(xfrin_send_request(xfr));
+		break;
+	case XFRST_AXFR_END:
+		isc_nm_work_offload(xfr->netmgr, axfr_finalize_cb,
+				    axfr_finalize_done_cb, offload);
+		return;
+	case XFRST_IXFR_END:
+		ixfr_finalize(xfr);
+		break;
+	default:
+		/*
+		 * Read the next message.
+		 */
+		/* The readhandle is still attached */
+		/* The recv_xfr is still attached */
+		isc_refcount_increment0(&xfr->recvs);
+		isc_nm_read(xfr->handle, xfrin_recv_done, offload->xfr);
+		isc_nmhandle_detach(&offload->handle);
+		isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+		return;
+	}
+
+failure:
+	if (result != ISC_R_SUCCESS) {
+		xfrin_fail(xfr, result, "failed while receiving responses");
+	}
+
+	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
+	isc_nmhandle_detach(&xfr->readhandle);
+	isc_nmhandle_detach(&offload->handle);
+	isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+	dns_xfrin_detach(&xfr); /* recv_xfr */
 }
 
 /**************************************************************************/
@@ -1290,10 +1529,9 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 		isc_region_t *region, void *cbarg) {
 	dns_xfrin_ctx_t *xfr = (dns_xfrin_ctx_t *)cbarg;
 	dns_message_t *msg = NULL;
-	dns_name_t *name = NULL;
-	const dns_name_t *tsigowner = NULL;
 	isc_buffer_t buffer;
 	isc_sockaddr_t peer;
+	dns_xfrin_offload_t *offload;
 
 	REQUIRE(VALID_XFRIN(xfr));
 
@@ -1303,7 +1541,9 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 		result = ISC_R_SHUTTINGDOWN;
 	}
 
-	CHECK(result);
+	if (result != ISC_R_SUCCESS) {
+		goto early_failure;
+	}
 
 	xfrin_log(xfr, ISC_LOG_DEBUG(7), "received %u bytes", region->length);
 
@@ -1361,9 +1601,11 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 
 		xfrin_log(xfr, ISC_LOG_DEBUG(3), "got %s, retrying with AXFR",
 			  isc_result_totext(result));
-	try_axfr:
-		isc_nmhandle_detach(&xfr->readhandle);
-		dns_message_detach(&msg);
+
+		offload = isc_mem_get(xfr->mctx, sizeof(*offload));
+		dns_message_attach(msg, &offload->msg);
+		xfrin_consume_done(offload, ISC_R_TRYAXFR);
+
 		xfrin_reset(xfr);
 		xfr->reqtype = dns_rdatatype_soa;
 		xfr->state = XFRST_SOAQUERY;
@@ -1371,8 +1613,7 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 		if (result != ISC_R_SUCCESS) {
 			xfrin_fail(xfr, result, "failed setting up socket");
 		}
-		dns_xfrin_detach(&xfr); /* recv_xfr */
-		return;
+		goto failure;
 	}
 
 	/*
@@ -1397,173 +1638,25 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 		goto failure;
 	}
 
-	for (result = dns_message_firstname(msg, DNS_SECTION_QUESTION);
-	     result == ISC_R_SUCCESS;
-	     result = dns_message_nextname(msg, DNS_SECTION_QUESTION))
-	{
-		dns_rdataset_t *rds = NULL;
+	offload = isc_mem_get(xfr->mctx, sizeof(*offload));
+	*offload = (dns_xfrin_offload_t){
+		.xfr = xfr,
+		.msg = msg,
+		.used = buffer.used,
+	};
+	isc_nmhandle_attach(xfr->readhandle, &offload->handle);
 
-		name = NULL;
-		dns_message_currentname(msg, DNS_SECTION_QUESTION, &name);
-		if (!dns_name_equal(name, &xfr->name)) {
-			result = DNS_R_FORMERR;
-			xfrin_log(xfr, ISC_LOG_DEBUG(3),
-				  "question name mismatch");
-			goto failure;
-		}
-		rds = ISC_LIST_HEAD(name->list);
-		INSIST(rds != NULL);
-		if (rds->type != xfr->reqtype) {
-			result = DNS_R_FORMERR;
-			xfrin_log(xfr, ISC_LOG_DEBUG(3),
-				  "question type mismatch");
-			goto failure;
-		}
-		if (rds->rdclass != xfr->rdclass) {
-			result = DNS_R_FORMERR;
-			xfrin_log(xfr, ISC_LOG_DEBUG(3),
-				  "question class mismatch");
-			goto failure;
-		}
-	}
-	if (result != ISC_R_NOMORE) {
-		goto failure;
-	}
-
-	/*
-	 * Does the server know about IXFR?  If it doesn't we will get
-	 * a message with a empty answer section or a potentially a CNAME /
-	 * DNAME, the later is handled by xfr_rr() which will return FORMERR
-	 * if the first RR in the answer section is not a SOA record.
-	 */
-	if (xfr->reqtype == dns_rdatatype_ixfr &&
-	    xfr->state == XFRST_INITIALSOA &&
-	    msg->counts[DNS_SECTION_ANSWER] == 0)
-	{
-		xfrin_log(xfr, ISC_LOG_DEBUG(3),
-			  "empty answer section, retrying with AXFR");
-		goto try_axfr;
-	}
-
-	if (xfr->reqtype == dns_rdatatype_soa &&
-	    (msg->flags & DNS_MESSAGEFLAG_AA) == 0) {
-		FAIL(DNS_R_NOTAUTHORITATIVE);
-	}
-
-	result = dns_message_checksig(msg, dns_zone_getview(xfr->zone));
-	if (result != ISC_R_SUCCESS) {
-		xfrin_log(xfr, ISC_LOG_DEBUG(3), "TSIG check failed: %s",
-			  isc_result_totext(result));
-		goto failure;
-	}
-
-	for (result = dns_message_firstname(msg, DNS_SECTION_ANSWER);
-	     result == ISC_R_SUCCESS;
-	     result = dns_message_nextname(msg, DNS_SECTION_ANSWER))
-	{
-		dns_rdataset_t *rds = NULL;
-
-		name = NULL;
-		dns_message_currentname(msg, DNS_SECTION_ANSWER, &name);
-		for (rds = ISC_LIST_HEAD(name->list); rds != NULL;
-		     rds = ISC_LIST_NEXT(rds, link))
-		{
-			for (result = dns_rdataset_first(rds);
-			     result == ISC_R_SUCCESS;
-			     result = dns_rdataset_next(rds))
-			{
-				dns_rdata_t rdata = DNS_RDATA_INIT;
-				dns_rdataset_current(rds, &rdata);
-				CHECK(xfr_rr(xfr, name, rds->ttl, &rdata));
-			}
-		}
-	}
-	if (result != ISC_R_NOMORE) {
-		goto failure;
-	}
-
-	if (dns_message_gettsig(msg, &tsigowner) != NULL) {
-		/*
-		 * Reset the counter.
-		 */
-		xfr->sincetsig = 0;
-
-		/*
-		 * Free the last tsig, if there is one.
-		 */
-		if (xfr->lasttsig != NULL) {
-			isc_buffer_free(&xfr->lasttsig);
-		}
-
-		/*
-		 * Update the last tsig pointer.
-		 */
-		CHECK(dns_message_getquerytsig(msg, xfr->mctx, &xfr->lasttsig));
-	} else if (dns_message_gettsigkey(msg) != NULL) {
-		xfr->sincetsig++;
-		if (xfr->sincetsig > 100 || xfr->nmsg == 0 ||
-		    xfr->state == XFRST_AXFR_END ||
-		    xfr->state == XFRST_IXFR_END)
-		{
-			result = DNS_R_EXPECTEDTSIG;
-			goto failure;
-		}
-	}
-
-	/*
-	 * Update the number of messages received.
-	 */
-	xfr->nmsg++;
-
-	/*
-	 * Update the number of bytes received.
-	 */
-	xfr->nbytes += buffer.used;
-
-	/*
-	 * Take the context back.
-	 */
-	INSIST(xfr->tsigctx == NULL);
-	xfr->tsigctx = msg->tsigctx;
-	msg->tsigctx = NULL;
-
-	switch (xfr->state) {
-	case XFRST_GOTSOA:
-		xfr->reqtype = dns_rdatatype_axfr;
-		xfr->state = XFRST_INITIALSOA;
-		CHECK(xfrin_send_request(xfr));
-		break;
-	case XFRST_AXFR_END:
-		isc_nm_work_enqueue(xfr->netmgr, axfr_finalize_cb,
-				    axfr_finalize_done_cb, xfr);
-		if (msg != NULL) {
-			dns_message_detach(&msg);
-		}
-		isc_nmhandle_detach(&xfr->readhandle);
-		return;
-	case XFRST_IXFR_END:
-		ixfr_finalize(xfr);
-		break;
-	default:
-		/*
-		 * Read the next message.
-		 */
-		/* The readhandle is still attached */
-		/* The recv_xfr is still attached */
-		dns_message_detach(&msg);
-		isc_refcount_increment0(&xfr->recvs);
-		isc_nm_read(xfr->handle, xfrin_recv_done, xfr);
-		return;
-	}
+	isc_nm_work_offload(xfr->netmgr, xfrin_consume, xfrin_consume_done,
+			    offload);
+	return;
 
 failure:
+	dns_message_detach(&msg);
+early_failure:
 	if (result != ISC_R_SUCCESS) {
 		xfrin_fail(xfr, result, "failed while receiving responses");
 	}
-
-	if (msg != NULL) {
-		dns_message_detach(&msg);
-	}
+	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
 	isc_nmhandle_detach(&xfr->readhandle);
 	dns_xfrin_detach(&xfr); /* recv_xfr */
 }

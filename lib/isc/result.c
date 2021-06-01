@@ -90,6 +90,7 @@ static const char *description[ISC_R_NRESULTS] = {
 	[ISC_R_IPV4PREFIX] = "IPv4 prefix",
 	[ISC_R_TLSERROR] = "TLS error",
 	[ISC_R_HTTP2ALPNERROR] = "ALPN for HTTP/2 failed",
+	[ISC_R_TRYAXFR] = "IXFR failed, retry with AXFR",
 
 	[DNS_R_LABELTOOLONG] = "label too long",
 	[DNS_R_BADESCAPE] = "bad escape",
@@ -336,6 +337,8 @@ static const char *identifier[ISC_R_NRESULTS] = {
 	[ISC_R_IPV4PREFIX] = "ISC_R_IPV4PREFIX",
 	[ISC_R_TLSERROR] = "ISC_R_TLSERROR",
 	[ISC_R_HTTP2ALPNERROR] = "ISC_R_HTTP2ALPNERROR",
+	[ISC_R_TRYAXFR] = "ISC_R_TRYAXFR",
+
 	[DNS_R_LABELTOOLONG] = "DNS_R_LABELTOOLONG",
 	[DNS_R_BADESCAPE] = "DNS_R_BADESCAPE",
 	[DNS_R_EMPTYLABEL] = "DNS_R_EMPTYLABEL",

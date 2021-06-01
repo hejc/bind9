@@ -91,6 +91,7 @@ typedef enum isc_result {
 	ISC_R_IPV4PREFIX,	      /*%< IPv4 prefix */
 	ISC_R_TLSERROR,		      /*%< TLS error */
 	ISC_R_HTTP2ALPNERROR,	      /*%< ALPN for HTTP/2 failed */
+	ISC_R_TRYAXFR,		      /*%< IXFR failed, retry with AXFR */
 
 	DNS_R_LABELTOOLONG = 1 << 16,
 	DNS_R_BADESCAPE,
