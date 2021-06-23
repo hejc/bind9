@@ -139,6 +139,7 @@ libdns_la_HEADERS =			\
 	include/dns/xfrin.h		\
 	include/dns/zone.h		\
 	include/dns/zonekey.h		\
+	include/dns/zonemd.h		\
 	include/dns/zoneverify.h	\
 	include/dns/zt.h
 
@@ -241,8 +242,9 @@ libdns_la_SOURCES =			\
 	view.c				\
 	xfrin.c				\
 	zone.c				\
-	zoneverify.c			\
 	zonekey.c			\
+	zonemd.c			\
+	zoneverify.c			\
 	zt.c				\
 	client.c			\
 	rdatalist_p.h			\

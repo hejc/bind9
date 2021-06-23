@@ -57,13 +57,6 @@ isc_stats_t *dns_dnssec_stats;
 static isc_result_t
 digest_callback(void *arg, isc_region_t *data);
 
-static int
-rdata_compare_wrapper(const void *rdata1, const void *rdata2);
-
-static isc_result_t
-rdataset_to_sortedarray(dns_rdataset_t *set, isc_mem_t *mctx,
-			dns_rdata_t **rdata, int *nrdata);
-
 static isc_result_t
 digest_callback(void *arg, isc_region_t *data) {
 	dst_context_t *ctx = arg;
@@ -76,57 +69,6 @@ inc_stat(isc_statscounter_t counter) {
 	if (dns_dnssec_stats != NULL) {
 		isc_stats_increment(dns_dnssec_stats, counter);
 	}
-}
-
-/*
- * Make qsort happy.
- */
-static int
-rdata_compare_wrapper(const void *rdata1, const void *rdata2) {
-	return (dns_rdata_compare((const dns_rdata_t *)rdata1,
-				  (const dns_rdata_t *)rdata2));
-}
-
-/*
- * Sort the rdataset into an array.
- */
-static isc_result_t
-rdataset_to_sortedarray(dns_rdataset_t *set, isc_mem_t *mctx,
-			dns_rdata_t **rdata, int *nrdata) {
-	isc_result_t ret;
-	int i = 0, n;
-	dns_rdata_t *data;
-	dns_rdataset_t rdataset;
-
-	n = dns_rdataset_count(set);
-
-	data = isc_mem_get(mctx, n * sizeof(dns_rdata_t));
-
-	dns_rdataset_init(&rdataset);
-	dns_rdataset_clone(set, &rdataset);
-	ret = dns_rdataset_first(&rdataset);
-	if (ret != ISC_R_SUCCESS) {
-		dns_rdataset_disassociate(&rdataset);
-		isc_mem_put(mctx, data, n * sizeof(dns_rdata_t));
-		return (ret);
-	}
-
-	/*
-	 * Put them in the array.
-	 */
-	do {
-		dns_rdata_init(&data[i]);
-		dns_rdataset_current(&rdataset, &data[i++]);
-	} while (dns_rdataset_next(&rdataset) == ISC_R_SUCCESS);
-
-	/*
-	 * Sort the array.
-	 */
-	qsort(data, n, sizeof(dns_rdata_t), rdata_compare_wrapper);
-	*rdata = data;
-	*nrdata = n;
-	dns_rdataset_disassociate(&rdataset);
-	return (ISC_R_SUCCESS);
 }
 
 isc_result_t
@@ -184,8 +126,8 @@ dns_dnssec_sign(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
 		isc_mem_t *mctx, isc_buffer_t *buffer, dns_rdata_t *sigrdata) {
 	dns_rdata_rrsig_t sig;
 	dns_rdata_t tmpsigrdata;
-	dns_rdata_t *rdatas;
-	int nrdatas, i;
+	dns_rdata_t *rdatas = NULL;
+	unsigned int nrdatas, i;
 	isc_buffer_t sigbuf, envbuf;
 	isc_region_t r;
 	dst_context_t *ctx = NULL;
@@ -295,7 +237,7 @@ dns_dnssec_sign(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
 	isc_buffer_putuint16(&envbuf, set->rdclass);
 	isc_buffer_putuint32(&envbuf, set->ttl);
 
-	ret = rdataset_to_sortedarray(set, mctx, &rdatas, &nrdatas);
+	ret = dns_rdataset_tosortedarray(set, mctx, &rdatas, &nrdatas);
 	if (ret != ISC_R_SUCCESS) {
 		goto cleanup_context;
 	}
@@ -376,8 +318,8 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
 	dns_fixedname_t fnewname;
 	isc_region_t r;
 	isc_buffer_t envbuf;
-	dns_rdata_t *rdatas;
-	int nrdatas, i;
+	dns_rdata_t *rdatas = NULL;
+	unsigned int nrdatas, i;
 	isc_stdtime_t now;
 	isc_result_t ret;
 	unsigned char data[300];
@@ -506,7 +448,7 @@ again:
 	isc_buffer_putuint16(&envbuf, set->rdclass);
 	isc_buffer_putuint32(&envbuf, sig.originalttl);
 
-	ret = rdataset_to_sortedarray(set, mctx, &rdatas, &nrdatas);
+	ret = dns_rdataset_tosortedarray(set, mctx, &rdatas, &nrdatas);
 	if (ret != ISC_R_SUCCESS) {
 		goto cleanup_context;
 	}

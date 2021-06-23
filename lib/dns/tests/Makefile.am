@@ -44,6 +44,7 @@ check_PROGRAMS =		\
 	time_test		\
 	tsig_test		\
 	update_test		\
+	zonemd_test		\
 	zonemgr_test		\
 	zt_test
 

@@ -339,6 +339,23 @@ dns_rdataset_current(dns_rdataset_t *rdataset, dns_rdata_t *rdata);
  */
 
 isc_result_t
+dns_rdataset_tosortedarray(dns_rdataset_t *rdataset, isc_mem_t *mctx,
+			   dns_rdata_t **rdata, unsigned int *nrdata);
+/*%<
+ * Sort the rdata that make up the 'rdataset' in the the array 'rdata'
+ * in DNSSEC order with the length of the array returned in 'nrdata'.
+ *
+ * Requires:
+ *\li	'rdataset' is a valid, associated rdataset.
+ *
+ *\li	'mctx' is valid.
+ *
+ *\li	'rdata' is non-NULL and '*rdata' is NULL.
+ *
+ *\li	'nrdata' is non-NULL.
+ */
+
+isc_result_t
 dns_rdataset_totext(dns_rdataset_t *rdataset, const dns_name_t *owner_name,
 		    bool omit_final_dot, bool question, isc_buffer_t *target);
 /*%<
