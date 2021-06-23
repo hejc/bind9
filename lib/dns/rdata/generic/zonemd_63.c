@@ -19,7 +19,7 @@
 static inline isc_result_t
 fromtext_zonemd(ARGS_FROMTEXT) {
 	isc_token_t token;
-	int digest_type, length;
+	int digest_type, scheme, length;
 	isc_buffer_t save;
 	isc_result_t result;
 
@@ -41,6 +41,7 @@ fromtext_zonemd(ARGS_FROMTEXT) {
 	 */
 	RETERR(isc_lex_getmastertoken(lexer, &token, isc_tokentype_number,
 				      false));
+	scheme = token.value.as_ulong;
 	RETERR(uint8_tobuffer(token.value.as_ulong, target));
 
 	/*
@@ -54,12 +55,19 @@ fromtext_zonemd(ARGS_FROMTEXT) {
 	/*
 	 * Digest.
 	 */
-	switch (digest_type) {
-	case DNS_ZONEMD_DIGEST_SHA384:
-		length = ISC_SHA384_DIGESTLENGTH;
-		break;
-	case DNS_ZONEMD_DIGEST_SHA512:
-		length = ISC_SHA512_DIGESTLENGTH;
+	switch (scheme) {
+	case DNS_ZONEMD_SCHEME_SIMPLE:
+		switch (digest_type) {
+		case DNS_ZONEMD_DIGEST_SHA384:
+			length = ISC_SHA384_DIGESTLENGTH;
+			break;
+		case DNS_ZONEMD_DIGEST_SHA512:
+			length = ISC_SHA512_DIGESTLENGTH;
+			break;
+		default:
+			length = -2;
+			break;
+		}
 		break;
 	default:
 		length = -2;
@@ -161,12 +169,18 @@ fromwire_zonemd(ARGS_FROMWIRE) {
 		return (ISC_R_UNEXPECTEDEND);
 	}
 
-	switch (sr.base[5]) {
-	case DNS_ZONEMD_DIGEST_SHA384:
-		digestlen = ISC_SHA384_DIGESTLENGTH;
-		break;
-	case DNS_ZONEMD_DIGEST_SHA512:
-		digestlen = ISC_SHA512_DIGESTLENGTH;
+	switch (sr.base[4]) {
+	case DNS_ZONEMD_SCHEME_SIMPLE:
+		switch (sr.base[5]) {
+		case DNS_ZONEMD_DIGEST_SHA384:
+			digestlen = ISC_SHA384_DIGESTLENGTH;
+			break;
+		case DNS_ZONEMD_DIGEST_SHA512:
+			digestlen = ISC_SHA512_DIGESTLENGTH;
+			break;
+		default:
+			break;
+		}
 		break;
 	default:
 		break;
@@ -230,12 +244,16 @@ fromstruct_zonemd(ARGS_FROMSTRUCT) {
 	UNUSED(type);
 	UNUSED(rdclass);
 
-	switch (zonemd->digest_type) {
-	case DNS_ZONEMD_DIGEST_SHA384:
-		REQUIRE(zonemd->length == ISC_SHA384_DIGESTLENGTH);
-		break;
-	case DNS_ZONEMD_DIGEST_SHA512:
-		REQUIRE(zonemd->length == ISC_SHA512_DIGESTLENGTH);
+	switch (zonemd->scheme) {
+	case DNS_ZONEMD_SCHEME_SIMPLE:
+		switch (zonemd->digest_type) {
+		case DNS_ZONEMD_DIGEST_SHA384:
+			REQUIRE(zonemd->length == ISC_SHA384_DIGESTLENGTH);
+			break;
+		case DNS_ZONEMD_DIGEST_SHA512:
+			REQUIRE(zonemd->length == ISC_SHA512_DIGESTLENGTH);
+			break;
+		}
 		break;
 	}
 
