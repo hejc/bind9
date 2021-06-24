@@ -232,6 +232,7 @@ zone "expired-sigs.autosign" {
 	type primary;
 	file "expired-sigs.autosign.db";
 	dnssec-policy "autosign";
+	zonemd-check no;
 };
 
 /*
@@ -277,6 +278,7 @@ zone "zsk-retired.autosign" {
 	type primary;
 	file "zsk-retired.autosign.db";
 	dnssec-policy "autosign";
+	zonemd-check no;
 };
 
 /*
@@ -325,6 +327,7 @@ zone "step4.zsk-prepub.autosign" {
 	type primary;
 	file "step4.zsk-prepub.autosign.db";
 	dnssec-policy "zsk-prepub";
+	zonemd-check no;
 };
 zone "step5.zsk-prepub.autosign" {
 	type primary;

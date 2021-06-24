@@ -707,6 +707,8 @@ main(int argc, char **argv) {
 
 	RUNTIME_CHECK(setup_logging(mctx, stdout, &logc) == ISC_R_SUCCESS);
 
+	RUNTIME_CHECK(dst_lib_init(mctx, NULL) == ISC_R_SUCCESS);
+
 	RUNTIME_CHECK(cfg_parser_create(mctx, logc, &parser) == ISC_R_SUCCESS);
 
 	if (nodeprecate) {
@@ -738,6 +740,8 @@ main(int argc, char **argv) {
 	cfg_obj_destroy(parser, &config);
 
 	cfg_parser_destroy(&parser);
+
+	dst_lib_destroy();
 
 	isc_log_destroy(&logc);
 

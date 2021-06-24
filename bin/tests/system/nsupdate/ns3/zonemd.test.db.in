@@ -9,5 +9,7 @@
 
 $TTL 10
 zonemd.test. IN SOA zonemd.test. hostmaster.zonemd.test. 1 3600 900 2419200 3600
-zonemd.test. IN NS zonemd.test.
-zonemd.test. IN A 10.53.0.3
+zonemd.test. IN NS ns3.zonemd.test.
+zonemd.test. IN NS ns5.zonemd.test.
+ns3.zonemd.test. IN A 10.53.0.3
+ns5.zonemd.test. IN A 10.53.0.5

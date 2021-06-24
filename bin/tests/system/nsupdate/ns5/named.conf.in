@@ -36,3 +36,9 @@ zone "local.nil" {
 	file "local.db";
 	update-policy local;
 };
+
+zone "zonemd.test" {
+	type secondary;
+	primaries { 10.53.0.3; };
+	file "zonemd.test.bk";
+};

@@ -191,6 +191,7 @@ zone "oldsigs.example" {
 	sig-validity-interval 10 2;
 	sig-signing-nodes 1000;
 	sig-signing-signatures 100;
+	zonemd-check no;
 };
 
 zone "prepub.example" {
@@ -240,6 +241,7 @@ zone "nozsk.example" {
 	file "nozsk.example.db";
 	allow-update { any; };
 	auto-dnssec maintain;
+	zonemd-check no;
 };
 
 zone "inaczsk.example" {
@@ -247,6 +249,7 @@ zone "inaczsk.example" {
 	file "inaczsk.example.db";
 	allow-update { any; };
 	auto-dnssec maintain;
+	zonemd-check no;
 };
 
 zone "sync.example" {

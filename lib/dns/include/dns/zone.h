@@ -100,9 +100,10 @@ typedef enum {
 } dns_zoneopt_t;
 
 typedef enum {
-	DNS_ZONEMDOPT_CHECK = 1 << 0,	   /*%< zonemd check */
-	DNS_ZONEMDOPT_DNSSECONLY = 1 << 1, /*%< zonemd DNSSEC only */
-	DNS_ZONEMDOPT_REQUIRED = 1 << 2,   /*%< zonemd required */
+	DNS_ZONEMDOPT_CHECK = 1 << 0,	      /*%< zonemd check */
+	DNS_ZONEMDOPT_DNSSECONLY = 1 << 1,    /*%< zonemd DNSSEC only */
+	DNS_ZONEMDOPT_REQUIRED = 1 << 2,      /*%< zonemd required */
+	DNS_ZONEMDOPT_ACCEPTEXPIRED = 1 << 3, /*%< zonemd required */
 } dns_zonemdopt_t;
 
 /*
@@ -2729,6 +2730,9 @@ dns_zone_isloaded(dns_zone_t *zone);
  * Return true if 'zone' was loaded and has not expired yet, return
  * false otherwise.
  */
+
+isc_result_t
+dns_zone_checkzonemd(dns_zone_t *zone, dns_db_t *db, dns_dbversion_t *ver);
 
 isc_result_t
 dns_zone_verifydb(dns_zone_t *zone, dns_db_t *db, dns_dbversion_t *ver);

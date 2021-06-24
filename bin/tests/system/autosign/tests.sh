@@ -416,7 +416,7 @@ now="$(TZ=UTC date +%Y%m%d%H%M%S)"
 check_expiry() (
 	$DIG $DIGOPTS AXFR oldsigs.example @10.53.0.3 > dig.out.test$n
 	nearest_expiration="$(awk '$4 == "RRSIG" { print $9 }' < dig.out.test$n | sort -n | head -1)"
-	if [ "$nearest_expiration" -le "$now" ]; then
+	if [ -z "$nearest_expiration" -o "$nearest_expiration" -le "$now" ]; then
 		echo_i "failed: $nearest_expiration <= $now"
 		return 1
 	fi

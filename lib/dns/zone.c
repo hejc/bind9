@@ -81,6 +81,7 @@
 #include <dns/update.h>
 #include <dns/xfrin.h>
 #include <dns/zone.h>
+#include <dns/zonemd.h>
 #include <dns/zoneverify.h>
 #include <dns/zt.h>
 
@@ -4795,6 +4796,498 @@ zone_unchanged(dns_db_t *db1, dns_db_t *db2, isc_mem_t *mctx) {
 	return (answer);
 }
 
+static bool
+isselfsigned(dns_zone_t *zone, dns_name_t *name, dns_rdataset_t *dsset,
+	     dns_rdataset_t *dnskeyset, dns_rdataset_t *rdataset,
+	     dns_rdataset_t *sigrdataset) {
+	isc_result_t result = ISC_R_NOTFOUND;
+	bool answer;
+	bool ignoretime = DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_ACCEPTEXPIRED);
+	dst_key_t *key = NULL;
+
+	/*
+	 * If rdataset is not associated there is nothing to log.
+	 */
+	if (!dns_rdataset_isassociated(rdataset)) {
+		return (false);
+	}
+
+	if (dns_rdataset_isassociated(dnskeyset) &&
+	    dns_rdataset_isassociated(sigrdataset))
+	{
+		result = dns_rdataset_first(dnskeyset);
+		while (result == ISC_R_SUCCESS) {
+			dns_rdata_t rdata = DNS_RDATA_INIT;
+
+			dns_rdataset_current(dnskeyset, &rdata);
+			if (dns_dnssec_signs(&rdata, name, rdataset,
+					     sigrdataset, ignoretime,
+					     zone->mctx))
+			{
+				if (dsset == NULL) {
+					break;
+				}
+				CHECK(dns_dnssec_keyfromrdata(
+					name, &rdata, zone->mctx, &key));
+				if (result != ISC_R_SUCCESS) {
+					result = ISC_R_SUCCESS;
+					break;
+				}
+				for (result = dns_rdataset_first(dsset);
+				     result == ISC_R_SUCCESS;
+				     result = dns_rdataset_next(dsset))
+				{
+					dns_rdata_t dsrdata = DNS_RDATA_INIT;
+					dns_rdata_t newdsrdata = DNS_RDATA_INIT;
+					unsigned char buf[DNS_DS_BUFFERSIZE];
+					dns_rdata_ds_t ds;
+
+					dns_rdata_reset(&dsrdata);
+					dns_rdataset_current(dsset, &dsrdata);
+					CHECK(dns_rdata_tostruct(&dsrdata, &ds,
+								 NULL));
+
+					if (ds.key_tag != dst_key_id(key) ||
+					    ds.algorithm != dst_key_alg(key)) {
+						continue;
+					}
+
+					result = dns_ds_buildrdata(
+						name, &rdata, ds.digest_type,
+						buf, &newdsrdata);
+					if (result != ISC_R_SUCCESS) {
+						continue;
+					}
+
+					if (dns_rdata_compare(&dsrdata,
+							      &newdsrdata) == 0)
+					{
+						break;
+					}
+				}
+				if (result == ISC_R_SUCCESS) {
+					break;
+				}
+				dst_key_free(&key);
+			}
+			result = dns_rdataset_next(dnskeyset);
+		}
+	}
+failure:
+	if (key != NULL) {
+		dst_key_free(&key);
+	}
+	answer = result == ISC_R_SUCCESS ? true : false;
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "isselfsigned(%u) -> %s",
+		     rdataset->type, answer ? "true" : "false");
+	return (answer);
+}
+
+static bool
+haszonemdbit(dns_rdataset_t *set) {
+	isc_result_t result;
+	dns_rdata_t rdata = DNS_RDATA_INIT;
+
+	result = dns_rdataset_first(set);
+	if (result != ISC_R_SUCCESS) {
+		/* fail true */
+		return (true);
+	}
+	dns_rdataset_current(set, &rdata);
+	if (set->type == dns_rdatatype_nsec) {
+		return (dns_nsec_typepresent(&rdata, dns_rdatatype_zonemd));
+	} else {
+		return (dns_nsec3_typepresent(&rdata, dns_rdatatype_zonemd));
+	}
+}
+
+isc_result_t
+dns_zone_checkzonemd(dns_zone_t *zone, dns_db_t *db, dns_dbversion_t *version) {
+	enum { unknown = 0, good = 1, bad = 2 } found[256] = { unknown };
+	bool nsec3paramflagsok = false;
+	isc_result_t result;
+	dns_keynode_t *keynode = NULL;
+	dns_keytable_t *secroots = NULL;
+	dns_dbnode_t *node = NULL;
+	dns_dbnode_t *nsec3node = NULL;
+	dns_fixedname_t fnsec3name;
+	dns_name_t *origin;
+	dns_name_t *nsec3name;
+	dns_rdata_soa_t soa;
+	dns_rdata_t soardata = DNS_RDATA_INIT;
+	dns_rdataset_t dsset, *dssetp = NULL;
+	dns_rdataset_t dnskeyset, sigdnskeyset;
+	dns_rdataset_t nsec3paramset, signsec3paramset;
+	dns_rdataset_t nsec3set, signsec3set;
+	dns_rdataset_t nsecset, signsecset;
+	dns_rdataset_t soaset, sigsoaset;
+	dns_rdataset_t zonemdset, sigzonemdset;
+
+	REQUIRE(DNS_ZONE_VALID(zone));
+	REQUIRE(db != NULL);
+
+	if (!DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_CHECK)) {
+		return (ISC_R_NOTFOUND);
+	}
+
+	origin = &zone->origin;
+	nsec3name = dns_fixedname_initname(&fnsec3name);
+
+	dns_rdataset_init(&dsset);
+	dns_rdataset_init(&soaset);
+	dns_rdataset_init(&sigsoaset);
+	dns_rdataset_init(&nsecset);
+	dns_rdataset_init(&signsecset);
+	dns_rdataset_init(&nsec3set);
+	dns_rdataset_init(&signsec3set);
+	dns_rdataset_init(&dnskeyset);
+	dns_rdataset_init(&sigdnskeyset);
+	dns_rdataset_init(&zonemdset);
+	dns_rdataset_init(&sigzonemdset);
+	dns_rdataset_init(&nsec3paramset);
+	dns_rdataset_init(&signsec3paramset);
+
+	if (zone->view != NULL) {
+		result = dns_view_getsecroots(zone->view, &secroots);
+		if (result == ISC_R_SUCCESS) {
+			result = dns_keytable_find(secroots, origin, &keynode);
+		}
+		if (result == ISC_R_SUCCESS) {
+			if (dns_keynode_dsset(keynode, &dsset)) {
+				dssetp = &dsset;
+			}
+		}
+	}
+
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "in zone_checkzonemd");
+
+	CHECK(dns_db_findnode(db, &zone->origin, false, &node));
+
+	result = dns_db_findrdataset(db, node, version, dns_rdatatype_soa,
+				     dns_rdatatype_none, 0, &soaset,
+				     &sigsoaset);
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "dns_db_findrdataset(%u) -> %s",
+		     dns_rdatatype_soa, isc_result_totext(result));
+	CHECK((result == ISC_R_NOTFOUND) ? DNS_R_BADZONE : result);
+
+	result = dns_db_findrdataset(db, node, version, dns_rdatatype_dnskey,
+				     dns_rdatatype_none, 0, &dnskeyset,
+				     &sigdnskeyset);
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "dns_db_findrdataset(%u) -> %s",
+		     dns_rdatatype_dnskey, isc_result_totext(result));
+	if (result != ISC_R_SUCCESS && result != ISC_R_NOTFOUND) {
+		goto failure;
+	}
+
+	result = dns_db_findrdataset(db, node, version, dns_rdatatype_zonemd,
+				     dns_rdatatype_none, 0, &zonemdset,
+				     &sigzonemdset);
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "dns_db_findrdataset(%u) -> %s",
+		     dns_rdatatype_zonemd, isc_result_totext(result));
+	if (result != ISC_R_SUCCESS && result != ISC_R_NOTFOUND) {
+		goto failure;
+	}
+
+	/*
+	 * Look for proofs that the zone is fully signed (NSEC or NSEC3PARAM)
+	 * at apex and that ZONEMD does not exist (apex NSEC/NSEC3),
+	 */
+	result = dns_db_findrdataset(db, node, version, dns_rdatatype_nsec,
+				     dns_rdatatype_none, 0, &nsecset,
+				     &signsecset);
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "dns_db_findrdataset(%u) -> %s",
+		     dns_rdatatype_nsec, isc_result_totext(result));
+	if (result != ISC_R_SUCCESS && result != ISC_R_NOTFOUND) {
+		goto failure;
+	}
+	if (result == ISC_R_NOTFOUND) {
+		unsigned char hash[NSEC3_MAX_HASH_LENGTH];
+		size_t hashlen = sizeof(hash);
+		dns_rdata_nsec3param_t nsec3param;
+
+		result = dns_db_findrdataset(db, node, version,
+					     dns_rdatatype_nsec3param,
+					     dns_rdatatype_none, 0,
+					     &nsec3paramset, &signsec3paramset);
+		dns_zone_log(
+			zone, ISC_LOG_DEBUG(3), "dns_db_findrdataset(%u) -> %s",
+			dns_rdatatype_nsec3param, isc_result_totext(result));
+		if (result != ISC_R_SUCCESS && result != ISC_R_NOTFOUND) {
+			goto failure;
+		}
+		if (result == ISC_R_SUCCESS) {
+			result = dns_rdataset_first(&nsec3paramset);
+		}
+		while (result == ISC_R_SUCCESS) {
+			dns_rdata_t rdata = DNS_RDATA_INIT;
+			dns_rdataset_current(&nsec3paramset, &rdata);
+			CHECK(dns_rdata_tostruct(&rdata, &nsec3param, NULL));
+			if (nsec3param.flags == 0) {
+				nsec3paramflagsok = true;
+				break;
+			}
+			result = dns_rdataset_next(&nsec3paramset);
+		}
+		if (result == ISC_R_SUCCESS) {
+			result = dns_nsec3_hashname(
+				&fnsec3name, hash, &hashlen, &zone->origin,
+				&zone->origin, nsec3param.hash,
+				nsec3param.iterations, nsec3param.salt,
+				nsec3param.salt_length);
+		}
+		if (result == ISC_R_SUCCESS) {
+			result = dns_db_findnsec3node(db, nsec3name, false,
+						      &nsec3node);
+		}
+		if (result == ISC_R_SUCCESS) {
+			/* lookup NSEC3 record */
+			result = dns_db_findrdataset(
+				db, nsec3node, version, dns_rdatatype_nsec3,
+				dns_rdatatype_none, 0, &nsec3set, &signsec3set);
+			dns_zone_log(zone, ISC_LOG_DEBUG(3),
+				     "dns_db_findrdataset(%u) -> %s",
+				     dns_rdatatype_nsec3,
+				     isc_result_totext(result));
+			if (result != ISC_R_SUCCESS && result != ISC_R_NOTFOUND)
+			{
+				goto failure;
+			}
+		}
+	}
+
+	/*
+	 * If we are signed the check that zonemdset is
+	 * correctly signed or if it should not exist.
+	 *
+	 * For a zone to be deemed signed DNSKEY and one of
+	 * NSEC or NSEC3PARAM (with 0 flags) need to exist.
+	 */
+	if (dns_rdataset_isassociated(&dnskeyset) &&
+	    (dns_rdataset_isassociated(&nsecset) ||
+	     (dns_rdataset_isassociated(&nsec3paramset) && nsec3paramflagsok)))
+	{
+		bool soaok = isselfsigned(zone, origin, NULL, &dnskeyset,
+					  &soaset, &sigsoaset);
+		bool nsecok = isselfsigned(zone, origin, NULL, &dnskeyset,
+					   &nsecset, &signsecset);
+		bool nsec3ok = isselfsigned(zone, nsec3name, NULL, &dnskeyset,
+					    &nsec3set, &signsec3set);
+		bool dnskeyok = isselfsigned(zone, origin, dssetp, &dnskeyset,
+					     &dnskeyset, &sigdnskeyset);
+		bool zonemdok = isselfsigned(zone, origin, NULL, &dnskeyset,
+					     &zonemdset, &sigzonemdset);
+		bool nsec3paramok = isselfsigned(zone, origin, NULL, &dnskeyset,
+						 &nsec3paramset,
+						 &signsec3paramset);
+		if (!soaok || !dnskeyok) {
+			dns_zone_log(zone, ISC_LOG_INFO,
+				     "ZONEMD: self validation failure %s",
+				     soaok	? "DNSKEY"
+				     : dnskeyok ? "SOA"
+						: "SOA and DNSKEY");
+			CHECK(DNS_R_BADZONE);
+		}
+
+		if (!dns_rdataset_isassociated(&zonemdset)) {
+			if (nsecok) {
+				if (haszonemdbit(&nsecset)) {
+					dns_zone_log(zone, ISC_LOG_INFO,
+						     "ZONEMD: NSEC says ZONEMD "
+						     "exists but not present");
+					CHECK(DNS_R_BADZONE);
+				}
+				if (DNS_ZONEMD_OPTION(zone,
+						      DNS_ZONEMDOPT_REQUIRED)) {
+					dns_zone_log(zone, ISC_LOG_INFO,
+						     "ZONEMD require but not "
+						     "present");
+					CHECK(DNS_R_BADZONE);
+				}
+				CHECK(ISC_R_NOTFOUND);
+			}
+			if (nsec3ok && nsec3paramok) {
+				if (haszonemdbit(&nsec3set)) {
+					dns_zone_log(zone, ISC_LOG_INFO,
+						     "ZONEMD: NSEC3 says ZONEMD"
+						     " exists but not present");
+					CHECK(DNS_R_BADZONE);
+				}
+				if (DNS_ZONEMD_OPTION(zone,
+						      DNS_ZONEMDOPT_REQUIRED)) {
+					dns_zone_log(zone, ISC_LOG_INFO,
+						     "ZONEMD require but not "
+						     "present");
+					CHECK(DNS_R_BADZONE);
+				}
+				CHECK(ISC_R_NOTFOUND);
+			}
+			CHECK(DNS_R_BADZONE);
+		} else if (!zonemdok) {
+			dns_zone_log(zone, ISC_LOG_INFO,
+				     "ZONEMD validation failed");
+			CHECK(DNS_R_BADZONE);
+		}
+	} else {
+		if (dssetp != NULL) {
+			dns_zone_log(zone, ISC_LOG_INFO,
+				     "ZONEMD zone should be signed but isn't");
+			CHECK(DNS_R_BADZONE);
+		}
+		if (DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_DNSSECONLY)) {
+			if (DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_REQUIRED)) {
+				dns_zone_log(zone, ISC_LOG_INFO,
+					     "ZONEMD required but not "
+					     "present");
+				CHECK(DNS_R_BADZONE);
+			}
+			CHECK(ISC_R_NOTFOUND);
+		}
+		if (!dns_rdataset_isassociated(&zonemdset)) {
+			if (DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_REQUIRED)) {
+				dns_zone_log(zone, ISC_LOG_INFO,
+					     "ZONEMD required but not "
+					     "present");
+				CHECK(DNS_R_BADZONE);
+			}
+			CHECK(ISC_R_NOTFOUND);
+		}
+	}
+
+	/*
+	 * Check the ZONEMD records.
+	 */
+	CHECK(dns_rdataset_first(&soaset));
+	dns_rdataset_current(&soaset, &soardata);
+	CHECK(dns_rdata_tostruct(&soardata, &soa, NULL));
+	result = dns_rdataset_first(&zonemdset);
+	while (result == ISC_R_SUCCESS) {
+		dns_rdata_t rdata = DNS_RDATA_INIT;
+
+		dns_rdataset_current(&zonemdset, &rdata);
+		if (dns_zonemd_supported(&rdata)) {
+			dns_rdata_zonemd_t zonemd;
+			dns_rdata_t check = DNS_RDATA_INIT;
+			unsigned char buf[DNS_ZONEMD_BUFFERSIZE];
+
+			CHECK(dns_rdata_tostruct(&rdata, &zonemd, NULL));
+			if (soa.serial != zonemd.serial) {
+				dns_zone_log(zone, ISC_LOG_DEBUG(3),
+					     "zonemd serial mismatch: soa=%u "
+					     "zonemd=%u",
+					     soa.serial, zonemd.serial);
+				found[zonemd.digest_type] = bad;
+				goto nextzonemd;
+			}
+			if (found[zonemd.digest_type] != unknown) {
+				if (found[zonemd.digest_type] == good) {
+					dns_zone_log(zone, ISC_LOG_DEBUG(3),
+						     "zonemd duplicate: digest "
+						     "type=%u",
+						     zonemd.digest_type);
+					found[zonemd.digest_type] = bad;
+				}
+			} else {
+				CHECK(dns_zonemd_buildrdata(
+					&check, db, version, zonemd.scheme,
+					zonemd.digest_type, zone->mctx, buf,
+					sizeof(buf)));
+				if (dns_rdata_compare(&check, &rdata) != 0) {
+					char buf1[256] = { 0 },
+					     buf2[256] = { 0 };
+					isc_buffer_t b;
+					dns_zone_log(zone, ISC_LOG_DEBUG(3),
+						     "zonemd dns_rdata_compare "
+						     "!= 0");
+					isc_buffer_init(&b, buf1, sizeof(buf1));
+					dns_rdata_totext(&check, NULL, &b);
+					isc_buffer_init(&b, buf2, sizeof(buf2));
+					dns_rdata_totext(&rdata, NULL, &b);
+					fprintf(stderr, "'%s' != '%s'\n", buf1,
+						buf2);
+					found[zonemd.digest_type] = bad;
+				} else {
+					found[zonemd.digest_type] = good;
+				}
+			}
+		}
+	nextzonemd:
+		result = dns_rdataset_next(&zonemdset);
+	}
+	if (result == ISC_R_NOMORE) {
+		size_t i;
+		for (i = 0; i < ARRAY_SIZE(found); i++) {
+			if (found[i] == good) {
+				result = ISC_R_SUCCESS;
+			}
+		}
+		if (result != ISC_R_SUCCESS) {
+			if (DNS_ZONEMD_OPTION(zone, DNS_ZONEMDOPT_REQUIRED)) {
+				dns_zone_log(zone, ISC_LOG_INFO,
+					     "valid ZONEMD required but not "
+					     "present");
+				result = DNS_R_BADZONE;
+			} else {
+				result = ISC_R_NOTFOUND;
+			}
+		}
+	}
+failure:
+	if (dns_rdataset_isassociated(&dsset)) {
+		dns_rdataset_disassociate(&dsset);
+	}
+	if (dns_rdataset_isassociated(&soaset)) {
+		dns_rdataset_disassociate(&soaset);
+	}
+	if (dns_rdataset_isassociated(&sigsoaset)) {
+		dns_rdataset_disassociate(&sigsoaset);
+	}
+	if (dns_rdataset_isassociated(&nsecset)) {
+		dns_rdataset_disassociate(&nsecset);
+	}
+	if (dns_rdataset_isassociated(&signsecset)) {
+		dns_rdataset_disassociate(&signsecset);
+	}
+	if (dns_rdataset_isassociated(&nsec3set)) {
+		dns_rdataset_disassociate(&nsec3set);
+	}
+	if (dns_rdataset_isassociated(&signsec3set)) {
+		dns_rdataset_disassociate(&signsec3set);
+	}
+	if (dns_rdataset_isassociated(&dnskeyset)) {
+		dns_rdataset_disassociate(&dnskeyset);
+	}
+	if (dns_rdataset_isassociated(&sigdnskeyset)) {
+		dns_rdataset_disassociate(&sigdnskeyset);
+	}
+	if (dns_rdataset_isassociated(&zonemdset)) {
+		dns_rdataset_disassociate(&zonemdset);
+	}
+	if (dns_rdataset_isassociated(&sigzonemdset)) {
+		dns_rdataset_disassociate(&sigzonemdset);
+	}
+	if (dns_rdataset_isassociated(&nsec3paramset)) {
+		dns_rdataset_disassociate(&nsec3paramset);
+	}
+	if (dns_rdataset_isassociated(&signsec3paramset)) {
+		dns_rdataset_disassociate(&signsec3paramset);
+	}
+	if (node != NULL) {
+		dns_db_detachnode(db, &node);
+	}
+	if (nsec3node != NULL) {
+		dns_db_detachnode(db, &nsec3node);
+	}
+	if (keynode != NULL) {
+		dns_keytable_detachkeynode(secroots, &keynode);
+	}
+	if (secroots != NULL) {
+		dns_keytable_detach(&secroots);
+	}
+	dns_zone_log(zone, ISC_LOG_DEBUG(3), "dns_zone_checkzonemd -> %s",
+		     isc_result_totext(result));
+	return (result);
+}
+
 /*
  * The zone is presumed to be locked.
  * If this is a inline_raw zone the secure version is also locked.
@@ -5048,7 +5541,10 @@ zone_postload(dns_zone_t *zone, dns_db_t *db, isc_time_t loadtime,
 			}
 		}
 
-		result = dns_zone_verifydb(zone, db, NULL);
+		result = dns_zone_checkzonemd(zone, db, NULL);
+		if (result == ISC_R_NOTFOUND) {
+			result = dns_zone_verifydb(zone, db, NULL);
+		}
 		if (result != ISC_R_SUCCESS) {
 			goto cleanup;
 		}

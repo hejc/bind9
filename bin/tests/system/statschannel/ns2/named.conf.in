@@ -59,6 +59,7 @@ zone "dnssec" {
 	zone-statistics full;
 	dnssec-dnskey-kskonly yes;
 	update-check-ksk yes;
+	zonemd-check no;
 };
 
 zone "manykeys" {
@@ -67,4 +68,5 @@ zone "manykeys" {
 	allow-update { any; };
 	zone-statistics full;
 	dnssec-policy "manykeys";
+	zonemd-check no;
 };

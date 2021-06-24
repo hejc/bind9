@@ -34,4 +34,5 @@ controls {
 zone "." {
 	type primary;
 	file "root.db";
+	zonemd-check no;
 };

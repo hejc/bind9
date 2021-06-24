@@ -53,6 +53,7 @@ zone "verify-addzone" {
 zone "verify-axfr" {
 	type primary;
 	file "verify-axfr.db.signed";
+	zonemd-check no;
 };
 
 zone "verify-csk" {
@@ -65,6 +66,7 @@ zone "verify-ixfr" {
 	file "verify-ixfr.db.signed";
 	ixfr-from-differences yes;
 	allow-transfer { 10.53.0.3; };
+	zonemd-check no;
 };
 
 zone "verify-reconfig" {

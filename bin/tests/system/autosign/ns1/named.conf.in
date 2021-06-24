@@ -41,6 +41,7 @@ zone "." {
 	allow-update { any; };
 	auto-dnssec maintain;
 	dnssec-dnskey-kskonly no;
+	zonemd-check no;
 };
 
 include "trusted.conf";
