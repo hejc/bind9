@@ -515,3 +515,23 @@ dns_zonemd_buildrdata(dns_rdata_t *rdata, dns_db_t *db,
 		return (ISC_R_NOTIMPLEMENTED);
 	}
 }
+
+bool
+dns_zonemd_supported(dns_rdata_t *rdata) {
+	REQUIRE(rdata != NULL);
+	REQUIRE(rdata->length >= 6);
+	REQUIRE(rdata->type == dns_rdatatype_zonemd);
+
+	switch (rdata->data[4]) {
+	case DNS_ZONEMD_SCHEME_SIMPLE:
+		switch (rdata->data[5]) {
+		case DNS_ZONEMD_DIGEST_SHA384:
+		case DNS_ZONEMD_DIGEST_SHA512:
+			return (true);
+		default:
+			return (false);
+		}
+	default:
+		return (false);
+	}
+}

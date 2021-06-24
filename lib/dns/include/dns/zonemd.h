@@ -20,3 +20,6 @@ dns_zonemd_buildrdata(dns_rdata_t *rdata, dns_db_t *db,
 		      dns_dbversion_t *version, uint8_t scheme,
 		      uint8_t algorithm, isc_mem_t *mctx, unsigned char *buf,
 		      size_t size);
+
+bool
+dns_zonemd_supported(dns_rdata_t *rdata);
