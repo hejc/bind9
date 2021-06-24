@@ -47,6 +47,7 @@ rm -f ns3/multisigner.test.db
 rm -f ns3/many.test.bk
 rm -f ns3/nsec3param.test.db
 rm -f ns3/too-big.test.db
+rm -f ns3/zonemd.test.db
 rm -f ns5/local.db
 rm -f ns6/in-addr.db
 rm -f ns7/_default.tsigkeys
@@ -59,8 +60,8 @@ rm -f ns9/_default.tsigkeys
 rm -f ns9/denyname.example.db
 rm -f ns9/example.com.db
 rm -f ns9/in-addr.db
-rm -f perl.update_test.out
 rm -f nsupdate.out*
+rm -f perl.update_test.out
 rm -f typelist.out.*
 rm -f update.out.*
 rm -f update.in.*

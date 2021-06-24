@@ -57,6 +57,13 @@ dns_update_soaserial(uint32_t serial, dns_updatemethod_t method,
  */
 
 isc_result_t
+dns_update_zonemd(dns_db_t *db, dns_dbversion_t *version, dns_diff_t *diff);
+/*%<
+ * Update the apex ZONEMD RRset's simple records to reflect changes in
+ * zone content.
+ */
+
+isc_result_t
 dns_update_signatures(dns_update_log_t *log, dns_zone_t *zone, dns_db_t *db,
 		      dns_dbversion_t *oldver, dns_dbversion_t *newver,
 		      dns_diff_t *diff, uint32_t sigvalidityinterval);

@@ -69,3 +69,9 @@ zone "multisigner.test" {
 	dnssec-policy "default";
 	file "multisigner.test.db";
 };
+
+zone "zonemd.test" {
+	type primary;
+	allow-update { any; };
+	file "zonemd.test.db.signed";
+};
