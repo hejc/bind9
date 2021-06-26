@@ -95,8 +95,15 @@ typedef enum {
 	DNS_ZONEOPT_CHECKSPF = 1 << 27,		/*%< check SPF records */
 	DNS_ZONEOPT_CHECKTTL = 1 << 28,		/*%< check max-zone-ttl */
 	DNS_ZONEOPT_AUTOEMPTY = 1 << 29,	/*%< automatic empty zone */
+
 	DNS_ZONEOPT___MAX = UINT64_MAX, /* trick to make the ENUM 64-bit wide */
 } dns_zoneopt_t;
+
+typedef enum {
+	DNS_ZONEMDOPT_CHECK = 1 << 0,	   /*%< zonemd check */
+	DNS_ZONEMDOPT_DNSSECONLY = 1 << 1, /*%< zonemd DNSSEC only */
+	DNS_ZONEMDOPT_REQUIRED = 1 << 2,   /*%< zonemd required */
+} dns_zonemdopt_t;
 
 /*
  * Zone key maintenance options
@@ -763,6 +770,25 @@ dns_zoneopt_t
 dns_zone_getoptions(dns_zone_t *zone);
 /*%<
  *	Returns the current zone options.
+ *
+ * Require:
+ *\li	'zone' to be a valid zone.
+ */
+
+void
+dns_zone_setzonemd(dns_zone_t *zone, dns_zonemdopt_t option, bool value);
+/*%<
+ *	Set the given options on ('value' == true) or off
+ *	('value' == #false).
+ *
+ * Require:
+ *\li	'zone' to be a valid zone.
+ */
+
+dns_zoneopt_t
+dns_zone_getzonemd(dns_zone_t *zone);
+/*%<
+ *	Returns the current zonemd options.
  *
  * Require:
  *\li	'zone' to be a valid zone.

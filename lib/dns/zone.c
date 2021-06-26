@@ -249,6 +249,7 @@ struct dns_zone {
 	dns_zonetype_t type;
 	atomic_uint_fast64_t flags;
 	atomic_uint_fast64_t options;
+	atomic_uint_fast64_t zonemd;
 	unsigned int db_argc;
 	char **db_argv;
 	isc_time_t expiretime;
@@ -558,6 +559,10 @@ typedef enum {
 	((atomic_load_relaxed(&(z)->keyopts) & (o)) != 0)
 #define DNS_ZONEKEY_SETOPTION(z, o) atomic_fetch_or(&(z)->keyopts, (o))
 #define DNS_ZONEKEY_CLROPTION(z, o) atomic_fetch_and(&(z)->keyopts, ~(o))
+
+#define DNS_ZONEMD_OPTION(z, o)	   ((atomic_load_relaxed(&(z)->zonemd) & (o)) != 0)
+#define DNS_ZONEMD_SETOPTION(z, o) atomic_fetch_or(&(z)->zonemd, (o))
+#define DNS_ZONEMD_CLROPTION(z, o) atomic_fetch_and(&(z)->zonemd, ~(o))
 
 /* Flags for zone_load() */
 typedef enum {
@@ -1153,6 +1158,7 @@ dns_zone_create(dns_zone_t **zonep, isc_mem_t *mctx) {
 	ISC_LIST_INIT(zone->newincludes);
 	atomic_init(&zone->flags, 0);
 	atomic_init(&zone->options, 0);
+	atomic_init(&zone->zonemd, 0);
 	atomic_init(&zone->keyopts, 0);
 	isc_time_settoepoch(&zone->expiretime);
 	isc_time_settoepoch(&zone->refreshtime);
@@ -5855,6 +5861,24 @@ dns_zone_getoptions(dns_zone_t *zone) {
 	REQUIRE(DNS_ZONE_VALID(zone));
 
 	return (atomic_load_relaxed(&zone->options));
+}
+
+void
+dns_zone_setzonemd(dns_zone_t *zone, dns_zonemdopt_t option, bool value) {
+	REQUIRE(DNS_ZONE_VALID(zone));
+
+	if (value) {
+		DNS_ZONEMD_SETOPTION(zone, option);
+	} else {
+		DNS_ZONEMD_CLROPTION(zone, option);
+	}
+}
+
+dns_zoneopt_t
+dns_zone_getzonemd(dns_zone_t *zone) {
+	REQUIRE(DNS_ZONE_VALID(zone));
+
+	return (atomic_load_relaxed(&zone->zonemd));
 }
 
 void

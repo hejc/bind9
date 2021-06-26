@@ -1508,6 +1508,25 @@ named_zone_configure(const cfg_obj_t *config, const cfg_obj_t *vconfig,
 		INSIST(result == ISC_R_SUCCESS && obj != NULL);
 		dns_zone_setoption(zone, DNS_ZONEOPT_NSEC3TESTZONE,
 				   cfg_obj_asboolean(obj));
+
+		obj = NULL;
+		result = named_config_get(maps, "zonemd-check", &obj);
+		INSIST(result == ISC_R_SUCCESS && obj != NULL);
+		dns_zone_setzonemd(zone, DNS_ZONEMDOPT_CHECK,
+				   cfg_obj_asboolean(obj));
+
+		obj = NULL;
+		result = named_config_get(maps, "zonemd-dnssec-only", &obj);
+		INSIST(result == ISC_R_SUCCESS && obj != NULL);
+		dns_zone_setzonemd(zone, DNS_ZONEMDOPT_DNSSECONLY,
+				   cfg_obj_asboolean(obj));
+
+		obj = NULL;
+		result = named_config_get(maps, "zonemd-required", &obj);
+		INSIST(result == ISC_R_SUCCESS && obj != NULL);
+		dns_zone_setzonemd(zone, DNS_ZONEMDOPT_REQUIRED,
+				   cfg_obj_asboolean(obj));
+
 	} else if (ztype == dns_zone_redirect) {
 		dns_zone_setnotifytype(zone, dns_notifytype_no);
 

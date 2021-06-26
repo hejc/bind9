@@ -316,4 +316,7 @@
   	zero-no-soa-ttl <boolean>;
   	zero-no-soa-ttl-cache <boolean>;
   	zone-statistics ( full | terse | none | <boolean> );
+  	zonemd-check <boolean>;
+  	zonemd-dnssec-only <boolean>;
+  	zonemd-required <boolean>;
   };

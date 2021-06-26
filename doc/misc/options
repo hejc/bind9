@@ -399,6 +399,9 @@ options {
         zero-no-soa-ttl <boolean>;
         zero-no-soa-ttl-cache <boolean>;
         zone-statistics ( full | terse | none | <boolean> );
+        zonemd-check <boolean>;
+        zonemd-dnssec-only <boolean>;
+        zonemd-required <boolean>;
 };
 
 parental-agents <string> [ port <integer> ] [
@@ -880,8 +883,14 @@ view <string> [ <class> ] {
                 use-alt-transfer-source <boolean>;
                 zero-no-soa-ttl <boolean>;
                 zone-statistics ( full | terse | none | <boolean> );
+                zonemd-check <boolean>;
+                zonemd-dnssec-only <boolean>;
+                zonemd-required <boolean>;
         }; // may occur multiple times
         zone-statistics ( full | terse | none | <boolean> );
+        zonemd-check <boolean>;
+        zonemd-dnssec-only <boolean>;
+        zonemd-required <boolean>;
 }; // may occur multiple times
 
 zone <string> [ <class> ] {
@@ -993,5 +1002,8 @@ zone <string> [ <class> ] {
         use-alt-transfer-source <boolean>;
         zero-no-soa-ttl <boolean>;
         zone-statistics ( full | terse | none | <boolean> );
+        zonemd-check <boolean>;
+        zonemd-dnssec-only <boolean>;
+        zonemd-required <boolean>;
 }; // may occur multiple times
 

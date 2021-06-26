@@ -58,4 +58,7 @@ zone <string> [ <class> ] {
 	update-policy ( local | { ( deny | grant ) <string> ( 6to4-self | external | krb5-self | krb5-selfsub | krb5-subdomain | krb5-subdomain-self-rhs | ms-self | ms-selfsub | ms-subdomain | ms-subdomain-self-rhs | name | self | selfsub | selfwild | subdomain | tcp-self | wildcard | zonesub ) [ <string> ] <rrtypelist>; ... };
 	zero-no-soa-ttl <boolean>;
 	zone-statistics ( full | terse | none | <boolean> );
+	zonemd-check <boolean>;
+	zonemd-dnssec-only <boolean>;
+	zonemd-required <boolean>;
 };
