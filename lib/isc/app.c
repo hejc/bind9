@@ -242,6 +242,8 @@ isc_app_ctxrun(isc_appctx_t *ctx) {
 					atomic_store_release(&ctx->want_reload,
 							     true);
 					break;
+				case SIGSTOP:
+					break;
 				default:
 					INSIST(0);
 					ISC_UNREACHABLE();
