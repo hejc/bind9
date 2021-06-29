@@ -69,7 +69,7 @@ usage(void);
 static void
 usage(void) {
 	fprintf(stderr,
-		"usage: %s [-djqvD] [-c class] "
+		"usage: %s [-djqvDz] [-c class] "
 		"[-f inputformat] [-F outputformat] [-J filename] "
 		"[-s (full|relative)] [-t directory] [-w directory] "
 		"[-k (ignore|warn|fail)] [-m (ignore|warn|fail)] "
@@ -165,8 +165,8 @@ main(int argc, char **argv) {
 	isc_commandline_errprint = false;
 
 	while ((c = isc_commandline_parse(argc, argv,
-					  "c:df:hi:jJ:k:L:l:m:n:qr:s:t:o:vw:DF:"
-					  "M:S:T:W:")) != EOF)
+					  "c:df:hi:jJ:k:L:l:m:n:qr:s:t:o:vw:z:"
+					  "DF:M:S:T:W:")) != EOF)
 	{
 		switch (c) {
 		case 'c':
@@ -416,6 +416,20 @@ main(int argc, char **argv) {
 				zone_options |= DNS_ZONEOPT_CHECKWILDCARD;
 			} else if (ARGCMP("ignore")) {
 				zone_options &= ~DNS_ZONEOPT_CHECKWILDCARD;
+			}
+			break;
+		case 'z':
+			if (ARGCMP("check")) {
+				zonemd_options |= DNS_ZONEMDOPT_CHECK;
+			}
+			if (ARGCMP("dnssec-only")) {
+				zonemd_options |= DNS_ZONEMDOPT_DNSSECONLY;
+			}
+			if (ARGCMP("accept-expired")) {
+				zonemd_options |= DNS_ZONEMDOPT_ACCEPTEXPIRED;
+			}
+			if (ARGCMP("required")) {
+				zonemd_options |= DNS_ZONEMDOPT_REQUIRED;
 			}
 			break;
 

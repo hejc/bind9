@@ -94,6 +94,7 @@ dns_zoneopt_t zone_options = DNS_ZONEOPT_CHECKNS | DNS_ZONEOPT_CHECKMX |
 #endif /* if CHECK_SIBLING */
 			     DNS_ZONEOPT_CHECKWILDCARD |
 			     DNS_ZONEOPT_WARNMXCNAME | DNS_ZONEOPT_WARNSRVCNAME;
+dns_zonemdopt_t zonemd_options;
 
 /*
  * This needs to match the list in bin/named/log.c.
@@ -567,6 +568,10 @@ setup_logging(isc_mem_t *mctx, FILE *errout, isc_log_t **logp) {
 	RUNTIME_CHECK(isc_log_usechannel(logconfig, "stderr", NULL, NULL) ==
 		      ISC_R_SUCCESS);
 
+	if (debug > 1) {
+		isc_log_setdebuglevel(log, debug - 1);
+	}
+
 	*logp = log;
 	return (ISC_R_SUCCESS);
 }
@@ -619,6 +624,7 @@ load_zone(isc_mem_t *mctx, const char *zonename, const char *filename,
 	dns_zone_setclass(zone, rdclass);
 	dns_zone_setoption(zone, zone_options, true);
 	dns_zone_setoption(zone, DNS_ZONEOPT_NOMERGE, nomerge);
+	dns_zone_setzonemd(zone, zonemd_options, true);
 
 	dns_zone_setmaxttl(zone, maxttl);
 

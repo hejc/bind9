@@ -23,6 +23,7 @@
 #include <dns/masterdump.h>
 #include <dns/types.h>
 #include <dns/zone.h>
+#include <dns/zonemd.h>
 
 ISC_LANG_BEGINDECLS
 
@@ -46,5 +47,6 @@ extern bool docheckmx;
 extern bool docheckns;
 extern bool dochecksrv;
 extern dns_zoneopt_t zone_options;
+extern dns_zonemdopt_t zonemd_options;
 
 ISC_LANG_ENDDECLS
