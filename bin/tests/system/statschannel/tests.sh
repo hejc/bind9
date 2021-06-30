@@ -71,6 +71,16 @@ loadkeys_on() {
 
 status=0
 n=1
+
+ret=0
+echo_i "wait for all servers to start ($n)"
+wait_for_log 20 "all zones loaded" ns1/named.run
+wait_for_log 20 "all zones loaded" ns2/named.run
+wait_for_log 20 "all zones loaded" ns3/named.run
+if [ $ret != 0 ]; then echo_i "failed"; fi
+status=`expr $status + $ret`
+n=`expr $n + 1`
+
 ret=0
 echo_i "checking consistency between named.stats and xml/json ($n)"
 rm -f ns2/named.stats
