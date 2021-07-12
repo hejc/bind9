@@ -1,3 +1,15 @@
+5731.	[func]		Replace the rwlock used in rbtdb with implementation
+			based on "NUMA-aware reader-writer locks" paper by
+			Calciu, Dice, Lev, Luchangco Maranthe and Shavit (2013).
+			The implementation is based on the The Writer-Preference
+			Lock (C-RW-WP) variant with separate ingress-egress
+			counters without the cohort lock (see the 3.4 section
+			of the paper for the rationale).  The rwlocks used
+			elsewhere have been replaced with pthread_rwlocks
+			for simplicity as we don't require tryupgrade or
+			downgrade elsewhere and the usage pattern matches
+			the normal pthread rwlocks. [GL #1609]
+
 5730.	[func]		The resolver and the request and dispatch managers
 			have been substantially refactored, and are now
 			based on the network manager instead of the old
