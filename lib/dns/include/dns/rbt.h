@@ -40,8 +40,6 @@ ISC_LANG_BEGINDECLS
 
 #define DNS_RBT_USEMAGIC 1
 
-#define DNS_RBT_LOCKLENGTH (sizeof(((dns_rbtnode_t *)0)->locknum) * 8)
-
 #define DNS_RBTNODE_MAGIC ISC_MAGIC('R', 'B', 'N', 'O')
 #if DNS_RBT_USEMAGIC
 #define DNS_RBTNODE_VALID(n) ISC_MAGIC_VALID(n, DNS_RBTNODE_MAGIC)
@@ -145,8 +143,7 @@ struct dns_rbtnode {
 	uint8_t	      : 0; /* start of bitfields c/o node lock */
 	uint8_t dirty : 1;
 	uint8_t wild  : 1;
-	uint8_t	      : 0;	/* end of bitfields c/o node lock */
-	uint16_t       locknum; /* note that this is not in the bitfield */
+	uint8_t	      : 0; /* end of bitfields c/o node lock */
 	isc_refcount_t references;
 	/*@}*/
 };

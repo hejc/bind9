@@ -109,9 +109,8 @@ const char *ownercase_vectors[12][2] = {
 static bool
 ownercase_test_one(const char *str1, const char *str2) {
 	isc_result_t result;
-	rbtdb_nodelock_t node_locks[1];
-	dns_rbtdb_t rbtdb = { .node_locks = node_locks };
-	dns_rbtnode_t rbtnode = { .locknum = 0 };
+	dns_rbtdb_t rbtdb = { 0 };
+	dns_rbtnode_t rbtnode = { 0 };
 	rdatasetheader_t header = { 0 };
 	unsigned char *raw = (unsigned char *)(&header) + sizeof(header);
 	dns_rdataset_t rdataset = {
@@ -126,9 +125,8 @@ ownercase_test_one(const char *str1, const char *str2) {
 	dns_fixedname_t fname1, fname2;
 	dns_name_t *name1, *name2;
 
-	memset(node_locks, 0, sizeof(node_locks));
 	/* Minimal initialization of the mock objects */
-	NODE_INITLOCK(&rbtdb.node_locks[0].lock);
+	NODE_INITLOCK(&rbtdb.node_lock.lock);
 
 	name1 = dns_fixedname_initname(&fname1);
 	isc_buffer_constinit(&b, str1, strlen(str1));
@@ -150,7 +148,7 @@ ownercase_test_one(const char *str1, const char *str2) {
 	/* Retrieve the case to name2 */
 	dns_rdataset_getownercase(&rdataset, name2);
 
-	NODE_DESTROYLOCK(&rbtdb.node_locks[0].lock);
+	NODE_DESTROYLOCK(&rbtdb.node_lock.lock);
 
 	return (dns_name_caseequal(name1, name2));
 }
@@ -173,9 +171,8 @@ ownercase_test(void **state) {
 static void
 setownercase_test(void **state) {
 	isc_result_t result;
-	rbtdb_nodelock_t node_locks[1];
-	dns_rbtdb_t rbtdb = { .node_locks = node_locks };
-	dns_rbtnode_t rbtnode = { .locknum = 0 };
+	dns_rbtdb_t rbtdb = { 0 };
+	dns_rbtnode_t rbtnode = { 0 };
 	rdatasetheader_t header = { 0 };
 	unsigned char *raw = (unsigned char *)(&header) + sizeof(header);
 	dns_rdataset_t rdataset = {
@@ -195,8 +192,7 @@ setownercase_test(void **state) {
 	UNUSED(state);
 
 	/* Minimal initialization of the mock objects */
-	memset(node_locks, 0, sizeof(node_locks));
-	NODE_INITLOCK(&rbtdb.node_locks[0].lock);
+	NODE_INITLOCK(&rbtdb.node_lock.lock);
 
 	name1 = dns_fixedname_initname(&fname1);
 	isc_buffer_constinit(&b, str1, strlen(str1));
@@ -215,7 +211,7 @@ setownercase_test(void **state) {
 	/* Retrieve the case to name2 */
 	dns_rdataset_getownercase(&rdataset, name2);
 
-	NODE_DESTROYLOCK(&rbtdb.node_locks[0].lock);
+	NODE_DESTROYLOCK(&rbtdb.node_lock.lock);
 
 	assert_true(dns_name_caseequal(name1, name2));
 }

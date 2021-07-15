@@ -122,9 +122,8 @@ struct dns_rbt {
  * Structure elements from the rbtdb.c, not
  * used as part of the rbt.c algorithms.
  */
-#define DIRTY(node)   ((node)->dirty)
-#define WILD(node)    ((node)->wild)
-#define LOCKNUM(node) ((node)->locknum)
+#define DIRTY(node) ((node)->dirty)
+#define WILD(node)  ((node)->wild)
 
 /*%
  * The variable length stuff stored after the node has the following
@@ -1584,7 +1583,6 @@ create_node(isc_mem_t *mctx, const dns_name_t *name, dns_rbtnode_t **nodep) {
 
 	ISC_LINK_INIT(node, deadlink);
 
-	LOCKNUM(node) = 0;
 	WILD(node) = 0;
 	DIRTY(node) = 0;
 	isc_refcount_init(&node->references, 0);
