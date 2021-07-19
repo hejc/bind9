@@ -1787,7 +1787,7 @@ send_to_prune_tree(dns_rbtdb_t *rbtdb, dns_rbtnode_t *node,
 static void
 cleanup_dead_nodes(dns_rbtdb_t *rbtdb) {
 	dns_rbtnode_t *node;
-	int count = 10; /* XXXJT: should be adjustable */
+	int count = 1; /* XXXJT: should be adjustable */
 
 	node = ISC_LIST_HEAD(rbtdb->deadnodes);
 	while (node != NULL && count > 0) {
