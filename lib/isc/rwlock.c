@@ -76,7 +76,7 @@
 #define GOLDEN_RATIO_32 0x61C88647
 #define GOLDEN_RATIO_64 0x61C8864680B583EBull
 
-static atomic_uint_fast16_t isc__rwlock_workers = 0;
+static atomic_uint_fast16_t isc__rwlock_workers = 128;
 
 static inline size_t
 tid2idx(isc__rwlock_t *rwl) {
