@@ -37,8 +37,8 @@
 #include <isc/time.h>
 #include <isc/util.h>
 
+#include "../rwlock_p.h"
 #include "isctest.h"
-#include "rwlock_p.h"
 
 #define LOOPS	   100000
 #define DELAY_LOOP 1

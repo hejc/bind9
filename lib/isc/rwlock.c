@@ -357,7 +357,6 @@ isc_rwlock_init_ex(isc_rwlock_t *rwl, isc_rwlock_impl_t impl) {
 #if __SANITIZE_THREAD__
 	/* Use native rwlock with thread sanitizer */
 	impl = ISC_RWLOCK_IMPL_NATIVE;
-	workers = 0;
 #endif
 
 	switch (impl) {
