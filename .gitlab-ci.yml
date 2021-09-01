@@ -1295,9 +1295,6 @@ respdiff:
     - make -j${BUILD_PARALLEL_JOBS:-1} V=1
     - cd ../bind-qa/bind9/respdiff
     - bash respdiff.sh -q "${PWD}/100k_mixed.txt" -c 3 -w "${PWD}/rspworkdir" "${CI_PROJECT_DIR}/refbind" "${CI_PROJECT_DIR}"
-  needs:
-    - job: tarball-create
-      artifacts: true
   artifacts:
     paths:
       - refbind
