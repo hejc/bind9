@@ -1285,7 +1285,7 @@ respdiff:
     MAX_DISAGREEMENTS_PERCENTAGE: "0.5"
   script:
     - autoreconf -fi
-    - ./configure
+    - *configure
     - make -j${BUILD_PARALLEL_JOBS:-1} V=1
     - *setup_interfaces
     - git clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.isc.org/isc-private/bind-qa.git
