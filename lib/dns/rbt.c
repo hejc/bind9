@@ -2375,8 +2375,6 @@ dns_rbt_printnodeinfo(dns_rbtnode_t *n, FILE *f) {
 
 	fprintf(f, "n = %p\n", n);
 
-	fprintf(f, "node lock address = %u\n", n->locknum);
-
 	fprintf(f, "Parent: %p\n", n->parent);
 	fprintf(f, "Right: %p\n", n->right);
 	fprintf(f, "Left: %p\n", n->left);
