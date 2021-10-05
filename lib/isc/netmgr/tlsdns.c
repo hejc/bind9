@@ -562,7 +562,8 @@ isc__nm_async_tlsdnslisten(isc__networker_t *worker, isc__netievent_t *ev0) {
 	REQUIRE(sock->parent != NULL);
 	REQUIRE(sock->tid == isc_nm_tid());
 
-	/* TODO: set min mss */
+	(void)isc__nm_socket_min_mtu(sock->fd, sa_family);
+	(void)isc__nm_socket_tcp_maxseg(sock->fd, NM_TCP_MAXSEG);
 
 	r = uv_tcp_init(&worker->loop, &sock->uv_handle.tcp);
 	RUNTIME_CHECK(r == 0);

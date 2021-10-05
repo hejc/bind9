@@ -70,6 +70,11 @@
  */
 #define NM_BIG_BUF (65535 + 2) * 2
 
+/*%
+ * Minimum TCP segment size
+ */
+#define NM_TCP_MAXSEG (1280 - 20 - 40) /* 1280 - TCP - IPv6 */
+
 #if defined(SO_REUSEPORT_LB) || (defined(SO_REUSEPORT) && defined(__linux__))
 #define HAVE_SO_REUSEPORT_LB 1
 #endif
@@ -1820,6 +1825,18 @@ isc_result_t
 isc__nm_socket_tcp_nodelay(uv_os_sock_t fd);
 /*%<
  * Disables Nagle's algorithm on a TCP socket (sets TCP_NODELAY).
+ */
+
+isc_result_t
+isc__nm_socket_tcp_maxseg(uv_os_sock_t fd, int size);
+/*%<
+ * Set the TCP maximum segment size
+ */
+
+isc_result_t
+isc__nm_socket_min_mtu(uv_os_sock_t fd, sa_family_t sa_family);
+/*%<
+ * Use minimum MTU on IPv6 sockets
  */
 
 void
