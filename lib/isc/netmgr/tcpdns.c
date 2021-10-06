@@ -297,6 +297,9 @@ isc_nm_tcpdnsconnect(isc_nm_t *mgr, isc_sockaddr_t *local, isc_sockaddr_t *peer,
 		return;
 	}
 
+	(void)isc__nm_socket_min_mtu(sock->fd, sa_family);
+	(void)isc__nm_socket_tcp_maxseg(sock->fd, NM_TCP_MAXSEG);
+
 	/* 2 minute timeout */
 	result = isc__nm_socket_connectiontimeout(sock->fd, 120 * 1000);
 	RUNTIME_CHECK(result == ISC_R_SUCCESS);

@@ -335,6 +335,9 @@ isc_nm_tcpconnect(isc_nm_t *mgr, isc_sockaddr_t *local, isc_sockaddr_t *peer,
 		return;
 	}
 
+	(void)isc__nm_socket_min_mtu(sock->fd, sa_family);
+	(void)isc__nm_socket_tcp_maxseg(sock->fd, NM_TCP_MAXSEG);
+
 	ievent = isc__nm_get_netievent_tcpconnect(mgr, sock, req);
 
 	if (isc__nm_in_netthread()) {
