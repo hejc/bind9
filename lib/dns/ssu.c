@@ -228,7 +228,6 @@ reverse_from_address(dns_name_t *tcpself, const isc_netaddr_t *tcpaddr) {
 		RUNTIME_CHECK(result < sizeof(buf));
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	isc_buffer_init(&b, buf, strlen(buf));
@@ -270,7 +269,6 @@ stf_from_address(dns_name_t *stfself, const isc_netaddr_t *tcpaddr) {
 		RUNTIME_CHECK(result < sizeof(buf));
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	isc_buffer_init(&b, buf, strlen(buf));

@@ -317,7 +317,6 @@ delete_trace_entry(isc_mem_t *mctx, const void *ptr, size_t size,
 	 * If we get here, we didn't find the item on the list.  We're
 	 * screwed.
 	 */
-	INSIST(0);
 	ISC_UNREACHABLE();
 unlock:
 	MCTXUNLOCK(mctx);
@@ -1446,7 +1445,6 @@ isc__mem_checkdestroyed(void) {
 			print_contexts(file);
 		}
 #endif /* if ISC_MEM_TRACKLINES */
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	UNLOCK(&contextslock);

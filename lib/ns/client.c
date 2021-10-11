@@ -616,7 +616,6 @@ renderend:
 					    ISC_MIN((int)respsize / 16, 256));
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 	} else {
@@ -646,7 +645,6 @@ renderend:
 					    ISC_MIN((int)respsize / 16, 256));
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 	}
@@ -1010,7 +1008,6 @@ no_nsid:
 			memmove(addr, &client->ecs.addr.type, addrl);
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 
@@ -1123,7 +1120,6 @@ compute_cookie(ns_client_t *client, uint32_t when, uint32_t nonce,
 			inputlen = 32;
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 
@@ -1165,7 +1161,6 @@ compute_cookie(ns_client_t *client, uint32_t when, uint32_t nonce,
 					 digest);
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 		for (i = 0; i < 8; i++) {
@@ -1176,7 +1171,6 @@ compute_cookie(ns_client_t *client, uint32_t when, uint32_t nonce,
 	}
 
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -1797,7 +1791,6 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
 					    ISC_MIN((int)reqsize / 16, 18));
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 	} else {
@@ -1811,7 +1804,6 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
 					    ISC_MIN((int)reqsize / 16, 18));
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 	}

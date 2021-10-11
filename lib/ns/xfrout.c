@@ -749,7 +749,6 @@ ns_xfr_start(ns_client_t *client, dns_rdatatype_t reqtype) {
 		mnemonic = "IXFR";
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

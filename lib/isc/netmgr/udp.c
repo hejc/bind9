@@ -295,7 +295,6 @@ isc__nm_udp_stoplistening(isc_nmsocket_t *sock) {
 
 	if (!atomic_compare_exchange_strong(&sock->closing, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -926,7 +925,6 @@ udp_stop_cb(uv_handle_t *handle) {
 
 	if (!atomic_compare_exchange_strong(&sock->closed, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -948,7 +946,6 @@ udp_close_cb(uv_handle_t *handle) {
 
 	if (!atomic_compare_exchange_strong(&sock->closed, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

@@ -1578,7 +1578,6 @@ dumpctx_create(isc_mem_t *mctx, dns_db_t *db, dns_dbversion_t *version,
 		dctx->dumpsets = dump_rdatasets_raw;
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -1699,7 +1698,6 @@ writeheader(dns_dumpctx_t *dctx) {
 
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

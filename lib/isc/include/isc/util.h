@@ -98,7 +98,7 @@
 	do {                           \
 		union {                \
 			const void *k; \
-			void *	    v; \
+			void	     *v; \
 		} _u;                  \
 		_u.k = konst;          \
 		var = _u.v;            \
@@ -218,12 +218,6 @@
  */
 #include <isc/likely.h>
 
-#ifdef HAVE_BUILTIN_UNREACHABLE
-#define ISC_UNREACHABLE() __builtin_unreachable();
-#else /* ifdef HAVE_BUILTIN_UNREACHABLE */
-#define ISC_UNREACHABLE()
-#endif /* ifdef HAVE_BUILTIN_UNREACHABLE */
-
 /* GCC defines __SANITIZE_ADDRESS__, so reuse the macro for clang */
 #if __has_feature(address_sanitizer)
 #define __SANITIZE_ADDRESS__ 1
@@ -278,6 +272,8 @@ mock_assert(const int result, const char *const expression,
 	((!(expression))                                                      \
 		 ? (mock_assert(0, #expression, __FILE__, __LINE__), abort()) \
 		 : (void)0)
+#define ISC_UNREACHABLE() \
+	(mock_assert(0, "unreachable", __FILE__, __LINE__), abort())
 #define _assert_true(c, e, f, l) \
 	((c) ? (void)0 : (_assert_true(0, e, f, l), abort()))
 #define _assert_int_equal(a, b, f, l) \
@@ -302,6 +298,11 @@ mock_assert(const int result, const char *const expression,
 /*% Invariant Assertion */
 #define INVARIANT(e) ISC_INVARIANT(e)
 
+#define ISC_UNREACHABLE()                                                   \
+	(isc_assertion_failed(__FILE__, __LINE__, isc_assertiontype_insist, \
+			      "unreachable"),                               \
+	 __builtin_unreachable())
+
 #else /* CPPCHECK */
 
 /*% Require Assertion */
@@ -320,6 +321,8 @@ mock_assert(const int result, const char *const expression,
 #define INVARIANT(e) \
 	if (!(e))    \
 	abort()
+
+#define ISC_UNREACHABLE() abort()
 
 #endif /* CPPCHECK */
 

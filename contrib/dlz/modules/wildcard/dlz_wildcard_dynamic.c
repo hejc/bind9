@@ -713,7 +713,7 @@ fnmatch(const char *pattern, const char *string, int flags) {
 			string++;
 			break;
 		}
-	/* NOTREACHED */
+	ISC_UNREACHABLE();
 }
 
 static int

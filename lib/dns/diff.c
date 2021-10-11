@@ -370,7 +370,6 @@ diff_apply(dns_diff_t *diff, dns_db_t *db, dns_dbversion_t *ver, bool warn) {
 								 &ardataset);
 				break;
 			default:
-				INSIST(0);
 				ISC_UNREACHABLE();
 			}
 

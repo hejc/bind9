@@ -278,7 +278,6 @@ dns_rpz_policy2str(dns_rpz_policy_t policy) {
 		str = "DNS64";
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	return (str);
@@ -343,7 +342,6 @@ make_addr_set(dns_rpz_addr_zbits_t *tgt_set, dns_rpz_zbits_t zbits,
 		tgt_set->nsip = zbits;
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -361,7 +359,6 @@ make_nm_set(dns_rpz_nm_zbits_t *tgt_set, dns_rpz_num_t rpz_num,
 		tgt_set->ns = DNS_RPZ_ZBIT(rpz_num);
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -617,7 +614,6 @@ adj_trigger_cnt(dns_rpz_zones_t *rpzs, dns_rpz_num_t rpz_num,
 		}
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -2693,7 +2689,6 @@ dns_rpz_find_ip(dns_rpz_zones_t *rpzs, dns_rpz_type_t rpz_type,
 		rpz_num = zbit_to_num(found->set.nsip & tgt_set.nsip);
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	result = ip2name(&found->ip, found->prefix, dns_rootname, ip_name);

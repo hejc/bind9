@@ -1364,7 +1364,6 @@ keymgr_transition_time(dns_dnsseckey_t *key, int type,
 		}
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 		break;
 	}

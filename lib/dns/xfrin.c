@@ -677,10 +677,8 @@ redo:
 	case XFRST_AXFR_END:
 	case XFRST_IXFR_END:
 		FAIL(DNS_R_EXTRADATA);
-		/* NOTREACHED */
-		ISC_FALLTHROUGH(); /* FALLTHROUGH */
+		ISC_UNREACHABLE();
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	result = ISC_R_SUCCESS;
@@ -954,7 +952,6 @@ xfrin_start(dns_xfrin_ctx_t *xfr) {
 				     connect_xfr, 30000, 0, xfr->tlsctx);
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

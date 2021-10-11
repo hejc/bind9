@@ -633,7 +633,6 @@ dnstap_type(dns_dtmsgtype_t msgtype) {
 	case DNS_DTTYPE_UR:
 		return (DNSTAP__MESSAGE__TYPE__UPDATE_RESPONSE);
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -983,7 +982,6 @@ dns_dt_open(const char *filename, dns_dtmode_t mode, isc_mem_t *mctx,
 		result = ISC_R_NOTIMPLEMENTED;
 		goto cleanup;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

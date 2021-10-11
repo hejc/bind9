@@ -392,7 +392,6 @@ cfg_tuple_get(const cfg_obj_t *tupleobj, const char *name) {
 			return (tupleobj->value.tuple[i]);
 		}
 	}
-	INSIST(0);
 	ISC_UNREACHABLE();
 }
 
@@ -2676,7 +2675,6 @@ cfg_print_mapbody(cfg_printer_t *pctx, const cfg_obj_t *obj) {
 			} else if (result == ISC_R_NOTFOUND) {
 				/* do nothing */
 			} else {
-				INSIST(0);
 				ISC_UNREACHABLE();
 			}
 		}
@@ -3008,7 +3006,6 @@ token_addr(cfg_parser_t *pctx, unsigned int flags, isc_netaddr_t *na) {
 			isc_netaddr_any6(na);
 			return (ISC_R_SUCCESS);
 		} else {
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 	} else {
@@ -3287,7 +3284,6 @@ cfg_parse_netprefix(cfg_parser_t *pctx, const cfg_type_t *type,
 		addrlen = 128;
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	expectprefix = (result == ISC_R_IPV4PREFIX);

@@ -927,7 +927,7 @@ fromhex(char c) {
 
 	printf("bad input format: %02x\n", c);
 	exit(3);
-	/* NOTREACHED */
+	ISC_UNREACHABLE();
 }
 
 isc_result_t

@@ -56,7 +56,7 @@ fromhex(char c) {
 
 	fprintf(stderr, "bad input format: %02x\n", c);
 	exit(3);
-	/* NOTREACHED */
+	ISC_UNREACHABLE();
 }
 
 static void

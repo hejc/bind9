@@ -653,7 +653,6 @@ isc__nm_tcp_stoplistening(isc_nmsocket_t *sock) {
 
 	if (!atomic_compare_exchange_strong(&sock->closing, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -1158,7 +1157,6 @@ tcp_stop_cb(uv_handle_t *handle) {
 
 	if (!atomic_compare_exchange_strong(&sock->closed, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -1177,7 +1175,6 @@ tcp_close_sock(isc_nmsocket_t *sock) {
 
 	if (!atomic_compare_exchange_strong(&sock->closed, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

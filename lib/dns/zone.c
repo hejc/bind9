@@ -10107,7 +10107,6 @@ normalize_key(dns_rdata_t *rr, dns_rdata_t *target, unsigned char *data,
 				     &dnskey, &buf);
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	return (ISC_R_SUCCESS);
@@ -18116,7 +18115,6 @@ got_transfer_quota(isc_task_t *task, isc_event_t *event) {
 		}
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	UNLOCK_ZONE(zone);
@@ -19900,7 +19898,6 @@ dns_zone_setdialup(dns_zone_t *zone, dns_dialuptype_t dialup) {
 		DNS_ZONE_SETFLAG(zone, DNS_ZONEFLG_NOREFRESH);
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	UNLOCK_ZONE(zone);
@@ -19983,7 +19980,6 @@ dns_zonemgr_getcount(dns_zonemgr_t *zmgr, int state) {
 		}
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

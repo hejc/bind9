@@ -159,7 +159,6 @@ channel_fromconf(const cfg_obj_t *channel, isc_logconfig_t *logconfig) {
 			maxoffset = 0x7fffffffffffffffULL;
 			break;
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 

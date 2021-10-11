@@ -3083,7 +3083,6 @@ validator_start(isc_task_t *task, isc_event_t *event) {
 
 		result = validate_nx(val, false);
 	} else {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

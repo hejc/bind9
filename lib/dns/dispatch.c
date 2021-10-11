@@ -1444,7 +1444,6 @@ dispatch_getnext(dns_dispatch_t *disp, dns_dispentry_t *resp, int32_t timeout) {
 		break;
 
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -1603,7 +1602,6 @@ startrecv(isc_nmhandle_t *handle, dns_dispatch_t *disp, dns_dispentry_t *resp) {
 		break;
 
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -1743,7 +1741,6 @@ dns_dispatch_connect(dns_dispentry_t *resp) {
 			break;
 
 		default:
-			INSIST(0);
 			ISC_UNREACHABLE();
 		}
 

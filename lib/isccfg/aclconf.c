@@ -399,7 +399,6 @@ get_subtype(const cfg_obj_t *obj, isc_log_t *lctx, dns_geoip_subtype_t subtype,
 		}
 		return (subtype);
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }

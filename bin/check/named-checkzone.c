@@ -146,7 +146,6 @@ main(int argc, char **argv) {
 	} else if (PROGCMP("named-compilezone")) {
 		progmode = progmode_compile;
 	} else {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

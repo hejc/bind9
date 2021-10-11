@@ -2066,7 +2066,6 @@ server_on_request_recv(nghttp2_session *ngsession,
 		INSIST(socket->h2.content_length > 0);
 		isc_buffer_usedregion(&socket->h2.rbuf, &data);
 	} else {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 
@@ -2622,7 +2621,6 @@ isc__nm_http_stoplistening(isc_nmsocket_t *sock) {
 
 	if (!atomic_compare_exchange_strong(&sock->closing, &(bool){ false },
 					    true)) {
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 

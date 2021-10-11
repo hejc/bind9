@@ -207,7 +207,6 @@ isccc_sexpr_print(isccc_sexpr_t *sexpr, FILE *stream) {
 		}
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }

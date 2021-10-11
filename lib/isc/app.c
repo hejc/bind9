@@ -243,7 +243,6 @@ isc_app_ctxrun(isc_appctx_t *ctx) {
 							     true);
 					break;
 				default:
-					INSIST(0);
 					ISC_UNREACHABLE();
 				}
 			}

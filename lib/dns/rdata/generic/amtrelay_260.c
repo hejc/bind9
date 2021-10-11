@@ -114,7 +114,6 @@ fromtext_amtrelay(ARGS_FROMTEXT) {
 		return (dns_name_fromtext(&name, &buffer, origin, options,
 					  target));
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 }
@@ -176,7 +175,6 @@ totext_amtrelay(ARGS_TOTEXT) {
 		return (dns_name_totext(&name, false, target));
 
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 	}
 	return (ISC_R_SUCCESS);

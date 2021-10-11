@@ -386,7 +386,6 @@ get_tls_version_disable_bit(const isc_tls_protocol_version_t tls_ver) {
 #endif
 		break;
 	default:
-		INSIST(0);
 		ISC_UNREACHABLE();
 		break;
 	};
