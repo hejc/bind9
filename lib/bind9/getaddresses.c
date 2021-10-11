@@ -129,8 +129,8 @@ again:
 			hints.ai_flags &= ~AI_ADDRCONFIG;
 			goto again;
 		}
-#endif /* ifdef AI_ADDRCONFIG */
-	/* FALLTHROUGH */
+#endif				 /* ifdef AI_ADDRCONFIG */
+		FALLTHROUGH;
 	default:
 		return (ISC_R_FAILURE);
 	}

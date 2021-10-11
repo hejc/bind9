@@ -7244,7 +7244,7 @@ query_checkrpz(query_ctx_t *qctx, isc_result_t result) {
 			break;
 		case DNS_RPZ_POLICY_NODATA:
 			qctx->nxrewrite = true;
-		/* FALLTHROUGH */
+			FALLTHROUGH;
 		case DNS_RPZ_POLICY_DNS64:
 			result = DNS_R_NXRRSET;
 			qctx->rpz = true;
@@ -10143,7 +10143,7 @@ query_coveringnsec(query_ctx_t *qctx) {
 		{
 			goto cleanup;
 		}
-	/* FALLTHROUGH */
+		FALLTHROUGH;
 	case DNS_R_CNAME:
 		if (!qctx->resuming && !STALE(&rdataset) && rdataset.ttl == 0 &&
 		    RECURSIONOK(qctx->client))

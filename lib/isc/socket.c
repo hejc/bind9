@@ -4052,7 +4052,7 @@ socket_send(isc_socket_t *sock, isc_socketevent_t *dev, isc_task_t *task,
 			break;
 		}
 
-		/* FALLTHROUGH */
+		FALLTHROUGH;
 
 	case DOIO_HARD:
 	case DOIO_SUCCESS:
@@ -4176,7 +4176,7 @@ isc_socket_cleanunix(const isc_sockaddr_t *sockaddr, bool active) {
 			if (active) { /* We exited cleanly last time */
 				break;
 			}
-			/* FALLTHROUGH */
+			FALLTHROUGH;
 		default:
 			strerror_r(errno, strbuf, sizeof(strbuf));
 			isc_log_write(isc_lctx, ISC_LOGCATEGORY_GENERAL,

@@ -11279,7 +11279,7 @@ zone_maintenance(dns_zone_t *zone) {
 		if (zone->masters == NULL) {
 			break;
 		}
-	/* FALLTHROUGH */
+		FALLTHROUGH;
 	case dns_zone_secondary:
 	case dns_zone_mirror:
 	case dns_zone_stub:
@@ -11304,7 +11304,7 @@ zone_maintenance(dns_zone_t *zone) {
 		if (zone->masters == NULL) {
 			break;
 		}
-	/* FALLTHROUGH */
+		FALLTHROUGH;
 	case dns_zone_secondary:
 	case dns_zone_mirror:
 	case dns_zone_stub:
@@ -11676,7 +11676,7 @@ zone_journal_rollforward(dns_zone_t *zone, dns_db_t *db, bool *needdump,
 	switch (result) {
 	case ISC_R_SUCCESS:
 		*needdump = true;
-		/* FALLTHROUGH */
+		FALLTHROUGH;
 	case DNS_R_UPTODATE:
 		if (dns_journal_recovered(journal)) {
 			*fixjournal = true;
@@ -15078,7 +15078,7 @@ zone_settimer(dns_zone_t *zone, isc_time_t *now) {
 		if (zone->masters != NULL) {
 			goto treat_as_slave;
 		}
-		/* FALLTHROUGH */
+		FALLTHROUGH;
 
 	case dns_zone_primary:
 		if (DNS_ZONE_FLAG(zone, DNS_ZONEFLG_NEEDNOTIFY) ||
@@ -15142,7 +15142,7 @@ zone_settimer(dns_zone_t *zone, isc_time_t *now) {
 		{
 			next = zone->notifytime;
 		}
-		/* FALLTHROUGH */
+		FALLTHROUGH;
 
 	case dns_zone_stub:
 		if (!DNS_ZONE_FLAG(zone, DNS_ZONEFLG_REFRESH) &&
@@ -17516,7 +17516,7 @@ again:
 	switch (xfrresult) {
 	case ISC_R_SUCCESS:
 		DNS_ZONE_SETFLAG(zone, DNS_ZONEFLG_NEEDNOTIFY);
-	/* FALLTHROUGH */
+		FALLTHROUGH;
 	case DNS_R_UPTODATE:
 		DNS_ZONE_CLRFLAG(zone, DNS_ZONEFLG_FORCEXFER);
 		/*
@@ -17674,7 +17674,6 @@ again:
 			zone->curmaster++;
 		} while (zone->curmaster < zone->masterscnt &&
 			 zone->mastersok[zone->curmaster]);
-		/* FALLTHROUGH */
 	same_master:
 		if (zone->curmaster >= zone->masterscnt) {
 			zone->curmaster = 0;
