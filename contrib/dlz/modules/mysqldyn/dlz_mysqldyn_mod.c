@@ -499,7 +499,7 @@ isrelative(const char *s) {
 }
 
 /* Return a dot if 's' doesn't already end with one */
-static inline const char *
+static const char *
 dot(const char *s) {
 	return (isrelative(s) ? "." : "");
 }

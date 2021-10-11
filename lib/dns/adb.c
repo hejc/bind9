@@ -271,35 +271,35 @@ struct dns_adbentry {
 /*
  * Internal functions (and prototypes).
  */
-static inline dns_adbname_t *
+static dns_adbname_t *
 new_adbname(dns_adb_t *, const dns_name_t *);
-static inline void
+static void
 free_adbname(dns_adb_t *, dns_adbname_t **);
-static inline dns_adbnamehook_t *
+static dns_adbnamehook_t *
 new_adbnamehook(dns_adb_t *, dns_adbentry_t *);
-static inline void
+static void
 free_adbnamehook(dns_adb_t *, dns_adbnamehook_t **);
-static inline dns_adblameinfo_t *
+static dns_adblameinfo_t *
 new_adblameinfo(dns_adb_t *, const dns_name_t *, dns_rdatatype_t);
-static inline void
+static void
 free_adblameinfo(dns_adb_t *, dns_adblameinfo_t **);
-static inline dns_adbentry_t *
+static dns_adbentry_t *
 new_adbentry(dns_adb_t *);
-static inline void
+static void
 free_adbentry(dns_adb_t *, dns_adbentry_t **);
-static inline dns_adbfind_t *
+static dns_adbfind_t *
 new_adbfind(dns_adb_t *);
-static inline bool
+static bool
 free_adbfind(dns_adb_t *, dns_adbfind_t **);
-static inline dns_adbaddrinfo_t *
+static dns_adbaddrinfo_t *
 new_adbaddrinfo(dns_adb_t *, dns_adbentry_t *, in_port_t);
-static inline dns_adbfetch_t *
+static dns_adbfetch_t *
 new_adbfetch(dns_adb_t *);
-static inline void
+static void
 free_adbfetch(dns_adb_t *, dns_adbfetch_t **);
-static inline dns_adbname_t *
+static dns_adbname_t *
 find_name_and_lock(dns_adb_t *, const dns_name_t *, unsigned int, int *);
-static inline dns_adbentry_t *
+static dns_adbentry_t *
 find_entry_and_lock(dns_adb_t *, const isc_sockaddr_t *, int *, isc_stdtime_t);
 static void
 dump_adb(dns_adb_t *, FILE *, bool debug, isc_stdtime_t);
@@ -312,17 +312,17 @@ static void
 print_find_list(FILE *, dns_adbname_t *);
 static void
 print_fetch_list(FILE *, dns_adbname_t *);
-static inline bool
+static bool
 dec_adb_irefcnt(dns_adb_t *);
-static inline void
+static void
 inc_adb_irefcnt(dns_adb_t *);
-static inline void
+static void
 inc_adb_erefcnt(dns_adb_t *);
-static inline void
+static void
 inc_entry_refcnt(dns_adb_t *, dns_adbentry_t *, bool);
-static inline bool
+static bool
 dec_entry_refcnt(dns_adb_t *, bool, dns_adbentry_t *, bool);
-static inline void
+static void
 violate_locking_hierarchy(isc_mutex_t *, isc_mutex_t *);
 static bool
 clean_namehooks(dns_adb_t *, dns_adbnamehooklist_t *);
@@ -341,7 +341,7 @@ dbfind_name(dns_adbname_t *, isc_stdtime_t, dns_rdatatype_t);
 static isc_result_t
 fetch_name(dns_adbname_t *, bool, unsigned int, isc_counter_t *qc,
 	   dns_rdatatype_t);
-static inline void
+static void
 check_exit(dns_adb_t *);
 static void
 destroy(dns_adb_t *);
@@ -349,13 +349,13 @@ static bool
 shutdown_names(dns_adb_t *);
 static bool
 shutdown_entries(dns_adb_t *);
-static inline void
+static void
 link_name(dns_adb_t *, int, dns_adbname_t *);
-static inline bool
+static bool
 unlink_name(dns_adb_t *, dns_adbname_t *);
-static inline void
+static void
 link_entry(dns_adb_t *, int, dns_adbentry_t *);
-static inline bool
+static bool
 unlink_entry(dns_adb_t *, dns_adbentry_t *);
 static bool
 kill_name(dns_adbname_t **, isc_eventtype_t);
@@ -504,7 +504,7 @@ DP(int level, const char *format, ...) {
 /*%
  * Increment resolver-related statistics counters.
  */
-static inline void
+static void
 inc_stats(dns_adb_t *adb, isc_statscounter_t counter) {
 	if (adb->view->resstats != NULL) {
 		isc_stats_increment(adb->view->resstats, counter);
@@ -514,28 +514,28 @@ inc_stats(dns_adb_t *adb, isc_statscounter_t counter) {
 /*%
  * Set adb-related statistics counters.
  */
-static inline void
+static void
 set_adbstat(dns_adb_t *adb, uint64_t val, isc_statscounter_t counter) {
 	if (adb->view->adbstats != NULL) {
 		isc_stats_set(adb->view->adbstats, val, counter);
 	}
 }
 
-static inline void
+static void
 dec_adbstats(dns_adb_t *adb, isc_statscounter_t counter) {
 	if (adb->view->adbstats != NULL) {
 		isc_stats_decrement(adb->view->adbstats, counter);
 	}
 }
 
-static inline void
+static void
 inc_adbstats(dns_adb_t *adb, isc_statscounter_t counter) {
 	if (adb->view->adbstats != NULL) {
 		isc_stats_increment(adb->view->adbstats, counter);
 	}
 }
 
-static inline dns_ttl_t
+static dns_ttl_t
 ttlclamp(dns_ttl_t ttl) {
 	if (ttl < ADB_CACHE_MINIMUM) {
 		ttl = ADB_CACHE_MINIMUM;
@@ -1158,7 +1158,7 @@ check_expire_namehooks(dns_adbname_t *name, isc_stdtime_t now) {
 /*
  * Requires the name's bucket be locked.
  */
-static inline void
+static void
 link_name(dns_adb_t *adb, int bucket, dns_adbname_t *name) {
 	INSIST(name->lock_bucket == DNS_ADB_INVALIDBUCKET);
 
@@ -1170,7 +1170,7 @@ link_name(dns_adb_t *adb, int bucket, dns_adbname_t *name) {
 /*
  * Requires the name's bucket be locked.
  */
-static inline bool
+static bool
 unlink_name(dns_adb_t *adb, dns_adbname_t *name) {
 	int bucket;
 	bool result = false;
@@ -1195,7 +1195,7 @@ unlink_name(dns_adb_t *adb, dns_adbname_t *name) {
 /*
  * Requires the entry's bucket be locked.
  */
-static inline void
+static void
 link_entry(dns_adb_t *adb, int bucket, dns_adbentry_t *entry) {
 	int i;
 	dns_adbentry_t *e;
@@ -1226,7 +1226,7 @@ link_entry(dns_adb_t *adb, int bucket, dns_adbentry_t *entry) {
 /*
  * Requires the entry's bucket be locked.
  */
-static inline bool
+static bool
 unlink_entry(dns_adb_t *adb, dns_adbentry_t *entry) {
 	int bucket;
 	bool result = false;
@@ -1248,7 +1248,7 @@ unlink_entry(dns_adb_t *adb, dns_adbentry_t *entry) {
 	return (result);
 }
 
-static inline void
+static void
 violate_locking_hierarchy(isc_mutex_t *have, isc_mutex_t *want) {
 	if (isc_mutex_trylock(want) != ISC_R_SUCCESS) {
 		UNLOCK(have);
@@ -1589,7 +1589,7 @@ clean_finds_at_name(dns_adbname_t *name, isc_eventtype_t evtype,
 	DP(ENTER_LEVEL, "EXIT clean_finds_at_name, name %p", name);
 }
 
-static inline void
+static void
 check_exit(dns_adb_t *adb) {
 	isc_event_t *event;
 	/*
@@ -1610,7 +1610,7 @@ check_exit(dns_adb_t *adb) {
 	}
 }
 
-static inline bool
+static bool
 dec_adb_irefcnt(dns_adb_t *adb) {
 	isc_event_t *event;
 	isc_task_t *etask;
@@ -1639,21 +1639,21 @@ dec_adb_irefcnt(dns_adb_t *adb) {
 	return (result);
 }
 
-static inline void
+static void
 inc_adb_irefcnt(dns_adb_t *adb) {
 	LOCK(&adb->reflock);
 	adb->irefcnt++;
 	UNLOCK(&adb->reflock);
 }
 
-static inline void
+static void
 inc_adb_erefcnt(dns_adb_t *adb) {
 	LOCK(&adb->reflock);
 	adb->erefcnt++;
 	UNLOCK(&adb->reflock);
 }
 
-static inline void
+static void
 inc_entry_refcnt(dns_adb_t *adb, dns_adbentry_t *entry, bool lock) {
 	int bucket;
 
@@ -1670,7 +1670,7 @@ inc_entry_refcnt(dns_adb_t *adb, dns_adbentry_t *entry, bool lock) {
 	}
 }
 
-static inline bool
+static bool
 dec_entry_refcnt(dns_adb_t *adb, bool overmem, dns_adbentry_t *entry,
 		 bool lock) {
 	int bucket;
@@ -1713,7 +1713,7 @@ dec_entry_refcnt(dns_adb_t *adb, bool overmem, dns_adbentry_t *entry,
 	return (result);
 }
 
-static inline dns_adbname_t *
+static dns_adbname_t *
 new_adbname(dns_adb_t *adb, const dns_name_t *dnsname) {
 	dns_adbname_t *name;
 
@@ -1756,7 +1756,7 @@ new_adbname(dns_adb_t *adb, const dns_name_t *dnsname) {
 	return (name);
 }
 
-static inline void
+static void
 free_adbname(dns_adb_t *adb, dns_adbname_t **name) {
 	dns_adbname_t *n;
 
@@ -1782,7 +1782,7 @@ free_adbname(dns_adb_t *adb, dns_adbname_t **name) {
 	UNLOCK(&adb->namescntlock);
 }
 
-static inline dns_adbnamehook_t *
+static dns_adbnamehook_t *
 new_adbnamehook(dns_adb_t *adb, dns_adbentry_t *entry) {
 	dns_adbnamehook_t *nh;
 
@@ -1796,7 +1796,7 @@ new_adbnamehook(dns_adb_t *adb, dns_adbentry_t *entry) {
 	return (nh);
 }
 
-static inline void
+static void
 free_adbnamehook(dns_adb_t *adb, dns_adbnamehook_t **namehook) {
 	dns_adbnamehook_t *nh;
 
@@ -1813,7 +1813,7 @@ free_adbnamehook(dns_adb_t *adb, dns_adbnamehook_t **namehook) {
 	isc_mem_put(adb->mctx, nh, sizeof(*nh));
 }
 
-static inline dns_adblameinfo_t *
+static dns_adblameinfo_t *
 new_adblameinfo(dns_adb_t *adb, const dns_name_t *qname,
 		dns_rdatatype_t qtype) {
 	dns_adblameinfo_t *li;
@@ -1830,7 +1830,7 @@ new_adblameinfo(dns_adb_t *adb, const dns_name_t *qname,
 	return (li);
 }
 
-static inline void
+static void
 free_adblameinfo(dns_adb_t *adb, dns_adblameinfo_t **lameinfo) {
 	dns_adblameinfo_t *li;
 
@@ -1847,7 +1847,7 @@ free_adblameinfo(dns_adb_t *adb, dns_adblameinfo_t **lameinfo) {
 	isc_mem_put(adb->mctx, li, sizeof(*li));
 }
 
-static inline dns_adbentry_t *
+static dns_adbentry_t *
 new_adbentry(dns_adb_t *adb) {
 	dns_adbentry_t *e;
 
@@ -1892,7 +1892,7 @@ new_adbentry(dns_adb_t *adb) {
 	return (e);
 }
 
-static inline void
+static void
 free_adbentry(dns_adb_t *adb, dns_adbentry_t **entry) {
 	dns_adbentry_t *e;
 	dns_adblameinfo_t *li;
@@ -1925,7 +1925,7 @@ free_adbentry(dns_adb_t *adb, dns_adbentry_t **entry) {
 	UNLOCK(&adb->entriescntlock);
 }
 
-static inline dns_adbfind_t *
+static dns_adbfind_t *
 new_adbfind(dns_adb_t *adb) {
 	dns_adbfind_t *h;
 
@@ -1961,7 +1961,7 @@ new_adbfind(dns_adb_t *adb) {
 	return (h);
 }
 
-static inline dns_adbfetch_t *
+static dns_adbfetch_t *
 new_adbfetch(dns_adb_t *adb) {
 	dns_adbfetch_t *f;
 
@@ -1977,7 +1977,7 @@ new_adbfetch(dns_adb_t *adb) {
 	return (f);
 }
 
-static inline void
+static void
 free_adbfetch(dns_adb_t *adb, dns_adbfetch_t **fetch) {
 	dns_adbfetch_t *f;
 
@@ -1994,7 +1994,7 @@ free_adbfetch(dns_adb_t *adb, dns_adbfetch_t **fetch) {
 	isc_mem_put(adb->mctx, f, sizeof(*f));
 }
 
-static inline bool
+static bool
 free_adbfind(dns_adb_t *adb, dns_adbfind_t **findp) {
 	dns_adbfind_t *find;
 
@@ -2022,7 +2022,7 @@ free_adbfind(dns_adb_t *adb, dns_adbfind_t **findp) {
  * must be locked, and the reference count must be bumped up by one
  * if this function returns a valid pointer.
  */
-static inline dns_adbaddrinfo_t *
+static dns_adbaddrinfo_t *
 new_adbaddrinfo(dns_adb_t *adb, dns_adbentry_t *entry, in_port_t port) {
 	dns_adbaddrinfo_t *ai;
 
@@ -2040,7 +2040,7 @@ new_adbaddrinfo(dns_adb_t *adb, dns_adbentry_t *entry, in_port_t port) {
 	return (ai);
 }
 
-static inline void
+static void
 free_adbaddrinfo(dns_adb_t *adb, dns_adbaddrinfo_t **ainfo) {
 	dns_adbaddrinfo_t *ai;
 
@@ -2063,7 +2063,7 @@ free_adbaddrinfo(dns_adb_t *adb, dns_adbaddrinfo_t **ainfo) {
  * On the first call to this function, *bucketp must be set to
  * DNS_ADB_INVALIDBUCKET.
  */
-static inline dns_adbname_t *
+static dns_adbname_t *
 find_name_and_lock(dns_adb_t *adb, const dns_name_t *name, unsigned int options,
 		   int *bucketp) {
 	dns_adbname_t *adbname;
@@ -2106,7 +2106,7 @@ find_name_and_lock(dns_adb_t *adb, const dns_name_t *name, unsigned int options,
  * if this function is called multiple times locking is only done if
  * the bucket changes.
  */
-static inline dns_adbentry_t *
+static dns_adbentry_t *
 find_entry_and_lock(dns_adb_t *adb, const isc_sockaddr_t *addr, int *bucketp,
 		    isc_stdtime_t now) {
 	dns_adbentry_t *entry, *entry_next;
@@ -3659,7 +3659,7 @@ print_namehook_list(FILE *f, const char *legend, dns_adb_t *adb,
 	}
 }
 
-static inline void
+static void
 print_fetch(FILE *f, dns_adbfetch_t *ft, const char *type) {
 	fprintf(f, "\t\tFetch(%s): %p -> { fetch %p }\n", type, ft, ft->fetch);
 }

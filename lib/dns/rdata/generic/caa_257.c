@@ -273,7 +273,7 @@ static unsigned char const alphanumeric[256] = {
 	0,
 };
 
-static inline isc_result_t
+static isc_result_t
 fromtext_caa(ARGS_FROMTEXT) {
 	isc_token_t token;
 	isc_textregion_t tr;
@@ -324,7 +324,7 @@ fromtext_caa(ARGS_FROMTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_caa(ARGS_TOTEXT) {
 	isc_region_t region;
 	uint8_t flags;
@@ -358,7 +358,7 @@ totext_caa(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_caa(ARGS_FROMWIRE) {
 	isc_region_t sr;
 	unsigned int len, i;
@@ -409,7 +409,7 @@ fromwire_caa(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_caa(ARGS_TOWIRE) {
 	isc_region_t region;
 
@@ -423,7 +423,7 @@ towire_caa(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, region.base, region.length));
 }
 
-static inline int
+static int
 compare_caa(ARGS_COMPARE) {
 	isc_region_t r1, r2;
 
@@ -440,7 +440,7 @@ compare_caa(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_caa(ARGS_FROMSTRUCT) {
 	dns_rdata_caa_t *caa = source;
 	isc_region_t region;
@@ -486,7 +486,7 @@ fromstruct_caa(ARGS_FROMSTRUCT) {
 	return (isc_buffer_copyregion(target, &region));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_caa(ARGS_TOSTRUCT) {
 	dns_rdata_caa_t *caa = target;
 	isc_region_t sr;
@@ -545,7 +545,7 @@ tostruct_caa(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_caa(ARGS_FREESTRUCT) {
 	dns_rdata_caa_t *caa = (dns_rdata_caa_t *)source;
 
@@ -565,7 +565,7 @@ freestruct_caa(ARGS_FREESTRUCT) {
 	caa->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_caa(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_caa);
 	REQUIRE(rdata->data != NULL);
@@ -579,7 +579,7 @@ additionaldata_caa(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_caa(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -592,7 +592,7 @@ digest_caa(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_caa(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_caa);
 
@@ -604,7 +604,7 @@ checkowner_caa(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_caa(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_caa);
 	REQUIRE(rdata->data != NULL);
@@ -617,7 +617,7 @@ checknames_caa(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_caa(ARGS_COMPARE) {
 	return (compare_caa(rdata1, rdata2));
 }

@@ -16,7 +16,7 @@
 
 #define RRTYPE_APL_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_in_apl(ARGS_FROMTEXT) {
 	isc_token_t token;
 	unsigned char addr[16];
@@ -112,7 +112,7 @@ fromtext_in_apl(ARGS_FROMTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_in_apl(ARGS_TOTEXT) {
 	isc_region_t sr;
 	isc_region_t ir;
@@ -177,7 +177,7 @@ totext_in_apl(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_in_apl(ARGS_FROMWIRE) {
 	isc_region_t sr, sr2;
 	isc_region_t tr;
@@ -234,7 +234,7 @@ fromwire_in_apl(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sr2.base, sr2.length));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_in_apl(ARGS_TOWIRE) {
 	UNUSED(cctx);
 
@@ -244,7 +244,7 @@ towire_in_apl(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, rdata->data, rdata->length));
 }
 
-static inline int
+static int
 compare_in_apl(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -259,7 +259,7 @@ compare_in_apl(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_in_apl(ARGS_FROMSTRUCT) {
 	dns_rdata_in_apl_t *apl = source;
 	isc_buffer_t b;
@@ -277,7 +277,7 @@ fromstruct_in_apl(ARGS_FROMSTRUCT) {
 	return (fromwire_in_apl(rdclass, type, &b, NULL, false, target));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_in_apl(ARGS_TOSTRUCT) {
 	dns_rdata_in_apl_t *apl = target;
 	isc_region_t r;
@@ -302,7 +302,7 @@ tostruct_in_apl(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_in_apl(ARGS_FREESTRUCT) {
 	dns_rdata_in_apl_t *apl = source;
 
@@ -423,7 +423,7 @@ dns_rdata_apl_count(const dns_rdata_in_apl_t *apl) {
 	return (apl->apl_len);
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_in_apl(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_apl);
 	REQUIRE(rdata->rdclass == dns_rdataclass_in);
@@ -436,7 +436,7 @@ additionaldata_in_apl(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_in_apl(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -448,7 +448,7 @@ digest_in_apl(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_in_apl(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_apl);
 	REQUIRE(rdclass == dns_rdataclass_in);
@@ -461,7 +461,7 @@ checkowner_in_apl(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_in_apl(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_apl);
 	REQUIRE(rdata->rdclass == dns_rdataclass_in);
@@ -473,7 +473,7 @@ checknames_in_apl(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_in_apl(ARGS_COMPARE) {
 	return (compare_in_apl(rdata1, rdata2));
 }

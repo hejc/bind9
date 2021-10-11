@@ -93,7 +93,7 @@ struct isc_timermgr {
 void
 isc_timermgr_poke(isc_timermgr_t *manager);
 
-static inline isc_result_t
+static isc_result_t
 schedule(isc_timer_t *timer, isc_time_t *now, bool signal_ok) {
 	isc_result_t result;
 	isc_timermgr_t *manager;
@@ -181,7 +181,7 @@ schedule(isc_timer_t *timer, isc_time_t *now, bool signal_ok) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 deschedule(isc_timer_t *timer) {
 	isc_timermgr_t *manager;
 

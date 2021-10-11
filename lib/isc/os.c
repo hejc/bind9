@@ -20,7 +20,7 @@ static unsigned int ncpus = 0;
 
 #include <unistd.h>
 
-static inline long
+static long
 sysconf_ncpus(void) {
 #if defined(_SC_NPROCESSORS_ONLN)
 	return (sysconf((_SC_NPROCESSORS_ONLN)));

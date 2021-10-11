@@ -27,7 +27,7 @@ ISC_LANG_BEGINDECLS
 				selected,                                      \
 				sizeof(selected) / sizeof(selected[0]))
 
-static inline bool
+static bool
 _cmocka_add_test_byname(const struct CMUnitTest *tests, size_t ntests,
 			const char *name, struct CMUnitTest *selected,
 			size_t nselected) {

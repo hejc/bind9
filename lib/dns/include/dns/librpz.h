@@ -863,7 +863,7 @@ extern librpz_t *  librpz;
  * @param[in] path: librpz.so path
  * @return address of interface structure or NULL on failure
  */
-static inline librpz_t *
+static librpz_t *
 librpz_lib_open(librpz_emsg_t *emsg, void **dl_handle, const char *path) {
 	void *	  handle;
 	librpz_t *new_librpz;
@@ -932,7 +932,7 @@ librpz_lib_open(librpz_emsg_t *emsg, void **dl_handle, const char *path) {
 /*
  * Statically link to the librpz.so DSO on systems without dlopen()
  */
-static inline librpz_t *
+static librpz_t *
 librpz_lib_open(librpz_emsg_t *emsg, void **dl_handle, const char *path) {
 	(void)(path);
 

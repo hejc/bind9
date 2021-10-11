@@ -18,7 +18,7 @@
 
 #define RRTYPE_AMTRELAY_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_amtrelay(ARGS_FROMTEXT) {
 	isc_token_t token;
 	dns_name_t name;
@@ -118,7 +118,7 @@ fromtext_amtrelay(ARGS_FROMTEXT) {
 	}
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_amtrelay(ARGS_TOTEXT) {
 	isc_region_t region;
 	dns_name_t name;
@@ -180,7 +180,7 @@ totext_amtrelay(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_amtrelay(ARGS_FROMWIRE) {
 	dns_name_t name;
 	isc_region_t region;
@@ -232,7 +232,7 @@ fromwire_amtrelay(ARGS_FROMWIRE) {
 	}
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_amtrelay(ARGS_TOWIRE) {
 	isc_region_t region;
 
@@ -245,7 +245,7 @@ towire_amtrelay(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, region.base, region.length));
 }
 
-static inline int
+static int
 compare_amtrelay(ARGS_COMPARE) {
 	isc_region_t region1;
 	isc_region_t region2;
@@ -262,7 +262,7 @@ compare_amtrelay(ARGS_COMPARE) {
 	return (isc_region_compare(&region1, &region2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_amtrelay(ARGS_FROMSTRUCT) {
 	dns_rdata_amtrelay_t *amtrelay = source;
 	isc_region_t region;
@@ -302,7 +302,7 @@ fromstruct_amtrelay(ARGS_FROMSTRUCT) {
 	}
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_amtrelay(ARGS_TOSTRUCT) {
 	isc_region_t region;
 	dns_rdata_amtrelay_t *amtrelay = target;
@@ -366,7 +366,7 @@ tostruct_amtrelay(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_amtrelay(ARGS_FREESTRUCT) {
 	dns_rdata_amtrelay_t *amtrelay = source;
 
@@ -388,7 +388,7 @@ freestruct_amtrelay(ARGS_FREESTRUCT) {
 	amtrelay->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_amtrelay(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_amtrelay);
 
@@ -400,7 +400,7 @@ additionaldata_amtrelay(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_amtrelay(ARGS_DIGEST) {
 	isc_region_t region;
 
@@ -410,7 +410,7 @@ digest_amtrelay(ARGS_DIGEST) {
 	return ((digest)(arg, &region));
 }
 
-static inline bool
+static bool
 checkowner_amtrelay(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_amtrelay);
 
@@ -422,7 +422,7 @@ checkowner_amtrelay(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_amtrelay(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_amtrelay);
 
@@ -433,7 +433,7 @@ checknames_amtrelay(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_amtrelay(ARGS_COMPARE) {
 	isc_region_t region1;
 	isc_region_t region2;

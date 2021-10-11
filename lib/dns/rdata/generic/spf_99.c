@@ -14,14 +14,14 @@
 
 #define RRTYPE_SPF_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_spf(ARGS_FROMTEXT) {
 	REQUIRE(type == dns_rdatatype_spf);
 
 	return (generic_fromtext_txt(CALL_FROMTEXT));
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_spf(ARGS_TOTEXT) {
 	REQUIRE(rdata != NULL);
 	REQUIRE(rdata->type == dns_rdatatype_spf);
@@ -29,14 +29,14 @@ totext_spf(ARGS_TOTEXT) {
 	return (generic_totext_txt(CALL_TOTEXT));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_spf(ARGS_FROMWIRE) {
 	REQUIRE(type == dns_rdatatype_spf);
 
 	return (generic_fromwire_txt(CALL_FROMWIRE));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_spf(ARGS_TOWIRE) {
 	REQUIRE(rdata->type == dns_rdatatype_spf);
 
@@ -45,7 +45,7 @@ towire_spf(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, rdata->data, rdata->length));
 }
 
-static inline int
+static int
 compare_spf(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -59,14 +59,14 @@ compare_spf(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_spf(ARGS_FROMSTRUCT) {
 	REQUIRE(type == dns_rdatatype_spf);
 
 	return (generic_fromstruct_txt(CALL_FROMSTRUCT));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_spf(ARGS_TOSTRUCT) {
 	dns_rdata_spf_t *spf = target;
 
@@ -81,7 +81,7 @@ tostruct_spf(ARGS_TOSTRUCT) {
 	return (generic_tostruct_txt(CALL_TOSTRUCT));
 }
 
-static inline void
+static void
 freestruct_spf(ARGS_FREESTRUCT) {
 	dns_rdata_spf_t *spf = source;
 
@@ -91,7 +91,7 @@ freestruct_spf(ARGS_FREESTRUCT) {
 	generic_freestruct_txt(source);
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_spf(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_spf);
 
@@ -103,7 +103,7 @@ additionaldata_spf(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_spf(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -114,7 +114,7 @@ digest_spf(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_spf(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_spf);
 
@@ -126,7 +126,7 @@ checkowner_spf(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_spf(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_spf);
 
@@ -137,7 +137,7 @@ checknames_spf(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_spf(ARGS_COMPARE) {
 	return (compare_spf(rdata1, rdata2));
 }

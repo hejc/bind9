@@ -23,14 +23,14 @@ const char *malloc_conf = NULL;
 
 #include <stdlib.h>
 
-static inline void *
+static void *
 mallocx(size_t size, int flags) {
 	UNUSED(flags);
 
 	return (malloc(size));
 }
 
-static inline void
+static void
 sdallocx(void *ptr, size_t size, int flags) {
 	UNUSED(size);
 	UNUSED(flags);
@@ -38,7 +38,7 @@ sdallocx(void *ptr, size_t size, int flags) {
 	free(ptr);
 }
 
-static inline void *
+static void *
 rallocx(void *ptr, size_t size, int flags) {
 	UNUSED(flags);
 	REQUIRE(size != 0);
@@ -50,7 +50,7 @@ rallocx(void *ptr, size_t size, int flags) {
 
 #include <malloc/malloc.h>
 
-static inline size_t
+static size_t
 sallocx(void *ptr, int flags) {
 	UNUSED(flags);
 
@@ -61,7 +61,7 @@ sallocx(void *ptr, int flags) {
 
 #include <malloc.h>
 
-static inline size_t
+static size_t
 sallocx(void *ptr, int flags) {
 	UNUSED(flags);
 
@@ -79,7 +79,7 @@ typedef union {
 	max_align_t __alignment;
 } size_info;
 
-static inline void *
+static void *
 mallocx(size_t size, int flags) {
 	void *ptr = NULL;
 
@@ -94,7 +94,7 @@ mallocx(size_t size, int flags) {
 	return (ptr);
 }
 
-static inline void
+static void
 sdallocx(void *ptr, size_t size, int flags) {
 	size_info *si = &(((size_info *)ptr)[-1]);
 
@@ -104,7 +104,7 @@ sdallocx(void *ptr, size_t size, int flags) {
 	free(si);
 }
 
-static inline size_t
+static size_t
 sallocx(void *ptr, int flags) {
 	size_info *si = &(((size_info *)ptr)[-1]);
 
@@ -113,7 +113,7 @@ sallocx(void *ptr, int flags) {
 	return (si[0].size);
 }
 
-static inline void *
+static void *
 rallocx(void *ptr, size_t size, int flags) {
 	size_info *si = &(((size_info *)ptr)[-1]);
 

@@ -35,7 +35,7 @@
 
 #define RRTYPE_NSEC3PARAM_ATTRIBUTES (DNS_RDATATYPEATTR_DNSSEC)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_nsec3param(ARGS_FROMTEXT) {
 	isc_token_t token;
 	unsigned int flags = 0;
@@ -88,7 +88,7 @@ fromtext_nsec3param(ARGS_FROMTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_nsec3param(ARGS_TOTEXT) {
 	isc_region_t sr;
 	unsigned int i, j;
@@ -138,7 +138,7 @@ totext_nsec3param(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_nsec3param(ARGS_FROMWIRE) {
 	isc_region_t sr, rr;
 	unsigned int saltlen;
@@ -169,7 +169,7 @@ fromwire_nsec3param(ARGS_FROMWIRE) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_nsec3param(ARGS_TOWIRE) {
 	isc_region_t sr;
 
@@ -182,7 +182,7 @@ towire_nsec3param(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline int
+static int
 compare_nsec3param(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -198,7 +198,7 @@ compare_nsec3param(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_nsec3param(ARGS_FROMSTRUCT) {
 	dns_rdata_nsec3param_t *nsec3param = source;
 
@@ -218,7 +218,7 @@ fromstruct_nsec3param(ARGS_FROMSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_nsec3param(ARGS_TOSTRUCT) {
 	isc_region_t region;
 	dns_rdata_nsec3param_t *nsec3param = target;
@@ -250,7 +250,7 @@ tostruct_nsec3param(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_nsec3param(ARGS_FREESTRUCT) {
 	dns_rdata_nsec3param_t *nsec3param = source;
 
@@ -267,7 +267,7 @@ freestruct_nsec3param(ARGS_FREESTRUCT) {
 	nsec3param->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_nsec3param(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_nsec3param);
 
@@ -279,7 +279,7 @@ additionaldata_nsec3param(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_nsec3param(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -289,7 +289,7 @@ digest_nsec3param(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_nsec3param(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_nsec3param);
 
@@ -301,7 +301,7 @@ checkowner_nsec3param(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_nsec3param(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_nsec3param);
 
@@ -312,7 +312,7 @@ checknames_nsec3param(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_nsec3param(ARGS_COMPARE) {
 	return (compare_nsec3param(rdata1, rdata2));
 }

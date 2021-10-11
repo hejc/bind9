@@ -73,7 +73,7 @@
 
 #define HASHSIZE(bits) (UINT64_C(1) << (bits))
 
-static inline uint32_t
+static uint32_t
 hash_32(uint32_t val, unsigned int bits) {
 	REQUIRE(bits <= RBT_HASH_MAX_BITS);
 	/* High bits are more random. */
@@ -174,7 +174,7 @@ struct dns_rbt {
  * path of the tree traversal code.
  */
 
-static inline void
+static void
 NODENAME(dns_rbtnode_t *node, dns_name_t *name) {
 	name->length = NAMELEN(node);
 	name->labels = OFFSETLEN(node);
@@ -185,7 +185,6 @@ NODENAME(dns_rbtnode_t *node, dns_name_t *name) {
 }
 
 #ifdef DEBUG
-#define inline
 /*
  * A little something to help out in GDB.
  */
@@ -208,7 +207,7 @@ Name(dns_rbtnode_t *node) {
  * Upper node is the parent of the root of the passed node's
  * subtree. The passed node must not be NULL.
  */
-static inline dns_rbtnode_t *
+static dns_rbtnode_t *
 get_upper_node(dns_rbtnode_t *node) {
 	return (UPPERNODE(node));
 }
@@ -237,10 +236,10 @@ create_node(isc_mem_t *mctx, const dns_name_t *name, dns_rbtnode_t **nodep);
 static isc_result_t
 inithash(dns_rbt_t *rbt);
 
-static inline void
+static void
 hash_node(dns_rbt_t *rbt, dns_rbtnode_t *node, const dns_name_t *name);
 
-static inline void
+static void
 unhash_node(dns_rbt_t *rbt, dns_rbtnode_t *node);
 
 static uint32_t
@@ -250,9 +249,9 @@ rehash(dns_rbt_t *rbt, uint32_t newbits);
 static void
 maybe_rehash(dns_rbt_t *rbt, size_t size);
 
-static inline void
+static void
 rotate_left(dns_rbtnode_t *node, dns_rbtnode_t **rootp);
-static inline void
+static void
 rotate_right(dns_rbtnode_t *node, dns_rbtnode_t **rootp);
 
 static void
@@ -417,7 +416,7 @@ dns_rbt_adjusthashsize(dns_rbt_t *rbt, size_t size) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 chain_name(dns_rbtnodechain_t *chain, dns_name_t *name,
 	   bool include_chain_end) {
 	dns_name_t nodename;
@@ -444,7 +443,7 @@ chain_name(dns_rbtnodechain_t *chain, dns_name_t *name,
 	return (result);
 }
 
-static inline isc_result_t
+static isc_result_t
 move_chain_to_last(dns_rbtnodechain_t *chain, dns_rbtnode_t *node) {
 	do {
 		/*
@@ -1626,7 +1625,7 @@ create_node(isc_mem_t *mctx, const dns_name_t *name, dns_rbtnode_t **nodep) {
 /*
  * Add a node to the hash table
  */
-static inline void
+static void
 hash_add_node(dns_rbt_t *rbt, dns_rbtnode_t *node, const dns_name_t *name) {
 	uint32_t hash;
 
@@ -1715,7 +1714,7 @@ maybe_rehash(dns_rbt_t *rbt, size_t newcount) {
  * Add a node to the hash table. Rehash the hashtable if the node count
  * rises above a critical level.
  */
-static inline void
+static void
 hash_node(dns_rbt_t *rbt, dns_rbtnode_t *node, const dns_name_t *name) {
 	REQUIRE(DNS_RBTNODE_VALID(node));
 
@@ -1729,7 +1728,7 @@ hash_node(dns_rbt_t *rbt, dns_rbtnode_t *node, const dns_name_t *name) {
 /*
  * Remove a node from the hash table
  */
-static inline void
+static void
 unhash_node(dns_rbt_t *rbt, dns_rbtnode_t *node) {
 	uint32_t bucket;
 	dns_rbtnode_t *bucket_node;
@@ -1750,7 +1749,7 @@ unhash_node(dns_rbt_t *rbt, dns_rbtnode_t *node) {
 	}
 }
 
-static inline void
+static void
 rotate_left(dns_rbtnode_t *node, dns_rbtnode_t **rootp) {
 	dns_rbtnode_t *child;
 
@@ -1783,7 +1782,7 @@ rotate_left(dns_rbtnode_t *node, dns_rbtnode_t **rootp) {
 	PARENT(node) = child;
 }
 
-static inline void
+static void
 rotate_right(dns_rbtnode_t *node, dns_rbtnode_t **rootp) {
 	dns_rbtnode_t *child;
 

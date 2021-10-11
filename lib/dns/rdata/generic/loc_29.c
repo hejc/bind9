@@ -255,7 +255,7 @@ done:
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getlatitude(isc_lex_t *lexer, unsigned long *latitude) {
 	unsigned long d1 = 0, m1 = 0, s1 = 0;
 	int direction = 0;
@@ -276,7 +276,7 @@ loc_getlatitude(isc_lex_t *lexer, unsigned long *latitude) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getlongitude(isc_lex_t *lexer, unsigned long *longitude) {
 	unsigned long d2 = 0, m2 = 0, s2 = 0;
 	int direction = 0;
@@ -297,7 +297,7 @@ loc_getlongitude(isc_lex_t *lexer, unsigned long *longitude) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getaltitude(isc_lex_t *lexer, unsigned long *altitude) {
 	isc_token_t token;
 	unsigned long cm;
@@ -323,7 +323,7 @@ loc_getaltitude(isc_lex_t *lexer, unsigned long *altitude) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getoptionalprecision(isc_lex_t *lexer, unsigned char *valuep) {
 	isc_token_t token;
 
@@ -339,17 +339,17 @@ loc_getoptionalprecision(isc_lex_t *lexer, unsigned char *valuep) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getsize(isc_lex_t *lexer, unsigned char *sizep) {
 	return (loc_getoptionalprecision(lexer, sizep));
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_gethorizontalprecision(isc_lex_t *lexer, unsigned char *hpp) {
 	return (loc_getoptionalprecision(lexer, hpp));
 }
 
-static inline isc_result_t
+static isc_result_t
 loc_getverticalprecision(isc_lex_t *lexer, unsigned char *vpp) {
 	return (loc_getoptionalprecision(lexer, vpp));
 }
@@ -378,7 +378,7 @@ loc_getverticalprecision(isc_lex_t *lexer, unsigned char *vpp) {
  * ZIP/postal code area sizes, since it is often easy to find
  * approximate geographical location by ZIP/postal code.
  */
-static inline isc_result_t
+static isc_result_t
 fromtext_loc(ARGS_FROMTEXT) {
 	isc_result_t result = ISC_R_SUCCESS;
 	unsigned long latitude = 0;
@@ -431,7 +431,7 @@ encode:
 	return (result);
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_loc(ARGS_TOTEXT) {
 	int d1, m1, s1, fs1;
 	int d2, m2, s2, fs2;
@@ -550,7 +550,7 @@ totext_loc(ARGS_TOTEXT) {
 	return (str_totext(buf, target));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_loc(ARGS_FROMWIRE) {
 	isc_region_t sr;
 	unsigned char c;
@@ -650,7 +650,7 @@ fromwire_loc(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sr.base, 16));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_loc(ARGS_TOWIRE) {
 	UNUSED(cctx);
 
@@ -660,7 +660,7 @@ towire_loc(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, rdata->data, rdata->length));
 }
 
-static inline int
+static int
 compare_loc(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -676,7 +676,7 @@ compare_loc(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_loc(ARGS_FROMSTRUCT) {
 	dns_rdata_loc_t *loc = source;
 	uint8_t c;
@@ -728,7 +728,7 @@ fromstruct_loc(ARGS_FROMSTRUCT) {
 	return (uint32_tobuffer(loc->v.v0.altitude, target));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_loc(ARGS_TOSTRUCT) {
 	dns_rdata_loc_t *loc = target;
 	isc_region_t r;
@@ -767,7 +767,7 @@ tostruct_loc(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_loc(ARGS_FREESTRUCT) {
 	dns_rdata_loc_t *loc = source;
 
@@ -778,7 +778,7 @@ freestruct_loc(ARGS_FREESTRUCT) {
 	UNUSED(loc);
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_loc(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_loc);
 
@@ -790,7 +790,7 @@ additionaldata_loc(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_loc(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -801,7 +801,7 @@ digest_loc(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_loc(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_loc);
 
@@ -813,7 +813,7 @@ checkowner_loc(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_loc(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_loc);
 
@@ -824,7 +824,7 @@ checknames_loc(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_loc(ARGS_COMPARE) {
 	return (compare_loc(rdata1, rdata2));
 }

@@ -38,7 +38,7 @@
 
 #define RL_MAXCMD (128 * 1024)
 
-static inline char *
+static char *
 readline(const char *prompt) {
 	char *line, *buf = malloc(RL_MAXCMD);
 	fprintf(stdout, "%s", prompt);

@@ -16,7 +16,7 @@
 
 #define RRTYPE_SIG_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_sig(ARGS_FROMTEXT) {
 	isc_token_t token;
 	unsigned char c;
@@ -119,7 +119,7 @@ fromtext_sig(ARGS_FROMTEXT) {
 	return (isc_base64_tobuffer(lexer, target, -2));
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_sig(ARGS_TOTEXT) {
 	isc_region_t sr;
 	char buf[sizeof("4294967295")];
@@ -235,7 +235,7 @@ totext_sig(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_sig(ARGS_FROMWIRE) {
 	isc_region_t sr;
 	dns_name_t name;
@@ -281,7 +281,7 @@ fromwire_sig(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_sig(ARGS_TOWIRE) {
 	isc_region_t sr;
 	dns_name_t name;
@@ -318,7 +318,7 @@ towire_sig(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline int
+static int
 compare_sig(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -363,7 +363,7 @@ compare_sig(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_sig(ARGS_FROMSTRUCT) {
 	dns_rdata_sig_t *sig = source;
 
@@ -422,7 +422,7 @@ fromstruct_sig(ARGS_FROMSTRUCT) {
 	return (mem_tobuffer(target, sig->signature, sig->siglen));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_sig(ARGS_TOSTRUCT) {
 	isc_region_t sr;
 	dns_rdata_sig_t *sig = target;
@@ -505,7 +505,7 @@ cleanup:
 	return (ISC_R_NOMEMORY);
 }
 
-static inline void
+static void
 freestruct_sig(ARGS_FREESTRUCT) {
 	dns_rdata_sig_t *sig = (dns_rdata_sig_t *)source;
 
@@ -523,7 +523,7 @@ freestruct_sig(ARGS_FREESTRUCT) {
 	sig->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_sig(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_sig);
 
@@ -535,7 +535,7 @@ additionaldata_sig(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_sig(ARGS_DIGEST) {
 	REQUIRE(rdata->type == dns_rdatatype_sig);
 
@@ -546,7 +546,7 @@ digest_sig(ARGS_DIGEST) {
 	return (ISC_R_NOTIMPLEMENTED);
 }
 
-static inline dns_rdatatype_t
+static dns_rdatatype_t
 covers_sig(dns_rdata_t *rdata) {
 	dns_rdatatype_t type;
 	isc_region_t r;
@@ -559,7 +559,7 @@ covers_sig(dns_rdata_t *rdata) {
 	return (type);
 }
 
-static inline bool
+static bool
 checkowner_sig(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_sig);
 
@@ -571,7 +571,7 @@ checkowner_sig(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_sig(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_sig);
 
@@ -582,7 +582,7 @@ checknames_sig(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_sig(ARGS_COMPARE) {
 	return (compare_sig(rdata1, rdata2));
 }

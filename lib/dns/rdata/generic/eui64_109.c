@@ -16,7 +16,7 @@
 
 #define RRTYPE_EUI64_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_eui64(ARGS_FROMTEXT) {
 	isc_token_t token;
 	unsigned char eui64[8];
@@ -52,7 +52,7 @@ fromtext_eui64(ARGS_FROMTEXT) {
 	return (mem_tobuffer(target, eui64, sizeof(eui64)));
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_eui64(ARGS_TOTEXT) {
 	char buf[sizeof("xx-xx-xx-xx-xx-xx-xx-xx")];
 
@@ -68,7 +68,7 @@ totext_eui64(ARGS_TOTEXT) {
 	return (str_totext(buf, target));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_eui64(ARGS_FROMWIRE) {
 	isc_region_t sregion;
 
@@ -87,7 +87,7 @@ fromwire_eui64(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sregion.base, sregion.length));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_eui64(ARGS_TOWIRE) {
 	REQUIRE(rdata->type == dns_rdatatype_eui64);
 	REQUIRE(rdata->length == 8);
@@ -97,7 +97,7 @@ towire_eui64(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, rdata->data, rdata->length));
 }
 
-static inline int
+static int
 compare_eui64(ARGS_COMPARE) {
 	isc_region_t region1;
 	isc_region_t region2;
@@ -113,7 +113,7 @@ compare_eui64(ARGS_COMPARE) {
 	return (isc_region_compare(&region1, &region2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_eui64(ARGS_FROMSTRUCT) {
 	dns_rdata_eui64_t *eui64 = source;
 
@@ -128,7 +128,7 @@ fromstruct_eui64(ARGS_FROMSTRUCT) {
 	return (mem_tobuffer(target, eui64->eui64, sizeof(eui64->eui64)));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_eui64(ARGS_TOSTRUCT) {
 	dns_rdata_eui64_t *eui64 = target;
 
@@ -146,7 +146,7 @@ tostruct_eui64(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_eui64(ARGS_FREESTRUCT) {
 	dns_rdata_eui64_t *eui64 = source;
 
@@ -156,7 +156,7 @@ freestruct_eui64(ARGS_FREESTRUCT) {
 	return;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_eui64(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_eui64);
 	REQUIRE(rdata->length == 8);
@@ -169,7 +169,7 @@ additionaldata_eui64(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_eui64(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -181,7 +181,7 @@ digest_eui64(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_eui64(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_eui64);
 
@@ -193,7 +193,7 @@ checkowner_eui64(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_eui64(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_eui64);
 	REQUIRE(rdata->length == 8);
@@ -205,7 +205,7 @@ checknames_eui64(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_eui64(ARGS_COMPARE) {
 	return (compare_eui64(rdata1, rdata2));
 }

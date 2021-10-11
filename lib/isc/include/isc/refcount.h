@@ -66,7 +66,7 @@ typedef atomic_uint_fast32_t isc_refcount_t;
  *  \returns previous value of reference counter.
  */
 #if _MSC_VER
-static inline uint_fast32_t
+static uint_fast32_t
 isc_refcount_increment0(isc_refcount_t *target) {
 	uint_fast32_t __v;
 	__v = (uint_fast32_t)atomic_fetch_add_relaxed(target, 1);
@@ -90,7 +90,7 @@ isc_refcount_increment0(isc_refcount_t *target) {
  *  \returns previous value of reference counter.
  */
 #if _MSC_VER
-static inline uint_fast32_t
+static uint_fast32_t
 isc_refcount_increment(isc_refcount_t *target) {
 	uint_fast32_t __v;
 	__v = (uint_fast32_t)atomic_fetch_add_relaxed(target, 1);
@@ -114,7 +114,7 @@ isc_refcount_increment(isc_refcount_t *target) {
  *  \returns previous value of reference counter.
  */
 #if _MSC_VER
-static inline uint_fast32_t
+static uint_fast32_t
 isc_refcount_decrement(isc_refcount_t *target) {
 	uint_fast32_t __v;
 	__v = (uint_fast32_t)atomic_fetch_sub_acq_rel(target, 1);

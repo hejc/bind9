@@ -205,7 +205,7 @@ static void
 print_active(isc_mem_t *ctx, FILE *out);
 #endif /* ISC_MEM_TRACKLINES */
 
-static inline size_t
+static size_t
 increment_malloced(isc_mem_t *ctx, size_t size) {
 	size_t malloced = atomic_fetch_add_relaxed(&ctx->malloced, size) + size;
 	size_t maxmalloced = atomic_load_relaxed(&ctx->maxmalloced);
@@ -218,7 +218,7 @@ increment_malloced(isc_mem_t *ctx, size_t size) {
 	return (malloced);
 }
 
-static inline size_t
+static size_t
 decrement_malloced(isc_mem_t *ctx, size_t size) {
 	size_t malloced = atomic_fetch_sub_relaxed(&ctx->malloced, size) - size;
 
@@ -331,7 +331,7 @@ unlock:
 /*!
  * Perform a malloc, doing memory filling and overrun detection as necessary.
  */
-static inline void *
+static void *
 mem_get(isc_mem_t *ctx, size_t size) {
 	char *ret = NULL;
 
@@ -351,7 +351,7 @@ mem_get(isc_mem_t *ctx, size_t size) {
  * Perform a free, doing memory filling and overrun detection as necessary.
  */
 /* coverity[+free : arg-1] */
-static inline void
+static void
 mem_put(isc_mem_t *ctx, void *mem, size_t size) {
 	ADJUST_ZERO_ALLOCATION_SIZE(size);
 
@@ -361,7 +361,7 @@ mem_put(isc_mem_t *ctx, void *mem, size_t size) {
 	sdallocx(mem, size, 0);
 }
 
-static inline void *
+static void *
 mem_realloc(isc_mem_t *ctx, void *old_ptr, size_t old_size, size_t new_size) {
 	void *new_ptr = NULL;
 
@@ -390,7 +390,7 @@ mem_realloc(isc_mem_t *ctx, void *old_ptr, size_t old_size, size_t new_size) {
 /*!
  * Update internal counters after a memory get.
  */
-static inline void
+static void
 mem_getstats(isc_mem_t *ctx, size_t size) {
 	struct stats *stats = stats_bucket(ctx, size);
 
@@ -406,7 +406,7 @@ mem_getstats(isc_mem_t *ctx, size_t size) {
 /*!
  * Update internal counters after a memory put.
  */
-static inline void
+static void
 mem_putstats(isc_mem_t *ctx, void *ptr, size_t size) {
 	struct stats *stats = stats_bucket(ctx, size);
 
@@ -684,7 +684,7 @@ isc__mem_destroy(isc_mem_t **ctxp FLARG) {
 		}                                                      \
 	}
 
-static inline bool
+static bool
 hi_water(isc_mem_t *ctx) {
 	size_t inuse;
 	size_t maxinuse;
@@ -720,7 +720,7 @@ hi_water(isc_mem_t *ctx) {
 	return (true);
 }
 
-static inline bool
+static bool
 lo_water(isc_mem_t *ctx) {
 	size_t inuse;
 	size_t lowater = atomic_load_relaxed(&ctx->lo_water);

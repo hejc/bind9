@@ -35,7 +35,7 @@
 
 #define RRTYPE_NSEC3_ATTRIBUTES DNS_RDATATYPEATTR_DNSSEC
 
-static inline isc_result_t
+static isc_result_t
 fromtext_nsec3(ARGS_FROMTEXT) {
 	isc_token_t token;
 	unsigned int flags;
@@ -103,7 +103,7 @@ fromtext_nsec3(ARGS_FROMTEXT) {
 	return (typemap_fromtext(lexer, target, true));
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_nsec3(ARGS_TOTEXT) {
 	isc_region_t sr;
 	unsigned int i, j;
@@ -179,7 +179,7 @@ totext_nsec3(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_nsec3(ARGS_FROMWIRE) {
 	isc_region_t sr, rr;
 	unsigned int saltlen, hashlen;
@@ -224,7 +224,7 @@ fromwire_nsec3(ARGS_FROMWIRE) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_nsec3(ARGS_TOWIRE) {
 	isc_region_t sr;
 
@@ -237,7 +237,7 @@ towire_nsec3(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline int
+static int
 compare_nsec3(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -253,7 +253,7 @@ compare_nsec3(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_nsec3(ARGS_FROMSTRUCT) {
 	dns_rdata_nsec3_t *nsec3 = source;
 	isc_region_t region;
@@ -282,7 +282,7 @@ fromstruct_nsec3(ARGS_FROMSTRUCT) {
 	return (mem_tobuffer(target, nsec3->typebits, nsec3->len));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_nsec3(ARGS_TOSTRUCT) {
 	isc_region_t region;
 	dns_rdata_nsec3_t *nsec3 = target;
@@ -334,7 +334,7 @@ cleanup:
 	return (ISC_R_NOMEMORY);
 }
 
-static inline void
+static void
 freestruct_nsec3(ARGS_FREESTRUCT) {
 	dns_rdata_nsec3_t *nsec3 = source;
 
@@ -357,7 +357,7 @@ freestruct_nsec3(ARGS_FREESTRUCT) {
 	nsec3->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_nsec3(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_nsec3);
 
@@ -369,7 +369,7 @@ additionaldata_nsec3(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_nsec3(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -379,7 +379,7 @@ digest_nsec3(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_nsec3(ARGS_CHECKOWNER) {
 	unsigned char owner[NSEC3_MAX_HASH_LENGTH];
 	isc_buffer_t buffer;
@@ -404,7 +404,7 @@ checkowner_nsec3(ARGS_CHECKOWNER) {
 	return (false);
 }
 
-static inline bool
+static bool
 checknames_nsec3(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_nsec3);
 
@@ -415,7 +415,7 @@ checknames_nsec3(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_nsec3(ARGS_COMPARE) {
 	return (compare_nsec3(rdata1, rdata2));
 }

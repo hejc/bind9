@@ -167,19 +167,19 @@ struct dns_msgblock {
 	ISC_LINK(dns_msgblock_t) link;
 }; /* dynamically sized */
 
-static inline dns_msgblock_t *
+static dns_msgblock_t *
 msgblock_allocate(isc_mem_t *, unsigned int, unsigned int);
 
 #define msgblock_get(block, type) \
 	((type *)msgblock_internalget(block, sizeof(type)))
 
-static inline void *
+static void *
 msgblock_internalget(dns_msgblock_t *, unsigned int);
 
-static inline void
+static void
 msgblock_reset(dns_msgblock_t *);
 
-static inline void
+static void
 msgblock_free(isc_mem_t *, dns_msgblock_t *, unsigned int);
 
 static void
@@ -192,7 +192,7 @@ logfmtpacket(dns_message_t *message, const char *description,
  * Allocate a new dns_msgblock_t, and return a pointer to it.  If no memory
  * is free, return NULL.
  */
-static inline dns_msgblock_t *
+static dns_msgblock_t *
 msgblock_allocate(isc_mem_t *mctx, unsigned int sizeof_type,
 		  unsigned int count) {
 	dns_msgblock_t *block;
@@ -214,7 +214,7 @@ msgblock_allocate(isc_mem_t *mctx, unsigned int sizeof_type,
  * Return an element from the msgblock.  If no more are available, return
  * NULL.
  */
-static inline void *
+static void *
 msgblock_internalget(dns_msgblock_t *block, unsigned int sizeof_type) {
 	void *ptr;
 
@@ -230,7 +230,7 @@ msgblock_internalget(dns_msgblock_t *block, unsigned int sizeof_type) {
 	return (ptr);
 }
 
-static inline void
+static void
 msgblock_reset(dns_msgblock_t *block) {
 	block->remaining = block->count;
 }
@@ -238,7 +238,7 @@ msgblock_reset(dns_msgblock_t *block) {
 /*
  * Release memory associated with a message block.
  */
-static inline void
+static void
 msgblock_free(isc_mem_t *mctx, dns_msgblock_t *block,
 	      unsigned int sizeof_type) {
 	unsigned int length;
@@ -253,7 +253,7 @@ msgblock_free(isc_mem_t *mctx, dns_msgblock_t *block,
  * "current" buffer.  (which is always the last on the list, for our
  * uses)
  */
-static inline isc_result_t
+static isc_result_t
 newbuffer(dns_message_t *msg, unsigned int size) {
 	isc_buffer_t *dynbuf;
 
@@ -264,7 +264,7 @@ newbuffer(dns_message_t *msg, unsigned int size) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_buffer_t *
+static isc_buffer_t *
 currentbuffer(dns_message_t *msg) {
 	isc_buffer_t *dynbuf;
 
@@ -274,12 +274,12 @@ currentbuffer(dns_message_t *msg) {
 	return (dynbuf);
 }
 
-static inline void
+static void
 releaserdata(dns_message_t *msg, dns_rdata_t *rdata) {
 	ISC_LIST_PREPEND(msg->freerdata, rdata, link);
 }
 
-static inline dns_rdata_t *
+static dns_rdata_t *
 newrdata(dns_message_t *msg) {
 	dns_msgblock_t *msgblock;
 	dns_rdata_t *rdata;
@@ -304,12 +304,12 @@ newrdata(dns_message_t *msg) {
 	return (rdata);
 }
 
-static inline void
+static void
 releaserdatalist(dns_message_t *msg, dns_rdatalist_t *rdatalist) {
 	ISC_LIST_PREPEND(msg->freerdatalist, rdatalist, link);
 }
 
-static inline dns_rdatalist_t *
+static dns_rdatalist_t *
 newrdatalist(dns_message_t *msg) {
 	dns_msgblock_t *msgblock;
 	dns_rdatalist_t *rdatalist;
@@ -334,7 +334,7 @@ out:
 	return (rdatalist);
 }
 
-static inline dns_offsets_t *
+static dns_offsets_t *
 newoffsets(dns_message_t *msg) {
 	dns_msgblock_t *msgblock;
 	dns_offsets_t *offsets;
@@ -352,7 +352,7 @@ newoffsets(dns_message_t *msg) {
 	return (offsets);
 }
 
-static inline void
+static void
 msginitheader(dns_message_t *m) {
 	m->id = 0;
 	m->flags = 0;
@@ -361,7 +361,7 @@ msginitheader(dns_message_t *m) {
 	m->rdclass = 0;
 }
 
-static inline void
+static void
 msginitprivate(dns_message_t *m) {
 	unsigned int i;
 
@@ -383,7 +383,7 @@ msginitprivate(dns_message_t *m) {
 	m->buffer = NULL;
 }
 
-static inline void
+static void
 msginittsig(dns_message_t *m) {
 	m->tsigstatus = dns_rcode_noerror;
 	m->querytsigstatus = dns_rcode_noerror;
@@ -399,7 +399,7 @@ msginittsig(dns_message_t *m) {
  * Init elements to default state.  Used both when allocating a new element
  * and when resetting one.
  */
-static inline void
+static void
 msginit(dns_message_t *m) {
 	msginitheader(m);
 	msginitprivate(m);
@@ -428,7 +428,7 @@ msginit(dns_message_t *m) {
 	m->indent.count = 0;
 }
 
-static inline void
+static void
 msgresetnames(dns_message_t *msg, unsigned int first_section) {
 	unsigned int i;
 	dns_name_t *name, *next_name;
@@ -1845,7 +1845,7 @@ dns_message_renderreserve(dns_message_t *msg, unsigned int space) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline bool
+static bool
 wrong_priority(dns_rdataset_t *rds, int pass, dns_rdatatype_t preferred_glue) {
 	int pass_needed;
 

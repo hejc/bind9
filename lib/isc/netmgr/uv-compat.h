@@ -22,22 +22,22 @@
 #define UV_VERSION(major, minor, patch) ((major << 16) | (minor << 8) | (patch))
 
 #if UV_VERSION_HEX < UV_VERSION(1, 19, 0)
-static inline void *
+static void *
 uv_handle_get_data(const uv_handle_t *handle) {
 	return (handle->data);
 }
 
-static inline void
+static void
 uv_handle_set_data(uv_handle_t *handle, void *data) {
 	handle->data = data;
 }
 
-static inline void *
+static void *
 uv_req_get_data(const uv_req_t *req) {
 	return (req->data);
 }
 
-static inline void
+static void
 uv_req_set_data(uv_req_t *req, void *data) {
 	req->data = data;
 }
@@ -65,7 +65,7 @@ isc_uv_udp_connect(uv_udp_t *handle, const struct sockaddr *addr);
 #include <stdlib.h>
 #include <string.h>
 
-static inline int
+static int
 uv_os_getenv(const char *name, char *buffer, size_t *size) {
 	size_t len;
 	char *buf = getenv(name);

@@ -19,7 +19,7 @@
 
 #define RRTYPE_KEYDATA_ATTRIBUTES (0)
 
-static inline isc_result_t
+static isc_result_t
 fromtext_keydata(ARGS_FROMTEXT) {
 	isc_token_t token;
 	dns_secalg_t alg;
@@ -84,7 +84,7 @@ fromtext_keydata(ARGS_FROMTEXT) {
 	return (isc_base64_tobuffer(lexer, target, -2));
 }
 
-static inline isc_result_t
+static isc_result_t
 totext_keydata(ARGS_TOTEXT) {
 	isc_region_t sr;
 	char buf[sizeof("64000")];
@@ -247,7 +247,7 @@ totext_keydata(ARGS_TOTEXT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 fromwire_keydata(ARGS_FROMWIRE) {
 	isc_region_t sr;
 
@@ -263,7 +263,7 @@ fromwire_keydata(ARGS_FROMWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline isc_result_t
+static isc_result_t
 towire_keydata(ARGS_TOWIRE) {
 	isc_region_t sr;
 
@@ -275,7 +275,7 @@ towire_keydata(ARGS_TOWIRE) {
 	return (mem_tobuffer(target, sr.base, sr.length));
 }
 
-static inline int
+static int
 compare_keydata(ARGS_COMPARE) {
 	isc_region_t r1;
 	isc_region_t r2;
@@ -289,7 +289,7 @@ compare_keydata(ARGS_COMPARE) {
 	return (isc_region_compare(&r1, &r2));
 }
 
-static inline isc_result_t
+static isc_result_t
 fromstruct_keydata(ARGS_FROMSTRUCT) {
 	dns_rdata_keydata_t *keydata = source;
 
@@ -323,7 +323,7 @@ fromstruct_keydata(ARGS_FROMSTRUCT) {
 	return (mem_tobuffer(target, keydata->data, keydata->datalen));
 }
 
-static inline isc_result_t
+static isc_result_t
 tostruct_keydata(ARGS_TOSTRUCT) {
 	dns_rdata_keydata_t *keydata = target;
 	isc_region_t sr;
@@ -390,7 +390,7 @@ tostruct_keydata(ARGS_TOSTRUCT) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline void
+static void
 freestruct_keydata(ARGS_FREESTRUCT) {
 	dns_rdata_keydata_t *keydata = (dns_rdata_keydata_t *)source;
 
@@ -407,7 +407,7 @@ freestruct_keydata(ARGS_FREESTRUCT) {
 	keydata->mctx = NULL;
 }
 
-static inline isc_result_t
+static isc_result_t
 additionaldata_keydata(ARGS_ADDLDATA) {
 	REQUIRE(rdata->type == dns_rdatatype_keydata);
 
@@ -419,7 +419,7 @@ additionaldata_keydata(ARGS_ADDLDATA) {
 	return (ISC_R_SUCCESS);
 }
 
-static inline isc_result_t
+static isc_result_t
 digest_keydata(ARGS_DIGEST) {
 	isc_region_t r;
 
@@ -430,7 +430,7 @@ digest_keydata(ARGS_DIGEST) {
 	return ((digest)(arg, &r));
 }
 
-static inline bool
+static bool
 checkowner_keydata(ARGS_CHECKOWNER) {
 	REQUIRE(type == dns_rdatatype_keydata);
 
@@ -442,7 +442,7 @@ checkowner_keydata(ARGS_CHECKOWNER) {
 	return (true);
 }
 
-static inline bool
+static bool
 checknames_keydata(ARGS_CHECKNAMES) {
 	REQUIRE(rdata->type == dns_rdatatype_keydata);
 
@@ -453,7 +453,7 @@ checknames_keydata(ARGS_CHECKNAMES) {
 	return (true);
 }
 
-static inline int
+static int
 casecompare_keydata(ARGS_COMPARE) {
 	return (compare_keydata(rdata1, rdata2));
 }
