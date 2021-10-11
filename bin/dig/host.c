@@ -99,7 +99,7 @@ rcode_totext(dns_rcode_t rcode) {
 	return (totext.deconsttext);
 }
 
-ISC_NORETURN static void
+noreturn static void
 show_usage(void);
 
 static void

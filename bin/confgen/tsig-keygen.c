@@ -52,7 +52,7 @@ const char *progname;
 static enum { progmode_keygen, progmode_confgen } progmode;
 bool verbose = false; /* needed by util.c but not used here */
 
-ISC_NORETURN static void
+noreturn static void
 usage(int status);
 
 static void

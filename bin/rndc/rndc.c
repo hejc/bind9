@@ -95,7 +95,7 @@ static isc_nmhandle_t *recvnonce_handle = NULL;
 static void
 rndc_startconnect(isc_sockaddr_t *addr);
 
-ISC_NORETURN static void
+noreturn static void
 usage(int status);
 
 static void

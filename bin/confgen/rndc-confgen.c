@@ -59,7 +59,7 @@ bool verbose = false;
 
 const char *keyfile, *keydef;
 
-ISC_NORETURN static void
+noreturn static void
 usage(int status);
 
 static void

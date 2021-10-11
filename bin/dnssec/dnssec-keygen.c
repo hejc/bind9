@@ -65,7 +65,7 @@ const char *program = "dnssec-keygen";
 
 isc_log_t *lctx = NULL;
 
-ISC_NORETURN static void
+noreturn static void
 usage(void);
 
 static void

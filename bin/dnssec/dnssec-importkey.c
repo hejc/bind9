@@ -261,7 +261,7 @@ emit(const char *dir, dns_rdata_t *rdata) {
 	dst_key_free(&key);
 }
 
-ISC_NORETURN static void
+noreturn static void
 usage(void);
 
 static void

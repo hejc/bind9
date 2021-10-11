@@ -35,7 +35,7 @@ ISC_LANG_BEGINDECLS
 void
 notify(const char *fmt, ...) ISC_FORMAT_PRINTF(1, 2);
 
-ISC_NORETURN void
+noreturn void
 fatal(const char *format, ...) ISC_FORMAT_PRINTF(1, 2);
 
 ISC_LANG_ENDDECLS
