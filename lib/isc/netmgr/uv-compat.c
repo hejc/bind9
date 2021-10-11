@@ -9,12 +9,41 @@
  * information regarding copyright ownership.
  */
 
-#include "uv-compat.h"
 #include <unistd.h>
 
 #include <isc/util.h>
 
 #include "netmgr-int.h"
+#include "uv-compat.h"
+
+#if UV_VERSION_HEX < UV_VERSION(1, 19, 0)
+void *
+uv_handle_get_data(const uv_handle_t *handle) {
+	return (handle->data);
+}
+
+void
+uv_handle_set_data(uv_handle_t *handle, void *data) {
+	handle->data = data;
+}
+
+void *
+uv_req_get_data(const uv_req_t *req) {
+	return (req->data);
+}
+
+void
+uv_req_set_data(uv_req_t *req, void *data) {
+	req->data = data;
+}
+#endif /* UV_VERSION_HEX < UV_VERSION(1, 19, 0) */
+
+#if UV_VERSION_HEX < UV_VERSION(1, 34, 0)
+void
+uv_sleep(unsigned int msec) {
+	usleep(msec * 1000);
+}
+#endif /* UV_VERSION_HEX < UV_VERSION(1, 34, 0) */
 
 #if UV_VERSION_HEX < UV_VERSION(1, 27, 0)
 int
@@ -39,6 +68,37 @@ isc_uv_udp_connect(uv_udp_t *handle, const struct sockaddr *addr) {
 	return (0);
 }
 #endif /* UV_VERSION_HEX < UV_VERSION(1, 27, 0) */
+
+#if UV_VERSION_HEX < UV_VERSION(1, 12, 0)
+#include <stdlib.h>
+#include <string.h>
+
+int
+uv_os_getenv(const char *name, char *buffer, size_t *size) {
+	size_t len;
+	char *buf = getenv(name);
+
+	if (buf == NULL) {
+		return (UV_ENOENT);
+	}
+
+	len = strlen(buf) + 1;
+	if (len > *size) {
+		*size = len;
+		return (UV_ENOBUFS);
+	}
+
+	*size = len;
+	memmove(buffer, buf, len);
+
+	return (0);
+}
+
+int
+uv_os_setenv(const char *name, const char *value) {
+	return (setenv(name, value, 0));
+}
+#endif /* UV_VERSION_HEX < UV_VERSION(1, 12, 0) */
 
 int
 isc_uv_udp_freebind(uv_udp_t *handle, const struct sockaddr *addr,
