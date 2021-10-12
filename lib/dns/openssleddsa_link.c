@@ -391,8 +391,10 @@ openssleddsa_todns(const dst_key_t *key, isc_buffer_t *data) {
 		return (ISC_R_NOSPACE);
 	}
 
-	if (EVP_PKEY_get_raw_public_key(pkey, r.base, &len) != 1)
+	if (EVP_PKEY_get_raw_public_key(pkey, r.base, &len) != 1) {
 		return (dst__openssl_toresult(ISC_R_FAILURE));
+
+        }
 
 	isc_buffer_add(data, len);
 	return (ISC_R_SUCCESS);
@@ -415,8 +417,10 @@ openssleddsa_fromdns(dst_key_t *key, isc_buffer_t *data) {
 
 	len = r.length;
 	ret = raw_key_to_ossl(key->key_alg, 0, r.base, &len, &pkey);
-	if (ret != ISC_R_SUCCESS)
+	if (ret != ISC_R_SUCCESS) {
 		return ret;
+
+        }
 
 	isc_buffer_forward(data, len);
 	key->keydata.pkey = pkey;
