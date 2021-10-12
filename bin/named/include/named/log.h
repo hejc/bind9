@@ -26,11 +26,11 @@
 /*
  * Backwards compatibility.
  */
-#define NAMED_LOGCATEGORY_GENERAL ISC_LOGCATEGORY_GENERAL
+#define NAMED_LOGCATEGORY_GENERAL   ISC_LOGCATEGORY_GENERAL
 
-#define NAMED_LOGMODULE_MAIN	(&named_g_modules[0])
-#define NAMED_LOGMODULE_SERVER	(&named_g_modules[1])
-#define NAMED_LOGMODULE_CONTROL (&named_g_modules[2])
+#define NAMED_LOGMODULE_MAIN        (&named_g_modules[0])
+#define NAMED_LOGMODULE_SERVER      (&named_g_modules[1])
+#define NAMED_LOGMODULE_CONTROL     (&named_g_modules[2])
 
 isc_result_t
 named_log_init(bool safe);

@@ -29,7 +29,7 @@ typedef struct elt {
 
 typedef LIST(elt_t) eltlist_t;
 
-#define SYMTAB_MAGIC	 ISC_MAGIC('S', 'y', 'm', 'T')
+#define SYMTAB_MAGIC ISC_MAGIC('S', 'y', 'm', 'T')
 #define VALID_SYMTAB(st) ISC_MAGIC_VALID(st, SYMTAB_MAGIC)
 
 struct isc_symtab {

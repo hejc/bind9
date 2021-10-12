@@ -37,45 +37,45 @@ ISC_LANG_BEGINDECLS
  * used by a nameserver's configuration manager.
  */
 
-#define DNS_COMPRESS_NONE	   0x00 /*%< no compression */
-#define DNS_COMPRESS_GLOBAL14	   0x01 /*%< "normal" compression. */
-#define DNS_COMPRESS_ALL	   0x01 /*%< all compression. */
+#define DNS_COMPRESS_NONE          0x00 /*%< no compression */
+#define DNS_COMPRESS_GLOBAL14      0x01 /*%< "normal" compression. */
+#define DNS_COMPRESS_ALL           0x01 /*%< all compression. */
 #define DNS_COMPRESS_CASESENSITIVE 0x02 /*%< case sensitive compression. */
-#define DNS_COMPRESS_ENABLED	   0x04
+#define DNS_COMPRESS_ENABLED       0x04
 
 /*
  * DNS_COMPRESS_TABLESIZE must be a power of 2. The compress code
  * utilizes this assumption.
  */
-#define DNS_COMPRESS_TABLEBITS	  6
-#define DNS_COMPRESS_TABLESIZE	  (1U << DNS_COMPRESS_TABLEBITS)
-#define DNS_COMPRESS_TABLEMASK	  (DNS_COMPRESS_TABLESIZE - 1)
-#define DNS_COMPRESS_INITIALNODES 24
-#define DNS_COMPRESS_ARENA_SIZE	  640
+#define DNS_COMPRESS_TABLEBITS     6
+#define DNS_COMPRESS_TABLESIZE     (1U << DNS_COMPRESS_TABLEBITS)
+#define DNS_COMPRESS_TABLEMASK     (DNS_COMPRESS_TABLESIZE - 1)
+#define DNS_COMPRESS_INITIALNODES  24
+#define DNS_COMPRESS_ARENA_SIZE    640
 
 typedef struct dns_compressnode dns_compressnode_t;
 
 struct dns_compressnode {
 	dns_compressnode_t *next;
-	uint16_t	    offset;
-	uint16_t	    count;
-	isc_region_t	    r;
-	dns_name_t	    name;
+	uint16_t            offset;
+	uint16_t            count;
+	isc_region_t        r;
+	dns_name_t          name;
 };
 
 struct dns_compress {
-	unsigned int magic;   /*%< Magic number. */
-	unsigned int allowed; /*%< Allowed methods. */
-	int	     edns;    /*%< Edns version or -1. */
+	unsigned int        magic;   /*%< Magic number. */
+	unsigned int        allowed; /*%< Allowed methods. */
+	int                 edns;    /*%< Edns version or -1. */
 	/*% Global compression table. */
 	dns_compressnode_t *table[DNS_COMPRESS_TABLESIZE];
 	/*% Preallocated arena for names. */
-	unsigned char arena[DNS_COMPRESS_ARENA_SIZE];
-	off_t	      arena_off;
+	unsigned char       arena[DNS_COMPRESS_ARENA_SIZE];
+	off_t               arena_off;
 	/*% Preallocated nodes for the table. */
-	dns_compressnode_t initialnodes[DNS_COMPRESS_INITIALNODES];
-	uint16_t	   count; /*%< Number of nodes. */
-	isc_mem_t	  *mctx;  /*%< Memory context. */
+	dns_compressnode_t  initialnodes[DNS_COMPRESS_INITIALNODES];
+	uint16_t            count; /*%< Number of nodes. */
+	isc_mem_t          *mctx;  /*%< Memory context. */
 };
 
 typedef enum {
@@ -85,9 +85,9 @@ typedef enum {
 } dns_decompresstype_t;
 
 struct dns_decompress {
-	unsigned int	     magic;   /*%< Magic number. */
-	unsigned int	     allowed; /*%< Allowed methods. */
-	int		     edns;    /*%< Edns version or -1. */
+	unsigned int         magic;   /*%< Magic number. */
+	unsigned int         allowed; /*%< Allowed methods. */
+	int                  edns;    /*%< Edns version or -1. */
 	dns_decompresstype_t type;    /*%< Strict checking */
 };
 

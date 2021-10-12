@@ -40,7 +40,7 @@ ISC_LANG_BEGINDECLS
  * to set attributes, new accessor functions will be written.
  */
 
-typedef struct dst_key	   dst_key_t;
+typedef struct dst_key     dst_key_t;
 typedef struct dst_context dst_context_t;
 
 /*%
@@ -68,95 +68,95 @@ typedef struct dst_context dst_context_t;
  * DST_KEY_STATE_NA:          The state is not applicable for this record type.
  */
 typedef enum dst_key_state {
-	DST_KEY_STATE_HIDDEN = 0,
-	DST_KEY_STATE_RUMOURED = 1,
+	DST_KEY_STATE_HIDDEN      = 0,
+	DST_KEY_STATE_RUMOURED    = 1,
 	DST_KEY_STATE_OMNIPRESENT = 2,
 	DST_KEY_STATE_UNRETENTIVE = 3,
-	DST_KEY_STATE_NA = 4
+	DST_KEY_STATE_NA          = 4
 } dst_key_state_t;
 
 /* DST algorithm codes */
-#define DST_ALG_UNKNOWN	     0
-#define DST_ALG_RSA	     1 /* Used for parsing RSASHA1, RSASHA256 and RSASHA512 */
-#define DST_ALG_RSAMD5	     1
-#define DST_ALG_DH	     2
-#define DST_ALG_DSA	     3
-#define DST_ALG_ECC	     4
-#define DST_ALG_RSASHA1	     5
+#define DST_ALG_UNKNOWN      0
+#define DST_ALG_RSA          1 /* Used for parsing RSASHA1, RSASHA256 and RSASHA512 */
+#define DST_ALG_RSAMD5       1
+#define DST_ALG_DH           2
+#define DST_ALG_DSA          3
+#define DST_ALG_ECC          4
+#define DST_ALG_RSASHA1      5
 #define DST_ALG_NSEC3DSA     6
 #define DST_ALG_NSEC3RSASHA1 7
 #define DST_ALG_RSASHA256    8
 #define DST_ALG_RSASHA512    10
-#define DST_ALG_ECCGOST	     12
+#define DST_ALG_ECCGOST      12
 #define DST_ALG_ECDSA256     13
 #define DST_ALG_ECDSA384     14
-#define DST_ALG_ED25519	     15
-#define DST_ALG_ED448	     16
-#define DST_ALG_HMACMD5	     157
-#define DST_ALG_GSSAPI	     160
+#define DST_ALG_ED25519      15
+#define DST_ALG_ED448        16
+#define DST_ALG_HMACMD5      157
+#define DST_ALG_GSSAPI       160
 #define DST_ALG_HMACSHA1     161 /* XXXMPA */
 #define DST_ALG_HMACSHA224   162 /* XXXMPA */
 #define DST_ALG_HMACSHA256   163 /* XXXMPA */
 #define DST_ALG_HMACSHA384   164 /* XXXMPA */
 #define DST_ALG_HMACSHA512   165 /* XXXMPA */
 #define DST_ALG_INDIRECT     252
-#define DST_ALG_PRIVATE	     254
-#define DST_MAX_ALGS	     256
+#define DST_ALG_PRIVATE      254
+#define DST_MAX_ALGS         256
 
 /*% A buffer of this size is large enough to hold any key */
-#define DST_KEY_MAXSIZE 1280
+#define DST_KEY_MAXSIZE      1280
 
 /*%
  * A buffer of this size is large enough to hold the textual representation
  * of any key
  */
-#define DST_KEY_MAXTEXTSIZE 2048
+#define DST_KEY_MAXTEXTSIZE  2048
 
 /*% 'Type' for dst_read_key() */
-#define DST_TYPE_KEY	 0x1000000 /* KEY key */
-#define DST_TYPE_PRIVATE 0x2000000
-#define DST_TYPE_PUBLIC	 0x4000000
-#define DST_TYPE_STATE	 0x8000000
+#define DST_TYPE_KEY         0x1000000 /* KEY key */
+#define DST_TYPE_PRIVATE     0x2000000
+#define DST_TYPE_PUBLIC      0x4000000
+#define DST_TYPE_STATE       0x8000000
 
 /* Key timing metadata definitions */
 #define DST_TIME_CREATED     0
 #define DST_TIME_PUBLISH     1
 #define DST_TIME_ACTIVATE    2
-#define DST_TIME_REVOKE	     3
+#define DST_TIME_REVOKE      3
 #define DST_TIME_INACTIVE    4
-#define DST_TIME_DELETE	     5
+#define DST_TIME_DELETE      5
 #define DST_TIME_DSPUBLISH   6
 #define DST_TIME_SYNCPUBLISH 7
 #define DST_TIME_SYNCDELETE  8
-#define DST_TIME_DNSKEY	     9
-#define DST_TIME_ZRRSIG	     10
-#define DST_TIME_KRRSIG	     11
-#define DST_TIME_DS	     12
+#define DST_TIME_DNSKEY      9
+#define DST_TIME_ZRRSIG      10
+#define DST_TIME_KRRSIG      11
+#define DST_TIME_DS          12
 #define DST_TIME_DSDELETE    13
-#define DST_MAX_TIMES	     13
+#define DST_MAX_TIMES        13
 
 /* Numeric metadata definitions */
-#define DST_NUM_PREDECESSOR 0
-#define DST_NUM_SUCCESSOR   1
-#define DST_NUM_MAXTTL	    2
-#define DST_NUM_ROLLPERIOD  3
-#define DST_NUM_LIFETIME    4
-#define DST_NUM_DSPUBCOUNT  5
-#define DST_NUM_DSDELCOUNT  6
-#define DST_MAX_NUMERIC	    6
+#define DST_NUM_PREDECESSOR  0
+#define DST_NUM_SUCCESSOR    1
+#define DST_NUM_MAXTTL       2
+#define DST_NUM_ROLLPERIOD   3
+#define DST_NUM_LIFETIME     4
+#define DST_NUM_DSPUBCOUNT   5
+#define DST_NUM_DSDELCOUNT   6
+#define DST_MAX_NUMERIC      6
 
 /* Boolean metadata definitions */
-#define DST_BOOL_KSK	0
-#define DST_BOOL_ZSK	1
-#define DST_MAX_BOOLEAN 1
+#define DST_BOOL_KSK         0
+#define DST_BOOL_ZSK         1
+#define DST_MAX_BOOLEAN      1
 
 /* Key state metadata definitions */
-#define DST_KEY_DNSKEY	  0
-#define DST_KEY_ZRRSIG	  1
-#define DST_KEY_KRRSIG	  2
-#define DST_KEY_DS	  3
-#define DST_KEY_GOAL	  4
-#define DST_MAX_KEYSTATES 4
+#define DST_KEY_DNSKEY       0
+#define DST_KEY_ZRRSIG       1
+#define DST_KEY_KRRSIG       2
+#define DST_KEY_DS           3
+#define DST_KEY_GOAL         4
+#define DST_MAX_KEYSTATES    4
 
 /*
  * Current format version number of the private key parser.
@@ -177,8 +177,8 @@ typedef enum dst_key_state {
  * of a currently mandatory field, or a new field added which would
  * alter the functioning of the key if it were absent.
  */
-#define DST_MAJOR_VERSION 1
-#define DST_MINOR_VERSION 3
+#define DST_MAJOR_VERSION    1
+#define DST_MINOR_VERSION    3
 
 /***
  *** Functions

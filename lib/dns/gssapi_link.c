@@ -39,7 +39,7 @@
 #include "dst_parse.h"
 
 #define INITIAL_BUFFER_SIZE 1024
-#define BUFFER_EXTRA	    1024
+#define BUFFER_EXTRA 1024
 
 #define REGION_TO_GBUFFER(r, gb)          \
 	do {                              \

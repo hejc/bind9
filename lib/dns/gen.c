@@ -38,65 +38,65 @@
 		abort();                                                   \
 	}
 
-#define FROMTEXTARGS  "rdclass, type, lexer, origin, options, target, callbacks"
+#define FROMTEXTARGS "rdclass, type, lexer, origin, options, target, callbacks"
 #define FROMTEXTCLASS "rdclass"
-#define FROMTEXTTYPE  "type"
-#define FROMTEXTDEF   "result = DNS_R_UNKNOWN"
+#define FROMTEXTTYPE "type"
+#define FROMTEXTDEF "result = DNS_R_UNKNOWN"
 
-#define TOTEXTARGS  "rdata, tctx, target"
+#define TOTEXTARGS "rdata, tctx, target"
 #define TOTEXTCLASS "rdata->rdclass"
-#define TOTEXTTYPE  "rdata->type"
-#define TOTEXTDEF   "use_default = true"
+#define TOTEXTTYPE "rdata->type"
+#define TOTEXTDEF "use_default = true"
 
-#define FROMWIREARGS  "rdclass, type, source, dctx, options, target"
+#define FROMWIREARGS "rdclass, type, source, dctx, options, target"
 #define FROMWIRECLASS "rdclass"
-#define FROMWIRETYPE  "type"
-#define FROMWIREDEF   "use_default = true"
+#define FROMWIRETYPE "type"
+#define FROMWIREDEF "use_default = true"
 
-#define TOWIREARGS  "rdata, cctx, target"
+#define TOWIREARGS "rdata, cctx, target"
 #define TOWIRECLASS "rdata->rdclass"
-#define TOWIRETYPE  "rdata->type"
-#define TOWIREDEF   "use_default = true"
+#define TOWIRETYPE "rdata->type"
+#define TOWIREDEF "use_default = true"
 
-#define FROMSTRUCTARGS	"rdclass, type, source, target"
+#define FROMSTRUCTARGS "rdclass, type, source, target"
 #define FROMSTRUCTCLASS "rdclass"
-#define FROMSTRUCTTYPE	"type"
-#define FROMSTRUCTDEF	"use_default = true"
+#define FROMSTRUCTTYPE "type"
+#define FROMSTRUCTDEF "use_default = true"
 
-#define TOSTRUCTARGS  "rdata, target, mctx"
+#define TOSTRUCTARGS "rdata, target, mctx"
 #define TOSTRUCTCLASS "rdata->rdclass"
-#define TOSTRUCTTYPE  "rdata->type"
-#define TOSTRUCTDEF   "use_default = true"
+#define TOSTRUCTTYPE "rdata->type"
+#define TOSTRUCTDEF "use_default = true"
 
-#define FREESTRUCTARGS	"source"
+#define FREESTRUCTARGS "source"
 #define FREESTRUCTCLASS "common->rdclass"
-#define FREESTRUCTTYPE	"common->rdtype"
-#define FREESTRUCTDEF	NULL
+#define FREESTRUCTTYPE "common->rdtype"
+#define FREESTRUCTDEF NULL
 
-#define COMPAREARGS  "rdata1, rdata2"
+#define COMPAREARGS "rdata1, rdata2"
 #define COMPARECLASS "rdata1->rdclass"
-#define COMPARETYPE  "rdata1->type"
-#define COMPAREDEF   "use_default = true"
+#define COMPARETYPE "rdata1->type"
+#define COMPAREDEF "use_default = true"
 
-#define ADDITIONALDATAARGS  "rdata, owner, add, arg"
+#define ADDITIONALDATAARGS "rdata, owner, add, arg"
 #define ADDITIONALDATACLASS "rdata->rdclass"
-#define ADDITIONALDATATYPE  "rdata->type"
-#define ADDITIONALDATADEF   "use_default = true"
+#define ADDITIONALDATATYPE "rdata->type"
+#define ADDITIONALDATADEF "use_default = true"
 
-#define DIGESTARGS  "rdata, digest, arg"
+#define DIGESTARGS "rdata, digest, arg"
 #define DIGESTCLASS "rdata->rdclass"
-#define DIGESTTYPE  "rdata->type"
-#define DIGESTDEF   "use_default = true"
+#define DIGESTTYPE "rdata->type"
+#define DIGESTDEF "use_default = true"
 
-#define CHECKOWNERARGS	"name, rdclass, type, wildcard"
+#define CHECKOWNERARGS "name, rdclass, type, wildcard"
 #define CHECKOWNERCLASS "rdclass"
-#define CHECKOWNERTYPE	"type"
-#define CHECKOWNERDEF	"result = true"
+#define CHECKOWNERTYPE "type"
+#define CHECKOWNERDEF "result = true"
 
-#define CHECKNAMESARGS	"rdata, owner, bad"
+#define CHECKNAMESARGS "rdata, owner, bad"
 #define CHECKNAMESCLASS "rdata->rdclass"
-#define CHECKNAMESTYPE	"rdata->type"
-#define CHECKNAMESDEF	"result = true"
+#define CHECKNAMESTYPE "rdata->type"
+#define CHECKNAMESDEF "result = true"
 
 static const char copyright[] = "/*\n"
 				" * Copyright (C) 1998%s  Internet Systems "
@@ -122,12 +122,12 @@ static const char copyright[] = "/*\n"
 				"\n";
 
 #define STR_EXPAND(tok) #tok
-#define STR(tok)	STR_EXPAND(tok)
+#define STR(tok) STR_EXPAND(tok)
 
-#define TYPENAMES     256
-#define TYPECLASSLEN  20 /* DNS mnemonic size. Must be less than 100. */
-#define TYPECLASSBUF  (TYPECLASSLEN + 1)
-#define TYPECLASSFMT  "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
+#define TYPENAMES 256
+#define TYPECLASSLEN 20 /* DNS mnemonic size. Must be less than 100. */
+#define TYPECLASSBUF (TYPECLASSLEN + 1)
+#define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
 #define ATTRIBUTESIZE 256
 
 static struct cc {
@@ -755,7 +755,7 @@ main(int argc, char **argv) {
 	"DNS_RDATATYPEATTR_META | " \
 	"DNS_RDATATYPEATTR_QUESTIONONLY"
 #define RESERVEDNAME "0"
-#define RESERVED     "DNS_RDATATYPEATTR_RESERVED"
+#define RESERVED "DNS_RDATATYPEATTR_RESERVED"
 
 		/*
 		 * Add in reserved/special types.  This will let us

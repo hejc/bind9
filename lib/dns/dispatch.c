@@ -68,7 +68,7 @@ struct dns_dispatchmgr {
 	unsigned int nv6ports; /*%< # of available ports for IPv4 */
 };
 
-#define MGR_SHUTTINGDOWN       0x00000001U
+#define MGR_SHUTTINGDOWN 0x00000001U
 #define MGR_IS_SHUTTINGDOWN(l) (((l)->state & MGR_SHUTTINGDOWN) != 0)
 
 struct dns_dispentry {
@@ -110,12 +110,12 @@ typedef enum {
 
 struct dns_dispatch {
 	/* Unlocked. */
-	unsigned int magic;	/*%< magic */
+	unsigned int magic;     /*%< magic */
 	dns_dispatchmgr_t *mgr; /*%< dispatch manager */
 	isc_nmhandle_t *handle; /*%< netmgr handle for TCP connection */
-	isc_sockaddr_t local;	/*%< local address */
-	in_port_t localport;	/*%< local UDP port */
-	isc_sockaddr_t peer;	/*%< peer address (TCP) */
+	isc_sockaddr_t local;   /*%< local address */
+	in_port_t localport;    /*%< local UDP port */
+	isc_sockaddr_t peer;    /*%< peer address (TCP) */
 
 	/*% Locked by mgr->lock. */
 	ISC_LINK(dns_dispatch_t) link;
@@ -131,24 +131,24 @@ struct dns_dispatch {
 	dns_displist_t active;
 	unsigned int nsockets;
 
-	unsigned int requests;	 /*%< how many requests we have */
+	unsigned int requests;   /*%< how many requests we have */
 	unsigned int tcpbuffers; /*%< allocated buffers */
 };
 
-#define QID_MAGIC    ISC_MAGIC('Q', 'i', 'd', ' ')
+#define QID_MAGIC ISC_MAGIC('Q', 'i', 'd', ' ')
 #define VALID_QID(e) ISC_MAGIC_VALID((e), QID_MAGIC)
 
-#define RESPONSE_MAGIC	  ISC_MAGIC('D', 'r', 's', 'p')
+#define RESPONSE_MAGIC ISC_MAGIC('D', 'r', 's', 'p')
 #define VALID_RESPONSE(e) ISC_MAGIC_VALID((e), RESPONSE_MAGIC)
 
-#define DISPSOCK_MAGIC	  ISC_MAGIC('D', 's', 'o', 'c')
+#define DISPSOCK_MAGIC ISC_MAGIC('D', 's', 'o', 'c')
 #define VALID_DISPSOCK(e) ISC_MAGIC_VALID((e), DISPSOCK_MAGIC)
 
-#define DISPATCH_MAGIC	  ISC_MAGIC('D', 'i', 's', 'p')
+#define DISPATCH_MAGIC ISC_MAGIC('D', 'i', 's', 'p')
 #define VALID_DISPATCH(e) ISC_MAGIC_VALID((e), DISPATCH_MAGIC)
 
 #define DNS_DISPATCHMGR_MAGIC ISC_MAGIC('D', 'M', 'g', 'r')
-#define VALID_DISPATCHMGR(e)  ISC_MAGIC_VALID((e), DNS_DISPATCHMGR_MAGIC)
+#define VALID_DISPATCHMGR(e) ISC_MAGIC_VALID((e), DNS_DISPATCHMGR_MAGIC)
 
 /*%
  * Quota to control the number of UDP dispatch sockets.  If a dispatch has

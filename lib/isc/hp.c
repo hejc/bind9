@@ -55,8 +55,8 @@
 
 #define HP_MAX_THREADS 128
 static int isc__hp_max_threads = HP_MAX_THREADS;
-#define HP_MAX_HPS     4 /* This is named 'K' in the HP paper */
-#define CLPAD	       (128 / sizeof(uintptr_t))
+#define HP_MAX_HPS 4 /* This is named 'K' in the HP paper */
+#define CLPAD (128 / sizeof(uintptr_t))
 #define HP_THRESHOLD_R 0 /* This is named 'R' in the HP paper */
 
 /* Maximum number of retired objects per thread */

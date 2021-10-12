@@ -87,29 +87,29 @@ typedef struct dns_dthandle dns_dthandle_t;
 
 #ifdef HAVE_DNSTAP
 struct dns_dtdata {
-	isc_mem_t *mctx;
+	isc_mem_t      *mctx;
 
-	void *frame;
+	void           *frame;
 
-	bool		query;
-	bool		tcp;
+	bool            query;
+	bool            tcp;
 	dns_dtmsgtype_t type;
 
-	isc_time_t qtime;
-	isc_time_t rtime;
+	isc_time_t      qtime;
+	isc_time_t      rtime;
 
-	isc_region_t qaddr;
-	isc_region_t raddr;
+	isc_region_t    qaddr;
+	isc_region_t    raddr;
 
-	uint32_t qport;
-	uint32_t rport;
+	uint32_t        qport;
+	uint32_t        rport;
 
-	isc_region_t   msgdata;
-	dns_message_t *msg;
+	isc_region_t    msgdata;
+	dns_message_t  *msg;
 
-	char namebuf[DNS_NAME_FORMATSIZE];
-	char typebuf[DNS_RDATATYPE_FORMATSIZE];
-	char classbuf[DNS_RDATACLASS_FORMATSIZE];
+	char            namebuf[DNS_NAME_FORMATSIZE];
+	char            typebuf[DNS_RDATATYPE_FORMATSIZE];
+	char            classbuf[DNS_RDATACLASS_FORMATSIZE];
 };
 #endif /* HAVE_DNSTAP */
 

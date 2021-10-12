@@ -100,8 +100,8 @@ struct dns_xfrin_ctx {
 	isc_nm_t *netmgr;
 
 	isc_refcount_t connects; /*%< Connect in progress */
-	isc_refcount_t sends;	 /*%< Send in progress */
-	isc_refcount_t recvs;	 /*%< Receive in progress */
+	isc_refcount_t sends;    /*%< Send in progress */
+	isc_refcount_t recvs;    /*%< Receive in progress */
 
 	atomic_bool shuttingdown;
 
@@ -141,7 +141,7 @@ struct dns_xfrin_ctx {
 	dns_db_t *db;
 	dns_dbversion_t *ver;
 	dns_diff_t diff; /*%< Pending database changes */
-	int difflen;	 /*%< Number of pending tuples */
+	int difflen;     /*%< Number of pending tuples */
 
 	xfrin_state_t state;
 	uint32_t end_serial;
@@ -155,7 +155,7 @@ struct dns_xfrin_ctx {
 				  *   records set for the zone */
 
 	isc_time_t start; /*%< Start time of the transfer */
-	isc_time_t end;	  /*%< End time of the transfer */
+	isc_time_t end;   /*%< End time of the transfer */
 
 	dns_tsigkey_t *tsigkey; /*%< Key used to create TSIG */
 	isc_buffer_t *lasttsig; /*%< The last TSIG */
@@ -185,7 +185,7 @@ struct dns_xfrin_ctx {
 	unsigned char *firstsoa_data;
 };
 
-#define XFRIN_MAGIC    ISC_MAGIC('X', 'f', 'r', 'I')
+#define XFRIN_MAGIC ISC_MAGIC('X', 'f', 'r', 'I')
 #define VALID_XFRIN(x) ISC_MAGIC_VALID(x, XFRIN_MAGIC)
 
 /**************************************************************************/
@@ -290,7 +290,7 @@ axfr_makedb(dns_xfrin_ctx_t *xfr, dns_db_t **dbp) {
 	isc_result_t result;
 
 	result = dns_db_create(xfr->mctx, /* XXX */
-			       "rbt",	  /* XXX guess */
+			       "rbt",     /* XXX guess */
 			       &xfr->name, dns_dbtype_zone, xfr->rdclass, 0,
 			       NULL, /* XXX guess */
 			       dbp);
@@ -1323,7 +1323,7 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 
 		xfrin_log(xfr, ISC_LOG_DEBUG(3), "got %s, retrying with AXFR",
 			  isc_result_totext(result));
-	try_axfr:
+try_axfr:
 		isc_nmhandle_detach(&xfr->readhandle);
 		dns_message_detach(&msg);
 		xfrin_reset(xfr);

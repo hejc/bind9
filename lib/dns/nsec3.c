@@ -46,10 +46,10 @@
 			goto failure;        \
 	} while (0)
 
-#define OPTOUT(x)  (((x)&DNS_NSEC3FLAG_OPTOUT) != 0)
-#define CREATE(x)  (((x)&DNS_NSEC3FLAG_CREATE) != 0)
+#define OPTOUT(x) (((x)&DNS_NSEC3FLAG_OPTOUT) != 0)
+#define CREATE(x) (((x)&DNS_NSEC3FLAG_CREATE) != 0)
 #define INITIAL(x) (((x)&DNS_NSEC3FLAG_INITIAL) != 0)
-#define REMOVE(x)  (((x)&DNS_NSEC3FLAG_REMOVE) != 0)
+#define REMOVE(x) (((x)&DNS_NSEC3FLAG_REMOVE) != 0)
 
 isc_result_t
 dns_nsec3_buildrdata(dns_db_t *db, dns_dbversion_t *version, dns_dbnode_t *node,
@@ -1328,7 +1328,7 @@ try_private:
 					 nsecttl, unsecure, diff));
 	}
 	if (result == ISC_R_NOMORE) {
-	success:
+success:
 		result = ISC_R_SUCCESS;
 	}
 failure:
@@ -1756,7 +1756,7 @@ try_private:
 		CHECK(dns_nsec3_delnsec3(db, version, name, &nsec3param, diff));
 	}
 	if (result == ISC_R_NOMORE) {
-	success:
+success:
 		result = ISC_R_SUCCESS;
 	}
 

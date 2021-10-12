@@ -34,14 +34,14 @@
 #include <isc/time.h>
 #include <isc/util.h>
 
-#define LCTX_MAGIC	    ISC_MAGIC('L', 'c', 't', 'x')
+#define LCTX_MAGIC ISC_MAGIC('L', 'c', 't', 'x')
 #define VALID_CONTEXT(lctx) ISC_MAGIC_VALID(lctx, LCTX_MAGIC)
 
-#define LCFG_MAGIC	   ISC_MAGIC('L', 'c', 'f', 'g')
+#define LCFG_MAGIC ISC_MAGIC('L', 'c', 'f', 'g')
 #define VALID_CONFIG(lcfg) ISC_MAGIC_VALID(lcfg, LCFG_MAGIC)
 
-#define RDLOCK(lp)   RWLOCK(lp, isc_rwlocktype_read);
-#define WRLOCK(lp)   RWLOCK(lp, isc_rwlocktype_write);
+#define RDLOCK(lp) RWLOCK(lp, isc_rwlocktype_read);
+#define WRLOCK(lp) RWLOCK(lp, isc_rwlocktype_write);
 #define RDUNLOCK(lp) RWUNLOCK(lp, isc_rwlocktype_read);
 #define WRUNLOCK(lp) RWUNLOCK(lp, isc_rwlocktype_write);
 
@@ -167,7 +167,7 @@ static const char *log_level_strings[] = { "debug",   "info",  "notice",
  * XXXDCL This will need modification for NT.
  */
 static const int syslog_map[] = { LOG_DEBUG,   LOG_INFO, LOG_NOTICE,
-				  LOG_WARNING, LOG_ERR,	 LOG_CRIT };
+				  LOG_WARNING, LOG_ERR,  LOG_CRIT };
 
 /*!
  * When adding new categories, a corresponding ISC_LOGCATEGORY_foo
@@ -229,12 +229,12 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
  * Convenience macros.
  */
 
-#define FACILITY(channel)	 (channel->destination.facility)
-#define FILE_NAME(channel)	 (channel->destination.file.name)
-#define FILE_STREAM(channel)	 (channel->destination.file.stream)
-#define FILE_VERSIONS(channel)	 (channel->destination.file.versions)
-#define FILE_SUFFIX(channel)	 (channel->destination.file.suffix)
-#define FILE_MAXSIZE(channel)	 (channel->destination.file.maximum_size)
+#define FACILITY(channel) (channel->destination.facility)
+#define FILE_NAME(channel) (channel->destination.file.name)
+#define FILE_STREAM(channel) (channel->destination.file.stream)
+#define FILE_VERSIONS(channel) (channel->destination.file.versions)
+#define FILE_SUFFIX(channel) (channel->destination.file.suffix)
+#define FILE_MAXSIZE(channel) (channel->destination.file.maximum_size)
 #define FILE_MAXREACHED(channel) (channel->destination.file.maximum_reached)
 
 /*@}*/

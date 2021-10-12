@@ -22,10 +22,10 @@
 #include <isc/mem.h>
 
 typedef struct {
-	size_t	   gl_pathc;
+	size_t     gl_pathc;
 	char     **gl_pathv;
 	isc_mem_t *mctx;
-	void	     *reserved;
+	void      *reserved;
 } glob_t;
 
 #endif

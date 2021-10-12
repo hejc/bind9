@@ -30,10 +30,10 @@
 #include <dns/rdataset.h>
 #include <dns/rdatastruct.h>
 
-#define KEYTABLE_MAGIC	   ISC_MAGIC('K', 'T', 'b', 'l')
+#define KEYTABLE_MAGIC ISC_MAGIC('K', 'T', 'b', 'l')
 #define VALID_KEYTABLE(kt) ISC_MAGIC_VALID(kt, KEYTABLE_MAGIC)
 
-#define KEYNODE_MAGIC	  ISC_MAGIC('K', 'N', 'o', 'd')
+#define KEYNODE_MAGIC ISC_MAGIC('K', 'N', 'o', 'd')
 #define VALID_KEYNODE(kn) ISC_MAGIC_VALID(kn, KEYNODE_MAGIC)
 
 struct dns_keytable {

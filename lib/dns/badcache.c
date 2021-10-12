@@ -48,7 +48,7 @@ struct dns_badcache {
 	unsigned int size;
 };
 
-#define BADCACHE_MAGIC	  ISC_MAGIC('B', 'd', 'C', 'a')
+#define BADCACHE_MAGIC ISC_MAGIC('B', 'd', 'C', 'a')
 #define VALID_BADCACHE(m) ISC_MAGIC_VALID(m, BADCACHE_MAGIC)
 
 struct dns_bcentry {

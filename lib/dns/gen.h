@@ -43,11 +43,11 @@
 extern char *optarg;
 #endif /* ifdef NEED_OPTARG */
 
-#define isc_commandline_parse	 getopt
+#define isc_commandline_parse    getopt
 #define isc_commandline_argument optarg
 
 typedef struct {
-	DIR *handle;
+	DIR  *handle;
 	char *filename;
 } isc_dir_t;
 
@@ -71,7 +71,7 @@ next_file(isc_dir_t *dir) {
 	dir->filename = NULL;
 
 	if (dir->handle != NULL) {
-		errno = 0;
+		errno  = 0;
 		dirent = readdir(dir->handle);
 		if (dirent != NULL) {
 			dir->filename = dirent->d_name;

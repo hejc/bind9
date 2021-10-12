@@ -18,79 +18,79 @@
 #include <isc/lang.h>
 
 typedef enum isc_result {
-	ISC_R_SUCCESS,		      /*%< success */
-	ISC_R_NOMEMORY,		      /*%< out of memory */
-	ISC_R_TIMEDOUT,		      /*%< timed out */
-	ISC_R_NOTHREADS,	      /*%< no available threads */
-	ISC_R_ADDRNOTAVAIL,	      /*%< address not available */
-	ISC_R_ADDRINUSE,	      /*%< address in use */
-	ISC_R_NOPERM,		      /*%< permission denied */
-	ISC_R_NOCONN,		      /*%< no pending connections */
-	ISC_R_NETUNREACH,	      /*%< network unreachable */
-	ISC_R_HOSTUNREACH,	      /*%< host unreachable */
-	ISC_R_NETDOWN,		      /*%< network down */
-	ISC_R_HOSTDOWN,		      /*%< host down */
-	ISC_R_CONNREFUSED,	      /*%< connection refused */
-	ISC_R_NORESOURCES,	      /*%< not enough free resources */
-	ISC_R_EOF,		      /*%< end of file */
-	ISC_R_BOUND,		      /*%< socket already bound */
-	ISC_R_RELOAD,		      /*%< reload */
+	ISC_R_SUCCESS,                /*%< success */
+	ISC_R_NOMEMORY,               /*%< out of memory */
+	ISC_R_TIMEDOUT,               /*%< timed out */
+	ISC_R_NOTHREADS,              /*%< no available threads */
+	ISC_R_ADDRNOTAVAIL,           /*%< address not available */
+	ISC_R_ADDRINUSE,              /*%< address in use */
+	ISC_R_NOPERM,                 /*%< permission denied */
+	ISC_R_NOCONN,                 /*%< no pending connections */
+	ISC_R_NETUNREACH,             /*%< network unreachable */
+	ISC_R_HOSTUNREACH,            /*%< host unreachable */
+	ISC_R_NETDOWN,                /*%< network down */
+	ISC_R_HOSTDOWN,               /*%< host down */
+	ISC_R_CONNREFUSED,            /*%< connection refused */
+	ISC_R_NORESOURCES,            /*%< not enough free resources */
+	ISC_R_EOF,                    /*%< end of file */
+	ISC_R_BOUND,                  /*%< socket already bound */
+	ISC_R_RELOAD,                 /*%< reload */
 	ISC_R_SUSPEND = ISC_R_RELOAD, /*%< alias of 'reload' */
-	ISC_R_LOCKBUSY,		      /*%< lock busy */
-	ISC_R_EXISTS,		      /*%< already exists */
-	ISC_R_NOSPACE,		      /*%< ran out of space */
-	ISC_R_CANCELED,		      /*%< operation canceled */
-	ISC_R_NOTBOUND,		      /*%< socket is not bound */
-	ISC_R_SHUTTINGDOWN,	      /*%< shutting down */
-	ISC_R_NOTFOUND,		      /*%< not found */
-	ISC_R_UNEXPECTEDEND,	      /*%< unexpected end of input */
-	ISC_R_FAILURE,		      /*%< generic failure */
-	ISC_R_IOERROR,		      /*%< I/O error */
-	ISC_R_NOTIMPLEMENTED,	      /*%< not implemented */
-	ISC_R_UNBALANCED,	      /*%< unbalanced parentheses */
-	ISC_R_NOMORE,		      /*%< no more */
-	ISC_R_INVALIDFILE,	      /*%< invalid file */
-	ISC_R_BADBASE64,	      /*%< bad base64 encoding */
-	ISC_R_UNEXPECTEDTOKEN,	      /*%< unexpected token */
-	ISC_R_QUOTA,		      /*%< quota reached */
-	ISC_R_UNEXPECTED,	      /*%< unexpected error */
-	ISC_R_ALREADYRUNNING,	      /*%< already running */
-	ISC_R_IGNORE,		      /*%< ignore */
-	ISC_R_MASKNONCONTIG,	      /*%< addr mask not contiguous */
-	ISC_R_FILENOTFOUND,	      /*%< file not found */
-	ISC_R_FILEEXISTS,	      /*%< file already exists */
-	ISC_R_NOTCONNECTED,	      /*%< socket is not connected */
-	ISC_R_RANGE,		      /*%< out of range */
-	ISC_R_NOENTROPY,	      /*%< out of entropy */
-	ISC_R_MULTICAST,	      /*%< invalid use of multicast */
-	ISC_R_NOTFILE,		      /*%< not a file */
-	ISC_R_NOTDIRECTORY,	      /*%< not a directory */
-	ISC_R_EMPTY,		      /*%< queue is empty */
-	ISC_R_FAMILYMISMATCH,	      /*%< address family mismatch */
-	ISC_R_FAMILYNOSUPPORT,	      /*%< AF not supported */
-	ISC_R_BADHEX,		      /*%< bad hex encoding */
-	ISC_R_TOOMANYOPENFILES,	      /*%< too many open files */
-	ISC_R_NOTBLOCKING,	      /*%< not blocking */
-	ISC_R_UNBALANCEDQUOTES,	      /*%< unbalanced quotes */
-	ISC_R_INPROGRESS,	      /*%< operation in progress */
-	ISC_R_CONNECTIONRESET,	      /*%< connection reset */
-	ISC_R_SOFTQUOTA,	      /*%< soft quota reached */
-	ISC_R_BADNUMBER,	      /*%< not a valid number */
-	ISC_R_DISABLED,		      /*%< disabled */
-	ISC_R_MAXSIZE,		      /*%< max size */
-	ISC_R_BADADDRESSFORM,	      /*%< invalid address format */
-	ISC_R_BADBASE32,	      /*%< bad base32 encoding */
-	ISC_R_UNSET,		      /*%< unset */
-	ISC_R_MULTIPLE,		      /*%< multiple */
-	ISC_R_WOULDBLOCK,	      /*%< would block */
-	ISC_R_COMPLETE,		      /*%< complete */
-	ISC_R_CRYPTOFAILURE,	      /*%< cryptography library failure */
-	ISC_R_DISCQUOTA,	      /*%< disc quota */
-	ISC_R_DISCFULL,		      /*%< disc full */
-	ISC_R_DEFAULT,		      /*%< default */
-	ISC_R_IPV4PREFIX,	      /*%< IPv4 prefix */
-	ISC_R_TLSERROR,		      /*%< TLS error */
-	ISC_R_HTTP2ALPNERROR,	      /*%< ALPN for HTTP/2 failed */
+	ISC_R_LOCKBUSY,               /*%< lock busy */
+	ISC_R_EXISTS,                 /*%< already exists */
+	ISC_R_NOSPACE,                /*%< ran out of space */
+	ISC_R_CANCELED,               /*%< operation canceled */
+	ISC_R_NOTBOUND,               /*%< socket is not bound */
+	ISC_R_SHUTTINGDOWN,           /*%< shutting down */
+	ISC_R_NOTFOUND,               /*%< not found */
+	ISC_R_UNEXPECTEDEND,          /*%< unexpected end of input */
+	ISC_R_FAILURE,                /*%< generic failure */
+	ISC_R_IOERROR,                /*%< I/O error */
+	ISC_R_NOTIMPLEMENTED,         /*%< not implemented */
+	ISC_R_UNBALANCED,             /*%< unbalanced parentheses */
+	ISC_R_NOMORE,                 /*%< no more */
+	ISC_R_INVALIDFILE,            /*%< invalid file */
+	ISC_R_BADBASE64,              /*%< bad base64 encoding */
+	ISC_R_UNEXPECTEDTOKEN,        /*%< unexpected token */
+	ISC_R_QUOTA,                  /*%< quota reached */
+	ISC_R_UNEXPECTED,             /*%< unexpected error */
+	ISC_R_ALREADYRUNNING,         /*%< already running */
+	ISC_R_IGNORE,                 /*%< ignore */
+	ISC_R_MASKNONCONTIG,          /*%< addr mask not contiguous */
+	ISC_R_FILENOTFOUND,           /*%< file not found */
+	ISC_R_FILEEXISTS,             /*%< file already exists */
+	ISC_R_NOTCONNECTED,           /*%< socket is not connected */
+	ISC_R_RANGE,                  /*%< out of range */
+	ISC_R_NOENTROPY,              /*%< out of entropy */
+	ISC_R_MULTICAST,              /*%< invalid use of multicast */
+	ISC_R_NOTFILE,                /*%< not a file */
+	ISC_R_NOTDIRECTORY,           /*%< not a directory */
+	ISC_R_EMPTY,                  /*%< queue is empty */
+	ISC_R_FAMILYMISMATCH,         /*%< address family mismatch */
+	ISC_R_FAMILYNOSUPPORT,        /*%< AF not supported */
+	ISC_R_BADHEX,                 /*%< bad hex encoding */
+	ISC_R_TOOMANYOPENFILES,       /*%< too many open files */
+	ISC_R_NOTBLOCKING,            /*%< not blocking */
+	ISC_R_UNBALANCEDQUOTES,       /*%< unbalanced quotes */
+	ISC_R_INPROGRESS,             /*%< operation in progress */
+	ISC_R_CONNECTIONRESET,        /*%< connection reset */
+	ISC_R_SOFTQUOTA,              /*%< soft quota reached */
+	ISC_R_BADNUMBER,              /*%< not a valid number */
+	ISC_R_DISABLED,               /*%< disabled */
+	ISC_R_MAXSIZE,                /*%< max size */
+	ISC_R_BADADDRESSFORM,         /*%< invalid address format */
+	ISC_R_BADBASE32,              /*%< bad base32 encoding */
+	ISC_R_UNSET,                  /*%< unset */
+	ISC_R_MULTIPLE,               /*%< multiple */
+	ISC_R_WOULDBLOCK,             /*%< would block */
+	ISC_R_COMPLETE,               /*%< complete */
+	ISC_R_CRYPTOFAILURE,          /*%< cryptography library failure */
+	ISC_R_DISCQUOTA,              /*%< disc quota */
+	ISC_R_DISCFULL,               /*%< disc full */
+	ISC_R_DEFAULT,                /*%< default */
+	ISC_R_IPV4PREFIX,             /*%< IPv4 prefix */
+	ISC_R_TLSERROR,               /*%< TLS error */
+	ISC_R_HTTP2ALPNERROR,         /*%< ALPN for HTTP/2 failed */
 
 	DNS_R_LABELTOOLONG = 1 << 16,
 	DNS_R_BADESCAPE,

@@ -625,11 +625,11 @@ static rrstream_methods_t compound_rrstream_methods = {
  * Structure holding outgoing transfer statistics
  */
 struct xfr_stats {
-	uint64_t nmsg;	  /*%< Number of messages sent */
-	uint64_t nrecs;	  /*%< Number of records sent */
+	uint64_t nmsg;    /*%< Number of messages sent */
+	uint64_t nrecs;   /*%< Number of records sent */
 	uint64_t nbytes;  /*%< Number of bytes sent */
 	isc_time_t start; /*%< Start time of the transfer */
-	isc_time_t end;	  /*%< End time of the transfer */
+	isc_time_t end;   /*%< End time of the transfer */
 };
 
 /*%
@@ -653,18 +653,18 @@ typedef struct {
 	isc_buffer_t buf;    /* Buffer for message owner
 			      * names and rdatas */
 	isc_buffer_t txbuf;  /* Transmit message buffer */
-	size_t cbytes;	     /* Length of current message */
+	size_t cbytes;       /* Length of current message */
 	void *txmem;
 	unsigned int txmemlen;
 	dns_tsigkey_t *tsigkey; /* Key used to create TSIG */
 	isc_buffer_t *lasttsig; /* the last TSIG */
-	bool verified_tsig;	/* verified request MAC */
+	bool verified_tsig;     /* verified request MAC */
 	bool many_answers;
 	int sends; /* Send in progress */
 	bool shuttingdown;
 	bool poll;
-	const char *mnemonic;	/* Style of transfer */
-	uint32_t end_serial;	/* Serial number after XFR is done */
+	const char *mnemonic;   /* Style of transfer */
+	uint32_t end_serial;    /* Serial number after XFR is done */
 	struct xfr_stats stats; /*%< Transfer statistics */
 } xfrout_ctx_t;
 
@@ -1056,7 +1056,7 @@ got_soa:
 		}
 		is_ixfr = true;
 	} else {
-	axfr_fallback:
+axfr_fallback:
 		CHECK(axfr_rrstream_create(mctx, db, ver, &data_stream));
 	}
 

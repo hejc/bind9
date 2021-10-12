@@ -44,71 +44,71 @@
  * Name server state.  Better here than in lots of separate global variables.
  */
 struct named_server {
-	unsigned int magic;
-	isc_mem_t	  *mctx;
+	unsigned int             magic;
+	isc_mem_t               *mctx;
 
-	ns_server_t *sctx;
+	ns_server_t             *sctx;
 
-	isc_task_t *task;
+	isc_task_t              *task;
 
-	char *statsfile;    /*%< Statistics file name */
-	char *dumpfile;	    /*%< Dump file name */
-	char *secrootsfile; /*%< Secroots file name */
-	char *bindkeysfile; /*%< bind.keys file name
-			     * */
-	char *recfile;	    /*%< Recursive file name */
-	bool  version_set;  /*%< User has set version
-			     * */
-	char *version;	    /*%< User-specified version */
-	bool  hostname_set; /*%< User has set hostname
-			     * */
-	char *hostname;	    /*%< User-specified hostname
-			     * */
+	char                    *statsfile;    /*%< Statistics file name */
+	char                    *dumpfile;     /*%< Dump file name */
+	char                    *secrootsfile; /*%< Secroots file name */
+	char                    *bindkeysfile; /*%< bind.keys file name
+						* */
+	char                    *recfile;      /*%< Recursive file name */
+	bool                     version_set;  /*%< User has set version
+						* */
+	char                    *version;      /*%< User-specified version */
+	bool                     hostname_set; /*%< User has set hostname
+						* */
+	char                    *hostname;     /*%< User-specified hostname
+						* */
 
 	/* Server data structures. */
-	dns_loadmgr_t     *loadmgr;
-	dns_zonemgr_t     *zonemgr;
-	dns_viewlist_t	   viewlist;
-	dns_kasplist_t	   kasplist;
-	ns_interfacemgr_t *interfacemgr;
-	dns_db_t		 *in_roothints;
+	dns_loadmgr_t           *loadmgr;
+	dns_zonemgr_t           *zonemgr;
+	dns_viewlist_t           viewlist;
+	dns_kasplist_t           kasplist;
+	ns_interfacemgr_t       *interfacemgr;
+	dns_db_t                *in_roothints;
 
-	isc_timer_t *interface_timer;
-	isc_timer_t *heartbeat_timer;
-	isc_timer_t *pps_timer;
-	isc_timer_t *tat_timer;
+	isc_timer_t             *interface_timer;
+	isc_timer_t             *heartbeat_timer;
+	isc_timer_t             *pps_timer;
+	isc_timer_t             *tat_timer;
 
-	uint32_t interface_interval;
-	uint32_t heartbeat_interval;
+	uint32_t                 interface_interval;
+	uint32_t                 heartbeat_interval;
 
-	atomic_int reload_status;
+	atomic_int               reload_status;
 
-	bool flushonshutdown;
+	bool                     flushonshutdown;
 
-	named_cachelist_t cachelist; /*%< Possibly shared caches
-				      * */
-	isc_stats_t *zonestats;	     /*% Zone management stats */
-	isc_stats_t *resolverstats;  /*% Resolver stats */
-	isc_stats_t *sockstats;	     /*%< Socket stats */
+	named_cachelist_t        cachelist;     /*%< Possibly shared caches
+						 * */
+	isc_stats_t             *zonestats;     /*% Zone management stats */
+	isc_stats_t             *resolverstats; /*% Resolver stats */
+	isc_stats_t             *sockstats;     /*%< Socket stats */
 
-	named_controls_t	 *controls; /*%< Control channels */
-	unsigned int	     dispatchgen;
-	named_dispatchlist_t dispatches;
+	named_controls_t        *controls; /*%< Control channels */
+	unsigned int             dispatchgen;
+	named_dispatchlist_t     dispatches;
 
 	named_statschannellist_t statschannels;
 
-	dns_tsigkey_t *sessionkey;
-	char	     *session_keyfile;
-	dns_name_t	   *session_keyname;
-	unsigned int   session_keyalg;
-	uint16_t       session_keybits;
-	bool	       interface_auto;
-	unsigned char  secret[32]; /*%< Server Cookie Secret */
-	ns_cookiealg_t cookiealg;
+	dns_tsigkey_t           *sessionkey;
+	char                    *session_keyfile;
+	dns_name_t              *session_keyname;
+	unsigned int             session_keyalg;
+	uint16_t                 session_keybits;
+	bool                     interface_auto;
+	unsigned char            secret[32]; /*%< Server Cookie Secret */
+	ns_cookiealg_t           cookiealg;
 
-	dns_dtenv_t *dtenv; /*%< Dnstap environment */
+	dns_dtenv_t             *dtenv; /*%< Dnstap environment */
 
-	char *lockfile;
+	char                    *lockfile;
 };
 
 #define NAMED_SERVER_MAGIC    ISC_MAGIC('S', 'V', 'E', 'R')

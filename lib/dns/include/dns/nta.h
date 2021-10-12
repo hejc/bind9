@@ -43,20 +43,20 @@ ISC_LANG_BEGINDECLS
 
 struct dns_ntatable {
 	/* Unlocked. */
-	unsigned int	magic;
-	dns_view_t	   *view;
-	isc_rwlock_t	rwlock;
+	unsigned int    magic;
+	dns_view_t     *view;
+	isc_rwlock_t    rwlock;
 	isc_taskmgr_t  *taskmgr;
 	isc_timermgr_t *timermgr;
-	isc_task_t	   *task;
+	isc_task_t     *task;
 	/* Protected by atomics */
-	isc_refcount_t references;
+	isc_refcount_t  references;
 	/* Locked by rwlock. */
-	dns_rbt_t *table;
-	bool	   shuttingdown;
+	dns_rbt_t      *table;
+	bool            shuttingdown;
 };
 
-#define NTATABLE_MAGIC	   ISC_MAGIC('N', 'T', 'A', 't')
+#define NTATABLE_MAGIC     ISC_MAGIC('N', 'T', 'A', 't')
 #define VALID_NTATABLE(nt) ISC_MAGIC_VALID(nt, NTATABLE_MAGIC)
 
 isc_result_t

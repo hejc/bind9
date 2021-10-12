@@ -65,7 +65,7 @@ extern unsigned int isc_mem_defaultflags;
 
 #if ISC_MEM_TRACKLINES
 #define _ISC_MEM_FILELINE , __FILE__, __LINE__
-#define _ISC_MEM_FLARG	  , const char *, unsigned int
+#define _ISC_MEM_FLARG    , const char *, unsigned int
 #else /* if ISC_MEM_TRACKLINES */
 #define _ISC_MEM_FILELINE
 #define _ISC_MEM_FLARG
@@ -130,10 +130,10 @@ extern unsigned int isc_mem_defaultflags;
  * loaded modules can use them even if named is statically linked.
  */
 
-#define ISCMEMFUNC(sfx)	    isc__mem_##sfx
+#define ISCMEMFUNC(sfx)     isc__mem_##sfx
 #define ISCMEMPOOLFUNC(sfx) isc__mempool_##sfx
 
-#define isc_mem_get(c, s) ISCMEMFUNC(get)((c), (s)_ISC_MEM_FILELINE)
+#define isc_mem_get(c, s)   ISCMEMFUNC(get)((c), (s)_ISC_MEM_FILELINE)
 #define isc_mem_reget(c, p, o, n) \
 	ISCMEMFUNC(reget)((c), (p), (o), (n)_ISC_MEM_FILELINE)
 #define isc_mem_allocate(c, s) ISCMEMFUNC(allocate)((c), (s)_ISC_MEM_FILELINE)
@@ -504,7 +504,7 @@ char *ISCMEMFUNC(strndup)(isc_mem_t *, const char *, size_t _ISC_MEM_FLARG);
 ISC_ATTR_MALLOC_DEALLOCATOR_IDX(ISCMEMPOOLFUNC(put), 2)
 void *ISCMEMPOOLFUNC(get)(isc_mempool_t *_ISC_MEM_FLARG);
 
-void ISCMEMPOOLFUNC(put)(isc_mempool_t *, void *_ISC_MEM_FLARG);
+void  ISCMEMPOOLFUNC(put)(isc_mempool_t *, void *_ISC_MEM_FLARG);
 
 #ifdef POP_MALLOC_MACRO
 /*

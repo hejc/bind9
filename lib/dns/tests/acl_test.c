@@ -52,8 +52,8 @@ _teardown(void **state) {
 	return (0);
 }
 
-#define BUFLEN	    255
-#define BIGBUFLEN   (70 * 1024)
+#define BUFLEN 255
+#define BIGBUFLEN (70 * 1024)
 #define TEST_ORIGIN "test"
 
 /* test that dns_acl_isinsecure works */
@@ -113,15 +113,15 @@ dns_acl_isinsecure_test(void **state) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 #endif /* HAVE_GEOIP2 */
 
-	assert_true(dns_acl_isinsecure(any));	   /* any; */
-	assert_false(dns_acl_isinsecure(none));	   /* none; */
+	assert_true(dns_acl_isinsecure(any));      /* any; */
+	assert_false(dns_acl_isinsecure(none));    /* none; */
 	assert_false(dns_acl_isinsecure(notany));  /* !any; */
 	assert_false(dns_acl_isinsecure(notnone)); /* !none; */
 
 #if defined(HAVE_GEOIP2)
-	assert_true(dns_acl_isinsecure(geoip));	    /* geoip; */
+	assert_true(dns_acl_isinsecure(geoip));     /* geoip; */
 	assert_false(dns_acl_isinsecure(notgeoip)); /* !geoip; */
-#endif						    /* HAVE_GEOIP2 */
+#endif                                              /* HAVE_GEOIP2 */
 
 	dns_acl_detach(&any);
 	dns_acl_detach(&none);

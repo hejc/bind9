@@ -25,10 +25,10 @@
 #include <dns/fixedname.h>
 #include <dns/rbt.h>
 
-#define CCTX_MAGIC    ISC_MAGIC('C', 'C', 'T', 'X')
+#define CCTX_MAGIC ISC_MAGIC('C', 'C', 'T', 'X')
 #define VALID_CCTX(x) ISC_MAGIC_VALID(x, CCTX_MAGIC)
 
-#define DCTX_MAGIC    ISC_MAGIC('D', 'C', 'T', 'X')
+#define DCTX_MAGIC ISC_MAGIC('D', 'C', 'T', 'X')
 #define VALID_DCTX(x) ISC_MAGIC_VALID(x, DCTX_MAGIC)
 
 static unsigned char maptolower[] = {
@@ -331,7 +331,7 @@ dns_compress_findglobal(dns_compress_t *cctx, const dns_name_t *name,
 					}
 				}
 				break;
-			cont1:
+cont1:
 				continue;
 			}
 		}

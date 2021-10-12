@@ -47,13 +47,13 @@
 #define DST_AS_STR(t) ((t).value.as_textregion.base)
 
 #define PRIVATE_KEY_STR "Private-key-format:"
-#define ALGORITHM_STR	"Algorithm:"
+#define ALGORITHM_STR "Algorithm:"
 
 #define TIMING_NTAGS (DST_MAX_TIMES + 1)
 static const char *timetags[TIMING_NTAGS] = {
-	"Created:",    "Publish:", "Activate:",	 "Revoke:",
+	"Created:",    "Publish:", "Activate:",  "Revoke:",
 	"Inactive:",   "Delete:",  "DSPublish:", "SyncPublish:",
-	"SyncDelete:", NULL,	   NULL,	 NULL,
+	"SyncDelete:", NULL,       NULL,         NULL,
 	NULL
 };
 
@@ -577,7 +577,7 @@ dst__privstruct_parse(dst_key_t *key, unsigned int alg, isc_lex_t *lex,
 		priv->elements[n].data = r.base;
 		priv->nelements++;
 
-	next:
+next:
 		READLINE(lex, opt, &token);
 		data = NULL;
 	}

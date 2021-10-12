@@ -30,8 +30,8 @@
 
 #include "dnstest.h"
 
-#define BUFLEN	    255
-#define BIGBUFLEN   (64 * 1024)
+#define BUFLEN 255
+#define BIGBUFLEN (64 * 1024)
 #define TEST_ORIGIN "test"
 
 static int

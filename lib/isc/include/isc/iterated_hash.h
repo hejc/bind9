@@ -23,7 +23,7 @@
  * The maximum has that can be encoded in a single label using
  * base32hex.  floor(63/8)*5
  */
-#define NSEC3_MAX_LABEL_HASH 35
+#define NSEC3_MAX_LABEL_HASH  35
 
 ISC_LANG_BEGINDECLS
 

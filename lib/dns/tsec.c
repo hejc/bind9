@@ -18,7 +18,7 @@
 
 #include <dst/dst.h>
 
-#define DNS_TSEC_MAGIC	  ISC_MAGIC('T', 's', 'e', 'c')
+#define DNS_TSEC_MAGIC ISC_MAGIC('T', 's', 'e', 'c')
 #define DNS_TSEC_VALID(t) ISC_MAGIC_VALID(t, DNS_TSEC_MAGIC)
 
 /*%

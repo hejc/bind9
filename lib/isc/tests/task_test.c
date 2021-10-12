@@ -480,7 +480,7 @@ basic(void **state) {
 	isc_timer_t *ti2 = NULL;
 	isc_time_t absolute;
 	isc_interval_t interval;
-	char *testarray[] = { one, one, one,   one,  one, one,	 one,  one,
+	char *testarray[] = { one, one, one,   one,  one, one,   one,  one,
 			      one, two, three, four, two, three, four, NULL };
 	int i;
 
@@ -956,9 +956,9 @@ post_shutdown(void **state) {
  */
 
 #define SENDERCNT 3
-#define TYPECNT	  4
-#define TAGCNT	  5
-#define NEVENTS	  (SENDERCNT * TYPECNT * TAGCNT)
+#define TYPECNT 4
+#define TAGCNT 5
+#define NEVENTS (SENDERCNT * TYPECNT * TAGCNT)
 
 static bool testrange;
 static void *purge_sender;

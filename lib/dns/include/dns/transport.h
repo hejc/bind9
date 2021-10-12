@@ -14,20 +14,20 @@
 #include <dns/name.h>
 
 typedef enum {
-	DNS_TRANSPORT_NONE = 0,
-	DNS_TRANSPORT_UDP = 1,
-	DNS_TRANSPORT_TCP = 2,
-	DNS_TRANSPORT_TLS = 3,
-	DNS_TRANSPORT_HTTP = 4,
+	DNS_TRANSPORT_NONE  = 0,
+	DNS_TRANSPORT_UDP   = 1,
+	DNS_TRANSPORT_TCP   = 2,
+	DNS_TRANSPORT_TLS   = 3,
+	DNS_TRANSPORT_HTTP  = 4,
 	DNS_TRANSPORT_COUNT = 5,
 } dns_transport_type_t;
 
 typedef enum {
-	DNS_HTTP_GET = 0,
+	DNS_HTTP_GET  = 0,
 	DNS_HTTP_POST = 1,
 } dns_http_mode_t;
 
-typedef struct dns_transport	  dns_transport_t;
+typedef struct dns_transport      dns_transport_t;
 typedef struct dns_transport_list dns_transport_list_t;
 
 dns_transport_t *

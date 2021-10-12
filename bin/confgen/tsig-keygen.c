@@ -44,7 +44,7 @@
 #include "keygen.h"
 #include "util.h"
 
-#define KEYGEN_DEFAULT	"tsig-key"
+#define KEYGEN_DEFAULT "tsig-key"
 #define CONFGEN_DEFAULT "ddns-key"
 
 static char program[256];

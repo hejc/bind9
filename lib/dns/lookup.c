@@ -48,7 +48,7 @@ struct dns_lookup {
 	dns_rdataset_t sigrdataset;
 };
 
-#define LOOKUP_MAGIC	ISC_MAGIC('l', 'o', 'o', 'k')
+#define LOOKUP_MAGIC ISC_MAGIC('l', 'o', 'o', 'k')
 #define VALID_LOOKUP(l) ISC_MAGIC_VALID((l), LOOKUP_MAGIC)
 
 #define MAX_RESTARTS 16
@@ -288,7 +288,7 @@ lookup_find(dns_lookup_t *lookup, dns_fetchevent_t *event) {
 			dns_rdataset_disassociate(&lookup->sigrdataset);
 		}
 
-	done:
+done:
 		if (event != NULL) {
 			if (event->node != NULL) {
 				dns_db_detachnode(event->db, &event->node);

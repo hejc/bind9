@@ -31,12 +31,12 @@
 #include <ns/types.h>
 
 #define NS_SERVER_LOGQUERIES   0x00000001U /*%< log queries */
-#define NS_SERVER_NOAA	       0x00000002U /*%< -T noaa */
-#define NS_SERVER_NOSOA	       0x00000004U /*%< -T nosoa */
+#define NS_SERVER_NOAA         0x00000002U /*%< -T noaa */
+#define NS_SERVER_NOSOA        0x00000004U /*%< -T nosoa */
 #define NS_SERVER_NONEAREST    0x00000008U /*%< -T nonearest */
 #define NS_SERVER_NOEDNS       0x00000020U /*%< -T noedns */
 #define NS_SERVER_DROPEDNS     0x00000040U /*%< -T dropedns */
-#define NS_SERVER_NOTCP	       0x00000080U /*%< -T notcp */
+#define NS_SERVER_NOTCP        0x00000080U /*%< -T notcp */
 #define NS_SERVER_DISABLE4     0x00000100U /*%< -6 */
 #define NS_SERVER_DISABLE6     0x00000200U /*%< -4 */
 #define NS_SERVER_FIXEDLOCAL   0x00000400U /*%< -T fixedlocal */
@@ -67,59 +67,59 @@ typedef isc_result_t (*ns_matchview_t)(
  * Server context.
  */
 struct ns_server {
-	unsigned int magic;
-	isc_mem_t	  *mctx;
+	unsigned int       magic;
+	isc_mem_t         *mctx;
 
-	isc_refcount_t references;
+	isc_refcount_t     references;
 
 	/*% Server cookie secret and algorithm */
-	unsigned char	   secret[32];
-	ns_cookiealg_t	   cookiealg;
+	unsigned char      secret[32];
+	ns_cookiealg_t     cookiealg;
 	ns_altsecretlist_t altsecrets;
-	bool		   answercookie;
+	bool               answercookie;
 
 	/*% Quotas */
-	isc_quota_t recursionquota;
-	isc_quota_t tcpquota;
-	isc_quota_t xfroutquota;
+	isc_quota_t        recursionquota;
+	isc_quota_t        tcpquota;
+	isc_quota_t        xfroutquota;
 	ISC_LIST(isc_quota_t) http_quotas;
 
 	/*% Test options and other configurables */
-	uint32_t options;
+	uint32_t        options;
 
-	dns_acl_t	  *blackholeacl;
-	dns_acl_t	  *keepresporder;
-	uint16_t       udpsize;
-	uint16_t       transfer_tcp_message_size;
-	bool	       interface_auto;
-	dns_tkeyctx_t *tkeyctx;
+	dns_acl_t      *blackholeacl;
+	dns_acl_t      *keepresporder;
+	uint16_t        udpsize;
+	uint16_t        transfer_tcp_message_size;
+	bool            interface_auto;
+	dns_tkeyctx_t  *tkeyctx;
 
 	/*% Server id for NSID */
-	char	     *server_id;
+	char           *server_id;
 	ns_hostnamecb_t gethostname;
 
 	/*% Fuzzer callback */
-	isc_fuzztype_t fuzztype;
-	ns_fuzzcb_t    fuzznotify;
+	isc_fuzztype_t  fuzztype;
+	ns_fuzzcb_t     fuzznotify;
 
 	/*% Callback to find a matching view for a query */
-	ns_matchview_t matchingview;
+	ns_matchview_t  matchingview;
 
 	/*% Stats counters */
-	ns_stats_t  *nsstats;
-	dns_stats_t *rcvquerystats;
-	dns_stats_t *opcodestats;
-	dns_stats_t *rcodestats;
+	ns_stats_t     *nsstats;
+	dns_stats_t    *rcvquerystats;
+	dns_stats_t    *opcodestats;
+	dns_stats_t    *rcodestats;
 
-	isc_stats_t *udpinstats4;
-	isc_stats_t *udpoutstats4;
-	isc_stats_t *udpinstats6;
-	isc_stats_t *udpoutstats6;
+	isc_stats_t    *udpinstats4;
+	isc_stats_t    *udpoutstats4;
+	isc_stats_t    *udpinstats6;
+	isc_stats_t    *udpoutstats6;
 
-	isc_stats_t *tcpinstats4;
-	isc_stats_t *tcpoutstats4;
-	isc_stats_t *tcpinstats6;
-	isc_stats_t *tcpoutstats6;
+	isc_stats_t    *tcpinstats4;
+	isc_stats_t    *tcpoutstats4;
+	isc_stats_t    *tcpinstats6;
+	isc_stats_t    *tcpoutstats6;
 };
 
 struct ns_altsecret {

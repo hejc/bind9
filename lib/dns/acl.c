@@ -23,7 +23,7 @@
 #include <dns/iptable.h>
 
 #define DNS_ACLENV_MAGIC ISC_MAGIC('a', 'c', 'n', 'v')
-#define VALID_ACLENV(a)	 ISC_MAGIC_VALID(a, DNS_ACLENV_MAGIC)
+#define VALID_ACLENV(a) ISC_MAGIC_VALID(a, DNS_ACLENV_MAGIC)
 
 /*
  * Create a new ACL, including an IP table and an array with room

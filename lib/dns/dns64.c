@@ -28,14 +28,14 @@ struct dns_dns64 {
 	unsigned char bits[16]; /*
 				 * Prefix + suffix bits.
 				 */
-	dns_acl_t *clients;	/*
+	dns_acl_t *clients;     /*
 				 * Which clients get mapped
 				 * addresses.
 				 */
-	dns_acl_t *mapped;	/*
+	dns_acl_t *mapped;      /*
 				 * IPv4 addresses to be mapped.
 				 */
-	dns_acl_t *excluded;	/*
+	dns_acl_t *excluded;    /*
 				 * IPv6 addresses that are
 				 * treated as not existing.
 				 */
@@ -432,7 +432,7 @@ dns_dns64_findprefix(dns_rdataset_t *rdataset, isc_netprefix_t *prefix,
 		dns_rdata_t rd1 = DNS_RDATA_INIT;
 		dns_rdataset_current(&outer, &rd1);
 		oplen = 0;
-	resume:
+resume:
 		/* Look for a 192.0.0.170 match. */
 		oplen = search(&rd1, NULL, oplen);
 		if (oplen == 0) {

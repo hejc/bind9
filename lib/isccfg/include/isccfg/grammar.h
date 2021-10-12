@@ -30,9 +30,9 @@
  */
 
 /*% Clause may occur multiple times (e.g., "zone") */
-#define CFG_CLAUSEFLAG_MULTI 0x00000001
+#define CFG_CLAUSEFLAG_MULTI         0x00000001
 /*% Clause is obsolete (logs a warning, but is not a fatal error) */
-#define CFG_CLAUSEFLAG_OBSOLETE 0x00000002
+#define CFG_CLAUSEFLAG_OBSOLETE      0x00000002
 /* obsolete: #define CFG_CLAUSEFLAG_NOTIMP 0x00000004 */
 /* obsolete: #define CFG_CLAUSEFLAG_NYI 0x00000008 */
 /* obsolete: #define CFG_CLAUSEFLAG_NEWDEFAULT 0x00000010 */
@@ -41,41 +41,41 @@
  * by calling a callback function, like the
  * "directory" option.
  */
-#define CFG_CLAUSEFLAG_CALLBACK 0x00000020
+#define CFG_CLAUSEFLAG_CALLBACK      0x00000020
 /*% A option that is only used in testing. */
-#define CFG_CLAUSEFLAG_TESTONLY 0x00000040
+#define CFG_CLAUSEFLAG_TESTONLY      0x00000040
 /*% A configuration option that was not configured at compile time. */
 #define CFG_CLAUSEFLAG_NOTCONFIGURED 0x00000080
 /*% A option for a experimental feature. */
-#define CFG_CLAUSEFLAG_EXPERIMENTAL 0x00000100
+#define CFG_CLAUSEFLAG_EXPERIMENTAL  0x00000100
 /* obsolete: #define CFG_CLAUSEFLAG_NOOP 0x00000200 */
 /*% Clause will be obsolete in a future release (logs a warning) */
-#define CFG_CLAUSEFLAG_DEPRECATED 0x00000400
+#define CFG_CLAUSEFLAG_DEPRECATED    0x00000400
 /*% Clause has been obsolete so long that it's now a fatal error */
-#define CFG_CLAUSEFLAG_ANCIENT 0x00000800
+#define CFG_CLAUSEFLAG_ANCIENT       0x00000800
 
 /*%
  * Zone types for which a clause is valid:
  * These share space with CFG_CLAUSEFLAG values, but count
  * down from the top.
  */
-#define CFG_ZONE_PRIMARY    0x80000000
-#define CFG_ZONE_SECONDARY  0x40000000
-#define CFG_ZONE_STUB	    0x20000000
-#define CFG_ZONE_HINT	    0x10000000
-#define CFG_ZONE_FORWARD    0x08000000
-#define CFG_ZONE_STATICSTUB 0x04000000
-#define CFG_ZONE_REDIRECT   0x02000000
-#define CFG_ZONE_DELEGATION 0x01000000
-#define CFG_ZONE_INVIEW	    0x00800000
-#define CFG_ZONE_MIRROR	    0x00400000
+#define CFG_ZONE_PRIMARY             0x80000000
+#define CFG_ZONE_SECONDARY           0x40000000
+#define CFG_ZONE_STUB                0x20000000
+#define CFG_ZONE_HINT                0x10000000
+#define CFG_ZONE_FORWARD             0x08000000
+#define CFG_ZONE_STATICSTUB          0x04000000
+#define CFG_ZONE_REDIRECT            0x02000000
+#define CFG_ZONE_DELEGATION          0x01000000
+#define CFG_ZONE_INVIEW              0x00800000
+#define CFG_ZONE_MIRROR              0x00400000
 
-typedef struct cfg_clausedef	 cfg_clausedef_t;
+typedef struct cfg_clausedef     cfg_clausedef_t;
 typedef struct cfg_tuplefielddef cfg_tuplefielddef_t;
-typedef struct cfg_printer	 cfg_printer_t;
+typedef struct cfg_printer       cfg_printer_t;
 typedef ISC_LIST(cfg_listelt_t) cfg_list_t;
-typedef struct cfg_map	    cfg_map_t;
-typedef struct cfg_rep	    cfg_rep_t;
+typedef struct cfg_map      cfg_map_t;
+typedef struct cfg_rep      cfg_rep_t;
 typedef struct cfg_duration cfg_duration_t;
 
 #define CFG_DURATION_MAXLEN 64
@@ -122,27 +122,27 @@ struct cfg_tuplefielddef {
 
 /*% A configuration object type definition. */
 struct cfg_type {
-	const char	   *name; /*%< For debugging purposes only */
+	const char     *name; /*%< For debugging purposes only */
 	cfg_parsefunc_t parse;
 	cfg_printfunc_t print;
-	cfg_docfunc_t	doc; /*%< Print grammar description */
-	cfg_rep_t	  *rep; /*%< Data representation */
-	const void	   *of;  /*%< Additional data for meta-types */
+	cfg_docfunc_t   doc; /*%< Print grammar description */
+	cfg_rep_t      *rep; /*%< Data representation */
+	const void     *of;  /*%< Additional data for meta-types */
 };
 
 /*% A keyword-type definition, for things like "port <integer>". */
 typedef struct {
-	const char	   *name;
+	const char       *name;
 	const cfg_type_t *type;
 } keyword_type_t;
 
 struct cfg_map {
-	cfg_obj_t *id; /*%< Used for 'named maps' like
-			* keys, zones, &c */
+	cfg_obj_t                    *id; /*%< Used for 'named maps' like
+					   * keys, zones, &c */
 	const cfg_clausedef_t *const *clausesets; /*%< The clauses that
 						   * can occur in this map;
 						   * used for printing */
-	isc_symtab_t *symtab;
+	isc_symtab_t                 *symtab;
 };
 
 typedef struct cfg_netprefix cfg_netprefix_t;
@@ -167,15 +167,15 @@ struct cfg_duration {
 	 * [6] Seconds
 	 */
 	uint32_t parts[7];
-	bool	 iso8601;
-	bool	 unlimited;
+	bool     iso8601;
+	bool     unlimited;
 };
 
 /*%
  * A configuration data representation.
  */
 struct cfg_rep {
-	const char	   *name; /*%< For debugging only */
+	const char    *name; /*%< For debugging only */
 	cfg_freefunc_t free; /*%< How to free this kind of data. */
 };
 
@@ -187,23 +187,23 @@ struct cfg_rep {
 struct cfg_obj {
 	const cfg_type_t *type;
 	union {
-		uint32_t	 uint32;
-		uint64_t	 uint64;
+		uint32_t         uint32;
+		uint64_t         uint64;
 		isc_textregion_t string; /*%< null terminated, too */
-		bool		 boolean;
-		cfg_map_t	 map;
-		cfg_list_t	 list;
-		cfg_obj_t	  **tuple;
-		isc_sockaddr_t	 sockaddr;
+		bool             boolean;
+		cfg_map_t        map;
+		cfg_list_t       list;
+		cfg_obj_t      **tuple;
+		isc_sockaddr_t   sockaddr;
 		struct {
 			isc_sockaddr_t sockaddr;
 			isc_dscp_t     dscp;
 		} sockaddrdscp;
 		cfg_netprefix_t netprefix;
-		cfg_duration_t	duration;
+		cfg_duration_t  duration;
 	} value;
 	isc_refcount_t references; /*%< reference counter */
-	const char	   *file;
+	const char    *file;
 	unsigned int   line;
 	cfg_parser_t  *pctx;
 };
@@ -216,18 +216,18 @@ struct cfg_listelt {
 
 /*% The parser object. */
 struct cfg_parser {
-	isc_mem_t	  *mctx;
-	isc_log_t	  *lctx;
-	isc_lex_t	  *lexer;
-	unsigned int errors;
-	unsigned int warnings;
-	isc_token_t  token;
+	isc_mem_t          *mctx;
+	isc_log_t          *lctx;
+	isc_lex_t          *lexer;
+	unsigned int        errors;
+	unsigned int        warnings;
+	isc_token_t         token;
 
 	/*% We are at the end of all input. */
-	bool seen_eof;
+	bool                seen_eof;
 
 	/*% The current token has been pushed back. */
-	bool ungotten;
+	bool                ungotten;
 
 	/*%
 	 * The stack of currently active files, represented
@@ -236,7 +236,7 @@ struct cfg_parser {
 	 * (if any) are the nested include files, and the
 	 * last element is the file currently being parsed.
 	 */
-	cfg_obj_t *open_files;
+	cfg_obj_t          *open_files;
 
 	/*%
 	 * Names of files that we have parsed and closed
@@ -247,67 +247,67 @@ struct cfg_parser {
 	 * for use in reporting semantic errors after
 	 * parsing is complete.
 	 */
-	cfg_obj_t *closed_files;
+	cfg_obj_t          *closed_files;
 
 	/*%
 	 * Name of a buffer being parsed; used only for
 	 * logging.
 	 */
-	char const *buf_name;
+	char const         *buf_name;
 
 	/*%
 	 * Current line number.  We maintain our own
 	 * copy of this so that it is available even
 	 * when a file has just been closed.
 	 */
-	unsigned int line;
+	unsigned int        line;
 
 	/*%
 	 * Parser context flags, used for maintaining state
 	 * from one token to the next.
 	 */
-	unsigned int flags;
+	unsigned int        flags;
 
 	/*%< Reference counter */
-	isc_refcount_t references;
+	isc_refcount_t      references;
 
 	cfg_parsecallback_t callback;
-	void		     *callbackarg;
+	void               *callbackarg;
 };
 
 /* Parser context flags */
-#define CFG_PCTX_SKIP	      0x1
+#define CFG_PCTX_SKIP         0x1
 #define CFG_PCTX_NODEPRECATED 0x2
 
 /*@{*/
 /*%
  * Flags defining whether to accept certain types of network addresses.
  */
-#define CFG_ADDR_V4OK	    0x00000001
-#define CFG_ADDR_V4PREFIXOK 0x00000002
-#define CFG_ADDR_V6OK	    0x00000004
-#define CFG_ADDR_WILDOK	    0x00000008
-#define CFG_ADDR_DSCPOK	    0x00000010
-#define CFG_ADDR_MASK	    (CFG_ADDR_V6OK | CFG_ADDR_V4OK)
+#define CFG_ADDR_V4OK         0x00000001
+#define CFG_ADDR_V4PREFIXOK   0x00000002
+#define CFG_ADDR_V6OK         0x00000004
+#define CFG_ADDR_WILDOK       0x00000008
+#define CFG_ADDR_DSCPOK       0x00000010
+#define CFG_ADDR_MASK         (CFG_ADDR_V6OK | CFG_ADDR_V4OK)
 /*@}*/
 
 /*@{*/
 /*%
  * Predefined data representation types.
  */
-extern cfg_rep_t cfg_rep_uint32;
-extern cfg_rep_t cfg_rep_uint64;
-extern cfg_rep_t cfg_rep_string;
-extern cfg_rep_t cfg_rep_boolean;
-extern cfg_rep_t cfg_rep_map;
-extern cfg_rep_t cfg_rep_list;
-extern cfg_rep_t cfg_rep_tuple;
-extern cfg_rep_t cfg_rep_sockaddr;
-extern cfg_rep_t cfg_rep_netprefix;
-extern cfg_rep_t cfg_rep_void;
-extern cfg_rep_t cfg_rep_fixedpoint;
-extern cfg_rep_t cfg_rep_percentage;
-extern cfg_rep_t cfg_rep_duration;
+extern cfg_rep_t  cfg_rep_uint32;
+extern cfg_rep_t  cfg_rep_uint64;
+extern cfg_rep_t  cfg_rep_string;
+extern cfg_rep_t  cfg_rep_boolean;
+extern cfg_rep_t  cfg_rep_map;
+extern cfg_rep_t  cfg_rep_list;
+extern cfg_rep_t  cfg_rep_tuple;
+extern cfg_rep_t  cfg_rep_sockaddr;
+extern cfg_rep_t  cfg_rep_netprefix;
+extern cfg_rep_t  cfg_rep_void;
+extern cfg_rep_t  cfg_rep_fixedpoint;
+extern cfg_rep_t  cfg_rep_percentage;
+extern cfg_rep_t  cfg_rep_duration;
 /*@}*/
 
 /*@{*/

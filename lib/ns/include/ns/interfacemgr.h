@@ -56,8 +56,8 @@
  *** Types
  ***/
 
-#define IFACE_MAGIC	      ISC_MAGIC('I', ':', '-', ')')
-#define NS_INTERFACE_VALID(t) ISC_MAGIC_VALID(t, IFACE_MAGIC)
+#define IFACE_MAGIC              ISC_MAGIC('I', ':', '-', ')')
+#define NS_INTERFACE_VALID(t)    ISC_MAGIC_VALID(t, IFACE_MAGIC)
 
 #define NS_INTERFACEFLAG_ANYADDR 0x01U /*%< bound to "any" address */
 #define MAX_UDP_DISPATCH                           \
@@ -65,28 +65,28 @@
 	     *           to start per interface */
 /*% The nameserver interface structure */
 struct ns_interface {
-	unsigned int	   magic; /*%< Magic number. */
-	ns_interfacemgr_t *mgr;	  /*%< Interface manager. */
-	isc_mutex_t	   lock;
-	isc_refcount_t	   references;
-	unsigned int	   generation; /*%< Generation number. */
-	isc_sockaddr_t	   addr;       /*%< Address and port. */
-	unsigned int	   flags;      /*%< Interface flags */
-	char		   name[32];   /*%< Null terminated. */
+	unsigned int       magic; /*%< Magic number. */
+	ns_interfacemgr_t *mgr;   /*%< Interface manager. */
+	isc_mutex_t        lock;
+	isc_refcount_t     references;
+	unsigned int       generation; /*%< Generation number. */
+	isc_sockaddr_t     addr;       /*%< Address and port. */
+	unsigned int       flags;      /*%< Interface flags */
+	char               name[32];   /*%< Null terminated. */
 	isc_nmsocket_t    *udplistensocket;
 	isc_nmsocket_t    *tcplistensocket;
 	isc_nmsocket_t    *http_listensocket;
 	isc_nmsocket_t    *http_secure_listensocket;
-	isc_dscp_t	   dscp;	  /*%< "listen-on" DSCP value */
-	isc_refcount_t	   ntcpaccepting; /*%< Number of clients
+	isc_dscp_t         dscp;          /*%< "listen-on" DSCP value */
+	isc_refcount_t     ntcpaccepting; /*%< Number of clients
 					   *   ready to accept new
 					   *   TCP connections on this
 					   *   interface */
-	isc_refcount_t ntcpactive;	  /*%< Number of clients
+	isc_refcount_t     ntcpactive;    /*%< Number of clients
 					   *   servicing TCP queries
 					   *   (whether accepting or
 					   *   connected) */
-	ns_clientmgr_t *clientmgr;	  /*%< Client manager. */
+	ns_clientmgr_t    *clientmgr;     /*%< Client manager. */
 	ISC_LINK(ns_interface_t) link;
 };
 

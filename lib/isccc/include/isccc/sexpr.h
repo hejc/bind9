@@ -46,20 +46,20 @@ struct isccc_dottedpair {
 struct isccc_sexpr {
 	unsigned int type;
 	union {
-		char		     *as_string;
+		char              *as_string;
 		isccc_dottedpair_t as_dottedpair;
-		isccc_region_t	   as_region;
+		isccc_region_t     as_region;
 	} value;
 };
 
-#define ISCCC_SEXPRTYPE_NONE	   0x00 /*%< Illegal. */
-#define ISCCC_SEXPRTYPE_T	   0x01
-#define ISCCC_SEXPRTYPE_STRING	   0x02
+#define ISCCC_SEXPRTYPE_NONE       0x00 /*%< Illegal. */
+#define ISCCC_SEXPRTYPE_T          0x01
+#define ISCCC_SEXPRTYPE_STRING     0x02
 #define ISCCC_SEXPRTYPE_DOTTEDPAIR 0x03
-#define ISCCC_SEXPRTYPE_BINARY	   0x04
+#define ISCCC_SEXPRTYPE_BINARY     0x04
 
-#define ISCCC_SEXPR_CAR(s) (s)->value.as_dottedpair.car
-#define ISCCC_SEXPR_CDR(s) (s)->value.as_dottedpair.cdr
+#define ISCCC_SEXPR_CAR(s)         (s)->value.as_dottedpair.car
+#define ISCCC_SEXPR_CDR(s)         (s)->value.as_dottedpair.cdr
 
 isccc_sexpr_t *
 isccc_sexpr_cons(isccc_sexpr_t *car, isccc_sexpr_t *cdr);

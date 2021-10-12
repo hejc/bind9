@@ -33,11 +33,11 @@
 #include "../zone_p.h"
 #include "dnstest.h"
 
-#define HASH	1
-#define FLAGS	0
-#define ITER	5
+#define HASH 1
+#define FLAGS 0
+#define ITER 5
 #define SALTLEN 4
-#define SALT	"FEDCBA98"
+#define SALT "FEDCBA98"
 
 static int
 _setup(void **state) {

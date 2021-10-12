@@ -66,17 +66,17 @@
 #include <ldap.h>
 
 #define SIMPLE "simple"
-#define KRB41  "krb41"
-#define KRB42  "krb42"
-#define V2     "v2"
-#define V3     "v3"
+#define KRB41 "krb41"
+#define KRB42 "krb42"
+#define V2 "v2"
+#define V3 "v3"
 
 #define dbc_search_limit 30
-#define ALLNODES	 1
-#define ALLOWXFR	 2
-#define AUTHORITY	 3
-#define FINDZONE	 4
-#define LOOKUP		 5
+#define ALLNODES 1
+#define ALLOWXFR 2
+#define AUTHORITY 3
+#define FINDZONE 4
+#define LOOKUP 5
 
 /*%
  * Structure to hold everything needed by this "instance" of the LDAP
@@ -86,9 +86,9 @@
 typedef struct {
 #if PTHREADS
 	db_list_t *db; /*%< handle to a list of DB */
-#else		       /* if PTHREADS */
+#else                  /* if PTHREADS */
 	dbinstance_t *db; /*%< handle to db */
-#endif		       /* if PTHREADS */
+#endif                 /* if PTHREADS */
 	int method;    /*%< security authentication
 			* method */
 	char *user;    /*%< who is authenticating */

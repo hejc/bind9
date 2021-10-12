@@ -19,7 +19,7 @@
 #include <isc/result.h>
 #include <isc/types.h>
 
-typedef struct isc_ht	   isc_ht_t;
+typedef struct isc_ht      isc_ht_t;
 typedef struct isc_ht_iter isc_ht_iter_t;
 
 /*%

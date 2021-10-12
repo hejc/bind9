@@ -39,25 +39,25 @@ ISC_LANG_BEGINDECLS
 
 /*% from lib/dns/include/dst/dst.h */
 
-#define ISCCC_ALG_UNKNOWN    0
-#define ISCCC_ALG_HMACMD5    157
-#define ISCCC_ALG_HMACSHA1   161
-#define ISCCC_ALG_HMACSHA224 162
-#define ISCCC_ALG_HMACSHA256 163
-#define ISCCC_ALG_HMACSHA384 164
-#define ISCCC_ALG_HMACSHA512 165
+#define ISCCC_ALG_UNKNOWN          0
+#define ISCCC_ALG_HMACMD5          157
+#define ISCCC_ALG_HMACSHA1         161
+#define ISCCC_ALG_HMACSHA224       162
+#define ISCCC_ALG_HMACSHA256       163
+#define ISCCC_ALG_HMACSHA384       164
+#define ISCCC_ALG_HMACSHA512       165
 
 /*% Maximum Datagram Package */
-#define ISCCC_CC_MAXDGRAMPACKET 4096
+#define ISCCC_CC_MAXDGRAMPACKET    4096
 
 /*% Message Type String */
-#define ISCCC_CCMSGTYPE_STRING 0x00
+#define ISCCC_CCMSGTYPE_STRING     0x00
 /*% Message Type Binary Data */
 #define ISCCC_CCMSGTYPE_BINARYDATA 0x01
 /*% Message Type Table */
-#define ISCCC_CCMSGTYPE_TABLE 0x02
+#define ISCCC_CCMSGTYPE_TABLE      0x02
 /*% Message Type List */
-#define ISCCC_CCMSGTYPE_LIST 0x03
+#define ISCCC_CCMSGTYPE_LIST       0x03
 
 /*% Send to Wire */
 isc_result_t

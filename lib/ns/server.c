@@ -24,7 +24,7 @@
 #include <ns/server.h>
 #include <ns/stats.h>
 
-#define SCTX_MAGIC    ISC_MAGIC('S', 'c', 't', 'x')
+#define SCTX_MAGIC ISC_MAGIC('S', 'c', 't', 'x')
 #define SCTX_VALID(s) ISC_MAGIC_VALID(s, SCTX_MAGIC)
 
 #define CHECKFATAL(op)                                  \

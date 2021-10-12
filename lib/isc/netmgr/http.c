@@ -113,7 +113,7 @@ typedef struct http_cstream {
 	LINK(struct http_cstream) link;
 } http_cstream_t;
 
-#define HTTP2_SESSION_MAGIC    ISC_MAGIC('H', '2', 'S', 'S')
+#define HTTP2_SESSION_MAGIC ISC_MAGIC('H', '2', 'S', 'S')
 #define VALID_HTTP2_SESSION(t) ISC_MAGIC_VALID(t, HTTP2_SESSION_MAGIC)
 
 typedef ISC_LIST(isc__nm_uvreq_t) isc__nm_http_pending_callbacks_t;
@@ -149,14 +149,14 @@ struct isc_nm_http_session {
 };
 
 typedef enum isc_http_error_responses {
-	ISC_HTTP_ERROR_SUCCESS,		       /* 200 */
-	ISC_HTTP_ERROR_NOT_FOUND,	       /* 404 */
+	ISC_HTTP_ERROR_SUCCESS,                /* 200 */
+	ISC_HTTP_ERROR_NOT_FOUND,              /* 404 */
 	ISC_HTTP_ERROR_PAYLOAD_TOO_LARGE,      /* 413 */
-	ISC_HTTP_ERROR_URI_TOO_LONG,	       /* 414 */
+	ISC_HTTP_ERROR_URI_TOO_LONG,           /* 414 */
 	ISC_HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE, /* 415 */
-	ISC_HTTP_ERROR_BAD_REQUEST,	       /* 400 */
-	ISC_HTTP_ERROR_NOT_IMPLEMENTED,	       /* 501 */
-	ISC_HTTP_ERROR_GENERIC,		       /* 500 Internal Server Error */
+	ISC_HTTP_ERROR_BAD_REQUEST,            /* 400 */
+	ISC_HTTP_ERROR_NOT_IMPLEMENTED,        /* 501 */
+	ISC_HTTP_ERROR_GENERIC,                /* 500 Internal Server Error */
 	ISC_HTTP_ERROR_MAX
 } isc_http_error_responses_t;
 
@@ -2843,13 +2843,13 @@ static const bool base64url_validation_table[256] = {
 	false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, true,  false, false, true,  true,
-	true,  true,  true,  true,  true,  true,  true,	 true,	false, false,
-	false, false, false, false, false, true,  true,	 true,	true,  true,
-	true,  true,  true,  true,  true,  true,  true,	 true,	true,  true,
-	true,  true,  true,  true,  true,  true,  true,	 true,	true,  true,
-	true,  false, false, false, false, true,  false, true,	true,  true,
-	true,  true,  true,  true,  true,  true,  true,	 true,	true,  true,
-	true,  true,  true,  true,  true,  true,  true,	 true,	true,  true,
+	true,  true,  true,  true,  true,  true,  true,  true,  false, false,
+	false, false, false, false, false, true,  true,  true,  true,  true,
+	true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+	true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+	true,  false, false, false, false, true,  false, true,  true,  true,
+	true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+	true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
 	true,  true,  true,  false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false, false, false,
@@ -3167,13 +3167,13 @@ typedef struct isc_httpparser_state {
 	size_t query_len;
 } isc_httpparser_state_t;
 
-#define MATCH(ch)      (st->str[0] == (ch))
-#define MATCH_ALPHA()  isalpha((unsigned char)(st->str[0]))
-#define MATCH_DIGIT()  isdigit((unsigned char)(st->str[0]))
-#define MATCH_ALNUM()  isalnum((unsigned char)(st->str[0]))
+#define MATCH(ch) (st->str[0] == (ch))
+#define MATCH_ALPHA() isalpha((unsigned char)(st->str[0]))
+#define MATCH_DIGIT() isdigit((unsigned char)(st->str[0]))
+#define MATCH_ALNUM() isalnum((unsigned char)(st->str[0]))
 #define MATCH_XDIGIT() isxdigit((unsigned char)(st->str[0]))
-#define ADVANCE()      st->str++
-#define GETP()	       (st->str)
+#define ADVANCE() st->str++
+#define GETP() (st->str)
 
 static bool
 rule_query_string(isc_httpparser_state_t *st);

@@ -74,13 +74,13 @@ hexdump(const char *msg, const char *msg2, void *base, size_t len) {
 }
 #endif /* ifdef SKAN_MSG_DEBUG */
 
-#define DNS_MESSAGE_OPCODE_MASK	      0x7800U
-#define DNS_MESSAGE_OPCODE_SHIFT      11
-#define DNS_MESSAGE_RCODE_MASK	      0x000fU
-#define DNS_MESSAGE_FLAG_MASK	      0x8ff0U
-#define DNS_MESSAGE_EDNSRCODE_MASK    0xff000000U
-#define DNS_MESSAGE_EDNSRCODE_SHIFT   24
-#define DNS_MESSAGE_EDNSVERSION_MASK  0x00ff0000U
+#define DNS_MESSAGE_OPCODE_MASK 0x7800U
+#define DNS_MESSAGE_OPCODE_SHIFT 11
+#define DNS_MESSAGE_RCODE_MASK 0x000fU
+#define DNS_MESSAGE_FLAG_MASK 0x8ff0U
+#define DNS_MESSAGE_EDNSRCODE_MASK 0xff000000U
+#define DNS_MESSAGE_EDNSRCODE_SHIFT 24
+#define DNS_MESSAGE_EDNSVERSION_MASK 0x00ff0000U
 #define DNS_MESSAGE_EDNSVERSION_SHIFT 16
 
 #define VALID_NAMED_SECTION(s) \
@@ -104,14 +104,14 @@ hexdump(const char *msg, const char *msg2, void *base, size_t len) {
  * of various block allocations used within the server.
  * XXXMLG These should come from a config setting.
  */
-#define SCRATCHPAD_SIZE	   1232
-#define NAME_FILLCOUNT	   4
-#define NAME_FREEMAX	   8 * NAME_FILLCOUNT
-#define OFFSET_COUNT	   4
-#define RDATA_COUNT	   8
-#define RDATALIST_COUNT	   8
+#define SCRATCHPAD_SIZE 1232
+#define NAME_FILLCOUNT 4
+#define NAME_FREEMAX 8 * NAME_FILLCOUNT
+#define OFFSET_COUNT 4
+#define RDATA_COUNT 8
+#define RDATALIST_COUNT 8
 #define RDATASET_FILLCOUNT 4
-#define RDATASET_FREEMAX   8 * RDATASET_FILLCOUNT
+#define RDATASET_FREEMAX 8 * RDATASET_FILLCOUNT
 
 /*%
  * Text representation of the different items, for message_totext
@@ -123,9 +123,9 @@ static const char *sectiontext[] = { "QUESTION", "ANSWER", "AUTHORITY",
 static const char *updsectiontext[] = { "ZONE", "PREREQUISITE", "UPDATE",
 					"ADDITIONAL" };
 
-static const char *opcodetext[] = { "QUERY",	  "IQUERY",	"STATUS",
-				    "RESERVED3",  "NOTIFY",	"UPDATE",
-				    "RESERVED6",  "RESERVED7",	"RESERVED8",
+static const char *opcodetext[] = { "QUERY",      "IQUERY",     "STATUS",
+				    "RESERVED3",  "NOTIFY",     "UPDATE",
+				    "RESERVED6",  "RESERVED7",  "RESERVED8",
 				    "RESERVED9",  "RESERVED10", "RESERVED11",
 				    "RESERVED12", "RESERVED13", "RESERVED14",
 				    "RESERVED15" };
@@ -2110,7 +2110,7 @@ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
 				rdataset->attributes |=
 					DNS_RDATASETATTR_RENDERED;
 
-			next:
+next:
 				rdataset = next_rdataset;
 			}
 
@@ -3241,7 +3241,7 @@ dns_message_checksig(dns_message_t *msg, dns_view_t *view) {
 			result = DNS_R_KEYUNAUTHORIZED;
 		}
 
-	freesig:
+freesig:
 		if (dns_rdataset_isassociated(&keyset)) {
 			dns_rdataset_disassociate(&keyset);
 		}

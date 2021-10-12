@@ -76,22 +76,22 @@ static dns_sdbimplementation_t *dns64_impl;
  * Pre computed HEX * 16 or 1 table.
  */
 static const unsigned char hex16[256] = {
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*00*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*10*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*20*/
-	0, 16,	32,  48,  64,  80,  96,	 112, 128, 144, 1, 1, 1, 1, 1, 1, /*30*/
-	1, 160, 176, 192, 208, 224, 240, 1,   1,   1,	1, 1, 1, 1, 1, 1, /*40*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*50*/
-	1, 160, 176, 192, 208, 224, 240, 1,   1,   1,	1, 1, 1, 1, 1, 1, /*60*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*70*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*80*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*90*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*A0*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*B0*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*C0*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*D0*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1, /*E0*/
-	1, 1,	1,   1,	  1,   1,   1,	 1,   1,   1,	1, 1, 1, 1, 1, 1  /*F0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*00*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*10*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*20*/
+	0, 16,  32,  48,  64,  80,  96,  112, 128, 144, 1, 1, 1, 1, 1, 1, /*30*/
+	1, 160, 176, 192, 208, 224, 240, 1,   1,   1,   1, 1, 1, 1, 1, 1, /*40*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*50*/
+	1, 160, 176, 192, 208, 224, 240, 1,   1,   1,   1, 1, 1, 1, 1, 1, /*60*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*70*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*80*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*90*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*A0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*B0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*C0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*D0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1, /*E0*/
+	1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1, 1, 1, 1, 1, 1  /*F0*/
 };
 
 static const unsigned char decimal[] = "0123456789";
@@ -390,13 +390,13 @@ do_authors_lookup(dns_sdblookup_t *lookup) {
 	isc_result_t result;
 	const char **p;
 	static const char *authors[] = {
-		"Mark Andrews",	  "Curtis Blackburn",	"James Brister",
-		"Ben Cottrell",	  "John H. DuBois III", "Francis Dupont",
+		"Mark Andrews",   "Curtis Blackburn",   "James Brister",
+		"Ben Cottrell",   "John H. DuBois III", "Francis Dupont",
 		"Michael Graff",  "Andreas Gustafsson", "Bob Halley",
-		"Evan Hunt",	  "JINMEI Tatuya",	"Witold Krecicki",
-		"David Lawrence", "Scott Mann",		"Danny Mayer",
-		"Damien Neil",	  "Matt Nelson",	"Jeremy C. Reed",
-		"Michael Sawyer", "Brian Wellington",	NULL
+		"Evan Hunt",      "JINMEI Tatuya",      "Witold Krecicki",
+		"David Lawrence", "Scott Mann",         "Danny Mayer",
+		"Damien Neil",    "Matt Nelson",        "Jeremy C. Reed",
+		"Michael Sawyer", "Brian Wellington",   NULL
 	};
 
 	/*
@@ -624,7 +624,7 @@ static dns_sdbmethods_t builtin_methods = {
 };
 
 static dns_sdbmethods_t dns64_methods = {
-	NULL,		builtin_authority, NULL, /* allnodes */
+	NULL,           builtin_authority, NULL, /* allnodes */
 	builtin_create, builtin_destroy,   dns64_lookup,
 };
 

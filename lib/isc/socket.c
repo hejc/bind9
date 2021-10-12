@@ -184,7 +184,7 @@ typedef enum { poll_idle, poll_active, poll_checking } pollstate_t;
 /*%
  * Per-FD lock buckets, we shuffle them around a bit as FDs come in herds.
  */
-#define FDLOCK_BITS  10
+#define FDLOCK_BITS 10
 #define FDLOCK_COUNT (1 << FDLOCK_BITS)
 #define FDLOCK_ID(fd)                                   \
 	(((fd) % (FDLOCK_COUNT) >> (FDLOCK_BITS / 2)) | \
@@ -234,21 +234,21 @@ typedef enum { poll_idle, poll_active, poll_checking } pollstate_t;
  * DLVL(50)  --  Event tracing, including receiving/sending completion events.
  * DLVL(20)  --  Socket creation/destruction.
  */
-#define TRACE_LEVEL	  90
+#define TRACE_LEVEL 90
 #define CORRECTNESS_LEVEL 70
-#define IOEVENT_LEVEL	  60
-#define EVENT_LEVEL	  50
-#define CREATION_LEVEL	  20
+#define IOEVENT_LEVEL 60
+#define EVENT_LEVEL 50
+#define CREATION_LEVEL 20
 
-#define TRACE	    DLVL(TRACE_LEVEL)
+#define TRACE DLVL(TRACE_LEVEL)
 #define CORRECTNESS DLVL(CORRECTNESS_LEVEL)
-#define IOEVENT	    DLVL(IOEVENT_LEVEL)
-#define EVENT	    DLVL(EVENT_LEVEL)
-#define CREATION    DLVL(CREATION_LEVEL)
+#define IOEVENT DLVL(IOEVENT_LEVEL)
+#define EVENT DLVL(EVENT_LEVEL)
+#define CREATION DLVL(CREATION_LEVEL)
 
 typedef isc_event_t intev_t;
 
-#define SOCKET_MAGIC	ISC_MAGIC('I', 'O', 'i', 'o')
+#define SOCKET_MAGIC ISC_MAGIC('I', 'O', 'i', 'o')
 #define VALID_SOCKET(s) ISC_MAGIC_VALID(s, SOCKET_MAGIC)
 
 /*!
@@ -347,22 +347,22 @@ struct isc_socket {
 
 	isc_sockaddr_t peer_address; /* remote address */
 
-	unsigned int listener : 1,	       /* listener socket */
+	unsigned int listener : 1,             /* listener socket */
 		connected : 1, connecting : 1, /* connect pending
 						* */
-		bound	: 1,		       /* bound to local addr */
-		active	: 1,		       /* currently active */
-		pktdscp : 1;		       /* per packet dscp */
+		bound   : 1,                   /* bound to local addr */
+		active  : 1,                   /* currently active */
+		pktdscp : 1;                   /* per packet dscp */
 
 #ifdef ISC_PLATFORM_RECVOVERFLOW
 	unsigned char overflow; /* used for MSG_TRUNC fake */
-#endif				/* ifdef ISC_PLATFORM_RECVOVERFLOW */
+#endif                          /* ifdef ISC_PLATFORM_RECVOVERFLOW */
 
 	unsigned int dscp;
 };
 
 #define SOCKET_MANAGER_MAGIC ISC_MAGIC('I', 'O', 'm', 'g')
-#define VALID_MANAGER(m)     ISC_MAGIC_VALID(m, SOCKET_MANAGER_MAGIC)
+#define VALID_MANAGER(m) ISC_MAGIC_VALID(m, SOCKET_MANAGER_MAGIC)
 
 struct isc_socketmgr {
 	/* Not locked. */
@@ -418,8 +418,8 @@ struct isc__socketthread {
 #endif /* USE_SELECT */
 };
 
-#define CLOSED	      0 /* this one must be zero */
-#define MANAGED	      1
+#define CLOSED 0 /* this one must be zero */
+#define MANAGED 1
 #define CLOSE_PENDING 2
 
 /*
@@ -469,12 +469,12 @@ static void
 setdscp(isc_socket_t *sock, isc_dscp_t dscp);
 
 #define SELECT_POKE_SHUTDOWN (-1)
-#define SELECT_POKE_NOTHING  (-2)
-#define SELECT_POKE_READ     (-3)
-#define SELECT_POKE_ACCEPT   (-3) /*%< Same as _READ */
-#define SELECT_POKE_WRITE    (-4)
-#define SELECT_POKE_CONNECT  (-4) /*%< Same as _WRITE */
-#define SELECT_POKE_CLOSE    (-5)
+#define SELECT_POKE_NOTHING (-2)
+#define SELECT_POKE_READ (-3)
+#define SELECT_POKE_ACCEPT (-3) /*%< Same as _READ */
+#define SELECT_POKE_WRITE (-4)
+#define SELECT_POKE_CONNECT (-4) /*%< Same as _WRITE */
+#define SELECT_POKE_CLOSE (-5)
 
 /*%
  * Shortcut index arrays to get access to statistics counters.
@@ -519,24 +519,24 @@ static const isc_statscounter_t udp6statsindex[] = {
 	isc_sockstatscounter_udp6active
 };
 static const isc_statscounter_t tcp4statsindex[] = {
-	isc_sockstatscounter_tcp4open,	      isc_sockstatscounter_tcp4openfail,
-	isc_sockstatscounter_tcp4close,	      isc_sockstatscounter_tcp4bindfail,
+	isc_sockstatscounter_tcp4open,        isc_sockstatscounter_tcp4openfail,
+	isc_sockstatscounter_tcp4close,       isc_sockstatscounter_tcp4bindfail,
 	isc_sockstatscounter_tcp4connectfail, isc_sockstatscounter_tcp4connect,
 	isc_sockstatscounter_tcp4acceptfail,  isc_sockstatscounter_tcp4accept,
 	isc_sockstatscounter_tcp4sendfail,    isc_sockstatscounter_tcp4recvfail,
 	isc_sockstatscounter_tcp4active
 };
 static const isc_statscounter_t tcp6statsindex[] = {
-	isc_sockstatscounter_tcp6open,	      isc_sockstatscounter_tcp6openfail,
-	isc_sockstatscounter_tcp6close,	      isc_sockstatscounter_tcp6bindfail,
+	isc_sockstatscounter_tcp6open,        isc_sockstatscounter_tcp6openfail,
+	isc_sockstatscounter_tcp6close,       isc_sockstatscounter_tcp6bindfail,
 	isc_sockstatscounter_tcp6connectfail, isc_sockstatscounter_tcp6connect,
 	isc_sockstatscounter_tcp6acceptfail,  isc_sockstatscounter_tcp6accept,
 	isc_sockstatscounter_tcp6sendfail,    isc_sockstatscounter_tcp6recvfail,
 	isc_sockstatscounter_tcp6active
 };
 static const isc_statscounter_t unixstatsindex[] = {
-	isc_sockstatscounter_unixopen,	      isc_sockstatscounter_unixopenfail,
-	isc_sockstatscounter_unixclose,	      isc_sockstatscounter_unixbindfail,
+	isc_sockstatscounter_unixopen,        isc_sockstatscounter_unixopenfail,
+	isc_sockstatscounter_unixclose,       isc_sockstatscounter_unixbindfail,
 	isc_sockstatscounter_unixconnectfail, isc_sockstatscounter_unixconnect,
 	isc_sockstatscounter_unixacceptfail,  isc_sockstatscounter_unixaccept,
 	isc_sockstatscounter_unixsendfail,    isc_sockstatscounter_unixrecvfail,
@@ -1173,7 +1173,7 @@ process_cmsg(isc_socket_t *sock, struct msghdr *msg, isc_socketevent_t *dev) {
 			goto next;
 		}
 #endif /* ifdef IP_TOS */
-	next:
+next:
 		cmsgp = CMSG_NXTHDR(msg, cmsgp);
 	}
 #endif /* USE_CMSG */
@@ -1468,9 +1468,9 @@ dump_msg(struct msghdr *msg) {
 #endif /* if defined(ISC_SOCKET_DEBUG) */
 
 #define DOIO_SUCCESS 0 /* i/o ok, event sent */
-#define DOIO_SOFT    1 /* i/o ok, soft error, no event sent */
-#define DOIO_HARD    2 /* i/o error, event sent */
-#define DOIO_EOF     3 /* EOF, no event sent */
+#define DOIO_SOFT 1    /* i/o ok, soft error, no event sent */
+#define DOIO_HARD 2    /* i/o error, event sent */
+#define DOIO_EOF 3     /* EOF, no event sent */
 
 static int
 doio_recv(isc_socket_t *sock, isc_socketevent_t *dev) {
@@ -1977,7 +1977,7 @@ set_rcvbuf(void) {
 	if (getsockopt(fd, SOL_SOCKET, SO_RCVBUF, (void *)&min, &len) == 0 &&
 	    min < rcvbuf)
 	{
-	again:
+again:
 		if (setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (void *)&rcvbuf,
 			       sizeof(rcvbuf)) == -1)
 		{
@@ -2035,7 +2035,7 @@ set_sndbuf(void) {
 	if (getsockopt(fd, SOL_SOCKET, SO_SNDBUF, (void *)&min, &len) == 0 &&
 	    min < sndbuf)
 	{
-	again:
+again:
 		if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF, (void *)&sndbuf,
 			       sizeof(sndbuf)) == -1)
 		{
@@ -4338,7 +4338,7 @@ isc_socket_bind(isc_socket_t *sock, const isc_sockaddr_t *sockaddr,
 			UNEXPECTED_ERROR(__FILE__, __LINE__,
 					 "setsockopt(%d) failed", sock->fd);
 		}
-#endif		/* if defined(__FreeBSD_kernel__) && defined(SO_REUSEPORT_LB) */
+#endif          /* if defined(__FreeBSD_kernel__) && defined(SO_REUSEPORT_LB) */
 		/* Press on... */
 	}
 #ifdef AF_UNIX
@@ -4692,7 +4692,7 @@ isc_socket_connect(isc_socket_t *sock, const isc_sockaddr_t *addr,
 		isc_event_free(ISC_EVENT_PTR(&dev));
 		return (ISC_R_UNEXPECTED);
 
-	err_exit:
+err_exit:
 		sock->connected = 0;
 		isc_task_sendto(task, ISC_EVENT_PTR(&dev), sock->threadid);
 

@@ -38,17 +38,17 @@
 /***
  *** Defines.
  ***/
-#define DNS_JOURNALOPT_RESIGN 0x00000001
+#define DNS_JOURNALOPT_RESIGN  0x00000001
 
-#define DNS_JOURNAL_READ   0x00000000 /* false */
-#define DNS_JOURNAL_CREATE 0x00000001 /* true */
-#define DNS_JOURNAL_WRITE  0x00000002
+#define DNS_JOURNAL_READ       0x00000000 /* false */
+#define DNS_JOURNAL_CREATE     0x00000001 /* true */
+#define DNS_JOURNAL_WRITE      0x00000002
 
-#define DNS_JOURNAL_SIZE_MAX INT32_MAX
-#define DNS_JOURNAL_SIZE_MIN 4096
+#define DNS_JOURNAL_SIZE_MAX   INT32_MAX
+#define DNS_JOURNAL_SIZE_MIN   4096
 
 /*% Print transaction header data */
-#define DNS_JOURNAL_PRINTXHDR 0x0001
+#define DNS_JOURNAL_PRINTXHDR  0x0001
 
 /*% Rewrite whole journal file instead of compacting */
 #define DNS_JOURNAL_COMPACTALL 0x0001

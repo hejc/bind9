@@ -31,17 +31,17 @@ ISC_LANG_BEGINDECLS
  * Option values for dns_rbt_findnode() and dns_rbt_findname().
  * These are used to form a bitmask.
  */
-#define DNS_RBTFIND_NOOPTIONS	  0x00
-#define DNS_RBTFIND_EMPTYDATA	  0x01
-#define DNS_RBTFIND_NOEXACT	  0x02
+#define DNS_RBTFIND_NOOPTIONS     0x00
+#define DNS_RBTFIND_EMPTYDATA     0x01
+#define DNS_RBTFIND_NOEXACT       0x02
 #define DNS_RBTFIND_NOPREDECESSOR 0x04
 /*@}*/
 
-#define DNS_RBT_USEMAGIC 1
+#define DNS_RBT_USEMAGIC          1
 
-#define DNS_RBT_LOCKLENGTH (sizeof(((dns_rbtnode_t *)0)->locknum) * 8)
+#define DNS_RBT_LOCKLENGTH        (sizeof(((dns_rbtnode_t *)0)->locknum) * 8)
 
-#define DNS_RBTNODE_MAGIC ISC_MAGIC('R', 'B', 'N', 'O')
+#define DNS_RBTNODE_MAGIC         ISC_MAGIC('R', 'B', 'N', 'O')
 #if DNS_RBT_USEMAGIC
 #define DNS_RBTNODE_VALID(n) ISC_MAGIC_VALID(n, DNS_RBTNODE_MAGIC)
 #else /* if DNS_RBT_USEMAGIC */
@@ -57,10 +57,10 @@ ISC_LANG_BEGINDECLS
  */
 typedef struct dns_rbtnode dns_rbtnode_t;
 enum {
-	DNS_RBT_NSEC_NORMAL = 0,   /* in main tree */
+	DNS_RBT_NSEC_NORMAL   = 0, /* in main tree */
 	DNS_RBT_NSEC_HAS_NSEC = 1, /* also has node in nsec tree */
-	DNS_RBT_NSEC_NSEC = 2,	   /* in nsec tree */
-	DNS_RBT_NSEC_NSEC3 = 3	   /* in nsec3 tree */
+	DNS_RBT_NSEC_NSEC     = 2, /* in nsec tree */
+	DNS_RBT_NSEC_NSEC3    = 3  /* in nsec3 tree */
 };
 struct dns_rbtnode {
 #if DNS_RBT_USEMAGIC
@@ -86,20 +86,20 @@ struct dns_rbtnode {
 	 * the unnamed bitfields unless they should also be accessed
 	 * after acquiring the tree lock.
 	 */
-	unsigned int		   : 0; /* start of bitfields c/o tree lock */
-	unsigned int is_root	   : 1; /*%< range is 0..1 */
-	unsigned int color	   : 1; /*%< range is 0..1 */
+	unsigned int               : 0; /* start of bitfields c/o tree lock */
+	unsigned int is_root       : 1; /*%< range is 0..1 */
+	unsigned int color         : 1; /*%< range is 0..1 */
 	unsigned int find_callback : 1; /*%< range is 0..1 */
-	unsigned int attributes	   : 3; /*%< range is 0..2 */
-	unsigned int nsec	   : 2; /*%< range is 0..3 */
-	unsigned int namelen	   : 8; /*%< range is 1..255 */
-	unsigned int offsetlen	   : 8; /*%< range is 1..128 */
-	unsigned int oldnamelen	   : 8; /*%< range is 1..255 */
+	unsigned int attributes    : 3; /*%< range is 0..2 */
+	unsigned int nsec          : 2; /*%< range is 0..3 */
+	unsigned int namelen       : 8; /*%< range is 1..255 */
+	unsigned int offsetlen     : 8; /*%< range is 1..128 */
+	unsigned int oldnamelen    : 8; /*%< range is 1..255 */
 	/*@}*/
 
 	/* node needs to be cleaned from rpz */
-	unsigned int rpz : 1;
-	unsigned int	 : 0; /* end of bitfields c/o tree lock */
+	unsigned int rpz           : 1;
+	unsigned int               : 0; /* end of bitfields c/o tree lock */
 
 	/*%
 	 * These are needed for hashing. The 'uppernode' points to the
@@ -141,18 +141,18 @@ struct dns_rbtnode {
 	 * separate region of memory.
 	 */
 	void *data;
-	uint8_t	      : 0; /* start of bitfields c/o node lock */
+	uint8_t       : 0; /* start of bitfields c/o node lock */
 	uint8_t dirty : 1;
 	uint8_t wild  : 1;
-	uint8_t	      : 0;	/* end of bitfields c/o node lock */
+	uint8_t       : 0;      /* end of bitfields c/o node lock */
 	uint16_t       locknum; /* note that this is not in the bitfield */
 	isc_refcount_t references;
 	/*@}*/
 };
 
 typedef isc_result_t (*dns_rbtfindcallback_t)(dns_rbtnode_t *node,
-					      dns_name_t	 *name,
-					      void	   *callback_arg);
+					      dns_name_t    *name,
+					      void          *callback_arg);
 
 typedef isc_result_t (*dns_rbtdatawriter_t)(FILE *file, unsigned char *data,
 					    void *arg, uint64_t *crc);
@@ -225,7 +225,7 @@ typedef void (*dns_rbtdeleter_t)(void *, void *);
 #define DNS_RBT_LEVELBLOCK 254
 
 typedef struct dns_rbtnodechain {
-	unsigned int magic;
+	unsigned int   magic;
 	/*%
 	 * The terminal node of the chain.  It is not in levels[].
 	 * This is ostensibly private ... but in a pinch it could be
@@ -250,7 +250,7 @@ typedef struct dns_rbtnodechain {
 	 * a level_count of 0, the first level has a level_count of 1, and
 	 * so on.
 	 */
-	unsigned int level_count;
+	unsigned int   level_count;
 	/*%
 	 * level_matches tells how many levels matched above the node
 	 * returned by dns_rbt_findnode().  A match (partial or exact) found
@@ -258,7 +258,7 @@ typedef struct dns_rbtnodechain {
 	 * This is used by the rbtdb to set the start point for a recursive
 	 * search of superdomains until the RR it is looking for is found.
 	 */
-	unsigned int level_matches;
+	unsigned int   level_matches;
 } dns_rbtnodechain_t;
 
 /*****

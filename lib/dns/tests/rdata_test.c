@@ -43,8 +43,8 @@ static bool debug = false;
 struct compare_ok {
 	const char *text1; /* text passed to fromtext_*() */
 	const char *text2; /* text passed to fromtext_*() */
-	int answer;	   /* -1, 0, 1 */
-	int lineno;	   /* source line defining this RDATA */
+	int answer;        /* -1, 0, 1 */
+	int lineno;        /* source line defining this RDATA */
 };
 typedef struct compare_ok compare_ok_t;
 
@@ -90,8 +90,8 @@ typedef struct text_ok {
  */
 typedef struct wire_ok {
 	unsigned char data[512]; /* RDATA in wire format */
-	size_t len;		 /* octets of data to parse */
-	bool ok;		 /* is this RDATA valid? */
+	size_t len;              /* octets of data to parse */
+	bool ok;                 /* is this RDATA valid? */
 	unsigned int loop;
 } wire_ok_t;
 
@@ -131,7 +131,7 @@ typedef struct wire_ok {
 	{                                                     \
 		{ __VA_ARGS__ }, VARGC(__VA_ARGS__), ok, loop \
 	}
-#define WIRE_VALID(...)		   WIRE_TEST(true, 0, __VA_ARGS__)
+#define WIRE_VALID(...) WIRE_TEST(true, 0, __VA_ARGS__)
 #define WIRE_VALID_LOOP(loop, ...) WIRE_TEST(true, loop, __VA_ARGS__)
 /*
  * WIRE_INVALID() test cases must always have at least one octet specified to
@@ -140,7 +140,7 @@ typedef struct wire_ok {
  * RR type or not.
  */
 #define WIRE_INVALID(FIRST, ...) WIRE_TEST(false, 0, FIRST, __VA_ARGS__)
-#define WIRE_SENTINEL()		 WIRE_TEST(false, 0)
+#define WIRE_SENTINEL() WIRE_TEST(false, 0)
 
 /*
  * Call dns_rdata_fromwire() for data in 'src', which is 'srclen' octets in
@@ -1052,8 +1052,8 @@ amtrelay(void **state) {
 		TEXT_INVALID(""), TEXT_INVALID("0"), TEXT_INVALID("0 0"),
 		/* gateway type 0 */
 		TEXT_VALID("0 0 0"), TEXT_VALID("0 1 0"),
-		TEXT_INVALID("0 2 0"),	 /* discovery out of range */
-		TEXT_VALID("255 1 0"),	 /* max precedence */
+		TEXT_INVALID("0 2 0"),   /* discovery out of range */
+		TEXT_VALID("255 1 0"),   /* max precedence */
 		TEXT_INVALID("256 1 0"), /* precedence out of range */
 
 		/* IPv4 gateway */
@@ -1061,8 +1061,8 @@ amtrelay(void **state) {
 		TEXT_VALID("0 0 1 0.0.0.0"),
 		TEXT_INVALID("0 0 1 0.0.0.0 x"), /* extra */
 		TEXT_INVALID("0 0 1 0.0.0.0.0"), /* bad address */
-		TEXT_INVALID("0 0 1 ::"),	 /* bad address */
-		TEXT_INVALID("0 0 1 ."),	 /* bad address */
+		TEXT_INVALID("0 0 1 ::"),        /* bad address */
+		TEXT_INVALID("0 0 1 ."),         /* bad address */
 
 		/* IPv6 gateway */
 		TEXT_INVALID("0 0 2"), /* no address */
@@ -2381,7 +2381,7 @@ sshfp(void **state) {
 							 * digest */
 				TEXT_INVALID("0 2 AA"), /* too short SHA 256
 							 * digest */
-				TEXT_VALID("0 3 AA"),	/* unknown finger print
+				TEXT_VALID("0 3 AA"),   /* unknown finger print
 							 * type */
 				/* good length SHA 1 digest */
 				TEXT_VALID("1 1 "
@@ -2407,8 +2407,8 @@ sshfp(void **state) {
 						   "CCDDEEFF"),
 				TEXT_SENTINEL() };
 	wire_ok_t wire_ok[] = {
-		WIRE_INVALID(0x00),	      /* reserved too short */
-		WIRE_VALID(0x00, 0x00),	      /* reserved no finger print */
+		WIRE_INVALID(0x00),           /* reserved too short */
+		WIRE_VALID(0x00, 0x00),       /* reserved no finger print */
 		WIRE_VALID(0x00, 0x00, 0x00), /* reserved */
 
 		/* too short SHA 1 digests */

@@ -30,22 +30,22 @@
  * the data cleanup function.
  */
 struct isc_httpdurl {
-	char		     *url;
+	char              *url;
 	isc_httpdaction_t *action;
-	void		     *action_arg;
-	bool		   isstatic;
-	isc_time_t	   loadtime;
+	void              *action_arg;
+	bool               isstatic;
+	isc_time_t         loadtime;
 	ISC_LINK(isc_httpdurl_t) link;
 };
 
-#define HTTPD_EVENTCLASS ISC_EVENTCLASS(4300)
-#define HTTPD_SHUTDOWN	 (HTTPD_EVENTCLASS + 0x0001)
+#define HTTPD_EVENTCLASS          ISC_EVENTCLASS(4300)
+#define HTTPD_SHUTDOWN            (HTTPD_EVENTCLASS + 0x0001)
 
 #define ISC_HTTPDMGR_SHUTTINGDOWN 0x00000001
 
 isc_result_t
 isc_httpdmgr_create(isc_nm_t *nm, isc_mem_t *mctx, isc_sockaddr_t *addr,
-		    isc_httpdclientok_t	*client_ok,
+		    isc_httpdclientok_t  *client_ok,
 		    isc_httpdondestroy_t *ondestroy, void *cb_arg,
 		    isc_httpdmgr_t **httpdmgrp);
 

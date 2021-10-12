@@ -38,7 +38,7 @@
 
 #include "tsig_p.h"
 
-#define TSIG_MAGIC	  ISC_MAGIC('T', 'S', 'I', 'G')
+#define TSIG_MAGIC ISC_MAGIC('T', 'S', 'I', 'G')
 #define VALID_TSIG_KEY(x) ISC_MAGIC_VALID(x, TSIG_MAGIC)
 
 #ifndef DNS_TSIG_MAXGENERATEDKEYS

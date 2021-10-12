@@ -37,18 +37,18 @@
 /*% ISCCC Message Structure */
 typedef struct isccc_ccmsg {
 	/* private (don't touch!) */
-	unsigned int	magic;
-	uint32_t	size;
-	bool		length_received;
+	unsigned int    magic;
+	uint32_t        size;
+	bool            length_received;
 	isc_buffer_t   *buffer;
-	unsigned int	maxsize;
-	isc_mem_t	  *mctx;
+	unsigned int    maxsize;
+	isc_mem_t      *mctx;
 	isc_nmhandle_t *handle;
-	isc_nm_cb_t	cb;
-	void	     *cbarg;
-	bool		reading;
+	isc_nm_cb_t     cb;
+	void           *cbarg;
+	bool            reading;
 	/* public (read-only) */
-	isc_result_t result;
+	isc_result_t    result;
 } isccc_ccmsg_t;
 
 ISC_LANG_BEGINDECLS

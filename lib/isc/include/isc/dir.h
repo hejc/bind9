@@ -15,11 +15,10 @@
 
 #include <dirent.h>
 #include <limits.h>
+#include <sys/types.h> /* Required on some systems. */
 
 #include <isc/lang.h>
 #include <isc/result.h>
-
-#include <sys/types.h> /* Required on some systems. */
 
 #ifndef NAME_MAX
 #define NAME_MAX 256
@@ -31,16 +30,16 @@
 
 /*% Directory Entry */
 typedef struct isc_direntry {
-	char	     name[NAME_MAX];
+	char         name[NAME_MAX];
 	unsigned int length;
 } isc_direntry_t;
 
 /*% Directory */
 typedef struct isc_dir {
 	unsigned int   magic;
-	char	       dirname[PATH_MAX];
+	char           dirname[PATH_MAX];
 	isc_direntry_t entry;
-	DIR	    *handle;
+	DIR           *handle;
 } isc_dir_t;
 
 ISC_LANG_BEGINDECLS

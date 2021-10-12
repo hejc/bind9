@@ -27,27 +27,27 @@
  * \brief Severity levels, patterned after Unix's syslog levels.
  *
  */
-#define ISC_LOG_DEBUG(level) (level)
+#define ISC_LOG_DEBUG(level)  (level)
 /*!
  * #ISC_LOG_DYNAMIC can only be used for defining channels with
  * isc_log_createchannel(), not to specify a level in isc_log_write().
  */
-#define ISC_LOG_DYNAMIC	 0
-#define ISC_LOG_INFO	 (-1)
-#define ISC_LOG_NOTICE	 (-2)
-#define ISC_LOG_WARNING	 (-3)
-#define ISC_LOG_ERROR	 (-4)
-#define ISC_LOG_CRITICAL (-5)
+#define ISC_LOG_DYNAMIC       0
+#define ISC_LOG_INFO          (-1)
+#define ISC_LOG_NOTICE        (-2)
+#define ISC_LOG_WARNING       (-3)
+#define ISC_LOG_ERROR         (-4)
+#define ISC_LOG_CRITICAL      (-5)
 /*@}*/
 
 /*@{*/
 /*!
  * \brief Destinations.
  */
-#define ISC_LOG_TONULL	   1
-#define ISC_LOG_TOSYSLOG   2
-#define ISC_LOG_TOFILE	   3
-#define ISC_LOG_TOFILEDESC 4
+#define ISC_LOG_TONULL        1
+#define ISC_LOG_TOSYSLOG      2
+#define ISC_LOG_TOFILE        3
+#define ISC_LOG_TOFILEDESC    4
 /*@}*/
 
 /*@{*/
@@ -63,9 +63,9 @@
 #define ISC_LOG_PRINTALL      0x0003F
 #define ISC_LOG_BUFFERED      0x00040
 #define ISC_LOG_DEBUGONLY     0x01000
-#define ISC_LOG_OPENERR	      0x08000 /* internal */
-#define ISC_LOG_ISO8601	      0x10000 /* if PRINTTIME, use ISO8601 */
-#define ISC_LOG_UTC	      0x20000 /* if PRINTTIME, use UTC */
+#define ISC_LOG_OPENERR       0x08000 /* internal */
+#define ISC_LOG_ISO8601       0x10000 /* if PRINTTIME, use ISO8601 */
+#define ISC_LOG_UTC           0x20000 /* if PRINTTIME, use UTC */
 /*@}*/
 
 /*@{*/
@@ -76,9 +76,9 @@
  *   since I am intend to make large number of versions work efficiently,
  *   INFINITE is going to be trivial to add to that.
  */
-#define ISC_LOG_ROLLINFINITE (-1)
-#define ISC_LOG_ROLLNEVER    (-2)
-#define ISC_LOG_MAX_VERSIONS 256
+#define ISC_LOG_ROLLINFINITE  (-1)
+#define ISC_LOG_ROLLNEVER     (-2)
+#define ISC_LOG_MAX_VERSIONS  256
 /*@}*/
 
 /*@{*/
@@ -123,11 +123,11 @@ struct isc_logmodule {
  * Setting maximum_size to zero implies no maximum.
  */
 typedef struct isc_logfile {
-	FILE *stream;	      /*%< Initialized to NULL for
-			       * #ISC_LOG_TOFILE. */
-	const char *name;     /*%< NULL for #ISC_LOG_TOFILEDESC. */
-	int	    versions; /* >= 0, #ISC_LOG_ROLLNEVER,
-			       * #ISC_LOG_ROLLINFINITE. */
+	FILE                *stream;   /*%< Initialized to NULL for
+					* #ISC_LOG_TOFILE. */
+	const char          *name;     /*%< NULL for #ISC_LOG_TOFILEDESC. */
+	int                  versions; /* >= 0, #ISC_LOG_ROLLNEVER,
+					* #ISC_LOG_ROLLINFINITE. */
 	isc_log_rollsuffix_t suffix;
 	/*%
 	 * stdio's ftell is standardized to return a long, which may well not
@@ -136,8 +136,8 @@ typedef struct isc_logfile {
 	 * anyone would want).  st_size returned by fstat should be typedef'd
 	 * to a size large enough for the largest possible file on a system.
 	 */
-	isc_offset_t maximum_size;
-	bool	     maximum_reached; /*%< Private. */
+	isc_offset_t         maximum_size;
+	bool                 maximum_reached; /*%< Private. */
 } isc_logfile_t;
 
 /*%
@@ -146,7 +146,7 @@ typedef struct isc_logfile {
  */
 typedef union isc_logdestination {
 	isc_logfile_t file;
-	int	      facility; /* XXXDCL NT */
+	int           facility; /* XXXDCL NT */
 } isc_logdestination_t;
 
 /*@{*/
@@ -158,8 +158,8 @@ typedef union isc_logdestination {
  * the order of the names.
  */
 extern isc_logcategory_t isc_categories[];
-extern isc_log_t	 *isc_lctx;
-extern isc_logmodule_t	 isc_modules[];
+extern isc_log_t        *isc_lctx;
+extern isc_logmodule_t   isc_modules[];
 /*@}*/
 
 /*@{*/
@@ -171,13 +171,13 @@ extern isc_logmodule_t	 isc_modules[];
 #define ISC_LOGCATEGORY_GENERAL (&isc_categories[1])
 /*@}*/
 
-#define ISC_LOGMODULE_SOCKET	(&isc_modules[0])
-#define ISC_LOGMODULE_TIME	(&isc_modules[1])
+#define ISC_LOGMODULE_SOCKET    (&isc_modules[0])
+#define ISC_LOGMODULE_TIME      (&isc_modules[1])
 #define ISC_LOGMODULE_INTERFACE (&isc_modules[2])
-#define ISC_LOGMODULE_TIMER	(&isc_modules[3])
-#define ISC_LOGMODULE_FILE	(&isc_modules[4])
-#define ISC_LOGMODULE_NETMGR	(&isc_modules[5])
-#define ISC_LOGMODULE_OTHER	(&isc_modules[6])
+#define ISC_LOGMODULE_TIMER     (&isc_modules[3])
+#define ISC_LOGMODULE_FILE      (&isc_modules[4])
+#define ISC_LOGMODULE_NETMGR    (&isc_modules[5])
+#define ISC_LOGMODULE_OTHER     (&isc_modules[6])
 
 ISC_LANG_BEGINDECLS
 
@@ -378,7 +378,7 @@ void
 isc_log_createchannel(isc_logconfig_t *lcfg, const char *name,
 		      unsigned int type, int level,
 		      const isc_logdestination_t *destination,
-		      unsigned int		  flags);
+		      unsigned int                flags);
 /*%<
  * Specify the parameters of a logging channel.
  *
@@ -440,7 +440,7 @@ isc_log_createchannel(isc_logconfig_t *lcfg, const char *name,
 isc_result_t
 isc_log_usechannel(isc_logconfig_t *lcfg, const char *name,
 		   const isc_logcategory_t *category,
-		   const isc_logmodule_t	 *module);
+		   const isc_logmodule_t   *module);
 /*%<
  * Associate a named logging channel with a category and module that
  * will use it.

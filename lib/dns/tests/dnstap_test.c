@@ -45,7 +45,7 @@
 #define TAPSOCK "testdata/dnstap/dnstap.sock"
 
 #define TAPSAVED "testdata/dnstap/dnstap.saved"
-#define TAPTEXT	 "testdata/dnstap/dnstap.text"
+#define TAPTEXT "testdata/dnstap/dnstap.text"
 
 static int
 _setup(void **state) {

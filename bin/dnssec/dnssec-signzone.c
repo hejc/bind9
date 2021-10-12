@@ -96,22 +96,22 @@ static int nsec_datatype = dns_rdatatype_nsec;
 	check_result((result == DNS_R_NEWORIGIN) ? ISC_R_SUCCESS : result, \
 		     "dns_dbiterator_current()")
 
-#define IS_NSEC3  (nsec_datatype == dns_rdatatype_nsec3)
+#define IS_NSEC3 (nsec_datatype == dns_rdatatype_nsec3)
 #define OPTOUT(x) (((x)&DNS_NSEC3FLAG_OPTOUT) != 0)
 
 #define REVOKE(x) ((dst_key_flags(x) & DNS_KEYFLAG_REVOKE) != 0)
 
-#define BUFSIZE	  2048
+#define BUFSIZE 2048
 #define MAXDSKEYS 8
 
-#define SIGNER_EVENTCLASS  ISC_EVENTCLASS(0x4453)
+#define SIGNER_EVENTCLASS ISC_EVENTCLASS(0x4453)
 #define SIGNER_EVENT_WRITE (SIGNER_EVENTCLASS + 0)
-#define SIGNER_EVENT_WORK  (SIGNER_EVENTCLASS + 1)
+#define SIGNER_EVENT_WORK (SIGNER_EVENTCLASS + 1)
 
-#define SOA_SERIAL_KEEP	     0
+#define SOA_SERIAL_KEEP 0
 #define SOA_SERIAL_INCREMENT 1
-#define SOA_SERIAL_UNIXTIME  2
-#define SOA_SERIAL_DATE	     3
+#define SOA_SERIAL_UNIXTIME 2
+#define SOA_SERIAL_DATE 3
 
 typedef struct signer_event sevent_t;
 struct signer_event {
@@ -144,11 +144,11 @@ static const char *directory = NULL, *dsdir = NULL;
 static isc_mutex_t namelock, statslock;
 static isc_nm_t *netmgr = NULL;
 static isc_taskmgr_t *taskmgr = NULL;
-static dns_db_t *gdb;		  /* The database */
+static dns_db_t *gdb;             /* The database */
 static dns_dbversion_t *gversion; /* The database version */
 static dns_dbiterator_t *gdbiter; /* The database iterator */
-static dns_rdataclass_t gclass;	  /* The class */
-static dns_name_t *gorigin;	  /* The database origin */
+static dns_rdataclass_t gclass;   /* The class */
+static dns_name_t *gorigin;       /* The database origin */
 static int nsec3flags = 0;
 static dns_iterations_t nsec3iter = 10U;
 static unsigned char saltbuf[255];
@@ -1213,7 +1213,7 @@ signname(dns_dbnode_t *node, dns_name_t *name) {
 
 		signset(&del, &add, node, name, &rdataset);
 
-	skip:
+skip:
 		dns_rdataset_disassociate(&rdataset);
 		result = dns_rdatasetiter_next(rdsiter);
 	}
@@ -1594,7 +1594,7 @@ assignwork(isc_task_t *task, isc_task_t *worker) {
 	isc_result_t result;
 	static dns_name_t *zonecut = NULL; /* Protected by namelock. */
 	static dns_fixedname_t fzonecut;   /* Protected by namelock. */
-	static unsigned int ended = 0;	   /* Protected by namelock. */
+	static unsigned int ended = 0;     /* Protected by namelock. */
 
 	if (atomic_load(&shuttingdown)) {
 		return;
@@ -1666,7 +1666,7 @@ assignwork(isc_task_t *task, isc_task_t *worker) {
 			dns_db_detachnode(gdb, &node);
 		}
 
-	next:
+next:
 		result = dns_dbiterator_next(gdbiter);
 		if (result == ISC_R_NOMORE) {
 			atomic_store(&finished, true);

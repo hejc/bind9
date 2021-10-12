@@ -49,7 +49,7 @@
 
 #include "dst_internal.h"
 
-#define TEMP_BUFFER_SZ	   8192
+#define TEMP_BUFFER_SZ 8192
 #define TKEY_RANDOM_AMOUNT 16
 
 #define RETERR(x)                            \
@@ -1270,7 +1270,7 @@ dns_tkey_processdhresponse(dns_message_t *qmsg, dns_message_t *rmsg,
 			RETERR(dns_rdataset_first(theirkeyset));
 			break;
 		}
-	next:
+next:
 		result = dns_message_nextname(rmsg, DNS_SECTION_ANSWER);
 	}
 

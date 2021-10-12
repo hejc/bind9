@@ -31,7 +31,7 @@ typedef ISC_LIST(struct dns_forwarder) dns_forwarderlist_t;
 
 struct dns_forwarders {
 	dns_forwarderlist_t fwdrs;
-	dns_fwdpolicy_t	    fwdpolicy;
+	dns_fwdpolicy_t     fwdpolicy;
 };
 
 isc_result_t

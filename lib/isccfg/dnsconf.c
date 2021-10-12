@@ -26,7 +26,7 @@ static cfg_tuplefielddef_t trustedkey_fields[] = {
 	{ NULL, NULL, 0 }
 };
 
-static cfg_type_t cfg_type_trustedkey = { "trustedkey",	   cfg_parse_tuple,
+static cfg_type_t cfg_type_trustedkey = { "trustedkey",    cfg_parse_tuple,
 					  cfg_print_tuple, cfg_doc_tuple,
 					  &cfg_rep_tuple,  trustedkey_fields };
 
@@ -50,6 +50,6 @@ static cfg_clausedef_t dnsconf_clauses[] = {
 
 static cfg_clausedef_t *dnsconf_clausesets[] = { dnsconf_clauses, NULL };
 
-cfg_type_t cfg_type_dnsconf = { "dnsconf",	   cfg_parse_mapbody,
+cfg_type_t cfg_type_dnsconf = { "dnsconf",         cfg_parse_mapbody,
 				cfg_print_mapbody, cfg_doc_mapbody,
-				&cfg_rep_map,	   dnsconf_clausesets };
+				&cfg_rep_map,      dnsconf_clausesets };

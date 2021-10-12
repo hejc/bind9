@@ -136,13 +136,13 @@
 
 #ifdef HAVE_LMDB
 #include <lmdb.h>
-#define count_newzones	   count_newzones_db
+#define count_newzones count_newzones_db
 #define configure_newzones configure_newzones_db
-#define dumpzone	   dumpzone_db
+#define dumpzone dumpzone_db
 #else /* HAVE_LMDB */
-#define count_newzones	   count_newzones_file
+#define count_newzones count_newzones_file
 #define configure_newzones configure_newzones_file
-#define dumpzone	   dumpzone_file
+#define dumpzone dumpzone_file
 #endif /* HAVE_LMDB */
 
 #ifndef SIZE_MAX
@@ -167,12 +167,12 @@
  * milliseconds, so the maximum and minimum advertised and keepalive
  * timeouts are capped by the data type (it's ~109 minutes)
  */
-#define MIN_INITIAL_TIMEOUT    UINT32_C(2500)	/* 2.5 seconds */
-#define MAX_INITIAL_TIMEOUT    UINT32_C(120000) /* 2 minutes */
-#define MIN_IDLE_TIMEOUT       UINT32_C(100)	/* 0.1 seconds */
-#define MAX_IDLE_TIMEOUT       UINT32_C(120000) /* 2 minutes */
-#define MIN_KEEPALIVE_TIMEOUT  UINT32_C(100)	/* 0.1 seconds */
-#define MAX_KEEPALIVE_TIMEOUT  UINT32_C(UINT16_MAX * 100)
+#define MIN_INITIAL_TIMEOUT UINT32_C(2500)   /* 2.5 seconds */
+#define MAX_INITIAL_TIMEOUT UINT32_C(120000) /* 2 minutes */
+#define MIN_IDLE_TIMEOUT UINT32_C(100)       /* 0.1 seconds */
+#define MAX_IDLE_TIMEOUT UINT32_C(120000)    /* 2 minutes */
+#define MIN_KEEPALIVE_TIMEOUT UINT32_C(100)  /* 0.1 seconds */
+#define MAX_KEEPALIVE_TIMEOUT UINT32_C(UINT16_MAX * 100)
 #define MIN_ADVERTISED_TIMEOUT UINT32_C(0) /* No minimum */
 #define MAX_ADVERTISED_TIMEOUT UINT32_C(UINT16_MAX * 100)
 
@@ -369,12 +369,12 @@ const char *empty_zones[] = {
 	"127.100.IN-ADDR.ARPA",
 
 	/* RFC 5735 and RFC 5737 */
-	"0.IN-ADDR.ARPA",		/* THIS NETWORK */
-	"127.IN-ADDR.ARPA",		/* LOOPBACK */
-	"254.169.IN-ADDR.ARPA",		/* LINK LOCAL */
-	"2.0.192.IN-ADDR.ARPA",		/* TEST NET */
-	"100.51.198.IN-ADDR.ARPA",	/* TEST NET 2 */
-	"113.0.203.IN-ADDR.ARPA",	/* TEST NET 3 */
+	"0.IN-ADDR.ARPA",               /* THIS NETWORK */
+	"127.IN-ADDR.ARPA",             /* LOOPBACK */
+	"254.169.IN-ADDR.ARPA",         /* LINK LOCAL */
+	"2.0.192.IN-ADDR.ARPA",         /* TEST NET */
+	"100.51.198.IN-ADDR.ARPA",      /* TEST NET 2 */
+	"113.0.203.IN-ADDR.ARPA",       /* TEST NET 3 */
 	"255.255.255.255.IN-ADDR.ARPA", /* BROADCAST */
 
 	/* Local IPv6 Unicast Addresses */
@@ -384,9 +384,9 @@ const char *empty_zones[] = {
 	"ARPA",
 	/* LOCALLY ASSIGNED LOCAL ADDRESS SCOPE */
 	"D.F.IP6.ARPA", "8.E.F.IP6.ARPA", /* LINK LOCAL */
-	"9.E.F.IP6.ARPA",		  /* LINK LOCAL */
-	"A.E.F.IP6.ARPA",		  /* LINK LOCAL */
-	"B.E.F.IP6.ARPA",		  /* LINK LOCAL */
+	"9.E.F.IP6.ARPA",                 /* LINK LOCAL */
+	"A.E.F.IP6.ARPA",                 /* LINK LOCAL */
+	"B.E.F.IP6.ARPA",                 /* LINK LOCAL */
 
 	/* Example Prefix, RFC 3849. */
 	"8.B.D.0.1.0.0.2.IP6.ARPA",
@@ -6327,7 +6327,7 @@ configure_zone(const cfg_obj_t *config, const cfg_obj_t *zconfig,
 	       bool modify) {
 	dns_view_t *pview = NULL; /* Production view */
 	dns_zone_t *zone = NULL;  /* New or reused zone */
-	dns_zone_t *raw = NULL;	  /* New or reused raw zone */
+	dns_zone_t *raw = NULL;   /* New or reused raw zone */
 	dns_zone_t *dupzone = NULL;
 	const cfg_obj_t *options = NULL;
 	const cfg_obj_t *zoptions = NULL;
@@ -11494,7 +11494,7 @@ resume:
 	}
 	if (dctx->dumpzones) {
 		style = &dns_master_style_full;
-	nextzone:
+nextzone:
 		if (dctx->version != NULL) {
 			dns_db_closeversion(dctx->db, &dctx->version, false);
 		}
@@ -12407,7 +12407,7 @@ again:
 			}
 		}
 
-	nextkey:
+nextkey:
 		result = dns_rbtnodechain_next(&chain, &foundname, origin);
 		if (result == ISC_R_NOMORE) {
 			break;

@@ -97,7 +97,7 @@ isc_thread_join(isc_thread_t thread, isc_threadresult_t *result) {
 
 #ifdef __NetBSD__
 #define pthread_setconcurrency(a) (void)a /* nothing */
-#endif					  /* ifdef __NetBSD__ */
+#endif                                    /* ifdef __NetBSD__ */
 
 void
 isc_thread_setconcurrency(unsigned int level) {

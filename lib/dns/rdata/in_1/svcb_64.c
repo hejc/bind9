@@ -16,10 +16,10 @@
 
 #define RRTYPE_SVCB_ATTRIBUTES (DNS_RDATATYPEATTR_FOLLOWADDITIONAL)
 
-#define SVCB_MAN_KEY		 0
-#define SVCB_ALPN_KEY		 1
+#define SVCB_MAN_KEY 0
+#define SVCB_ALPN_KEY 1
 #define SVCB_NO_DEFAULT_ALPN_KEY 2
-#define MAX_CNAMES		 16 /* See ns/query.c MAX_RESTARTS */
+#define MAX_CNAMES 16 /* See ns/query.c MAX_RESTARTS */
 
 /*
  * Service Binding Parameter Registry

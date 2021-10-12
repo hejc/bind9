@@ -62,7 +62,7 @@ typedef struct {
 
 struct isc_mutexstats {
 	const char *file; /*%< File mutex was created in. */
-	int line;	  /*%< Line mutex was created on. */
+	int line;         /*%< Line mutex was created on. */
 	unsigned count;
 	struct timeval lock_t;
 	struct timeval locked_total;
@@ -252,7 +252,7 @@ isc_mutex_init_errcheck(isc_mutex_t *mp) {
 #if ISC_MUTEX_DEBUG && defined(__NetBSD__) && defined(PTHREAD_MUTEX_ERRORCHECK)
 pthread_mutexattr_t isc__mutex_attrs = {
 	PTHREAD_MUTEX_ERRORCHECK, /* m_type */
-	0			  /* m_flags, which appears to be unused. */
+	0                         /* m_flags, which appears to be unused. */
 };
 #endif /* if ISC_MUTEX_DEBUG && defined(__NetBSD__) && \
 	* defined(PTHREAD_MUTEX_ERRORCHECK) */

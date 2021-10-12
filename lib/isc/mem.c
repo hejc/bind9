@@ -57,7 +57,7 @@
 
 #include "mem_p.h"
 
-#define MCTXLOCK(m)   LOCK(&m->lock)
+#define MCTXLOCK(m) LOCK(&m->lock)
 #define MCTXUNLOCK(m) UNLOCK(&m->lock)
 
 #ifndef ISC_MEM_DEBUGGING
@@ -71,11 +71,11 @@ unsigned int isc_mem_defaultflags = ISC_MEMFLAG_DEFAULT;
  */
 
 #define ZERO_ALLOCATION_SIZE sizeof(void *)
-#define ALIGNMENT	     8U /*%< must be a power of 2 */
-#define ALIGNMENT_SIZE	     sizeof(size_info)
-#define DEBUG_TABLE_COUNT    512U
-#define STATS_BUCKETS	     512U
-#define STATS_BUCKET_SIZE    32U
+#define ALIGNMENT 8U /*%< must be a power of 2 */
+#define ALIGNMENT_SIZE sizeof(size_info)
+#define DEBUG_TABLE_COUNT 512U
+#define STATS_BUCKETS 512U
+#define STATS_BUCKET_SIZE 32U
 
 /*
  * Types.
@@ -93,7 +93,7 @@ struct debuglink {
 typedef ISC_LIST(debuglink_t) debuglist_t;
 
 #define FLARG_PASS , file, line
-#define FLARG	   , const char *file, unsigned int line
+#define FLARG , const char *file, unsigned int line
 #else /* if ISC_MEM_TRACKLINES */
 #define FLARG_PASS
 #define FLARG
@@ -109,7 +109,7 @@ struct stats {
 	atomic_size_t totalgets;
 };
 
-#define MEM_MAGIC	 ISC_MAGIC('M', 'e', 'm', 'C')
+#define MEM_MAGIC ISC_MAGIC('M', 'e', 'm', 'C')
 #define VALID_CONTEXT(c) ISC_MAGIC_VALID(c, MEM_MAGIC)
 
 /* List of all active memory contexts. */
@@ -156,20 +156,20 @@ struct isc_mem {
 	ISC_LINK(isc_mem_t) link;
 };
 
-#define MEMPOOL_MAGIC	 ISC_MAGIC('M', 'E', 'M', 'p')
+#define MEMPOOL_MAGIC ISC_MAGIC('M', 'E', 'M', 'p')
 #define VALID_MEMPOOL(c) ISC_MAGIC_VALID(c, MEMPOOL_MAGIC)
 
 struct isc_mempool {
 	/* always unlocked */
 	unsigned int magic;
-	isc_mem_t *mctx;	      /*%< our memory context */
+	isc_mem_t *mctx;              /*%< our memory context */
 	ISC_LINK(isc_mempool_t) link; /*%< next pool in this mem context */
-	element *items;		      /*%< low water item list */
-	size_t size;		      /*%< size of each item on this pool */
-	size_t allocated;	      /*%< # of items currently given out */
-	size_t freecount;	      /*%< # of items on reserved list */
-	size_t freemax;		      /*%< # of items allowed on free list */
-	size_t fillcount;	      /*%< # of items to fetch on each fill */
+	element *items;               /*%< low water item list */
+	size_t size;                  /*%< size of each item on this pool */
+	size_t allocated;             /*%< # of items currently given out */
+	size_t freecount;             /*%< # of items on reserved list */
+	size_t freemax;               /*%< # of items allowed on free list */
+	size_t fillcount;             /*%< # of items to fetch on each fill */
 	/*%< Stats only. */
 	size_t gets; /*%< # of requests to this pool */
 	/*%< Debugging only. */

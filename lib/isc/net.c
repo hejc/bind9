@@ -59,18 +59,18 @@
  */
 #if defined(__FreeBSD__) || defined(__APPLE__) || defined(__DragonFly__)
 #define USE_SYSCTL_PORTRANGE
-#define SYSCTL_V4PORTRANGE_LOW	"net.inet.ip.portrange.hifirst"
+#define SYSCTL_V4PORTRANGE_LOW "net.inet.ip.portrange.hifirst"
 #define SYSCTL_V4PORTRANGE_HIGH "net.inet.ip.portrange.hilast"
-#define SYSCTL_V6PORTRANGE_LOW	"net.inet.ip.portrange.hifirst"
+#define SYSCTL_V6PORTRANGE_LOW "net.inet.ip.portrange.hifirst"
 #define SYSCTL_V6PORTRANGE_HIGH "net.inet.ip.portrange.hilast"
 #endif /* if defined(__FreeBSD__) || defined(__APPLE__) || \
 	* defined(__DragonFly__) */
 
 #ifdef __NetBSD__
 #define USE_SYSCTL_PORTRANGE
-#define SYSCTL_V4PORTRANGE_LOW	"net.inet.ip.anonportmin"
+#define SYSCTL_V4PORTRANGE_LOW "net.inet.ip.anonportmin"
 #define SYSCTL_V4PORTRANGE_HIGH "net.inet.ip.anonportmax"
-#define SYSCTL_V6PORTRANGE_LOW	"net.inet6.ip6.anonportmin"
+#define SYSCTL_V6PORTRANGE_LOW "net.inet6.ip6.anonportmin"
 #define SYSCTL_V6PORTRANGE_HIGH "net.inet6.ip6.anonportmax"
 #endif /* ifdef __NetBSD__ */
 
@@ -87,7 +87,7 @@
 		CTL_NET, PF_INET, IPPROTO_IP, IPCTL_IPPORT_HILASTAUTO \
 	}
 /* Same for IPv6 */
-#define SYSCTL_V6PORTRANGE_LOW	SYSCTL_V4PORTRANGE_LOW
+#define SYSCTL_V6PORTRANGE_LOW SYSCTL_V4PORTRANGE_LOW
 #define SYSCTL_V6PORTRANGE_HIGH SYSCTL_V4PORTRANGE_HIGH
 #endif /* ifdef __OpenBSD__ */
 
@@ -101,7 +101,7 @@ static isc_once_t once_ipv6pktinfo = ISC_ONCE_INIT;
 #ifndef ISC_CMSG_IP_TOS
 #ifdef __APPLE__
 #define ISC_CMSG_IP_TOS 0 /* As of 10.8.2. */
-#else			  /* ! __APPLE__ */
+#else                     /* ! __APPLE__ */
 #define ISC_CMSG_IP_TOS 1
 #endif /* ! __APPLE__ */
 #endif /* ! ISC_CMSG_IP_TOS */

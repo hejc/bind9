@@ -43,20 +43,20 @@
 #include <dns/resolver.h>
 #include <dns/stats.h>
 
-#define DNS_ADB_MAGIC		 ISC_MAGIC('D', 'a', 'd', 'b')
-#define DNS_ADB_VALID(x)	 ISC_MAGIC_VALID(x, DNS_ADB_MAGIC)
-#define DNS_ADBNAME_MAGIC	 ISC_MAGIC('a', 'd', 'b', 'N')
-#define DNS_ADBNAME_VALID(x)	 ISC_MAGIC_VALID(x, DNS_ADBNAME_MAGIC)
-#define DNS_ADBNAMEHOOK_MAGIC	 ISC_MAGIC('a', 'd', 'N', 'H')
+#define DNS_ADB_MAGIC ISC_MAGIC('D', 'a', 'd', 'b')
+#define DNS_ADB_VALID(x) ISC_MAGIC_VALID(x, DNS_ADB_MAGIC)
+#define DNS_ADBNAME_MAGIC ISC_MAGIC('a', 'd', 'b', 'N')
+#define DNS_ADBNAME_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBNAME_MAGIC)
+#define DNS_ADBNAMEHOOK_MAGIC ISC_MAGIC('a', 'd', 'N', 'H')
 #define DNS_ADBNAMEHOOK_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBNAMEHOOK_MAGIC)
-#define DNS_ADBLAMEINFO_MAGIC	 ISC_MAGIC('a', 'd', 'b', 'Z')
+#define DNS_ADBLAMEINFO_MAGIC ISC_MAGIC('a', 'd', 'b', 'Z')
 #define DNS_ADBLAMEINFO_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBLAMEINFO_MAGIC)
-#define DNS_ADBENTRY_MAGIC	 ISC_MAGIC('a', 'd', 'b', 'E')
-#define DNS_ADBENTRY_VALID(x)	 ISC_MAGIC_VALID(x, DNS_ADBENTRY_MAGIC)
-#define DNS_ADBFETCH_MAGIC	 ISC_MAGIC('a', 'd', 'F', '4')
-#define DNS_ADBFETCH_VALID(x)	 ISC_MAGIC_VALID(x, DNS_ADBFETCH_MAGIC)
-#define DNS_ADBFETCH6_MAGIC	 ISC_MAGIC('a', 'd', 'F', '6')
-#define DNS_ADBFETCH6_VALID(x)	 ISC_MAGIC_VALID(x, DNS_ADBFETCH6_MAGIC)
+#define DNS_ADBENTRY_MAGIC ISC_MAGIC('a', 'd', 'b', 'E')
+#define DNS_ADBENTRY_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBENTRY_MAGIC)
+#define DNS_ADBFETCH_MAGIC ISC_MAGIC('a', 'd', 'F', '4')
+#define DNS_ADBFETCH_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBFETCH_MAGIC)
+#define DNS_ADBFETCH6_MAGIC ISC_MAGIC('a', 'd', 'F', '6')
+#define DNS_ADBFETCH6_VALID(x) ISC_MAGIC_VALID(x, DNS_ADBFETCH6_MAGIC)
 
 /*!
  * For type 3 negative cache entries, we will remember that the address is
@@ -64,9 +64,9 @@
  * The intent is to keep us from constantly asking about A/AAAA records
  * if the zone has extremely low TTLs.
  */
-#define ADB_CACHE_MINIMUM 10	/*%< seconds */
+#define ADB_CACHE_MINIMUM 10    /*%< seconds */
 #define ADB_CACHE_MAXIMUM 86400 /*%< seconds (86400 = 24 hours) */
-#define ADB_ENTRY_WINDOW  1800	/*%< seconds */
+#define ADB_ENTRY_WINDOW 1800   /*%< seconds */
 
 /*%
  * The period in seconds after which an ADB name entry is regarded as stale
@@ -97,7 +97,7 @@ struct dns_adb {
 	unsigned int magic;
 
 	isc_mutex_t lock;
-	isc_mutex_t reflock;	 /*%< Covers irefcnt, erefcnt */
+	isc_mutex_t reflock;     /*%< Covers irefcnt, erefcnt */
 	isc_mutex_t overmemlock; /*%< Covers overmem */
 	isc_mem_t *mctx;
 	dns_view_t *view;
@@ -374,20 +374,20 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
 /*
  * MUST NOT overlap DNS_ADBFIND_* flags!
  */
-#define FIND_EVENT_SENT	   0x40000000
-#define FIND_EVENT_FREED   0x80000000
-#define FIND_EVENTSENT(h)  (((h)->flags & FIND_EVENT_SENT) != 0)
+#define FIND_EVENT_SENT 0x40000000
+#define FIND_EVENT_FREED 0x80000000
+#define FIND_EVENTSENT(h) (((h)->flags & FIND_EVENT_SENT) != 0)
 #define FIND_EVENTFREED(h) (((h)->flags & FIND_EVENT_FREED) != 0)
 
-#define NAME_NEEDS_POKE	  0x80000000
-#define NAME_IS_DEAD	  0x40000000
-#define NAME_HINT_OK	  DNS_ADBFIND_HINTOK
-#define NAME_GLUE_OK	  DNS_ADBFIND_GLUEOK
-#define NAME_STARTATZONE  DNS_ADBFIND_STARTATZONE
-#define NAME_DEAD(n)	  (((n)->flags & NAME_IS_DEAD) != 0)
+#define NAME_NEEDS_POKE 0x80000000
+#define NAME_IS_DEAD 0x40000000
+#define NAME_HINT_OK DNS_ADBFIND_HINTOK
+#define NAME_GLUE_OK DNS_ADBFIND_GLUEOK
+#define NAME_STARTATZONE DNS_ADBFIND_STARTATZONE
+#define NAME_DEAD(n) (((n)->flags & NAME_IS_DEAD) != 0)
 #define NAME_NEEDSPOKE(n) (((n)->flags & NAME_NEEDS_POKE) != 0)
-#define NAME_GLUEOK(n)	  (((n)->flags & NAME_GLUE_OK) != 0)
-#define NAME_HINTOK(n)	  (((n)->flags & NAME_HINT_OK) != 0)
+#define NAME_GLUEOK(n) (((n)->flags & NAME_GLUE_OK) != 0)
+#define NAME_HINTOK(n) (((n)->flags & NAME_HINT_OK) != 0)
 
 /*
  * Private flag(s) for entries.
@@ -399,8 +399,8 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
  * To the name, address classes are all that really exist.  If it has a
  * V6 address it doesn't care if it came from a AAAA query.
  */
-#define NAME_HAS_V4(n)	  (!ISC_LIST_EMPTY((n)->v4))
-#define NAME_HAS_V6(n)	  (!ISC_LIST_EMPTY((n)->v6))
+#define NAME_HAS_V4(n) (!ISC_LIST_EMPTY((n)->v4))
+#define NAME_HAS_V6(n) (!ISC_LIST_EMPTY((n)->v6))
 #define NAME_HAS_ADDRS(n) (NAME_HAS_V4(n) || NAME_HAS_V6(n))
 
 /*
@@ -410,30 +410,30 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
  * Note: since we have removed the support of A6 in adb, FETCH_A and FETCH_AAAA
  * are now equal to FETCH_V4 and FETCH_V6, respectively.
  */
-#define NAME_FETCH_A(n)	   ((n)->fetch_a != NULL)
+#define NAME_FETCH_A(n) ((n)->fetch_a != NULL)
 #define NAME_FETCH_AAAA(n) ((n)->fetch_aaaa != NULL)
-#define NAME_FETCH_V4(n)   (NAME_FETCH_A(n))
-#define NAME_FETCH_V6(n)   (NAME_FETCH_AAAA(n))
-#define NAME_FETCH(n)	   (NAME_FETCH_V4(n) || NAME_FETCH_V6(n))
+#define NAME_FETCH_V4(n) (NAME_FETCH_A(n))
+#define NAME_FETCH_V6(n) (NAME_FETCH_AAAA(n))
+#define NAME_FETCH(n) (NAME_FETCH_V4(n) || NAME_FETCH_V6(n))
 
 /*
  * Find options and tests to see if there are addresses on the list.
  */
-#define FIND_WANTEVENT(fn)	(((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
+#define FIND_WANTEVENT(fn) (((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
 #define FIND_WANTEMPTYEVENT(fn) (((fn)->options & DNS_ADBFIND_EMPTYEVENT) != 0)
-#define FIND_AVOIDFETCHES(fn)	(((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
-#define FIND_STARTATZONE(fn)	(((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
-#define FIND_HINTOK(fn)		(((fn)->options & DNS_ADBFIND_HINTOK) != 0)
-#define FIND_GLUEOK(fn)		(((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
-#define FIND_HAS_ADDRS(fn)	(!ISC_LIST_EMPTY((fn)->list))
-#define FIND_RETURNLAME(fn)	(((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
-#define FIND_NOFETCH(fn)	(((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
+#define FIND_AVOIDFETCHES(fn) (((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
+#define FIND_STARTATZONE(fn) (((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
+#define FIND_HINTOK(fn) (((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+#define FIND_GLUEOK(fn) (((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+#define FIND_HAS_ADDRS(fn) (!ISC_LIST_EMPTY((fn)->list))
+#define FIND_RETURNLAME(fn) (((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+#define FIND_NOFETCH(fn) (((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
 
 /*
  * These are currently used on simple unsigned ints, so they are
  * not really associated with any particular type.
  */
-#define WANT_INET(x)  (((x)&DNS_ADBFIND_INET) != 0)
+#define WANT_INET(x) (((x)&DNS_ADBFIND_INET) != 0)
 #define WANT_INET6(x) (((x)&DNS_ADBFIND_INET6) != 0)
 
 #define EXPIRE_OK(exp, now) ((exp == INT_MAX) || (exp < now))
@@ -443,16 +443,16 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
  * glue, and compare this to the appropriate bits set in o, to see if
  * this is ok.
  */
-#define GLUE_OK(nf, o)	   (!NAME_GLUEOK(nf) || (((o)&DNS_ADBFIND_GLUEOK) != 0))
-#define HINT_OK(nf, o)	   (!NAME_HINTOK(nf) || (((o)&DNS_ADBFIND_HINTOK) != 0))
+#define GLUE_OK(nf, o) (!NAME_GLUEOK(nf) || (((o)&DNS_ADBFIND_GLUEOK) != 0))
+#define HINT_OK(nf, o) (!NAME_HINTOK(nf) || (((o)&DNS_ADBFIND_HINTOK) != 0))
 #define GLUEHINT_OK(nf, o) (GLUE_OK(nf, o) || HINT_OK(nf, o))
 #define STARTATZONE_MATCHES(nf, o) \
 	(((nf)->flags & NAME_STARTATZONE) == ((o)&DNS_ADBFIND_STARTATZONE))
 
-#define ENTER_LEVEL  ISC_LOG_DEBUG(50)
-#define EXIT_LEVEL   ENTER_LEVEL
-#define CLEAN_LEVEL  ISC_LOG_DEBUG(100)
-#define DEF_LEVEL    ISC_LOG_DEBUG(5)
+#define ENTER_LEVEL ISC_LOG_DEBUG(50)
+#define EXIT_LEVEL ENTER_LEVEL
+#define CLEAN_LEVEL ISC_LOG_DEBUG(100)
+#define DEF_LEVEL ISC_LOG_DEBUG(5)
 #define NCACHE_LEVEL ISC_LOG_DEBUG(20)
 
 #define NCACHE_RESULT(r) \
@@ -468,14 +468,14 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
  * Error state rankings.
  */
 
-#define FIND_ERR_SUCCESS    0 /* highest rank */
-#define FIND_ERR_CANCELED   1
-#define FIND_ERR_FAILURE    2
-#define FIND_ERR_NXDOMAIN   3
-#define FIND_ERR_NXRRSET    4
+#define FIND_ERR_SUCCESS 0 /* highest rank */
+#define FIND_ERR_CANCELED 1
+#define FIND_ERR_FAILURE 2
+#define FIND_ERR_NXDOMAIN 3
+#define FIND_ERR_NXRRSET 4
 #define FIND_ERR_UNEXPECTED 5
-#define FIND_ERR_NOTFOUND   6
-#define FIND_ERR_MAX	    7
+#define FIND_ERR_NOTFOUND 6
+#define FIND_ERR_MAX 7
 
 static const char *errnames[] = { "success",  "canceled", "failure",
 				  "nxdomain", "nxrrset",  "unexpected",
@@ -484,7 +484,7 @@ static const char *errnames[] = { "success",  "canceled", "failure",
 #define NEWERR(old, new) (ISC_MIN((old), (new)))
 
 static isc_result_t find_err_map[FIND_ERR_MAX] = {
-	ISC_R_SUCCESS, ISC_R_CANCELED,	 ISC_R_FAILURE, DNS_R_NXDOMAIN,
+	ISC_R_SUCCESS, ISC_R_CANCELED,   ISC_R_FAILURE, DNS_R_NXDOMAIN,
 	DNS_R_NXRRSET, ISC_R_UNEXPECTED, ISC_R_NOTFOUND /* not YET found */
 };
 
@@ -554,10 +554,10 @@ ttlclamp(dns_ttl_t ttl) {
  * no longer grow beyond 2^28 entries.)
  */
 static const unsigned nbuckets[] = {
-	1021,	   1531,     2039,     3067,	  4093,	     6143,
-	8191,	   12281,    16381,    24571,	  32749,     49193,
-	65521,	   98299,    131071,   199603,	  262139,    393209,
-	524287,	   768431,   1048573,  1572853,	  2097143,   3145721,
+	1021,      1531,     2039,     3067,      4093,      6143,
+	8191,      12281,    16381,    24571,     32749,     49193,
+	65521,     98299,    131071,   199603,    262139,    393209,
+	524287,    768431,   1048573,  1572853,   2097143,   3145721,
 	4194301,   6291449,  8388593,  12582893,  16777213,  25165813,
 	33554393,  50331599, 67108859, 100663291, 134217689, 201326557,
 	268535431, 0
@@ -2246,7 +2246,7 @@ copy_namehook_lists(dns_adb_t *adb, dns_adbfind_t *find,
 			inc_entry_refcnt(adb, entry, false);
 			ISC_LIST_APPEND(find->list, addrinfo, publink);
 			addrinfo = NULL;
-		nextv4:
+nextv4:
 			UNLOCK(&adb->entrylocks[bucket]);
 			bucket = DNS_ADB_INVALIDBUCKET;
 			namehook = ISC_LIST_NEXT(namehook, plink);
@@ -2280,7 +2280,7 @@ copy_namehook_lists(dns_adb_t *adb, dns_adbfind_t *find,
 			inc_entry_refcnt(adb, entry, false);
 			ISC_LIST_APPEND(find->list, addrinfo, publink);
 			addrinfo = NULL;
-		nextv6:
+nextv6:
 			UNLOCK(&adb->entrylocks[bucket]);
 			bucket = DNS_ADB_INVALIDBUCKET;
 			namehook = ISC_LIST_NEXT(namehook, plink);
@@ -2399,7 +2399,7 @@ check_stale_name(dns_adb_t *adb, int bucket, isc_stdtime_t now) {
 			victims++;
 		}
 
-	next:
+next:
 		if (!overmem) {
 			break;
 		}
@@ -4255,12 +4255,12 @@ static int quota_adj[] = {
 	10000, 8668, 7607, 6747, 6037, 5443, 4941, 4512, 4141, 3818, 3536,
 	3286,  3065, 2867, 2690, 2530, 2385, 2254, 2134, 2025, 1925, 1832,
 	1747,  1668, 1595, 1527, 1464, 1405, 1350, 1298, 1250, 1205, 1162,
-	1121,  1083, 1048, 1014, 981,  922,  894,  868,	 843,  820,  797,
-	775,   755,  735,  716,	 698,  680,  664,  648,	 632,  618,  603,
-	590,   577,  564,  552,	 540,  529,  518,  507,	 497,  487,  477,
-	468,   459,  450,  442,	 434,  426,  418,  411,	 404,  397,  390,
-	383,   377,  370,  364,	 358,  353,  347,  342,	 336,  331,  326,
-	321,   316,  312,  307,	 303,  298,  294,  290,	 286,  282,  278
+	1121,  1083, 1048, 1014, 981,  922,  894,  868,  843,  820,  797,
+	775,   755,  735,  716,  698,  680,  664,  648,  632,  618,  603,
+	590,   577,  564,  552,  540,  529,  518,  507,  497,  487,  477,
+	468,   459,  450,  442,  434,  426,  418,  411,  404,  397,  390,
+	383,   377,  370,  364,  358,  353,  347,  342,  336,  331,  326,
+	321,   316,  312,  307,  303,  298,  294,  290,  286,  282,  278
 };
 
 #define QUOTA_ADJ_SIZE (sizeof(quota_adj) / sizeof(quota_adj[0]))

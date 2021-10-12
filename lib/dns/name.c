@@ -49,7 +49,7 @@ static char digitvalue[256] = {
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*16*/
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*32*/
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*48*/
-	0,  1,	2,  3,	4,  5,	6,  7,	8,  9,	-1, -1, -1, -1, -1, -1, /*64*/
+	0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  -1, -1, -1, -1, -1, -1, /*64*/
 	-1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*80*/
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*96*/
 	-1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, /*112*/
@@ -277,10 +277,10 @@ dns_name_isabsolute(const dns_name_t *name) {
 }
 
 #define hyphenchar(c) ((c) == 0x2d)
-#define asterchar(c)  ((c) == 0x2a)
+#define asterchar(c) ((c) == 0x2a)
 #define alphachar(c) \
 	(((c) >= 0x41 && (c) <= 0x5a) || ((c) >= 0x61 && (c) <= 0x7a))
-#define digitchar(c)  ((c) >= 0x30 && (c) <= 0x39)
+#define digitchar(c) ((c) >= 0x30 && (c) <= 0x39)
 #define borderchar(c) (alphachar(c) || digitchar(c))
 #define middlechar(c) (borderchar(c) || hyphenchar(c))
 #define domainchar(c) ((c) > 0x20 && (c) < 0x7f)
@@ -1442,7 +1442,7 @@ dns_name_totext2(const dns_name_t *name, unsigned int options,
 					trem -= 2;
 					nlen--;
 					break;
-				no_escape:
+no_escape:
 				default:
 					if (c > 0x20 && c < 0x7f) {
 						if (trem == 0) {
@@ -1567,8 +1567,8 @@ dns_name_tofilenametext(const dns_name_t *name, bool omit_final_dot,
 				if ((c >= 0x30 && c <= 0x39) || /* digit */
 				    (c >= 0x41 && c <= 0x5A) || /* uppercase */
 				    (c >= 0x61 && c <= 0x7A) || /* lowercase */
-				    c == 0x2D ||		/* hyphen */
-				    c == 0x5F)			/* underscore */
+				    c == 0x2D ||                /* hyphen */
+				    c == 0x5F)                  /* underscore */
 				{
 					if (trem == 0) {
 						return (ISC_R_NOSPACE);

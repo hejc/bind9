@@ -93,7 +93,7 @@ base32_totext(isc_region_t *source, int wordlength, const char *wordbreak,
 		}
 		buf[6] = base[((source->base[3] << 3) & 0x18) | /* 2 = 8 */
 			      ((source->base[4] >> 5) & 0x07)]; /* 3 + */
-		buf[7] = base[source->base[4] & 0x1f];		/* 5 = 8 */
+		buf[7] = base[source->base[4] & 0x1f];          /* 5 = 8 */
 		RETERR(str_totext(buf, target));
 		isc_region_consume(source, 5);
 
@@ -136,15 +136,15 @@ isc_base32hexnp_totext(isc_region_t *source, int wordlength,
  * State of a base32 decoding process in progress.
  */
 typedef struct {
-	int length;	      /*%< Desired length of binary data or -1 */
+	int length;           /*%< Desired length of binary data or -1 */
 	isc_buffer_t *target; /*%< Buffer for resulting binary data */
-	int digits;	      /*%< Number of buffered base32 digits */
-	bool seen_end;	      /*%< True if "=" end marker seen */
+	int digits;           /*%< Number of buffered base32 digits */
+	bool seen_end;        /*%< True if "=" end marker seen */
 	int val[8];
 	const char *base; /*%< Which encoding we are using */
-	int seen_32;	  /*%< Number of significant bytes if non
+	int seen_32;      /*%< Number of significant bytes if non
 			   * zero */
-	bool pad;	  /*%< Expect padding */
+	bool pad;         /*%< Expect padding */
 } base32_decode_ctx_t;
 
 static inline void

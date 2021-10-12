@@ -174,15 +174,15 @@ dns_ssu_external_match(const dns_name_t *identity, const dns_name_t *signer,
 	dns_rdatatype_format(type, b_type, sizeof(b_type));
 
 	/* Work out how big the request will be */
-	req_len = sizeof(uint32_t) +	 /* Format version */
-		  sizeof(uint32_t) +	 /* Length */
+	req_len = sizeof(uint32_t) +     /* Format version */
+		  sizeof(uint32_t) +     /* Length */
 		  strlen(b_signer) + 1 + /* Signer */
-		  strlen(b_name) + 1 +	 /* Name */
-		  strlen(b_addr) + 1 +	 /* Address */
-		  strlen(b_type) + 1 +	 /* Type */
-		  strlen(b_key) + 1 +	 /* Key */
-		  sizeof(uint32_t) +	 /* tkey_token length */
-		  token_len;		 /* tkey_token */
+		  strlen(b_name) + 1 +   /* Name */
+		  strlen(b_addr) + 1 +   /* Address */
+		  strlen(b_type) + 1 +   /* Type */
+		  strlen(b_key) + 1 +    /* Key */
+		  sizeof(uint32_t) +     /* tkey_token length */
+		  token_len;             /* tkey_token */
 
 	/* format the buffer */
 	data = isc_mem_allocate(mctx, req_len);

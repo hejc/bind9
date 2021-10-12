@@ -30,7 +30,7 @@ struct dns_fwdtable {
 	dns_rbt_t *table;
 };
 
-#define FWDTABLEMAGIC	   ISC_MAGIC('F', 'w', 'd', 'T')
+#define FWDTABLEMAGIC ISC_MAGIC('F', 'w', 'd', 'T')
 #define VALID_FWDTABLE(ft) ISC_MAGIC_VALID(ft, FWDTABLEMAGIC)
 
 static void

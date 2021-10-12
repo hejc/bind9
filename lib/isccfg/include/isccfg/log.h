@@ -17,11 +17,11 @@
 #include <isc/log.h>
 
 extern isc_logcategory_t cfg_categories[];
-extern isc_logmodule_t	 cfg_modules[];
+extern isc_logmodule_t   cfg_modules[];
 
 #define CFG_LOGCATEGORY_CONFIG (&cfg_categories[0])
 
-#define CFG_LOGMODULE_PARSER (&cfg_modules[0])
+#define CFG_LOGMODULE_PARSER   (&cfg_modules[0])
 
 ISC_LANG_BEGINDECLS
 

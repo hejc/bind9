@@ -23,12 +23,12 @@
  */
 struct dns_ipkeylist {
 	isc_sockaddr_t *addrs;
-	isc_dscp_t	   *dscps;
-	dns_name_t	   **keys;
-	dns_name_t	   **tlss;
-	dns_name_t	   **labels;
-	uint32_t	count;
-	uint32_t	allocated;
+	isc_dscp_t     *dscps;
+	dns_name_t    **keys;
+	dns_name_t    **tlss;
+	dns_name_t    **labels;
+	uint32_t        count;
+	uint32_t        allocated;
 };
 
 void

@@ -111,35 +111,35 @@ struct dns_name {
 	ISC_LIST(dns_rdataset_t) list;
 };
 
-#define DNS_NAME_MAGIC ISC_MAGIC('D', 'N', 'S', 'n')
+#define DNS_NAME_MAGIC            ISC_MAGIC('D', 'N', 'S', 'n')
 
-#define DNS_NAMEATTR_ABSOLUTE	0x00000001
-#define DNS_NAMEATTR_READONLY	0x00000002
-#define DNS_NAMEATTR_DYNAMIC	0x00000004
-#define DNS_NAMEATTR_DYNOFFSETS 0x00000008
-#define DNS_NAMEATTR_NOCOMPRESS 0x00000010
+#define DNS_NAMEATTR_ABSOLUTE     0x00000001
+#define DNS_NAMEATTR_READONLY     0x00000002
+#define DNS_NAMEATTR_DYNAMIC      0x00000004
+#define DNS_NAMEATTR_DYNOFFSETS   0x00000008
+#define DNS_NAMEATTR_NOCOMPRESS   0x00000010
 /*
  * Attributes below 0x0100 reserved for name.c usage.
  */
-#define DNS_NAMEATTR_CACHE	  0x00000100 /*%< Used by resolver. */
-#define DNS_NAMEATTR_ANSWER	  0x00000200 /*%< Used by resolver. */
-#define DNS_NAMEATTR_NCACHE	  0x00000400 /*%< Used by resolver. */
-#define DNS_NAMEATTR_CHAINING	  0x00000800 /*%< Used by resolver. */
-#define DNS_NAMEATTR_CHASE	  0x00001000 /*%< Used by resolver. */
-#define DNS_NAMEATTR_WILDCARD	  0x00002000 /*%< Used by server. */
+#define DNS_NAMEATTR_CACHE        0x00000100 /*%< Used by resolver. */
+#define DNS_NAMEATTR_ANSWER       0x00000200 /*%< Used by resolver. */
+#define DNS_NAMEATTR_NCACHE       0x00000400 /*%< Used by resolver. */
+#define DNS_NAMEATTR_CHAINING     0x00000800 /*%< Used by resolver. */
+#define DNS_NAMEATTR_CHASE        0x00001000 /*%< Used by resolver. */
+#define DNS_NAMEATTR_WILDCARD     0x00002000 /*%< Used by server. */
 #define DNS_NAMEATTR_PREREQUISITE 0x00004000 /*%< Used by client. */
-#define DNS_NAMEATTR_UPDATE	  0x00008000 /*%< Used by client. */
+#define DNS_NAMEATTR_UPDATE       0x00008000 /*%< Used by client. */
 #define DNS_NAMEATTR_HASUPDATEREC 0x00010000 /*%< Used by client. */
 
 /*
  * Various flags.
  */
-#define DNS_NAME_DOWNCASE	0x0001
-#define DNS_NAME_CHECKNAMES	0x0002 /*%< Used by rdata. */
-#define DNS_NAME_CHECKNAMESFAIL 0x0004 /*%< Used by rdata. */
-#define DNS_NAME_CHECKREVERSE	0x0008 /*%< Used by rdata. */
-#define DNS_NAME_CHECKMX	0x0010 /*%< Used by rdata. */
-#define DNS_NAME_CHECKMXFAIL	0x0020 /*%< Used by rdata. */
+#define DNS_NAME_DOWNCASE         0x0001
+#define DNS_NAME_CHECKNAMES       0x0002 /*%< Used by rdata. */
+#define DNS_NAME_CHECKNAMESFAIL   0x0004 /*%< Used by rdata. */
+#define DNS_NAME_CHECKREVERSE     0x0008 /*%< Used by rdata. */
+#define DNS_NAME_CHECKMX          0x0010 /*%< Used by rdata. */
+#define DNS_NAME_CHECKMXFAIL      0x0020 /*%< Used by rdata. */
 
 extern const dns_name_t *dns_rootname;
 extern const dns_name_t *dns_wildcardname;
@@ -1324,20 +1324,20 @@ ISC_LANG_ENDDECLS
 	do {                                      \
 		dns_name_t *_n = (n);             \
 		/* memset(_n, 0, sizeof(*_n)); */ \
-		_n->magic = DNS_NAME_MAGIC;       \
-		_n->ndata = NULL;                 \
-		_n->length = 0;                   \
-		_n->labels = 0;                   \
+		_n->magic      = DNS_NAME_MAGIC;  \
+		_n->ndata      = NULL;            \
+		_n->length     = 0;               \
+		_n->labels     = 0;               \
 		_n->attributes = 0;               \
-		_n->offsets = (o);                \
-		_n->buffer = NULL;                \
+		_n->offsets    = (o);             \
+		_n->buffer     = NULL;            \
 		ISC_LINK_INIT(_n, link);          \
 		ISC_LIST_INIT(_n->list);          \
 	} while (0)
 
 #define DNS_NAME_RESET(n)                                  \
 	do {                                               \
-		(n)->ndata = NULL;                         \
+		(n)->ndata  = NULL;                        \
 		(n)->length = 0;                           \
 		(n)->labels = 0;                           \
 		(n)->attributes &= ~DNS_NAMEATTR_ABSOLUTE; \
@@ -1354,7 +1354,7 @@ ISC_LANG_ENDDECLS
 
 #define DNS_NAME_TOREGION(n, r)            \
 	do {                               \
-		(r)->base = (n)->ndata;    \
+		(r)->base   = (n)->ndata;  \
 		(r)->length = (n)->length; \
 	} while (0)
 
@@ -1373,12 +1373,12 @@ ISC_LANG_ENDDECLS
 
 #ifdef DNS_NAME_USEINLINE
 
-#define dns_name_init(n, o)	   DNS_NAME_INIT(n, o)
-#define dns_name_reset(n)	   DNS_NAME_RESET(n)
+#define dns_name_init(n, o)        DNS_NAME_INIT(n, o)
+#define dns_name_reset(n)          DNS_NAME_RESET(n)
 #define dns_name_setbuffer(n, b)   DNS_NAME_SETBUFFER(n, b)
-#define dns_name_countlabels(n)	   DNS_NAME_COUNTLABELS(n)
-#define dns_name_isabsolute(n)	   DNS_NAME_ISABSOLUTE(n)
-#define dns_name_toregion(n, r)	   DNS_NAME_TOREGION(n, r)
+#define dns_name_countlabels(n)    DNS_NAME_COUNTLABELS(n)
+#define dns_name_isabsolute(n)     DNS_NAME_ISABSOLUTE(n)
+#define dns_name_toregion(n, r)    DNS_NAME_TOREGION(n, r)
 #define dns_name_split(n, l, p, s) DNS_NAME_SPLIT(n, l, p, s)
 
 #endif /* DNS_NAME_USEINLINE */

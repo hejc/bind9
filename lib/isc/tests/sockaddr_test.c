@@ -90,10 +90,10 @@ sockaddr_isnetzero(void **state) {
 		const char *string;
 		bool expect;
 	} data4[] = {
-		{ "0.0.0.0", true },	      { "0.0.0.1", true },
-		{ "0.0.1.0", true },	      { "0.1.0.0", true },
-		{ "1.0.0.0", false },	      { "0.0.0.127", true },
-		{ "0.0.0.255", true },	      { "127.0.0.1", false },
+		{ "0.0.0.0", true },          { "0.0.0.1", true },
+		{ "0.0.1.0", true },          { "0.1.0.0", true },
+		{ "1.0.0.0", false },         { "0.0.0.127", true },
+		{ "0.0.0.255", true },        { "127.0.0.1", false },
 		{ "255.255.255.255", false },
 	};
 	/*

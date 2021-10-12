@@ -21,7 +21,7 @@
 
 #ifdef __linux__
 #include <linux/fs.h> /* To get the large NR_OPEN. */
-#endif		      /* ifdef __linux__ */
+#endif                /* ifdef __linux__ */
 
 #include "errno2result.h"
 

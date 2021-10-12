@@ -71,19 +71,19 @@
 			isc_buffer_putstr(b, s);                \
 	}
 
-#define MXNAME	   (DNS_NAME_MAXTEXT + 1)
-#define COMMSIZE   0xffff
-#define OUTPUTBUF  32767
-#define MAXPORT	   0xffff
-#define PORT	   53
+#define MXNAME (DNS_NAME_MAXTEXT + 1)
+#define COMMSIZE 0xffff
+#define OUTPUTBUF 32767
+#define MAXPORT 0xffff
+#define PORT 53
 #define MAXTIMEOUT 0xffff
 #define TCPTIMEOUT 10
 #define UDPTIMEOUT 5
-#define MAXTRIES   0xffffffff
+#define MAXTRIES 0xffffffff
 
-#define NS_PER_US  1000	   /*%< Nanoseconds per microsecond. */
+#define NS_PER_US 1000     /*%< Nanoseconds per microsecond. */
 #define US_PER_SEC 1000000 /*%< Microseconds per second. */
-#define US_PER_MS  1000	   /*%< Microseconds per millisecond. */
+#define US_PER_MS 1000     /*%< Microseconds per millisecond. */
 
 static isc_mem_t *mctx = NULL;
 static dns_requestmgr_t *requestmgr = NULL;
@@ -153,16 +153,16 @@ static ISC_LIST(struct query) queries;
 #define EDNSOPTS 100U
 /*% opcode text */
 static const char *const opcodetext[] = {
-	"QUERY",      "IQUERY",	    "STATUS",	  "RESERVED3",
-	"NOTIFY",     "UPDATE",	    "RESERVED6",  "RESERVED7",
+	"QUERY",      "IQUERY",     "STATUS",     "RESERVED3",
+	"NOTIFY",     "UPDATE",     "RESERVED6",  "RESERVED7",
 	"RESERVED8",  "RESERVED9",  "RESERVED10", "RESERVED11",
 	"RESERVED12", "RESERVED13", "RESERVED14", "RESERVED15"
 };
 
 /*% return code text */
 static const char *const rcodetext[] = {
-	"NOERROR",    "FORMERR",    "SERVFAIL",	  "NXDOMAIN",	"NOTIMP",
-	"REFUSED",    "YXDOMAIN",   "YXRRSET",	  "NXRRSET",	"NOTAUTH",
+	"NOERROR",    "FORMERR",    "SERVFAIL",   "NXDOMAIN",   "NOTIMP",
+	"REFUSED",    "YXDOMAIN",   "YXRRSET",    "NXRRSET",    "NOTAUTH",
 	"NOTZONE",    "RESERVED11", "RESERVED12", "RESERVED13", "RESERVED14",
 	"RESERVED15", "BADVERS"
 };
@@ -401,7 +401,7 @@ repopulate_buffer:
 		result = dns_message_pseudosectiontotext(
 			response, DNS_PSEUDOSECTION_OPT, style, flags, buf);
 		if (result == ISC_R_NOSPACE) {
-		buftoosmall:
+buftoosmall:
 			len += OUTPUTBUF;
 			isc_buffer_free(&buf);
 			isc_buffer_allocate(mctx, &buf, len);
@@ -1646,12 +1646,12 @@ plus_option(char *option, struct query *query, bool global) {
 		FULLCHECK("zflag");
 		query->have_zflag = state;
 		break;
-	global_option:
+global_option:
 		fprintf(stderr, "Ignored late global option: +%s\n", option);
 		break;
 	default:
-	invalid_option:
-	need_value:
+invalid_option:
+need_value:
 		fprintf(stderr, "Invalid option: +%s\n", option);
 		usage();
 	}
@@ -1806,11 +1806,11 @@ dash_option(const char *option, char *next, struct query *query, bool global,
 		query->rdclass = dns_rdataclass_in;
 		*setname = true;
 		return (value_from_next);
-	global_option:
+global_option:
 		fprintf(stderr, "Ignored late global option: -%s\n", option);
 		usage();
 	default:
-	invalid_option:
+invalid_option:
 		fprintf(stderr, "Invalid option: -%s\n", option);
 		usage();
 	}

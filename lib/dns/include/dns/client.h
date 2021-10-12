@@ -55,20 +55,20 @@ ISC_LANG_BEGINDECLS
  * Optional flags for dns_client_(start)resolve.
  */
 /*%< Do not return DNSSEC data (e.g. RRSIGS) with response. */
-#define DNS_CLIENTRESOPT_NODNSSEC 0x01
+#define DNS_CLIENTRESOPT_NODNSSEC   0x01
 /*%< Allow running external context. */
-#define DNS_CLIENTRESOPT_RESERVED 0x02
+#define DNS_CLIENTRESOPT_RESERVED   0x02
 /*%< Don't validate responses. */
 #define DNS_CLIENTRESOPT_NOVALIDATE 0x04
 /*%< Don't set the CD flag on upstream queries. */
-#define DNS_CLIENTRESOPT_NOCDFLAG 0x08
+#define DNS_CLIENTRESOPT_NOCDFLAG   0x08
 /*%< Use TCP transport. */
-#define DNS_CLIENTRESOPT_TCP 0x10
+#define DNS_CLIENTRESOPT_TCP        0x10
 
 /*%
  * View name used in dns_client.
  */
-#define DNS_CLIENTVIEW_NAME "_dnsclient"
+#define DNS_CLIENTVIEW_NAME         "_dnsclient"
 
 /*%
  * A dns_clientresevent_t is sent when name resolution performed by a client

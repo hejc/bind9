@@ -40,7 +40,7 @@
 			(list).head = (elt);            \
 		(elt)->link.prev = (list).tail;         \
 		(elt)->link.next = NULL;                \
-		(list).tail = (elt);                    \
+		(list).tail      = (elt);               \
 	} while (0)
 
 #define DLZ_LIST_PREV(elt, link) ((elt)->link.prev)

@@ -14,5 +14,5 @@
 
 typedef struct dns_rdata_eui48 {
 	dns_rdatacommon_t common;
-	unsigned char eui48[6];
+	unsigned char     eui48[6];
 } dns_rdata_eui48_t;

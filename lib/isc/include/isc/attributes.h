@@ -63,7 +63,7 @@
  */
 #define ISC_ATTR_DEALLOCATOR(deallocator)
 #define ISC_ATTR_DEALLOCATOR_IDX(deallocator, idx)
-#define ISC_ATTR_MALLOC_DEALLOCATOR(deallocator)	  ISC_ATTR_MALLOC
+#define ISC_ATTR_MALLOC_DEALLOCATOR(deallocator)          ISC_ATTR_MALLOC
 #define ISC_ATTR_MALLOC_DEALLOCATOR_IDX(deallocator, idx) ISC_ATTR_MALLOC
 #endif
 #else /* #ifdef HAVE_FUNC_ATTRIBUTE_MALLOC */

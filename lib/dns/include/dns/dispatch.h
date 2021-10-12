@@ -64,11 +64,11 @@ ISC_LANG_BEGINDECLS
  * round-robin fashion.
  */
 struct dns_dispatchset {
-	isc_mem_t	  *mctx;
+	isc_mem_t       *mctx;
 	dns_dispatch_t **dispatches;
-	int		 ndisp;
-	int		 cur;
-	isc_mutex_t	 lock;
+	int              ndisp;
+	int              cur;
+	isc_mutex_t      lock;
 };
 
 /*

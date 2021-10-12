@@ -64,12 +64,12 @@ typedef bool my_bool;
 #endif /* !defined(LIBMARIADB) && MYSQL_VERSION_ID >= 80000 */
 
 #define dbc_search_limit 30
-#define ALLNODES	 1
-#define ALLOWXFR	 2
-#define AUTHORITY	 3
-#define FINDZONE	 4
-#define COUNTZONE	 5
-#define LOOKUP		 6
+#define ALLNODES 1
+#define ALLOWXFR 2
+#define AUTHORITY 3
+#define FINDZONE 4
+#define COUNTZONE 5
+#define LOOKUP 6
 
 #define safeGet(in) in == NULL ? "" : in
 

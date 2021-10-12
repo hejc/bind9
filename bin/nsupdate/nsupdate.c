@@ -94,12 +94,12 @@
 
 #include "../dig/readline.h"
 
-#define MAXCMD	     (128 * 1024)
-#define MAXWIRE	     (64 * 1024)
-#define INITTEXT     (2 * 1024)
-#define MAXTEXT	     (128 * 1024)
+#define MAXCMD (128 * 1024)
+#define MAXWIRE (64 * 1024)
+#define INITTEXT (2 * 1024)
+#define MAXTEXT (128 * 1024)
 #define FIND_TIMEOUT 5
-#define TTL_MAX	     2147483647U /* Maximum signed 32 bit integer. */
+#define TTL_MAX 2147483647U /* Maximum signed 32 bit integer. */
 
 #define DNSDEFAULTPORT 53
 
@@ -220,9 +220,9 @@ recvgss(isc_task_t *task, isc_event_t *event);
 static void
 error(const char *format, ...) ISC_FORMAT_PRINTF(1, 2);
 
-#define STATUS_MORE   (uint16_t)0
-#define STATUS_SEND   (uint16_t)1
-#define STATUS_QUIT   (uint16_t)2
+#define STATUS_MORE (uint16_t)0
+#define STATUS_SEND (uint16_t)1
+#define STATUS_QUIT (uint16_t)2
 #define STATUS_SYNTAX (uint16_t)3
 
 static void

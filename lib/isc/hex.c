@@ -69,9 +69,9 @@ isc_hex_totext(isc_region_t *source, int wordlength, const char *wordbreak,
  * State of a hex decoding process in progress.
  */
 typedef struct {
-	int length;	      /*%< Desired length of binary data or -1 */
+	int length;           /*%< Desired length of binary data or -1 */
 	isc_buffer_t *target; /*%< Buffer for resulting binary data */
-	int digits;	      /*%< Number of buffered hex digits */
+	int digits;           /*%< Number of buffered hex digits */
 	int val[2];
 } hex_decode_ctx_t;
 

@@ -79,8 +79,8 @@ send_noop(isc_buffer_t *buffer) {
  * Structure containing parameters for ns__query_sfcache_test().
  */
 typedef struct {
-	const ns_test_id_t id;	    /* libns test identifier */
-	unsigned int qflags;	    /* query flags */
+	const ns_test_id_t id;      /* libns test identifier */
+	unsigned int qflags;        /* query flags */
 	bool cache_entry_present;   /* whether a SERVFAIL
 				     * cache entry
 				     * matching the query
@@ -90,7 +90,7 @@ typedef struct {
 				     * set for
 				     * the SERVFAIL cache entry
 				     * */
-	bool servfail_expected;	    /* whether a cached
+	bool servfail_expected;     /* whether a cached
 				     * SERVFAIL is
 				     * expected to be returned
 				     * */
@@ -270,17 +270,17 @@ ns__query_sfcache_test(void **state) {
  * Structure containing parameters for ns__query_start_test().
  */
 typedef struct {
-	const ns_test_id_t id;	      /* libns test identifier */
-	const char *qname;	      /* QNAME */
-	dns_rdatatype_t qtype;	      /* QTYPE */
-	unsigned int qflags;	      /* query flags */
+	const ns_test_id_t id;        /* libns test identifier */
+	const char *qname;            /* QNAME */
+	dns_rdatatype_t qtype;        /* QTYPE */
+	unsigned int qflags;          /* query flags */
 	bool disable_name_checks;     /* if set to true, owner
 				       * name
 				       *          checks will
 				       * be disabled for the
 				       *          view created
 				       * */
-	bool recursive_service;	      /* if set to true, the view
+	bool recursive_service;       /* if set to true, the view
 				       *          created will
 				       * have a cache
 				       *          database
@@ -292,12 +292,12 @@ typedef struct {
 	const char *auth_zone_path;   /* path to load the
 				       * authoritative
 				       * zone from */
-	enum {			      /* expected result: */
+	enum {                        /* expected result: */
 	       NS__QUERY_START_R_INVALID,
 	       NS__QUERY_START_R_REFUSE, /* query should be REFUSED */
-	       NS__QUERY_START_R_CACHE,	 /* query should be answered from
+	       NS__QUERY_START_R_CACHE,  /* query should be answered from
 					  * cache */
-	       NS__QUERY_START_R_AUTH,	 /* query should be answered using
+	       NS__QUERY_START_R_AUTH,   /* query should be answered using
 					  * authoritative data */
 	} expected_result;
 } ns__query_start_test_params_t;
@@ -623,24 +623,24 @@ ns__query_start_test(void **state) {
  * Structure containing parameters for ns__query_hookasync_test().
  */
 typedef struct {
-	const ns_test_id_t id;	   /* libns test identifier */
+	const ns_test_id_t id;     /* libns test identifier */
 	ns_hookpoint_t hookpoint;  /* hook point specified for resume */
 	ns_hookpoint_t hookpoint2; /* expected hook point used after resume */
 	ns_hook_action_t action;   /* action for the hook point */
 	isc_result_t start_result; /* result of 'runasync' */
-	bool quota_ok;		   /* true if recursion quota should be okay */
-	bool do_cancel;		   /* true if query should be canceled
+	bool quota_ok;             /* true if recursion quota should be okay */
+	bool do_cancel;            /* true if query should be canceled
 				    * in test */
 } ns__query_hookasync_test_params_t;
 
 /* Data structure passed from tests to hooks */
 typedef struct hookasync_data {
-	bool async;		      /* true if in a hook-triggered
+	bool async;                   /* true if in a hook-triggered
 				       * asynchronous process */
-	bool canceled;		      /* true if the query has been canceled  */
+	bool canceled;                /* true if the query has been canceled  */
 	isc_result_t start_result;    /* result of 'runasync' */
 	ns_hook_resevent_t *rev;      /* resume event sent on completion */
-	query_ctx_t qctx;	      /* shallow copy of qctx passed to hook */
+	query_ctx_t qctx;             /* shallow copy of qctx passed to hook */
 	ns_hookpoint_t hookpoint;     /* specifies where to resume */
 	ns_hookpoint_t lasthookpoint; /* remember the last hook point called */
 } hookasync_data_t;
@@ -1280,18 +1280,18 @@ ns__query_hookasync_test(void **state) {
  * Structure containing parameters for ns__query_hookasync_e2e_test().
  */
 typedef struct {
-	const ns_test_id_t id;	   /* libns test identifier */
-	const char *qname;	   /* QNAME */
+	const ns_test_id_t id;     /* libns test identifier */
+	const char *qname;         /* QNAME */
 	ns_hookpoint_t hookpoint;  /* hook point specified for resume */
 	isc_result_t start_result; /* result of 'runasync' */
-	bool do_cancel;		   /* true if query should be canceled
+	bool do_cancel;            /* true if query should be canceled
 				    * in test */
 	dns_rcode_t expected_rcode;
 } ns__query_hookasync_e2e_test_params_t;
 
 /* data structure passed from tests to hooks */
 typedef struct hookasync_e2e_data {
-	bool async;		   /* true if in a hook-triggered
+	bool async;                /* true if in a hook-triggered
 				    * asynchronous process */
 	ns_hook_resevent_t *rev;   /* resume event sent on completion */
 	ns_hookpoint_t hookpoint;  /* specifies where to resume */

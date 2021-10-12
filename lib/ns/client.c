@@ -96,14 +96,14 @@
 #define TCP_CLIENT(c) (((c)->attributes & NS_CLIENTATTR_TCP) != 0)
 
 #define COOKIE_SIZE 24U /* 8 + 4 + 4 + 8 */
-#define ECS_SIZE    20U /* 2 + 1 + 1 + [0..16] */
+#define ECS_SIZE 20U    /* 2 + 1 + 1 + [0..16] */
 
-#define WANTNSID(x)	(((x)->attributes & NS_CLIENTATTR_WANTNSID) != 0)
-#define WANTEXPIRE(x)	(((x)->attributes & NS_CLIENTATTR_WANTEXPIRE) != 0)
-#define WANTPAD(x)	(((x)->attributes & NS_CLIENTATTR_WANTPAD) != 0)
+#define WANTNSID(x) (((x)->attributes & NS_CLIENTATTR_WANTNSID) != 0)
+#define WANTEXPIRE(x) (((x)->attributes & NS_CLIENTATTR_WANTEXPIRE) != 0)
+#define WANTPAD(x) (((x)->attributes & NS_CLIENTATTR_WANTPAD) != 0)
 #define USEKEEPALIVE(x) (((x)->attributes & NS_CLIENTATTR_USEKEEPALIVE) != 0)
 
-#define MANAGER_MAGIC	 ISC_MAGIC('N', 'S', 'C', 'm')
+#define MANAGER_MAGIC ISC_MAGIC('N', 'S', 'C', 'm')
 #define VALID_MANAGER(m) ISC_MAGIC_VALID(m, MANAGER_MAGIC)
 
 /*
@@ -690,8 +690,8 @@ cleanup:
 }
 
 #if NS_CLIENT_DROPPORT
-#define DROPPORT_NO	  0
-#define DROPPORT_REQUEST  1
+#define DROPPORT_NO 0
+#define DROPPORT_REQUEST 1
 #define DROPPORT_RESPONSE 2
 /*%
  * ns_client_dropport determines if certain requests / responses
@@ -705,7 +705,7 @@ cleanup:
 static int
 ns_client_dropport(in_port_t port) {
 	switch (port) {
-	case 7:	 /* echo */
+	case 7:  /* echo */
 	case 13: /* daytime */
 	case 19: /* chargen */
 	case 37: /* time */

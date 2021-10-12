@@ -14,20 +14,19 @@
 /*! \file isc/sockaddr.h */
 
 #include <stdbool.h>
+#include <sys/un.h>
 
 #include <isc/lang.h>
 #include <isc/net.h>
 #include <isc/types.h>
 
-#include <sys/un.h>
-
 struct isc_sockaddr {
 	union {
-		struct sockaddr		sa;
-		struct sockaddr_in	sin;
-		struct sockaddr_in6	sin6;
+		struct sockaddr         sa;
+		struct sockaddr_in      sin;
+		struct sockaddr_in6     sin6;
 		struct sockaddr_storage ss;
-		struct sockaddr_un	sunix;
+		struct sockaddr_un      sunix;
 	} type;
 	unsigned int length; /* XXXRTH beginning? */
 	ISC_LINK(struct isc_sockaddr) link;

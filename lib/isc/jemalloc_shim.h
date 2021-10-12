@@ -75,7 +75,7 @@ sallocx(void *ptr, int flags) {
 #include <stdlib.h>
 
 typedef union {
-	size_t size;
+	size_t      size;
 	max_align_t __alignment;
 } size_info;
 
@@ -89,7 +89,7 @@ mallocx(size_t size, int flags) {
 	INSIST(si != NULL);
 
 	si->size = size;
-	ptr = &si[1];
+	ptr      = &si[1];
 
 	return (ptr);
 }
@@ -123,7 +123,7 @@ rallocx(void *ptr, size_t size, int flags) {
 	INSIST(si != NULL);
 
 	si->size = size;
-	ptr = &si[1];
+	ptr      = &si[1];
 
 	return (ptr);
 }

@@ -70,8 +70,8 @@ static uint32_t splitwidth = 0xffffffff;
 
 /*% opcode text */
 static const char *const opcodetext[] = {
-	"QUERY",      "IQUERY",	    "STATUS",	  "RESERVED3",
-	"NOTIFY",     "UPDATE",	    "RESERVED6",  "RESERVED7",
+	"QUERY",      "IQUERY",     "STATUS",     "RESERVED3",
+	"NOTIFY",     "UPDATE",     "RESERVED6",  "RESERVED7",
 	"RESERVED8",  "RESERVED9",  "RESERVED10", "RESERVED11",
 	"RESERVED12", "RESERVED13", "RESERVED14", "RESERVED15"
 };
@@ -497,12 +497,10 @@ dns64prefix_answer(dns_message_t *msg, isc_buffer_t *buf) {
 	result = dns_dns64_findprefix(rdataset, prefix, &count);
 	if (result == ISC_R_NOTFOUND) {
 		return (ISC_R_SUCCESS);
-
-        }
+	}
 	if (count > 10) {
 		count = 10;
-
-        }
+	}
 	for (i = 0; i < count; i++) {
 		result = isc_netaddr_totext(&prefix[i].addr, buf);
 		if (result != ISC_R_SUCCESS) {
@@ -883,7 +881,7 @@ repopulate_buffer:
 		result = dns_message_pseudosectiontotext(
 			msg, DNS_PSEUDOSECTION_OPT, style, flags, buf);
 		if (result == ISC_R_NOSPACE) {
-		buftoosmall:
+buftoosmall:
 			len += OUTPUTBUF;
 			isc_buffer_free(&buf);
 			isc_buffer_allocate(mctx, &buf, len);
@@ -914,8 +912,7 @@ repopulate_buffer:
 			result = dns64prefix_answer(msg, buf);
 			if (result == ISC_R_NOSPACE) {
 				goto buftoosmall;
-
-        }
+			}
 			check_result(result, "dns64prefix_answer");
 		} else {
 			result = short_answer(msg, flags, buf, query);
@@ -1258,7 +1255,7 @@ plus_option(char *option, bool is_batchfile, bool *need_clone,
 					break;
 				case 's': /* dnssec */
 					FULLCHECK("dnssec");
-				dnssec:
+dnssec:
 					if (state && lookup->edns == -1) {
 						lookup->edns =
 							DEFAULT_EDNS_VERSION;
@@ -2065,10 +2062,10 @@ plus_option(char *option, bool is_batchfile, bool *need_clone,
 		lookup->zflag = state;
 		break;
 	default:
-	invalid_option:
-	need_value:
+invalid_option:
+need_value:
 #if TARGET_OS_IPHONE
-	exit_or_usage:
+exit_or_usage:
 #endif /* if TARGET_OS_IPHONE */
 		fprintf(stderr, "Invalid option: +%s\n", option);
 		usage();
@@ -2374,7 +2371,7 @@ dash_option(char *option, char *next, dig_lookup_t **lookup,
 			exit(1);
 		}
 		return (value_from_next);
-	invalid_option:
+invalid_option:
 	default:
 		fprintf(stderr, "Invalid option: -%s\n", option);
 		usage();
@@ -2454,7 +2451,7 @@ preparse_args(int argc, char **argv) {
 		rc--, rv++;
 		/* Handle missing argument */
 		if (rc == 0) {
-		invalid_option:
+invalid_option:
 			fprintf(stderr, "Invalid option: -%s\n", option);
 			usage();
 		}
@@ -2736,7 +2733,7 @@ parse_args(bool is_batchfile, bool config_only, int argc, char **argv) {
 			fatal("couldn't open specified batch file");
 		}
 		/* XXX Remove code dup from shutdown code */
-	next_line:
+next_line:
 		if (fgets(batchline, sizeof(batchline), batchfp) != 0) {
 			debug("batch line %s", batchline);
 			if (batchline[0] == '\r' || batchline[0] == '\n' ||

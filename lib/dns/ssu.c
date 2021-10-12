@@ -30,19 +30,19 @@
 #include <dst/dst.h>
 #include <dst/gssapi.h>
 
-#define SSUTABLEMAGIC	      ISC_MAGIC('S', 'S', 'U', 'T')
+#define SSUTABLEMAGIC ISC_MAGIC('S', 'S', 'U', 'T')
 #define VALID_SSUTABLE(table) ISC_MAGIC_VALID(table, SSUTABLEMAGIC)
 
-#define SSURULEMAGIC	     ISC_MAGIC('S', 'S', 'U', 'R')
+#define SSURULEMAGIC ISC_MAGIC('S', 'S', 'U', 'R')
 #define VALID_SSURULE(table) ISC_MAGIC_VALID(table, SSURULEMAGIC)
 
 struct dns_ssurule {
 	unsigned int magic;
-	bool grant;		      /*%< is this a grant or a deny? */
+	bool grant;                   /*%< is this a grant or a deny? */
 	dns_ssumatchtype_t matchtype; /*%< which type of pattern match? */
-	dns_name_t *identity;	      /*%< the identity to match */
-	dns_name_t *name;	      /*%< the name being updated */
-	unsigned int ntypes;	      /*%< number of data types covered */
+	dns_name_t *identity;         /*%< the identity to match */
+	dns_name_t *name;             /*%< the name being updated */
+	unsigned int ntypes;          /*%< number of data types covered */
 	dns_ssuruletype_t *types;     /*%< the data types.  Can include */
 				      /*   ANY. if NULL, defaults to all */
 				      /*   types except SIG, SOA, and NS */

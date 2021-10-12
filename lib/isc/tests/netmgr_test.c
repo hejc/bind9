@@ -112,15 +112,15 @@ static isc_nm_recv_cb_t connect_readcb = NULL;
 #define T_SOFT 50
 
 /* Timeouts in miliseconds */
-#define T_INIT	     120 * 1000
-#define T_IDLE	     120 * 1000
-#define T_KEEPALIVE  120 * 1000
+#define T_INIT 120 * 1000
+#define T_IDLE 120 * 1000
+#define T_KEEPALIVE 120 * 1000
 #define T_ADVERTISED 120 * 1000
-#define T_CONNECT    30 * 1000
+#define T_CONNECT 30 * 1000
 
 /* Wait for 1 second (1000 * 1000 microseconds) */
 #define WAIT_REPEATS 1000
-#define T_WAIT	     1000 /* In microseconds */
+#define T_WAIT 1000 /* In microseconds */
 
 #define WAIT_FOR(v, op, val)                                \
 	{                                                   \

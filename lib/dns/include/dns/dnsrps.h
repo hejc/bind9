@@ -44,15 +44,15 @@ typedef struct {
 	uint8_t unused;
 } rpsnode_t;
 typedef struct rpsdb {
-	dns_db_t	    common;
-	int		    ref_cnt;
+	dns_db_t            common;
+	int                 ref_cnt;
 	librpz_result_id_t  hit_id;
-	librpz_result_t	    result;
-	librpz_rsp_t	     *rsp;
+	librpz_result_t     result;
+	librpz_rsp_t       *rsp;
 	librpz_domain_buf_t origin_buf;
-	const dns_name_t	 *qname;
-	rpsnode_t	    origin_node;
-	rpsnode_t	    data_node;
+	const dns_name_t   *qname;
+	rpsnode_t           origin_node;
+	rpsnode_t           data_node;
 } rpsdb_t;
 
 /*

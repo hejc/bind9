@@ -15,22 +15,21 @@
 
 #include <inttypes.h>
 #include <stdbool.h>
+#include <sys/types.h>
+#include <sys/un.h>
 
 #include <isc/lang.h>
 #include <isc/net.h>
 #include <isc/types.h>
-
-#include <sys/types.h>
-#include <sys/un.h>
 
 ISC_LANG_BEGINDECLS
 
 struct isc_netaddr {
 	unsigned int family;
 	union {
-		struct in_addr	in;
+		struct in_addr  in;
 		struct in6_addr in6;
-		char		un[sizeof(((struct sockaddr_un *)0)->sun_path)];
+		char            un[sizeof(((struct sockaddr_un *)0)->sun_path)];
 	} type;
 	uint32_t zone;
 };

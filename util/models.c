@@ -16,7 +16,7 @@
  * See https://scan.coverity.com/models
  */
 
-#define FLARG	   , const char *file, unsigned int line
+#define FLARG , const char *file, unsigned int line
 #define FLARG_PASS , file, line
 
 int condition;

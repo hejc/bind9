@@ -85,7 +85,7 @@ __wrap_uv_send_buffer_size(uv_handle_t *handle, int *value);
 int
 __wrap_uv_recv_buffer_size(uv_handle_t *handle, int *value);
 int
-__wrap_uv_fileno(const uv_handle_t *handle, uv_os_fd_t *fd);
+		  __wrap_uv_fileno(const uv_handle_t *handle, uv_os_fd_t *fd);
 
 /* uv_timer_t */
 /* FIXME */
@@ -279,26 +279,26 @@ __wrap_uv_fileno(const uv_handle_t *handle, uv_os_fd_t *fd) {
 #define uv_udp_open(...) __wrap_uv_udp_open(__VA_ARGS__)
 #define uv_udp_bind(...) __wrap_uv_udp_bind(__VA_ARGS__)
 #if UV_VERSION_HEX >= UV_VERSION(1, 27, 0)
-#define uv_udp_connect(...)	__wrap_uv_udp_connect(__VA_ARGS__)
+#define uv_udp_connect(...)     __wrap_uv_udp_connect(__VA_ARGS__)
 #define uv_udp_getpeername(...) __wrap_uv_udp_getpeername(__VA_ARGS__)
 #endif /* UV_VERSION_HEX >= UV_VERSION(1, 27, 0) */
-#define uv_udp_getsockname(...) __wrap_uv_udp_getsockname(__VA_ARGS__)
-#define uv_udp_send(...)	__wrap_uv_udp_send(__VA_ARGS__)
-#define uv_udp_recv_start(...)	__wrap_uv_udp_recv_start(__VA_ARGS__)
-#define uv_udp_recv_stop(...)	__wrap_uv_udp_recv_stop(__VA_ARGS__)
+#define uv_udp_getsockname(...)  __wrap_uv_udp_getsockname(__VA_ARGS__)
+#define uv_udp_send(...)         __wrap_uv_udp_send(__VA_ARGS__)
+#define uv_udp_recv_start(...)   __wrap_uv_udp_recv_start(__VA_ARGS__)
+#define uv_udp_recv_stop(...)    __wrap_uv_udp_recv_stop(__VA_ARGS__)
 
-#define uv_tcp_open(...)	__wrap_uv_tcp_open(__VA_ARGS__)
-#define uv_tcp_bind(...)	__wrap_uv_tcp_bind(__VA_ARGS__)
-#define uv_tcp_getsockname(...) __wrap_uv_tcp_getsockname(__VA_ARGS__)
-#define uv_tcp_getpeername(...) __wrap_uv_tcp_getpeername(__VA_ARGS__)
-#define uv_tcp_connect(...)	__wrap_uv_tcp_connect(__VA_ARGS__)
+#define uv_tcp_open(...)         __wrap_uv_tcp_open(__VA_ARGS__)
+#define uv_tcp_bind(...)         __wrap_uv_tcp_bind(__VA_ARGS__)
+#define uv_tcp_getsockname(...)  __wrap_uv_tcp_getsockname(__VA_ARGS__)
+#define uv_tcp_getpeername(...)  __wrap_uv_tcp_getpeername(__VA_ARGS__)
+#define uv_tcp_connect(...)      __wrap_uv_tcp_connect(__VA_ARGS__)
 
-#define uv_listen(...) __wrap_uv_listen(__VA_ARGS__)
-#define uv_accept(...) __wrap_uv_accept(__VA_ARGS__)
+#define uv_listen(...)           __wrap_uv_listen(__VA_ARGS__)
+#define uv_accept(...)           __wrap_uv_accept(__VA_ARGS__)
 
 #define uv_send_buffer_size(...) __wrap_uv_send_buffer_size(__VA_ARGS__)
 #define uv_recv_buffer_size(...) __wrap_uv_recv_buffer_size(__VA_ARGS__)
-#define uv_fileno(...)		 __wrap_uv_fileno(__VA_ARGS__)
+#define uv_fileno(...)           __wrap_uv_fileno(__VA_ARGS__)
 
 #define RESET_RETURN                                           \
 	{                                                      \

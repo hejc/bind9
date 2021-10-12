@@ -80,136 +80,136 @@ ISC_LANG_BEGINDECLS
 
 struct dns_view {
 	/* Unlocked. */
-	unsigned int	  magic;
-	isc_mem_t	  *mctx;
-	dns_rdataclass_t  rdclass;
-	char	     *name;
-	dns_zt_t	 *zonetable;
-	dns_resolver_t   *resolver;
-	dns_adb_t	  *adb;
-	dns_requestmgr_t *requestmgr;
-	dns_cache_t	    *cache;
-	dns_db_t	 *cachedb;
-	dns_db_t	 *hints;
+	unsigned int          magic;
+	isc_mem_t            *mctx;
+	dns_rdataclass_t      rdclass;
+	char                 *name;
+	dns_zt_t             *zonetable;
+	dns_resolver_t       *resolver;
+	dns_adb_t            *adb;
+	dns_requestmgr_t     *requestmgr;
+	dns_cache_t          *cache;
+	dns_db_t             *cachedb;
+	dns_db_t             *hints;
 
 	/*
 	 * security roots and negative trust anchors.
 	 * internal use only; access via * dns_view_getsecroots()
 	 */
-	dns_keytable_t *secroots_priv;
-	dns_ntatable_t *ntatable_priv;
+	dns_keytable_t       *secroots_priv;
+	dns_ntatable_t       *ntatable_priv;
 
-	isc_mutex_t  lock;
-	bool	     frozen;
-	isc_task_t  *task;
-	isc_event_t  resevent;
-	isc_event_t  adbevent;
-	isc_event_t  reqevent;
-	isc_stats_t *adbstats;
-	isc_stats_t *resstats;
-	dns_stats_t *resquerystats;
-	bool	     cacheshared;
+	isc_mutex_t           lock;
+	bool                  frozen;
+	isc_task_t           *task;
+	isc_event_t           resevent;
+	isc_event_t           adbevent;
+	isc_event_t           reqevent;
+	isc_stats_t          *adbstats;
+	isc_stats_t          *resstats;
+	dns_stats_t          *resquerystats;
+	bool                  cacheshared;
 
 	/* Configurable data. */
 	dns_transport_list_t *transports;
 	dns_tsig_keyring_t   *statickeys;
 	dns_tsig_keyring_t   *dynamickeys;
 	dns_peerlist_t       *peers;
-	dns_order_t	    *order;
+	dns_order_t          *order;
 	dns_fwdtable_t       *fwdtable;
-	bool		      recursion;
-	bool		      qminimization;
-	bool		      qmin_strict;
-	bool		      auth_nxdomain;
-	bool		      use_glue_cache;
-	bool		      minimal_any;
+	bool                  recursion;
+	bool                  qminimization;
+	bool                  qmin_strict;
+	bool                  auth_nxdomain;
+	bool                  use_glue_cache;
+	bool                  minimal_any;
 	dns_minimaltype_t     minimalresponses;
-	bool		      enablevalidation;
-	bool		      acceptexpired;
-	bool		      requireservercookie;
-	bool		      synthfromdnssec;
-	bool		      trust_anchor_telemetry;
-	bool		      root_key_sentinel;
+	bool                  enablevalidation;
+	bool                  acceptexpired;
+	bool                  requireservercookie;
+	bool                  synthfromdnssec;
+	bool                  trust_anchor_telemetry;
+	bool                  root_key_sentinel;
 	dns_transfer_format_t transfer_format;
-	dns_acl_t		  *cacheacl;
-	dns_acl_t		  *cacheonacl;
-	dns_acl_t		  *queryacl;
-	dns_acl_t		  *queryonacl;
-	dns_acl_t		  *recursionacl;
-	dns_acl_t		  *recursiononacl;
-	dns_acl_t		  *sortlist;
-	dns_acl_t		  *notifyacl;
-	dns_acl_t		  *transferacl;
-	dns_acl_t		  *updateacl;
-	dns_acl_t		  *upfwdacl;
-	dns_acl_t		  *denyansweracl;
-	dns_acl_t		  *nocasecompress;
-	bool		      msgcompression;
-	dns_rbt_t		  *answeracl_exclude;
-	dns_rbt_t		  *denyanswernames;
-	dns_rbt_t		  *answernames_exclude;
-	dns_rrl_t		  *rrl;
-	bool		      provideixfr;
-	bool		      requestnsid;
-	bool		      sendcookie;
-	dns_ttl_t	      maxcachettl;
-	dns_ttl_t	      maxncachettl;
-	dns_ttl_t	      mincachettl;
-	dns_ttl_t	      minncachettl;
-	uint32_t	      nta_lifetime;
-	uint32_t	      nta_recheck;
-	char		     *nta_file;
-	dns_ttl_t	      prefetch_trigger;
-	dns_ttl_t	      prefetch_eligible;
-	in_port_t	      dstport;
-	dns_aclenv_t	     *aclenv;
-	dns_rdatatype_t	      preferred_glue;
-	bool		      flush;
+	dns_acl_t            *cacheacl;
+	dns_acl_t            *cacheonacl;
+	dns_acl_t            *queryacl;
+	dns_acl_t            *queryonacl;
+	dns_acl_t            *recursionacl;
+	dns_acl_t            *recursiononacl;
+	dns_acl_t            *sortlist;
+	dns_acl_t            *notifyacl;
+	dns_acl_t            *transferacl;
+	dns_acl_t            *updateacl;
+	dns_acl_t            *upfwdacl;
+	dns_acl_t            *denyansweracl;
+	dns_acl_t            *nocasecompress;
+	bool                  msgcompression;
+	dns_rbt_t            *answeracl_exclude;
+	dns_rbt_t            *denyanswernames;
+	dns_rbt_t            *answernames_exclude;
+	dns_rrl_t            *rrl;
+	bool                  provideixfr;
+	bool                  requestnsid;
+	bool                  sendcookie;
+	dns_ttl_t             maxcachettl;
+	dns_ttl_t             maxncachettl;
+	dns_ttl_t             mincachettl;
+	dns_ttl_t             minncachettl;
+	uint32_t              nta_lifetime;
+	uint32_t              nta_recheck;
+	char                 *nta_file;
+	dns_ttl_t             prefetch_trigger;
+	dns_ttl_t             prefetch_eligible;
+	in_port_t             dstport;
+	dns_aclenv_t         *aclenv;
+	dns_rdatatype_t       preferred_glue;
+	bool                  flush;
 	dns_namelist_t       *delonly;
-	bool		      rootdelonly;
+	bool                  rootdelonly;
 	dns_namelist_t       *rootexclude;
-	bool		      checknames;
-	uint16_t	      maxudp;
-	dns_ttl_t	      staleanswerttl;
-	dns_stale_answer_t    staleanswersok;	  /* rndc setting */
-	bool		      staleanswersenable; /* named.conf setting
+	bool                  checknames;
+	uint16_t              maxudp;
+	dns_ttl_t             staleanswerttl;
+	dns_stale_answer_t    staleanswersok;     /* rndc setting */
+	bool                  staleanswersenable; /* named.conf setting
 						   * */
-	uint32_t	  staleanswerclienttimeout;
-	uint16_t	  nocookieudp;
-	uint16_t	  padding;
-	dns_acl_t	  *pad_acl;
-	unsigned int	  maxbits;
-	dns_dns64list_t	  dns64;
-	unsigned int	  dns64cnt;
-	dns_rpz_zones_t	*rpzs;
-	dns_catz_zones_t *catzs;
-	dns_dlzdblist_t	  dlz_searched;
-	dns_dlzdblist_t	  dlz_unsearched;
-	uint32_t	  fail_ttl;
-	dns_badcache_t   *failcache;
+	uint32_t              staleanswerclienttimeout;
+	uint16_t              nocookieudp;
+	uint16_t              padding;
+	dns_acl_t            *pad_acl;
+	unsigned int          maxbits;
+	dns_dns64list_t       dns64;
+	unsigned int          dns64cnt;
+	dns_rpz_zones_t      *rpzs;
+	dns_catz_zones_t     *catzs;
+	dns_dlzdblist_t       dlz_searched;
+	dns_dlzdblist_t       dlz_unsearched;
+	uint32_t              fail_ttl;
+	dns_badcache_t       *failcache;
 
 	/*
 	 * Configurable data for server use only,
 	 * locked by server configuration lock.
 	 */
-	dns_acl_t *matchclients;
-	dns_acl_t *matchdestinations;
-	bool	   matchrecursiveonly;
+	dns_acl_t            *matchclients;
+	dns_acl_t            *matchdestinations;
+	bool                  matchrecursiveonly;
 
 	/* Locked by themselves. */
-	isc_refcount_t	     references;
-	isc_refcount_t	     weakrefs;
-	atomic_uint_fast32_t attributes;
+	isc_refcount_t        references;
+	isc_refcount_t        weakrefs;
+	atomic_uint_fast32_t  attributes;
 
 	/* Under owner's locking control. */
 	ISC_LINK(struct dns_view) link;
 	dns_viewlist_t *viewlist;
 
-	dns_zone_t *managed_keys;
-	dns_zone_t *redirect;
-	dns_name_t *redirectzone; /* points to
-				   * redirectfixed
-				   * when valid */
+	dns_zone_t     *managed_keys;
+	dns_zone_t     *redirect;
+	dns_name_t     *redirectzone; /* points to
+				       * redirectfixed
+				       * when valid */
 	dns_fixedname_t redirectfixed;
 
 	/*
@@ -219,24 +219,24 @@ struct dns_view {
 	 * XXX: This should be a pointer to an opaque type that
 	 * named implements.
 	 */
-	char    *new_zone_dir;
-	char    *new_zone_file;
-	char    *new_zone_db;
-	void    *new_zone_dbenv;
-	uint64_t new_zone_mapsize;
-	void    *new_zone_config;
+	char           *new_zone_dir;
+	char           *new_zone_file;
+	char           *new_zone_db;
+	void           *new_zone_dbenv;
+	uint64_t        new_zone_mapsize;
+	void           *new_zone_config;
 	void (*cfg_destroy)(void **);
-	isc_mutex_t new_zone_lock;
+	isc_mutex_t     new_zone_lock;
 
-	unsigned char secret[32]; /* Client secret */
-	unsigned int  v6bias;
+	unsigned char   secret[32]; /* Client secret */
+	unsigned int    v6bias;
 
-	dns_dtenv_t    *dtenv;	 /* Dnstap environment */
+	dns_dtenv_t    *dtenv;   /* Dnstap environment */
 	dns_dtmsgtype_t dttypes; /* Dnstap message types
 				  * to log */
 
 	/* Registered module instances */
-	void *plugins;
+	void           *plugins;
 	void (*plugins_free)(isc_mem_t *, void **);
 
 	/* Hook table */
@@ -244,8 +244,8 @@ struct dns_view {
 	void (*hooktable_free)(isc_mem_t *, void **);
 };
 
-#define DNS_VIEW_MAGIC	     ISC_MAGIC('V', 'i', 'e', 'w')
-#define DNS_VIEW_VALID(view) ISC_MAGIC_VALID(view, DNS_VIEW_MAGIC)
+#define DNS_VIEW_MAGIC           ISC_MAGIC('V', 'i', 'e', 'w')
+#define DNS_VIEW_VALID(view)     ISC_MAGIC_VALID(view, DNS_VIEW_MAGIC)
 
 #define DNS_VIEWATTR_RESSHUTDOWN 0x01
 #define DNS_VIEWATTR_ADBSHUTDOWN 0x02

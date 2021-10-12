@@ -68,10 +68,10 @@ const char *program = "dnssec-verify";
 static isc_stdtime_t now;
 static isc_mem_t *mctx = NULL;
 static dns_masterformat_t inputformat = dns_masterformat_text;
-static dns_db_t *gdb;		  /* The database */
+static dns_db_t *gdb;             /* The database */
 static dns_dbversion_t *gversion; /* The database version */
-static dns_rdataclass_t gclass;	  /* The class */
-static dns_name_t *gorigin;	  /* The database origin */
+static dns_rdataclass_t gclass;   /* The class */
+static dns_name_t *gorigin;       /* The database origin */
 static bool ignore_kskflag = false;
 static bool keyset_kskonly = false;
 

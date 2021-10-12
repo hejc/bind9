@@ -149,8 +149,8 @@
 typedef struct dns_rdata_textctx {
 	const dns_name_t *origin;      /*%< Current origin, or NULL. */
 	dns_masterstyle_flags_t flags; /*%< DNS_STYLEFLAG_*  */
-	unsigned int width;	       /*%< Width of rdata column. */
-	const char *linebreak;	       /*%< Line break string. */
+	unsigned int width;            /*%< Width of rdata column. */
+	const char *linebreak;         /*%< Line break string. */
 } dns_rdata_textctx_t;
 
 static isc_result_t
@@ -601,7 +601,7 @@ static const char decdigits[] = "0123456789";
 
 #include "code.h"
 
-#define META	 0x0001
+#define META 0x0001
 #define RESERVED 0x0002
 
 /***

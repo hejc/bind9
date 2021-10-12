@@ -101,7 +101,7 @@ struct dns_byaddr {
 	bool canceled;
 };
 
-#define BYADDR_MAGIC	ISC_MAGIC('B', 'y', 'A', 'd')
+#define BYADDR_MAGIC ISC_MAGIC('B', 'y', 'A', 'd')
 #define VALID_BYADDR(b) ISC_MAGIC_VALID(b, BYADDR_MAGIC)
 
 #define MAX_RESTARTS 16

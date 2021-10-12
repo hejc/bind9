@@ -240,7 +240,7 @@ warn(const char *format, ...) {
 
 static isc_logcategory_t categories[] = { { "delv", 0 }, { NULL, 0 } };
 #define LOGCATEGORY_DEFAULT (&categories[0])
-#define LOGMODULE_DEFAULT   (&modules[0])
+#define LOGMODULE_DEFAULT (&modules[0])
 
 static isc_logmodule_t modules[] = { { "delv", 0 }, { NULL, 0 } };
 
@@ -1263,7 +1263,7 @@ plus_option(char *option) {
 		}
 		break;
 	default:
-	invalid_option:
+invalid_option:
 		/*
 		 * We can also add a "need_value:" case here if we ever
 		 * add a plus-option that requires a specified value
@@ -1471,7 +1471,7 @@ dash_option(char *option, char *next, bool *open_type_class) {
 			exit(1);
 		}
 		return (value_from_next);
-	invalid_option:
+invalid_option:
 	default:
 		fprintf(stderr, "Invalid option: -%s\n", option);
 		usage();

@@ -150,7 +150,7 @@ fuzz_thread_client(void *arg) {
 		}
 
 		RUNTIME_CHECK(pthread_mutex_unlock(&mutex) == 0);
-	next:;
+next:;
 	}
 
 	free(buf);

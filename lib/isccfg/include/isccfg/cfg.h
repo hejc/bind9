@@ -41,14 +41,14 @@
 /*%
  * A configuration parser.
  */
-typedef struct cfg_parser cfg_parser_t;
+typedef struct cfg_parser  cfg_parser_t;
 
 /*%
  * A configuration type definition object.  There is a single
  * static cfg_type_t object for each data type supported by
  * the configuration parser.
  */
-typedef struct cfg_type cfg_type_t;
+typedef struct cfg_type    cfg_type_t;
 
 /*%
  * A configuration object.  This is the basic building block of the
@@ -57,7 +57,7 @@ typedef struct cfg_type cfg_type_t;
  * and line number the value came from, for printing error
  * messages.
  */
-typedef struct cfg_obj cfg_obj_t;
+typedef struct cfg_obj     cfg_obj_t;
 
 /*%
  * A configuration object list element.
@@ -578,9 +578,9 @@ cfg_map_nextclause(const cfg_type_t *map, const void **clauses,
 
 typedef isc_result_t(pluginlist_cb_t)(const cfg_obj_t *config,
 				      const cfg_obj_t *obj,
-				      const char	 *plugin_path,
-				      const char	 *parameters,
-				      void		   *callback_data);
+				      const char      *plugin_path,
+				      const char      *parameters,
+				      void            *callback_data);
 /*%<
  * Function prototype for the callback used with cfg_pluginlist_foreach().
  * Called once for each element of the list passed to cfg_pluginlist_foreach().

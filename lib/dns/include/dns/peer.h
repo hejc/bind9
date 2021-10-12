@@ -34,11 +34,11 @@
 
 #include <dns/types.h>
 
-#define DNS_PEERLIST_MAGIC ISC_MAGIC('s', 'e', 'R', 'L')
-#define DNS_PEER_MAGIC	   ISC_MAGIC('S', 'E', 'r', 'v')
+#define DNS_PEERLIST_MAGIC      ISC_MAGIC('s', 'e', 'R', 'L')
+#define DNS_PEER_MAGIC          ISC_MAGIC('S', 'E', 'r', 'v')
 
 #define DNS_PEERLIST_VALID(ptr) ISC_MAGIC_VALID(ptr, DNS_PEERLIST_MAGIC)
-#define DNS_PEER_VALID(ptr)	ISC_MAGIC_VALID(ptr, DNS_PEER_MAGIC)
+#define DNS_PEER_VALID(ptr)     ISC_MAGIC_VALID(ptr, DNS_PEER_MAGIC)
 
 /***
  *** Functions
@@ -162,7 +162,7 @@ isc_result_t
 dns_peer_setkey(dns_peer_t *peer, dns_name_t **keyval);
 
 isc_result_t
-dns_peer_settransfersource(dns_peer_t	      *peer,
+dns_peer_settransfersource(dns_peer_t           *peer,
 			   const isc_sockaddr_t *transfer_source);
 
 isc_result_t

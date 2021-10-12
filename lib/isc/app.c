@@ -46,7 +46,7 @@ static atomic_bool is_running = ATOMIC_VAR_INIT(0);
 /*
  * The application context of this module.
  */
-#define APPCTX_MAGIC	ISC_MAGIC('A', 'p', 'c', 'x')
+#define APPCTX_MAGIC ISC_MAGIC('A', 'p', 'c', 'x')
 #define VALID_APPCTX(c) ISC_MAGIC_VALID(c, APPCTX_MAGIC)
 
 struct isc_appctx {

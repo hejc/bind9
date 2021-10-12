@@ -79,10 +79,10 @@
 
 #include "dnstap.pb-c.h"
 
-#define DTENV_MAGIC	 ISC_MAGIC('D', 't', 'n', 'v')
+#define DTENV_MAGIC ISC_MAGIC('D', 't', 'n', 'v')
 #define VALID_DTENV(env) ISC_MAGIC_VALID(env, DTENV_MAGIC)
 
-#define DNSTAP_CONTENT_TYPE	"protobuf:dnstap.Dnstap"
+#define DNSTAP_CONTENT_TYPE "protobuf:dnstap.Dnstap"
 #define DNSTAP_INITIAL_BUF_SIZE 256
 
 struct dns_dtmsg {

@@ -95,7 +95,7 @@
 #define NUMERIC_NTAGS (DST_MAX_NUMERIC + 1)
 static const char *numerictags[NUMERIC_NTAGS] = {
 	"Predecessor:", "Successor:",  "MaxTTL:",    "RollPeriod:",
-	"Lifetime:",	"DSPubCount:", "DSRemCount:"
+	"Lifetime:",    "DSPubCount:", "DSRemCount:"
 };
 
 #define BOOLEAN_NTAGS (DST_MAX_BOOLEAN + 1)
@@ -103,10 +103,10 @@ static const char *booleantags[BOOLEAN_NTAGS] = { "KSK:", "ZSK:" };
 
 #define TIMING_NTAGS (DST_MAX_TIMES + 1)
 static const char *timingtags[TIMING_NTAGS] = {
-	"Generated:",	 "Published:",	  "Active:",	   "Revoked:",
-	"Retired:",	 "Removed:",
+	"Generated:",    "Published:",    "Active:",       "Revoked:",
+	"Retired:",      "Removed:",
 
-	"DSPublish:",	 "SyncPublish:",  "SyncDelete:",
+	"DSPublish:",    "SyncPublish:",  "SyncDelete:",
 
 	"DNSKEYChange:", "ZRRSIGChange:", "KRRSIGChange:", "DSChange:",
 
@@ -127,7 +127,7 @@ static const char *keystates[KEYSTATES_NVALUES] = {
 };
 
 #define STATE_ALGORITHM_STR "Algorithm:"
-#define STATE_LENGTH_STR    "Length:"
+#define STATE_LENGTH_STR "Length:"
 #define MAX_NTAGS \
 	(DST_MAX_NUMERIC + DST_MAX_BOOLEAN + DST_MAX_TIMES + DST_MAX_KEYSTATES)
 
@@ -1850,7 +1850,7 @@ dst_key_read_state(const char *filename, isc_mem_t *mctx, dst_key_t **keyp) {
 			goto next;
 		}
 
-	next:
+next:
 		READLINE(lex, opt, &token);
 	}
 

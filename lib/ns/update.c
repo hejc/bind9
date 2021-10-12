@@ -1168,7 +1168,7 @@ temp_check(isc_mem_t *mctx, dns_diff_t *temp, dns_db_t *db,
 
 			continue;
 
-		failure:
+failure:
 			dns_diff_clear(&d_rrs);
 			dns_diff_clear(&u_rrs);
 			dns_diff_clear(&trash);

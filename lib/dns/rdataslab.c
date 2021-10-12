@@ -309,7 +309,7 @@ dns_rdataslab_fromrdataset(dns_rdataset_t *rdataset, isc_mem_t *mctx,
 		*rawbuf++ = (length & 0x00ff);
 #if DNS_RDATASET_FIXED
 		rawbuf += 2; /* filled in later */
-#endif			     /* if DNS_RDATASET_FIXED */
+#endif                       /* if DNS_RDATASET_FIXED */
 		/*
 		 * Store the per RR meta data.
 		 */
@@ -680,7 +680,7 @@ dns_rdataslab_merge(unsigned char *oslab, unsigned char *nslab,
 			*tcurrent++ = (length & 0x00ff);
 #if DNS_RDATASET_FIXED
 			tcurrent += 2; /* fill in later */
-#endif				       /* if DNS_RDATASET_FIXED */
+#endif                                 /* if DNS_RDATASET_FIXED */
 			memmove(tcurrent, data, length);
 			tcurrent += length;
 			oadded++;
@@ -707,7 +707,7 @@ dns_rdataslab_merge(unsigned char *oslab, unsigned char *nslab,
 			*tcurrent++ = (length & 0x00ff);
 #if DNS_RDATASET_FIXED
 			tcurrent += 2; /* fill in later */
-#endif				       /* if DNS_RDATASET_FIXED */
+#endif                                 /* if DNS_RDATASET_FIXED */
 			memmove(tcurrent, data, length);
 			tcurrent += length;
 			nadded++;

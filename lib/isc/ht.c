@@ -22,7 +22,7 @@
 
 typedef struct isc_ht_node isc_ht_node_t;
 
-#define ISC_HT_MAGIC	 ISC_MAGIC('H', 'T', 'a', 'b')
+#define ISC_HT_MAGIC ISC_MAGIC('H', 'T', 'a', 'b')
 #define ISC_HT_VALID(ht) ISC_MAGIC_VALID(ht, ISC_HT_MAGIC)
 
 struct isc_ht_node {

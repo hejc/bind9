@@ -47,7 +47,7 @@
 #include <dns/time.h>
 #include <dns/ttl.h>
 
-#define DNS_DCTX_MAGIC	  ISC_MAGIC('D', 'c', 't', 'x')
+#define DNS_DCTX_MAGIC ISC_MAGIC('D', 'c', 't', 'x')
 #define DNS_DCTX_VALID(d) ISC_MAGIC_VALID(d, DNS_DCTX_MAGIC)
 
 #define RETERR(x)                        \
@@ -186,8 +186,8 @@ const dns_master_style_t dns_master_style_cache_with_expired = {
 	UINT_MAX
 };
 
-const dns_master_style_t dns_master_style_simple = { 0,	 24, 32, 32,
-						     40, 80, 8,	 UINT_MAX };
+const dns_master_style_t dns_master_style_simple = { 0,  24, 32, 32,
+						     40, 80, 8,  UINT_MAX };
 
 /*%
  * A style suitable for dns_rdataset_totext().
@@ -1194,11 +1194,11 @@ restart:
 	 */
 	isc_buffer_availableregion(buffer, &r_hdr);
 	INSIST(r_hdr.length >= sizeof(dns_masterrawrdataset_t));
-	isc_buffer_putuint32(buffer, totallen);		 /* XXX: leave space */
+	isc_buffer_putuint32(buffer, totallen);          /* XXX: leave space */
 	isc_buffer_putuint16(buffer, rdataset->rdclass); /* 16-bit class */
-	isc_buffer_putuint16(buffer, rdataset->type);	 /* 16-bit type */
-	isc_buffer_putuint16(buffer, rdataset->covers);	 /* same as type */
-	isc_buffer_putuint32(buffer, rdataset->ttl);	 /* 32-bit TTL */
+	isc_buffer_putuint16(buffer, rdataset->type);    /* 16-bit type */
+	isc_buffer_putuint16(buffer, rdataset->covers);  /* same as type */
+	isc_buffer_putuint32(buffer, rdataset->ttl);     /* 32-bit TTL */
 	isc_buffer_putuint32(buffer, dns_rdataset_count(rdataset));
 	totallen = isc_buffer_usedlength(buffer);
 	INSIST(totallen <= sizeof(dns_masterrawrdataset_t));

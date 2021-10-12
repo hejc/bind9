@@ -49,8 +49,8 @@
 #include "util.h"
 
 #define DEFAULT_KEYNAME "rndc-key"
-#define DEFAULT_SERVER	"127.0.0.1"
-#define DEFAULT_PORT	953
+#define DEFAULT_SERVER "127.0.0.1"
+#define DEFAULT_PORT 953
 
 static char program[256];
 const char *progname;

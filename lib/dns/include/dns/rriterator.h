@@ -51,17 +51,17 @@ ISC_LANG_BEGINDECLS
  */
 
 typedef struct dns_rriterator {
-	unsigned int	    magic;
-	isc_result_t	    result;
-	dns_db_t		 *db;
-	dns_dbiterator_t	 *dbit;
-	dns_dbversion_t	*ver;
-	isc_stdtime_t	    now;
-	dns_dbnode_t	     *node;
-	dns_fixedname_t	    fixedname;
+	unsigned int        magic;
+	isc_result_t        result;
+	dns_db_t           *db;
+	dns_dbiterator_t   *dbit;
+	dns_dbversion_t    *ver;
+	isc_stdtime_t       now;
+	dns_dbnode_t       *node;
+	dns_fixedname_t     fixedname;
 	dns_rdatasetiter_t *rdatasetit;
-	dns_rdataset_t	    rdataset;
-	dns_rdata_t	    rdata;
+	dns_rdataset_t      rdataset;
+	dns_rdata_t         rdata;
 } dns_rriterator_t;
 
 #define RRITERATOR_MAGIC    ISC_MAGIC('R', 'R', 'I', 't')

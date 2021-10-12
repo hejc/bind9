@@ -60,11 +60,11 @@ ISC_LANG_BEGINDECLS
  * Various options for isc_lex_gettoken().
  */
 
-#define ISC_LEXOPT_EOL	     0x0001 /*%< Want end-of-line token. */
-#define ISC_LEXOPT_EOF	     0x0002 /*%< Want end-of-file token. */
-#define ISC_LEXOPT_INITIALWS 0x0004 /*%< Want initial whitespace. */
-#define ISC_LEXOPT_NUMBER    0x0008 /*%< Recognize numbers. */
-#define ISC_LEXOPT_QSTRING   0x0010 /*%< Recognize qstrings. */
+#define ISC_LEXOPT_EOL               0x0001 /*%< Want end-of-line token. */
+#define ISC_LEXOPT_EOF               0x0002 /*%< Want end-of-file token. */
+#define ISC_LEXOPT_INITIALWS         0x0004 /*%< Want initial whitespace. */
+#define ISC_LEXOPT_NUMBER            0x0008 /*%< Recognize numbers. */
+#define ISC_LEXOPT_QSTRING           0x0010 /*%< Recognize qstrings. */
 /*@}*/
 
 /*@{*/
@@ -75,16 +75,16 @@ ISC_LANG_BEGINDECLS
  * the paren count is > 0.  To use this option, '(' and ')' must be special
  * characters.
  */
-#define ISC_LEXOPT_DNSMULTILINE 0x0020 /*%< Handle '(' and ')'. */
-#define ISC_LEXOPT_NOMORE	0x0040 /*%< Want "no more" token. */
+#define ISC_LEXOPT_DNSMULTILINE      0x0020 /*%< Handle '(' and ')'. */
+#define ISC_LEXOPT_NOMORE            0x0040 /*%< Want "no more" token. */
 
-#define ISC_LEXOPT_CNUMBER	    0x0080 /*%< Recognize octal and hex. */
-#define ISC_LEXOPT_ESCAPE	    0x0100 /*%< Recognize escapes. */
-#define ISC_LEXOPT_QSTRINGMULTILINE 0x0200 /*%< Allow multiline "" strings */
-#define ISC_LEXOPT_OCTAL	    0x0400 /*%< Expect a octal number. */
-#define ISC_LEXOPT_BTEXT	    0x0800 /*%< Bracketed text. */
-#define ISC_LEXOPT_VPAIR	    0x1000 /*%< Recognize value pair. */
-#define ISC_LEXOPT_QVPAIR	    0x2000 /*%< Recognize quoted value pair. */
+#define ISC_LEXOPT_CNUMBER           0x0080 /*%< Recognize octal and hex. */
+#define ISC_LEXOPT_ESCAPE            0x0100 /*%< Recognize escapes. */
+#define ISC_LEXOPT_QSTRINGMULTILINE  0x0200 /*%< Allow multiline "" strings */
+#define ISC_LEXOPT_OCTAL             0x0400 /*%< Expect a octal number. */
+#define ISC_LEXOPT_BTEXT             0x0800 /*%< Bracketed text. */
+#define ISC_LEXOPT_VPAIR             0x1000 /*%< Recognize value pair. */
+#define ISC_LEXOPT_QVPAIR            0x2000 /*%< Recognize quoted value pair. */
 /*@}*/
 /*@{*/
 /*!
@@ -92,9 +92,9 @@ ISC_LANG_BEGINDECLS
  * isc_lex_setcomments().
  */
 
-#define ISC_LEXCOMMENT_C	     0x01
+#define ISC_LEXCOMMENT_C             0x01
 #define ISC_LEXCOMMENT_CPLUSPLUS     0x02
-#define ISC_LEXCOMMENT_SHELL	     0x04
+#define ISC_LEXCOMMENT_SHELL         0x04
 #define ISC_LEXCOMMENT_DNSMASTERFILE 0x08
 /*@}*/
 
@@ -109,30 +109,30 @@ typedef char isc_lexspecials_t[256];
 /* Tokens */
 
 typedef enum {
-	isc_tokentype_unknown = 0,
-	isc_tokentype_string = 1,
-	isc_tokentype_number = 2,
-	isc_tokentype_qstring = 3,
-	isc_tokentype_eol = 4,
-	isc_tokentype_eof = 5,
+	isc_tokentype_unknown   = 0,
+	isc_tokentype_string    = 1,
+	isc_tokentype_number    = 2,
+	isc_tokentype_qstring   = 3,
+	isc_tokentype_eol       = 4,
+	isc_tokentype_eof       = 5,
 	isc_tokentype_initialws = 6,
-	isc_tokentype_special = 7,
-	isc_tokentype_nomore = 8,
-	isc_tokentype_btext = 9,
-	isc_tokentype_vpair = 10,
-	isc_tokentype_qvpair = 11,
+	isc_tokentype_special   = 7,
+	isc_tokentype_nomore    = 8,
+	isc_tokentype_btext     = 9,
+	isc_tokentype_vpair     = 10,
+	isc_tokentype_qvpair    = 11,
 } isc_tokentype_t;
 
 typedef union {
-	char		 as_char;
-	unsigned long	 as_ulong;
-	isc_region_t	 as_region;
+	char             as_char;
+	unsigned long    as_ulong;
+	isc_region_t     as_region;
 	isc_textregion_t as_textregion;
-	void	     *as_pointer;
+	void            *as_pointer;
 } isc_tokenvalue_t;
 
 typedef struct isc_token {
-	isc_tokentype_t	 type;
+	isc_tokentype_t  type;
 	isc_tokenvalue_t value;
 } isc_token_t;
 

@@ -43,9 +43,9 @@ typedef enum {
 	HTTP_GET
 } protocol_t;
 
-static const char *protocols[] = { "udp",	    "tcp",
-				   "dot",	    "https-post",
-				   "https-get",	    "http-plain-post",
+static const char *protocols[] = { "udp",           "tcp",
+				   "dot",           "https-post",
+				   "https-get",     "http-plain-post",
 				   "http-plain-get" };
 
 static isc_mem_t *mctx = NULL;

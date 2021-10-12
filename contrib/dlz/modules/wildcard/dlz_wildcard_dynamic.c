@@ -73,13 +73,13 @@
 #define FNM_NOMATCH 1 /* Match failed. */
 
 /* fnmatch() flags. */
-#define FNM_NOESCAPE	0x01 /* Disable backslash escaping. */
-#define FNM_PATHNAME	0x02 /* Slash must be matched by slash. */
-#define FNM_PERIOD	0x04 /* Period must be matched by period. */
+#define FNM_NOESCAPE 0x01    /* Disable backslash escaping. */
+#define FNM_PATHNAME 0x02    /* Slash must be matched by slash. */
+#define FNM_PERIOD 0x04      /* Period must be matched by period. */
 #define FNM_LEADING_DIR 0x08 /* Ignore /<tail> after Imatch. */
-#define FNM_CASEFOLD	0x10 /* Case insensitive search. */
-#define FNM_IGNORECASE	FNM_CASEFOLD
-#define FNM_FILE_NAME	FNM_PATHNAME
+#define FNM_CASEFOLD 0x10    /* Case insensitive search. */
+#define FNM_IGNORECASE FNM_CASEFOLD
+#define FNM_FILE_NAME FNM_PATHNAME
 
 /*
  * Our data structures.
@@ -590,9 +590,9 @@ shortest_match(const char *pattern, const char *string) {
  */
 #define EOS '\0'
 
-#define RANGE_MATCH   1
+#define RANGE_MATCH 1
 #define RANGE_NOMATCH 0
-#define RANGE_ERROR   (-1)
+#define RANGE_ERROR (-1)
 
 static int
 fnmatch(const char *pattern, const char *string, int flags) {
@@ -701,7 +701,7 @@ fnmatch(const char *pattern, const char *string, int flags) {
 			}
 		/* FALLTHROUGH */
 		default:
-		norm:
+norm:
 			if (c == *string) {
 			} else if ((flags & FNM_CASEFOLD) &&
 				   (tolower((unsigned char)c) ==

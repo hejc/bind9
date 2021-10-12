@@ -51,7 +51,7 @@ isc_stats_t *dns_dnssec_stats;
 			goto failure;        \
 	} while (0)
 
-#define TYPE_SIGN   0
+#define TYPE_SIGN 0
 #define TYPE_VERIFY 1
 
 static isc_result_t
@@ -895,7 +895,7 @@ dns_dnssec_findzonekeys(dns_db_t *db, dns_dbversion_t *ver, dns_dbnode_t *node,
 			goto next;
 		}
 		count++;
-	next:
+next:
 		if (pubkey != NULL) {
 			dst_key_free(&pubkey);
 		}
@@ -1786,7 +1786,7 @@ dns_dnssec_keylistfromrdataset(const dns_name_t *origin, const char *directory,
 		dst_key_setttl(privkey, dst_key_getttl(dnskey));
 
 		RETERR(addkey(keylist, &privkey, savekeys, mctx));
-	skip:
+skip:
 		if (dnskey != NULL) {
 			dst_key_free(&dnskey);
 		}

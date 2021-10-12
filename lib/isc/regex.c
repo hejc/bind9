@@ -184,7 +184,7 @@ isc_regex_validate(const char *c) {
 				break;
 			case '.':
 			default:
-			literal:
+literal:
 				have_atom = true;
 				was_multiple = false;
 				++c;
@@ -304,7 +304,7 @@ isc_regex_validate(const char *c) {
 				state = none;
 				break;
 			default:
-			inside:
+inside:
 				seen_char = true;
 				if (range == 2 && (*c & 0xff) < range_start) {
 					FAIL("out of order range");

@@ -14,6 +14,6 @@
 
 typedef struct dns_rdata_mf {
 	dns_rdatacommon_t common;
-	isc_mem_t *mctx;
-	dns_name_t mf;
+	isc_mem_t        *mctx;
+	dns_name_t        mf;
 } dns_rdata_mf_t;

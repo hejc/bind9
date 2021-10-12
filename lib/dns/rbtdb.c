@@ -84,7 +84,7 @@ typedef uint32_t rbtdb_serial_t;
 typedef uint32_t rbtdb_rdatatype_t;
 
 #define RBTDB_RDATATYPE_BASE(type) ((dns_rdatatype_t)((type)&0xFFFF))
-#define RBTDB_RDATATYPE_EXT(type)  ((dns_rdatatype_t)((type) >> 16))
+#define RBTDB_RDATATYPE_EXT(type) ((dns_rdatatype_t)((type) >> 16))
 #define RBTDB_RDATATYPE_VALUE(base, ext)              \
 	((rbtdb_rdatatype_t)(((uint32_t)ext) << 16) | \
 	 (((uint32_t)base) & 0xffff))
@@ -105,10 +105,10 @@ typedef uint32_t rbtdb_rdatatype_t;
 	RBTDB_RDATATYPE_VALUE(dns_rdatatype_rrsig, dns_rdatatype_soa)
 #define RBTDB_RDATATYPE_NCACHEANY RBTDB_RDATATYPE_VALUE(0, dns_rdatatype_any)
 
-#define RBTDB_INITLOCK(l)    isc_rwlock_init((l), 0, 0)
+#define RBTDB_INITLOCK(l) isc_rwlock_init((l), 0, 0)
 #define RBTDB_DESTROYLOCK(l) isc_rwlock_destroy(l)
-#define RBTDB_LOCK(l, t)     RWLOCK((l), (t))
-#define RBTDB_UNLOCK(l, t)   RWUNLOCK((l), (t))
+#define RBTDB_LOCK(l, t) RWLOCK((l), (t))
+#define RBTDB_UNLOCK(l, t) RWUNLOCK((l), (t))
 
 /*
  * Since node locking is sensitive to both performance and memory footprint,
@@ -131,12 +131,12 @@ typedef uint32_t rbtdb_rdatatype_t;
  */
 typedef isc_rwlock_t nodelock_t;
 
-#define NODE_INITLOCK(l)    isc_rwlock_init((l), 0, 0)
+#define NODE_INITLOCK(l) isc_rwlock_init((l), 0, 0)
 #define NODE_DESTROYLOCK(l) isc_rwlock_destroy(l)
-#define NODE_LOCK(l, t)	    RWLOCK((l), (t))
-#define NODE_UNLOCK(l, t)   RWUNLOCK((l), (t))
-#define NODE_TRYUPGRADE(l)  isc_rwlock_tryupgrade(l)
-#define NODE_DOWNGRADE(l)   isc_rwlock_downgrade(l)
+#define NODE_LOCK(l, t) RWLOCK((l), (t))
+#define NODE_UNLOCK(l, t) RWUNLOCK((l), (t))
+#define NODE_TRYUPGRADE(l) isc_rwlock_tryupgrade(l)
+#define NODE_DOWNGRADE(l) isc_rwlock_downgrade(l)
 
 /*%
  * Whether to rate-limit updating the LRU to avoid possible thread contention.
@@ -226,20 +226,20 @@ typedef ISC_LIST(dns_rbtnode_t) rbtnodelist_t;
 
 #define RDATASET_ATTR_NONEXISTENT 0x0001
 /*%< May be potentially served as stale data. */
-#define RDATASET_ATTR_STALE	     0x0002
-#define RDATASET_ATTR_IGNORE	     0x0004
-#define RDATASET_ATTR_RETAIN	     0x0008
-#define RDATASET_ATTR_NXDOMAIN	     0x0010
-#define RDATASET_ATTR_RESIGN	     0x0020
-#define RDATASET_ATTR_STATCOUNT	     0x0040
-#define RDATASET_ATTR_OPTOUT	     0x0080
-#define RDATASET_ATTR_NEGATIVE	     0x0100
-#define RDATASET_ATTR_PREFETCH	     0x0200
-#define RDATASET_ATTR_CASESET	     0x0400
-#define RDATASET_ATTR_ZEROTTL	     0x0800
+#define RDATASET_ATTR_STALE 0x0002
+#define RDATASET_ATTR_IGNORE 0x0004
+#define RDATASET_ATTR_RETAIN 0x0008
+#define RDATASET_ATTR_NXDOMAIN 0x0010
+#define RDATASET_ATTR_RESIGN 0x0020
+#define RDATASET_ATTR_STATCOUNT 0x0040
+#define RDATASET_ATTR_OPTOUT 0x0080
+#define RDATASET_ATTR_NEGATIVE 0x0100
+#define RDATASET_ATTR_PREFETCH 0x0200
+#define RDATASET_ATTR_CASESET 0x0400
+#define RDATASET_ATTR_ZEROTTL 0x0800
 #define RDATASET_ATTR_CASEFULLYLOWER 0x1000
 /*%< Ancient - awaiting cleanup. */
-#define RDATASET_ATTR_ANCIENT	   0x2000
+#define RDATASET_ATTR_ANCIENT 0x2000
 #define RDATASET_ATTR_STALE_WINDOW 0x4000
 
 /*
@@ -310,13 +310,13 @@ typedef ISC_LIST(dns_rbtnode_t) rbtnodelist_t;
 	(((header)->rdh_ttl > (now)) || \
 	 ((header)->rdh_ttl == (now) && ZEROTTL(header)))
 
-#define DEFAULT_NODE_LOCK_COUNT	    7 /*%< Should be prime. */
-#define RBTDB_GLUE_TABLE_INIT_BITS  2U
-#define RBTDB_GLUE_TABLE_MAX_BITS   32U
+#define DEFAULT_NODE_LOCK_COUNT 7 /*%< Should be prime. */
+#define RBTDB_GLUE_TABLE_INIT_BITS 2U
+#define RBTDB_GLUE_TABLE_MAX_BITS 32U
 #define RBTDB_GLUE_TABLE_OVERCOMMIT 3
 
 #define GOLDEN_RATIO_32 0x61C88647
-#define HASHSIZE(bits)	(UINT64_C(1) << (bits))
+#define HASHSIZE(bits) (UINT64_C(1) << (bits))
 
 static inline uint32_t
 hash_32(uint32_t val, unsigned int bits) {
@@ -495,7 +495,7 @@ struct dns_rbtdb {
 	unsigned int quantum;
 };
 
-#define RBTDB_ATTR_LOADED  0x01
+#define RBTDB_ATTR_LOADED 0x01
 #define RBTDB_ATTR_LOADING 0x02
 
 #define KEEPSTALE(rbtdb) ((rbtdb)->serve_stale_ttl > 0)
@@ -695,7 +695,7 @@ typedef struct rbtdb_dbiterator {
 	bool nonsec3;
 } rbtdb_dbiterator_t;
 
-#define IS_STUB(rbtdb)	(((rbtdb)->common.attributes & DNS_DBATTR_STUB) != 0)
+#define IS_STUB(rbtdb) (((rbtdb)->common.attributes & DNS_DBATTR_STUB) != 0)
 #define IS_CACHE(rbtdb) (((rbtdb)->common.attributes & DNS_DBATTR_CACHE) != 0)
 
 static void
@@ -3962,7 +3962,7 @@ zone_find(dns_db_t *db, const dns_name_t *name, dns_dbversion_t *version,
 				  &search);
 
 	if (result == DNS_R_PARTIALMATCH) {
-	partial_match:
+partial_match:
 		if (search.zonecut != NULL) {
 			result = setup_delegation(&search, nodep, foundname,
 						  rdataset, sigrdataset);
@@ -4751,7 +4751,7 @@ find_deepest_zonecut(rbtdb_search_t *search, dns_rbtnode_t *node,
 			}
 		}
 
-	node_exit:
+node_exit:
 		NODE_UNLOCK(lock, locktype);
 
 		if (found == NULL && i > 0) {
@@ -4850,7 +4850,7 @@ find_coveringnsec(rbtdb_search_t *search, dns_dbnode_t **nodep,
 		} else {
 			result = dns_rbtnodechain_prev(&chain, NULL, NULL);
 		}
-	unlock_node:
+unlock_node:
 		NODE_UNLOCK(lock, locktype);
 	} while (empty_node && result == ISC_R_SUCCESS);
 	return (result);
@@ -4924,7 +4924,7 @@ cache_find(dns_db_t *db, const dns_name_t *name, dns_dbversion_t *version,
 						  rdataset, sigrdataset);
 			goto tree_exit;
 		} else {
-		find_ns:
+find_ns:
 			result = find_deepest_zonecut(&search, node, nodep,
 						      foundname, rdataset,
 						      sigrdataset);

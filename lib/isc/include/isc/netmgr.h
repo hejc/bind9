@@ -21,10 +21,10 @@
  * Replacement for isc_sockettype_t provided by socket.h.
  */
 typedef enum {
-	isc_socktype_tcp = 1,
-	isc_socktype_udp = 2,
+	isc_socktype_tcp  = 1,
+	isc_socktype_udp  = 2,
 	isc_socktype_unix = 3,
-	isc_socktype_raw = 4
+	isc_socktype_raw  = 4
 } isc_socktype_t;
 
 typedef void (*isc_nm_recv_cb_t)(isc_nmhandle_t *handle, isc_result_t eresult,
@@ -106,7 +106,7 @@ isc_nmsocket_close(isc_nmsocket_t **sockp);
 #define FLARG , const char *file, unsigned int line, const char *func
 #else
 #define isc_nmhandle_attach(handle, dest) isc__nmhandle_attach(handle, dest)
-#define isc_nmhandle_detach(handlep)	  isc__nmhandle_detach(handlep)
+#define isc_nmhandle_detach(handlep)      isc__nmhandle_detach(handlep)
 #define FLARG
 #endif
 

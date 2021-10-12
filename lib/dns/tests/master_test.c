@@ -67,8 +67,8 @@ nullmsg(dns_rdatacallbacks_t *cb, const char *fmt, ...) {
 	UNUSED(fmt);
 }
 
-#define BUFLEN	    255
-#define BIGBUFLEN   (70 * 1024)
+#define BUFLEN 255
+#define BIGBUFLEN (70 * 1024)
 #define TEST_ORIGIN "test"
 
 static dns_masterrawheader_t header;

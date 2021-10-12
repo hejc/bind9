@@ -396,14 +396,14 @@ typedef ns_hookresult_t (*ns_hook_action_t)(void *arg, void *data,
 					    isc_result_t *resultp);
 
 typedef struct ns_hook {
-	isc_mem_t	  *mctx;
+	isc_mem_t       *mctx;
 	ns_hook_action_t action;
-	void	     *action_data;
+	void            *action_data;
 	ISC_LINK(struct ns_hook) link;
 } ns_hook_t;
 
 typedef ISC_LIST(ns_hook_t) ns_hooklist_t;
-typedef ns_hooklist_t ns_hooktable_t[NS_HOOKPOINTS_COUNT];
+typedef ns_hooklist_t  ns_hooktable_t[NS_HOOKPOINTS_COUNT];
 
 /*%
  * ns__hook_table is a global hook table, which is used if view->hooktable
@@ -419,7 +419,7 @@ typedef void (*ns_hook_destroyasync_t)(ns_hookasync_t **);
  * similarly to dns_fetch_t.
  */
 struct ns_hookasync {
-	isc_mem_t *mctx;
+	isc_mem_t             *mctx;
 
 	/*
 	 * The following two are equivalent to dns_resolver_cancelfetch and
@@ -438,8 +438,8 @@ struct ns_hookasync {
  */
 typedef struct ns_hook_resevent {
 	ISC_EVENT_COMMON(struct ns_hook_resevent);
-	ns_hookasync_t *ctx;	   /* asynchronous processing context */
-	ns_hookpoint_t	hookpoint; /* hook point from which to resume */
+	ns_hookasync_t *ctx;       /* asynchronous processing context */
+	ns_hookpoint_t  hookpoint; /* hook point from which to resume */
 	isc_result_t origresult; /* result code at the point of call to hook */
 	query_ctx_t *saved_qctx; /* qctx at the point of call to hook */
 } ns_hook_resevent_t;
@@ -454,7 +454,7 @@ typedef struct ns_hook_resevent {
  */
 #ifndef NS_PLUGIN_VERSION
 #define NS_PLUGIN_VERSION 1
-#define NS_PLUGIN_AGE	  0
+#define NS_PLUGIN_AGE     0
 #endif /* ifndef NS_PLUGIN_VERSION */
 
 typedef isc_result_t
@@ -492,7 +492,7 @@ ns_plugin_check_t(const char *parameters, const void *cfg, const char *file,
  */
 
 typedef int
-ns_plugin_version_t(void);
+		     ns_plugin_version_t(void);
 /*%<
  * Return the API version number a plugin was compiled with.
  *

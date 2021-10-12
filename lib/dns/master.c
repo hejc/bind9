@@ -57,7 +57,7 @@
  */
 #define RDSZ 512
 
-#define NBUFS	  4
+#define NBUFS 4
 #define MAXWIRESZ 255
 
 /*%
@@ -168,7 +168,7 @@ struct dns_incctx {
 	unsigned int current_line;
 };
 
-#define DNS_LCTX_MAGIC	     ISC_MAGIC('L', 'c', 't', 'x')
+#define DNS_LCTX_MAGIC ISC_MAGIC('L', 'c', 't', 'x')
 #define DNS_LCTX_VALID(lctx) ISC_MAGIC_VALID(lctx, DNS_LCTX_MAGIC)
 
 #define DNS_AS_STR(t) ((t).value.as_textregion.base)
@@ -569,8 +569,8 @@ loadctx_create(dns_masterformat_t format, isc_mem_t *mctx, unsigned int options,
 	lctx->ttl = 0;
 	lctx->default_ttl_known = lctx->ttl_known;
 	lctx->default_ttl = 0;
-	lctx->warn_1035 = true;	      /* XXX Argument? */
-	lctx->warn_tcr = true;	      /* XXX Argument? */
+	lctx->warn_1035 = true;       /* XXX Argument? */
+	lctx->warn_tcr = true;        /* XXX Argument? */
 	lctx->warn_sigexpired = true; /* XXX Argument? */
 	lctx->options = options;
 	lctx->seen_include = false;
@@ -1699,7 +1699,7 @@ load_text(dns_loadctx_t *lctx) {
 		 * print out a error message and exit.
 		 */
 		if (rdclass != 0 && rdclass != lctx->zclass) {
-		bad_class:
+bad_class:
 
 			dns_rdataclass_format(rdclass, classname1,
 					      sizeof(classname1));
@@ -2075,7 +2075,7 @@ load_text(dns_loadctx_t *lctx) {
 		if ((target.length - target.used) < MINTSIZ) {
 			COMMITALL;
 		}
-	next_line:;
+next_line:;
 	} while (!done && (lctx->loop_cnt == 0 || loop_cnt++ < lctx->loop_cnt));
 
 	/*
@@ -2503,7 +2503,7 @@ load_raw(dns_loadctx_t *lctx) {
 			rdata = new_rdata;
 		}
 
-	continue_read:
+continue_read:
 		for (i = 0; i < rdcount; i++) {
 			uint16_t rdlen;
 

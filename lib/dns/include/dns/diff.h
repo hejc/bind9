@@ -57,9 +57,9 @@
  */
 
 typedef enum {
-	DNS_DIFFOP_ADD = 0,	  /*%< Add an RR. */
-	DNS_DIFFOP_DEL = 1,	  /*%< Delete an RR. */
-	DNS_DIFFOP_EXISTS = 2,	  /*%< Assert RR existence. */
+	DNS_DIFFOP_ADD       = 0, /*%< Add an RR. */
+	DNS_DIFFOP_DEL       = 1, /*%< Delete an RR. */
+	DNS_DIFFOP_EXISTS    = 2, /*%< Assert RR existence. */
 	DNS_DIFFOP_ADDRESIGN = 4, /*%< ADD + RESIGN. */
 	DNS_DIFFOP_DELRESIGN = 5  /*%< DEL + RESIGN. */
 } dns_diffop_t;
@@ -72,7 +72,7 @@ typedef ISC_LIST(dns_difftuple_t) dns_difftuplelist_t;
 
 struct dns_difftuple {
 	unsigned int magic;
-	isc_mem_t	  *mctx;
+	isc_mem_t   *mctx;
 	dns_diffop_t op;
 	dns_name_t   name;
 	dns_ttl_t    ttl;
@@ -88,12 +88,12 @@ struct dns_difftuple {
  */
 typedef struct dns_diff dns_diff_t;
 
-#define DNS_DIFF_MAGIC	  ISC_MAGIC('D', 'I', 'F', 'F')
+#define DNS_DIFF_MAGIC    ISC_MAGIC('D', 'I', 'F', 'F')
 #define DNS_DIFF_VALID(t) ISC_MAGIC_VALID(t, DNS_DIFF_MAGIC)
 
 struct dns_diff {
-	unsigned int	    magic;
-	isc_mem_t	  *mctx;
+	unsigned int        magic;
+	isc_mem_t          *mctx;
 	dns_difftuplelist_t tuples;
 };
 

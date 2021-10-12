@@ -882,10 +882,10 @@ static dst_func_t opensslecdsa_functions = {
 	opensslecdsa_fromdns,
 	opensslecdsa_tofile,
 	opensslecdsa_parse,
-	NULL,			/*%< cleanup */
+	NULL,                   /*%< cleanup */
 	opensslecdsa_fromlabel, /*%< fromlabel */
-	NULL,			/*%< dump */
-	NULL,			/*%< restore */
+	NULL,                   /*%< dump */
+	NULL,                   /*%< restore */
 };
 
 isc_result_t

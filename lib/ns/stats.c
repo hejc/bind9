@@ -19,7 +19,7 @@
 
 #include <ns/stats.h>
 
-#define NS_STATS_MAGIC	  ISC_MAGIC('N', 's', 't', 't')
+#define NS_STATS_MAGIC ISC_MAGIC('N', 's', 't', 't')
 #define NS_STATS_VALID(x) ISC_MAGIC_VALID(x, NS_STATS_MAGIC)
 
 struct ns_stats {

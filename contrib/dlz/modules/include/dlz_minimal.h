@@ -25,12 +25,11 @@
 
 #pragma once
 
-#include <inttypes.h>
-#include <stdbool.h>
-
 #include <arpa/inet.h>
+#include <inttypes.h>
 #include <net/if.h>
 #include <netinet/in.h>
+#include <stdbool.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
@@ -44,45 +43,45 @@ typedef uint32_t     dns_ttl_t;
  */
 #ifndef DLZ_DLOPEN_VERSION
 #define DLZ_DLOPEN_VERSION 3
-#define DLZ_DLOPEN_AGE	   0
+#define DLZ_DLOPEN_AGE     0
 #endif /* ifndef DLZ_DLOPEN_VERSION */
 
 /* return these in flags from dlz_version() */
-#define DNS_SDLZFLAG_THREADSAFE	   0x00000001U
+#define DNS_SDLZFLAG_THREADSAFE    0x00000001U
 #define DNS_SDLZFLAG_RELATIVEOWNER 0x00000002U
 #define DNS_SDLZFLAG_RELATIVERDATA 0x00000004U
 
 /* result codes */
-#define ISC_R_SUCCESS	     0
-#define ISC_R_NOMEMORY	     1
-#define ISC_R_NOPERM	     6
-#define ISC_R_NOSPACE	     19
-#define ISC_R_NOTFOUND	     23
-#define ISC_R_FAILURE	     25
-#define ISC_R_NOTIMPLEMENTED 27
-#define ISC_R_NOMORE	     29
-#define ISC_R_INVALIDFILE    30
-#define ISC_R_UNEXPECTED     34
-#define ISC_R_FILENOTFOUND   38
+#define ISC_R_SUCCESS              0
+#define ISC_R_NOMEMORY             1
+#define ISC_R_NOPERM               6
+#define ISC_R_NOSPACE              19
+#define ISC_R_NOTFOUND             23
+#define ISC_R_FAILURE              25
+#define ISC_R_NOTIMPLEMENTED       27
+#define ISC_R_NOMORE               29
+#define ISC_R_INVALIDFILE          30
+#define ISC_R_UNEXPECTED           34
+#define ISC_R_FILENOTFOUND         38
 
 /* log levels */
-#define ISC_LOG_INFO	     (-1)
-#define ISC_LOG_NOTICE	     (-2)
-#define ISC_LOG_WARNING	     (-3)
-#define ISC_LOG_ERROR	     (-4)
-#define ISC_LOG_CRITICAL     (-5)
-#define ISC_LOG_DEBUG(level) (level)
+#define ISC_LOG_INFO               (-1)
+#define ISC_LOG_NOTICE             (-2)
+#define ISC_LOG_WARNING            (-3)
+#define ISC_LOG_ERROR              (-4)
+#define ISC_LOG_CRITICAL           (-5)
+#define ISC_LOG_DEBUG(level)       (level)
 
 /* other useful definitions */
-#define UNUSED(x) (void)(x)
+#define UNUSED(x)                  (void)(x)
 #define DE_CONST(konst, var)           \
 	do {                           \
 		union {                \
 			const void *k; \
-			void	     *v; \
+			void       *v; \
 		} _u;                  \
 		_u.k = konst;          \
-		var = _u.v;            \
+		var  = _u.v;           \
 	} while (0)
 
 /* opaque structures */
@@ -98,13 +97,13 @@ typedef void *dns_dlzdb_t;
  */
 typedef struct isc_sockaddr {
 	union {
-		struct sockaddr	    sa;
+		struct sockaddr     sa;
 		struct sockaddr_in  sin;
 		struct sockaddr_in6 sin6;
 		struct sockaddr_un  sunix;
 	} type;
 	unsigned int length;
-	void	     *link;
+	void        *link;
 } isc_sockaddr_t;
 
 #define DNS_CLIENTINFO_VERSION 2
@@ -115,16 +114,16 @@ typedef struct dns_clientinfo {
 } dns_clientinfo_t;
 
 typedef isc_result_t (*dns_clientinfo_sourceip_t)(dns_clientinfo_t *client,
-						  isc_sockaddr_t	 **addrp);
+						  isc_sockaddr_t  **addrp);
 
 typedef isc_result_t (*dns_clientinfo_version_t)(dns_clientinfo_t *client,
-						 void	      **addrp);
+						 void            **addrp);
 
 #define DNS_CLIENTINFOMETHODS_VERSION 2
 #define DNS_CLIENTINFOMETHODS_AGE     1
 typedef struct dns_clientinfomethods {
-	uint16_t		  version;
-	uint16_t		  age;
+	uint16_t                  version;
+	uint16_t                  age;
 	dns_clientinfo_sourceip_t sourceip;
 	dns_clientinfo_version_t  dbversion;
 } dns_clientinfomethods_t;

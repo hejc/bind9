@@ -541,7 +541,7 @@ countlabels_test(void **state) {
 		const char *namestr;
 		unsigned int expect;
 	} testcases[] = {
-		{ "c.d", 2 },	  { "c.d.", 3 },  { "a.b.c.d.", 5 },
+		{ "c.d", 2 },     { "c.d.", 3 },  { "a.b.c.d.", 5 },
 		{ "a.b.c.d", 4 }, { "a.b.c", 3 }, { ".", 1 },
 	};
 	unsigned int i;
@@ -674,8 +674,8 @@ getlabelsequence_test(void **state) {
 static void *
 fromwire_thread(void *arg) {
 	unsigned int maxval = 32000000;
-	uint8_t data[] = { 3,	'w', 'w', 'w', 7,   'e', 'x',
-			   'a', 'm', 'p', 'l', 'e', 7,	 'i',
+	uint8_t data[] = { 3,   'w', 'w', 'w', 7,   'e', 'x',
+			   'a', 'm', 'p', 'l', 'e', 7,   'i',
 			   'n', 'v', 'a', 'l', 'i', 'd', 0 };
 	unsigned char output_data[DNS_NAME_MAXWIRE];
 	isc_buffer_t source, target;

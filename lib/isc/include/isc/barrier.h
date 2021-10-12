@@ -28,10 +28,10 @@
 
 #include <uv.h>
 
-#define isc_barrier_t uv_barrier_t
+#define isc_barrier_t                    uv_barrier_t
 
 #define isc_barrier_init(barrier, count) uv_barrier_init(barrier, count)
-#define isc_barrier_destroy(barrier)	 uv_barrier_destroy(barrier)
-#define isc_barrier_wait(barrier)	 uv_barrier_wait(barrier)
+#define isc_barrier_destroy(barrier)     uv_barrier_destroy(barrier)
+#define isc_barrier_wait(barrier)        uv_barrier_wait(barrier)
 
 #endif /* __SANITIZE_THREAD__ */

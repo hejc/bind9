@@ -16,8 +16,8 @@
 
 typedef struct dns_rdata_in_a6 {
 	dns_rdatacommon_t common;
-	isc_mem_t *mctx;
-	dns_name_t prefix;
-	uint8_t prefixlen;
-	struct in6_addr in6_addr;
+	isc_mem_t        *mctx;
+	dns_name_t        prefix;
+	uint8_t           prefixlen;
+	struct in6_addr   in6_addr;
 } dns_rdata_in_a6_t;

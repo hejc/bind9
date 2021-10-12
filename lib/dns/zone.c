@@ -88,31 +88,31 @@
 
 #include "zone_p.h"
 
-#define ZONE_MAGIC	     ISC_MAGIC('Z', 'O', 'N', 'E')
+#define ZONE_MAGIC ISC_MAGIC('Z', 'O', 'N', 'E')
 #define DNS_ZONE_VALID(zone) ISC_MAGIC_VALID(zone, ZONE_MAGIC)
 
-#define NOTIFY_MAGIC		 ISC_MAGIC('N', 't', 'f', 'y')
+#define NOTIFY_MAGIC ISC_MAGIC('N', 't', 'f', 'y')
 #define DNS_NOTIFY_VALID(notify) ISC_MAGIC_VALID(notify, NOTIFY_MAGIC)
 
-#define CHECKDS_MAGIC		   ISC_MAGIC('C', 'h', 'D', 'S')
+#define CHECKDS_MAGIC ISC_MAGIC('C', 'h', 'D', 'S')
 #define DNS_CHECKDS_VALID(checkds) ISC_MAGIC_VALID(checkds, CHECKDS_MAGIC)
 
-#define STUB_MAGIC	     ISC_MAGIC('S', 't', 'u', 'b')
+#define STUB_MAGIC ISC_MAGIC('S', 't', 'u', 'b')
 #define DNS_STUB_VALID(stub) ISC_MAGIC_VALID(stub, STUB_MAGIC)
 
-#define ZONEMGR_MAGIC		ISC_MAGIC('Z', 'm', 'g', 'r')
+#define ZONEMGR_MAGIC ISC_MAGIC('Z', 'm', 'g', 'r')
 #define DNS_ZONEMGR_VALID(stub) ISC_MAGIC_VALID(stub, ZONEMGR_MAGIC)
 
-#define LOAD_MAGIC	     ISC_MAGIC('L', 'o', 'a', 'd')
+#define LOAD_MAGIC ISC_MAGIC('L', 'o', 'a', 'd')
 #define DNS_LOAD_VALID(load) ISC_MAGIC_VALID(load, LOAD_MAGIC)
 
-#define FORWARD_MAGIC		ISC_MAGIC('F', 'o', 'r', 'w')
+#define FORWARD_MAGIC ISC_MAGIC('F', 'o', 'r', 'w')
 #define DNS_FORWARD_VALID(load) ISC_MAGIC_VALID(load, FORWARD_MAGIC)
 
-#define IO_MAGIC	   ISC_MAGIC('Z', 'm', 'I', 'O')
+#define IO_MAGIC ISC_MAGIC('Z', 'm', 'I', 'O')
 #define DNS_IO_VALID(load) ISC_MAGIC_VALID(load, IO_MAGIC)
 
-#define KEYMGMT_MAGIC		ISC_MAGIC('M', 'g', 'm', 't')
+#define KEYMGMT_MAGIC ISC_MAGIC('M', 'g', 'm', 't')
 #define DNS_KEYMGMT_VALID(load) ISC_MAGIC_VALID(load, KEYMGMT_MAGIC)
 
 /*%
@@ -126,9 +126,9 @@
  * Key flags
  */
 #define REVOKE(x) ((dst_key_flags(x) & DNS_KEYFLAG_REVOKE) != 0)
-#define KSK(x)	  ((dst_key_flags(x) & DNS_KEYFLAG_KSK) != 0)
-#define ID(x)	  dst_key_id(x)
-#define ALG(x)	  dst_key_alg(x)
+#define KSK(x) ((dst_key_flags(x) & DNS_KEYFLAG_KSK) != 0)
+#define ID(x) dst_key_id(x)
+#define ALG(x) dst_key_alg(x)
 
 /*%
  * KASP flags
@@ -146,18 +146,18 @@
 /*
  * Default values.
  */
-#define DNS_DEFAULT_IDLEIN  3600       /*%< 1 hour */
-#define DNS_DEFAULT_IDLEOUT 3600       /*%< 1 hour */
-#define MAX_XFER_TIME	    (2 * 3600) /*%< Documented default is 2 hours */
-#define RESIGN_DELAY	    3600       /*%< 1 hour */
+#define DNS_DEFAULT_IDLEIN 3600  /*%< 1 hour */
+#define DNS_DEFAULT_IDLEOUT 3600 /*%< 1 hour */
+#define MAX_XFER_TIME (2 * 3600) /*%< Documented default is 2 hours */
+#define RESIGN_DELAY 3600        /*%< 1 hour */
 
 #ifndef DNS_MAX_EXPIRE
 #define DNS_MAX_EXPIRE 14515200 /*%< 24 weeks */
-#endif				/* ifndef DNS_MAX_EXPIRE */
+#endif                          /* ifndef DNS_MAX_EXPIRE */
 
 #ifndef DNS_DUMP_DELAY
 #define DNS_DUMP_DELAY 900 /*%< 15 minutes */
-#endif			   /* ifndef DNS_DUMP_DELAY */
+#endif                     /* ifndef DNS_DUMP_DELAY */
 
 typedef struct dns_notify dns_notify_t;
 typedef struct dns_checkds dns_checkds_t;
@@ -199,7 +199,7 @@ typedef struct dns_include dns_include_t;
 		}                                       \
 	} while (0)
 #else /* ifdef DNS_ZONE_CHECKLOCK */
-#define LOCK_ZONE(z)   LOCK(&(z)->lock)
+#define LOCK_ZONE(z) LOCK(&(z)->lock)
 #define UNLOCK_ZONE(z) UNLOCK(&(z)->lock)
 #define LOCKED_ZONE(z) true
 #define TRYLOCK_ZONE(result, z)                         \
@@ -208,10 +208,10 @@ typedef struct dns_include dns_include_t;
 	} while (0)
 #endif /* ifdef DNS_ZONE_CHECKLOCK */
 
-#define ZONEDB_INITLOCK(l)    isc_rwlock_init((l), 0, 0)
+#define ZONEDB_INITLOCK(l) isc_rwlock_init((l), 0, 0)
 #define ZONEDB_DESTROYLOCK(l) isc_rwlock_destroy(l)
-#define ZONEDB_LOCK(l, t)     RWLOCK((l), (t))
-#define ZONEDB_UNLOCK(l, t)   RWUNLOCK((l), (t))
+#define ZONEDB_LOCK(l, t) RWLOCK((l), (t))
+#define ZONEDB_UNLOCK(l, t) RWUNLOCK((l), (t))
 
 #ifdef ENABLE_AFL
 extern bool dns_fuzzing_resolver;
@@ -237,7 +237,7 @@ struct dns_zone {
 	isc_refcount_t irefs;
 	dns_name_t origin;
 	char *masterfile;
-	const FILE *stream;		     /* loading from a stream? */
+	const FILE *stream;                  /* loading from a stream? */
 	ISC_LIST(dns_include_t) includes;    /* Include files */
 	ISC_LIST(dns_include_t) newincludes; /* Loading */
 	unsigned int nincludes;
@@ -321,8 +321,8 @@ struct dns_zone {
 	isc_dscp_t xfrsource6dscp;
 	isc_dscp_t altxfrsource4dscp;
 	isc_dscp_t altxfrsource6dscp;
-	dns_xfrin_ctx_t *xfr;	    /* task locked */
-	dns_tsigkey_t *tsigkey;	    /* key used for xfr */
+	dns_xfrin_ctx_t *xfr;       /* task locked */
+	dns_tsigkey_t *tsigkey;     /* key used for xfr */
 	dns_transport_t *transport; /* transport used for xfr */
 	/* Access Control Lists */
 	dns_acl_t *update_acl;
@@ -494,7 +494,7 @@ struct dns_zone {
 		(_z)->offline = false;     \
 	} while (0)
 
-#define DNS_ZONE_FLAG(z, f)    ((atomic_load_relaxed(&(z)->flags) & (f)) != 0)
+#define DNS_ZONE_FLAG(z, f) ((atomic_load_relaxed(&(z)->flags) & (f)) != 0)
 #define DNS_ZONE_SETFLAG(z, f) atomic_fetch_or(&(z)->flags, (f))
 #define DNS_ZONE_CLRFLAG(z, f) atomic_fetch_and(&(z)->flags, ~(f))
 typedef enum {
@@ -550,7 +550,7 @@ typedef enum {
 	DNS_ZONEFLG___MAX = UINT64_MAX, /* trick to make the ENUM 64-bit wide */
 } dns_zoneflg_t;
 
-#define DNS_ZONE_OPTION(z, o)	 ((atomic_load_relaxed(&(z)->options) & (o)) != 0)
+#define DNS_ZONE_OPTION(z, o) ((atomic_load_relaxed(&(z)->options) & (o)) != 0)
 #define DNS_ZONE_SETOPTION(z, o) atomic_fetch_or(&(z)->options, (o))
 #define DNS_ZONE_CLROPTION(z, o) atomic_fetch_and(&(z)->options, ~(o))
 
@@ -567,7 +567,7 @@ typedef enum {
 } dns_zoneloadflag_t;
 
 #define UNREACH_CACHE_SIZE 10U
-#define UNREACH_HOLD_TIME  600 /* 10 minutes */
+#define UNREACH_HOLD_TIME 600 /* 10 minutes */
 
 #define CHECK(op)                            \
 	do {                                 \
@@ -650,7 +650,7 @@ struct dns_notify {
 	isc_event_t *event;
 };
 
-#define DNS_NOTIFY_NOSOA   0x0001U
+#define DNS_NOTIFY_NOSOA 0x0001U
 #define DNS_NOTIFY_STARTUP 0x0002U
 
 /*%
@@ -834,8 +834,8 @@ struct dns_include {
  * line, so that we can test with shorter periods than specified in
  * RFC 5011.
  */
-#define HOUR  3600
-#define DAY   (24 * HOUR)
+#define HOUR 3600
+#define DAY (24 * HOUR)
 #define MONTH (30 * DAY)
 unsigned int dns_zone_mkey_hour = HOUR;
 unsigned int dns_zone_mkey_day = DAY;
@@ -3355,7 +3355,7 @@ integrity_checks(dns_zone_t *zone, dns_db_t *db) {
 		dns_rdataset_disassociate(&rdataset);
 		goto next;
 
-	checkfordname:
+checkfordname:
 		result = dns_db_findrdataset(db, node, NULL,
 					     dns_rdatatype_dname, 0, 0,
 					     &rdataset, NULL);
@@ -3385,7 +3385,7 @@ integrity_checks(dns_zone_t *zone, dns_db_t *db) {
 		}
 		dns_rdataset_disassociate(&rdataset);
 
-	checksrv:
+checksrv:
 		if (zone->rdclass != dns_rdataclass_in) {
 			goto next;
 		}
@@ -3407,7 +3407,7 @@ integrity_checks(dns_zone_t *zone, dns_db_t *db) {
 		}
 		dns_rdataset_disassociate(&rdataset);
 
-	checkspf:
+checkspf:
 		/*
 		 * Check if there is a type SPF record without an
 		 * SPF-formatted type TXT record also being present.
@@ -3442,7 +3442,7 @@ integrity_checks(dns_zone_t *zone, dns_db_t *db) {
 		}
 		dns_rdataset_disassociate(&rdataset);
 
-	notxt:
+notxt:
 		if (have_spf && !have_txt) {
 			char namebuf[DNS_NAME_FORMATSIZE];
 
@@ -3454,7 +3454,7 @@ integrity_checks(dns_zone_t *zone, dns_db_t *db) {
 				     namebuf);
 		}
 
-	next:
+next:
 		dns_db_detachnode(db, &node);
 		result = dns_dbiterator_next(dbiterator);
 	}
@@ -6717,7 +6717,7 @@ set_key_expiry_warning(dns_zone_t *zone, isc_stdtime_t when,
 			     "DNSKEY RRSIG(s) will expire within 7 days: %s",
 			     timebuf);
 		delta = when - now;
-		delta--;	    /* loop prevention */
+		delta--;            /* loop prevention */
 		delta /= 24 * 3600; /* to whole days */
 		delta *= 24 * 3600; /* to seconds */
 		isc_time_set(&zone->keywarntime, when - delta, 0);
@@ -7858,7 +7858,7 @@ sign_a_node(dns_db_t *db, dns_zone_t *zone, dns_name_t *name,
 		}
 
 		(*signatures)--;
-	next_rdataset:
+next_rdataset:
 		dns_rdataset_disassociate(&rdataset);
 		result = dns_rdatasetiter_next(iterator);
 	}
@@ -8738,7 +8738,7 @@ zone_nsec3chain(dns_zone_t *zone) {
 		/*
 		 * Go onto next node.
 		 */
-	next_addnode:
+next_addnode:
 		first = false;
 		dns_db_detachnode(db, &node);
 		do {
@@ -8793,12 +8793,12 @@ zone_nsec3chain(dns_zone_t *zone) {
 		} while (1);
 		continue;
 
-	same_addchain:
+same_addchain:
 		CHECK(dns_dbiterator_first(nsec3chain->dbiterator));
 		first = true;
 		continue;
 
-	next_addchain:
+next_addchain:
 		dns_dbiterator_pause(nsec3chain->dbiterator);
 		nsec3chain = nextnsec3chain;
 		first = true;
@@ -8981,7 +8981,7 @@ zone_nsec3chain(dns_zone_t *zone) {
 			signatures--;
 		}
 
-	next_removenode:
+next_removenode:
 		first = false;
 		dns_db_detachnode(db, &node);
 		do {
@@ -9031,13 +9031,13 @@ zone_nsec3chain(dns_zone_t *zone) {
 		} while (1);
 		continue;
 
-	same_removechain:
+same_removechain:
 		CHECK(dns_dbiterator_first(nsec3chain->dbiterator));
 		buildnsecchain = false;
 		first = true;
 		continue;
 
-	next_removechain:
+next_removechain:
 		dns_dbiterator_pause(nsec3chain->dbiterator);
 		nsec3chain = nextnsec3chain;
 		first = true;
@@ -9826,7 +9826,7 @@ zone_sign(dns_zone_t *zone) {
 		/*
 		 * Go onto next node.
 		 */
-	next_node:
+next_node:
 		first = false;
 		dns_db_detachnode(db, &node);
 		do {
@@ -9886,7 +9886,7 @@ zone_sign(dns_zone_t *zone) {
 		} while (1);
 		continue;
 
-	next_signing:
+next_signing:
 		dns_dbiterator_pause(signing->dbiterator);
 		signing = nextsigning;
 		first = true;
@@ -11849,7 +11849,7 @@ dump_done(void *arg, isc_result_t result) {
 		/*
 		 * Handle lock order inversion.
 		 */
-	again:
+again:
 		LOCK_ZONE(zone);
 		if (inline_raw(zone)) {
 			secure = zone->secure;
@@ -14211,7 +14211,7 @@ refresh_callback(isc_task_t *task, isc_event_t *event) {
 				     primary, source);
 			goto next_primary;
 		}
-	tcp_transfer:
+tcp_transfer:
 		isc_event_free(&event);
 		dns_request_destroy(&zone->request);
 		if (zone->type == dns_zone_secondary ||
@@ -15120,7 +15120,7 @@ zone_settimer(dns_zone_t *zone, isc_time_t *now) {
 
 	case dns_zone_secondary:
 	case dns_zone_mirror:
-	treat_as_secondary:
+treat_as_secondary:
 		if (DNS_ZONE_FLAG(zone, DNS_ZONEFLG_NEEDNOTIFY) ||
 		    DNS_ZONE_FLAG(zone, DNS_ZONEFLG_NEEDSTARTUPNOTIFY))
 		{
@@ -17369,7 +17369,7 @@ zone_replacedb(dns_zone_t *zone, dns_db_t *db, bool dump) {
 			zone_send_secureserial(zone, serial);
 		}
 	} else {
-	fallback:
+fallback:
 		if (dump && zone->masterfile != NULL) {
 			/*
 			 * If DNS_ZONEFLG_FORCEXFER was set we don't want
@@ -17651,7 +17651,7 @@ again:
 		break;
 
 	default:
-	next_primary:
+next_primary:
 		/*
 		 * Skip to next failed / untried primary.
 		 */
@@ -17660,7 +17660,7 @@ again:
 		} while (zone->curprimary < zone->primariescnt &&
 			 zone->primariesok[zone->curprimary]);
 		/* FALLTHROUGH */
-	same_primary:
+same_primary:
 		if (zone->curprimary >= zone->primariescnt) {
 			zone->curprimary = 0;
 			if (DNS_ZONE_OPTION(zone, DNS_ZONEOPT_USEALTXFRSRC) &&
@@ -18433,15 +18433,15 @@ dns_zone_first(dns_zonemgr_t *zmgr, dns_zone_t **first) {
  ***/
 
 #define KEYMGMT_OVERCOMMIT 3
-#define KEYMGMT_BITS_MIN   2U
-#define KEYMGMT_BITS_MAX   32U
+#define KEYMGMT_BITS_MIN 2U
+#define KEYMGMT_BITS_MAX 32U
 
 /*
  * WMM: Static hash functions copied from lib/dns/rbtdb.c. Should be moved to
  * lib/isc/hash.c when we refactor the hash table code.
  */
 #define GOLDEN_RATIO_32 0x61C88647
-#define HASHSIZE(bits)	(UINT64_C(1) << (bits))
+#define HASHSIZE(bits) (UINT64_C(1) << (bits))
 
 static inline uint32_t
 hash_index(uint32_t val, uint32_t bits) {
@@ -20911,7 +20911,7 @@ checkds_done(isc_task_t *task, isc_event_t *event) {
 			break;
 		}
 
-	next:
+next:
 		result = dns_message_nextname(message, DNS_SECTION_ANSWER);
 	}
 
@@ -21005,11 +21005,11 @@ checkds_done(isc_task_t *task, isc_event_t *event) {
 				}
 			}
 
-		nextds:
+nextds:
 			ret = dns_rdataset_next(ds_rrset);
 		}
 
-	dswithdrawn:
+dswithdrawn:
 		/* DS withdrawn. */
 		if (checkdsdel && !found) {
 			alldone = do_checkds(zone, key->key, now, false);

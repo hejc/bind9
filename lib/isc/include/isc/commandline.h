@@ -20,17 +20,17 @@
 #include <isc/types.h>
 
 /*% Index into parent argv vector. */
-extern int isc_commandline_index;
+extern int   isc_commandline_index;
 /*% Character checked for validity. */
-extern int isc_commandline_option;
+extern int   isc_commandline_option;
 /*% Argument associated with option. */
 extern char *isc_commandline_argument;
 /*% For printing error messages. */
 extern char *isc_commandline_progname;
 /*% Print error message. */
-extern bool isc_commandline_errprint;
+extern bool  isc_commandline_errprint;
 /*% Reset getopt. */
-extern bool isc_commandline_reset;
+extern bool  isc_commandline_reset;
 
 ISC_LANG_BEGINDECLS
 

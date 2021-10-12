@@ -35,13 +35,13 @@ librpz_t *librpz;
 librpz_emsg_t librpz_lib_open_emsg;
 static void *librpz_handle;
 
-#define RPSDB_MAGIC	   ISC_MAGIC('R', 'P', 'Z', 'F')
+#define RPSDB_MAGIC ISC_MAGIC('R', 'P', 'Z', 'F')
 #define VALID_RPSDB(rpsdb) ((rpsdb)->common.impmagic == RPSDB_MAGIC)
 
-#define RD_DB(r)      ((r)->private1)
-#define RD_CUR_RR(r)  ((r)->private2)
+#define RD_DB(r) ((r)->private1)
+#define RD_CUR_RR(r) ((r)->private2)
 #define RD_NEXT_RR(r) ((r)->resign)
-#define RD_COUNT(r)   ((r)->privateuint4)
+#define RD_COUNT(r) ((r)->privateuint4)
 
 typedef struct {
 	dns_rdatasetiter_t common;

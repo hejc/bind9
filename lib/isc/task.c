@@ -78,7 +78,7 @@ typedef enum {
 	task_state_idle,    /* not doing anything, events queue empty */
 	task_state_ready,   /* waiting in worker's queue */
 	task_state_running, /* actively processing events */
-	task_state_done	    /* shutting down, no events or references */
+	task_state_done     /* shutting down, no events or references */
 } task_state_t;
 
 #if defined(HAVE_LIBXML2) || defined(HAVE_JSON_C)
@@ -90,7 +90,7 @@ static const char *statenames[] = {
 };
 #endif /* if defined(HAVE_LIBXML2) || defined(HAVE_JSON_C) */
 
-#define TASK_MAGIC    ISC_MAGIC('T', 'A', 'S', 'K')
+#define TASK_MAGIC ISC_MAGIC('T', 'A', 'S', 'K')
 #define VALID_TASK(t) ISC_MAGIC_VALID(t, TASK_MAGIC)
 
 struct isc_task {
@@ -120,10 +120,10 @@ struct isc_task {
 };
 
 #define TASK_SHUTTINGDOWN(t) (atomic_load_acquire(&(t)->shuttingdown))
-#define TASK_PRIVILEGED(t)   (atomic_load_acquire(&(t)->privileged))
+#define TASK_PRIVILEGED(t) (atomic_load_acquire(&(t)->privileged))
 
 #define TASK_MANAGER_MAGIC ISC_MAGIC('T', 'S', 'K', 'M')
-#define VALID_MANAGER(m)   ISC_MAGIC_VALID(m, TASK_MANAGER_MAGIC)
+#define VALID_MANAGER(m) ISC_MAGIC_VALID(m, TASK_MANAGER_MAGIC)
 
 struct isc_taskmgr {
 	/* Not locked. */

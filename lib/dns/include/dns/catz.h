@@ -51,23 +51,23 @@ struct dns_catz_entry_options {
 	dns_ipkeylist_t masters;
 
 	/* both as text in config format, NULL if none */
-	isc_buffer_t *allow_query;
-	isc_buffer_t *allow_transfer;
+	isc_buffer_t   *allow_query;
+	isc_buffer_t   *allow_transfer;
 
 	/*
 	 * Options that are only set in named.conf
 	 */
 	/* zone-directory definition */
-	char *zonedir;
+	char           *zonedir;
 
 	/* zone should not be stored on disk (no 'file' statement in def */
-	bool in_memory;
+	bool            in_memory;
 	/*
 	 * Minimal interval between catalog zone updates, if a new version
 	 * of catalog zone is received before this time the update will be
 	 * postponed. This is a global option for the whole catalog zone.
 	 */
-	uint32_t min_update_interval;
+	uint32_t        min_update_interval;
 };
 
 void
@@ -321,14 +321,14 @@ dns_catz_generate_zonecfg(dns_catz_zone_t *zone, dns_catz_entry_t *entry,
 /* xxxwpk TODO config! */
 typedef isc_result_t (*dns_catz_zoneop_fn_t)(dns_catz_entry_t *entry,
 					     dns_catz_zone_t  *origin,
-					     dns_view_t	*view,
-					     isc_taskmgr_t	   *taskmgr,
-					     void		  *udata);
+					     dns_view_t       *view,
+					     isc_taskmgr_t    *taskmgr,
+					     void             *udata);
 struct dns_catz_zonemodmethods {
 	dns_catz_zoneop_fn_t addzone;
 	dns_catz_zoneop_fn_t modzone;
 	dns_catz_zoneop_fn_t delzone;
-	void		     *udata;
+	void                *udata;
 };
 
 isc_result_t

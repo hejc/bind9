@@ -22,10 +22,10 @@
 #include <dns/rbt.h>
 #include <dns/transport.h>
 
-#define TRANSPORT_MAGIC	     ISC_MAGIC('T', 'r', 'n', 's')
+#define TRANSPORT_MAGIC ISC_MAGIC('T', 'r', 'n', 's')
 #define VALID_TRANSPORT(ptr) ISC_MAGIC_VALID(ptr, TRANSPORT_MAGIC)
 
-#define TRANSPORT_LIST_MAGIC	  ISC_MAGIC('T', 'r', 'L', 's')
+#define TRANSPORT_LIST_MAGIC ISC_MAGIC('T', 'r', 'L', 's')
 #define VALID_TRANSPORT_LIST(ptr) ISC_MAGIC_VALID(ptr, TRANSPORT_LIST_MAGIC)
 
 struct dns_transport_list {

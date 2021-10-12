@@ -39,14 +39,14 @@ typedef struct ns_listenelt  ns_listenelt_t;
 typedef struct ns_listenlist ns_listenlist_t;
 
 struct ns_listenelt {
-	isc_mem_t	  *mctx;
+	isc_mem_t    *mctx;
 	in_port_t     port;
-	bool	      is_http;
+	bool          is_http;
 	isc_dscp_t    dscp; /* -1 = not set, 0..63 */
-	dns_acl_t	  *acl;
+	dns_acl_t    *acl;
 	isc_tlsctx_t *sslctx;
-	char	     **http_endpoints;
-	size_t	      http_endpoints_number;
+	char        **http_endpoints;
+	size_t        http_endpoints_number;
 	isc_quota_t  *http_quota;
 	uint32_t      max_concurrent_streams;
 	ISC_LINK(ns_listenelt_t) link;
@@ -54,7 +54,7 @@ struct ns_listenelt {
 
 struct ns_listenlist {
 	isc_mem_t *mctx;
-	int	   refcount;
+	int        refcount;
 	ISC_LIST(ns_listenelt_t) elts;
 };
 
@@ -64,10 +64,10 @@ typedef struct ns_listen_tls_params {
 	uint32_t    protocols;
 	const char *dhparam_file;
 	const char *ciphers;
-	bool	    prefer_server_ciphers;
-	bool	    prefer_server_ciphers_set;
-	bool	    session_tickets;
-	bool	    session_tickets_set;
+	bool        prefer_server_ciphers;
+	bool        prefer_server_ciphers_set;
+	bool        session_tickets;
+	bool        session_tickets_set;
 } ns_listen_tls_params_t;
 
 /***
@@ -78,7 +78,7 @@ isc_result_t
 ns_listenelt_create(isc_mem_t *mctx, in_port_t port, isc_dscp_t dscp,
 		    dns_acl_t *acl, bool tls,
 		    const ns_listen_tls_params_t *tls_params,
-		    ns_listenelt_t		   **target);
+		    ns_listenelt_t              **target);
 /*%<
  * Create a listen-on list element.
  *

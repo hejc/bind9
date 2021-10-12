@@ -93,12 +93,12 @@ typedef struct filter_instance {
  * Per-client flags set by this module
  */
 #define FILTER_A_RECURSING 0x0001 /* Recursing for AAAA */
-#define FILTER_A_FILTERED  0x0002 /* A was removed from answer */
+#define FILTER_A_FILTERED 0x0002  /* A was removed from answer */
 
 /*
  * Client attribute tests.
  */
-#define WANTDNSSEC(c)  (((c)->attributes & NS_CLIENTATTR_WANTDNSSEC) != 0)
+#define WANTDNSSEC(c) (((c)->attributes & NS_CLIENTATTR_WANTDNSSEC) != 0)
 #define RECURSIONOK(c) (((c)->query.attributes & NS_QUERYATTR_RECURSIONOK) != 0)
 
 /*
@@ -200,7 +200,7 @@ static cfg_clausedef_t *param_clausesets[] = { param_clauses, NULL };
 
 static cfg_type_t cfg_type_parameters = { "filter-a-params", cfg_parse_mapbody,
 					  cfg_print_mapbody, cfg_doc_mapbody,
-					  &cfg_rep_map,	     param_clausesets };
+					  &cfg_rep_map,      param_clausesets };
 
 static isc_result_t
 parse_filter_a_on(const cfg_obj_t *param_obj, const char *param_name,

@@ -16,5 +16,5 @@
 
 typedef struct dns_rdata_in_aaaa {
 	dns_rdatacommon_t common;
-	struct in6_addr in6_addr;
+	struct in6_addr   in6_addr;
 } dns_rdata_in_aaaa_t;

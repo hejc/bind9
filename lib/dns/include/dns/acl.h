@@ -61,43 +61,43 @@ struct dns_aclipprefix {
 
 struct dns_aclelement {
 	dns_aclelementtype_t type;
-	bool		     negative;
-	dns_name_t	     keyname;
+	bool                 negative;
+	dns_name_t           keyname;
 #if defined(HAVE_GEOIP2)
 	dns_geoip_elem_t geoip_elem;
 #endif /* HAVE_GEOIP2 */
 	dns_acl_t *nestedacl;
-	int	   node_num;
+	int        node_num;
 };
 
 #define dns_acl_node_count(acl) acl->iptable->radix->num_added_node
 
 struct dns_acl {
-	unsigned int	  magic;
-	isc_mem_t	  *mctx;
-	isc_refcount_t	  refcount;
+	unsigned int      magic;
+	isc_mem_t        *mctx;
+	isc_refcount_t    refcount;
 	dns_iptable_t    *iptable;
 	dns_aclelement_t *elements;
-	bool		  has_negatives;
-	unsigned int	  alloc;	 /*%< Elements allocated */
-	unsigned int	  length;	 /*%< Elements initialized */
-	char	     *name;		 /*%< Temporary use only */
+	bool              has_negatives;
+	unsigned int      alloc;         /*%< Elements allocated */
+	unsigned int      length;        /*%< Elements initialized */
+	char	     *name;          /*%< Temporary use only */
 	ISC_LINK(dns_acl_t) nextincache; /*%< Ditto */
 };
 
 struct dns_aclenv {
 	unsigned int   magic;
-	isc_mem_t	  *mctx;
+	isc_mem_t     *mctx;
 	isc_refcount_t references;
-	dns_acl_t	  *localhost;
-	dns_acl_t	  *localnets;
-	bool	       match_mapped;
+	dns_acl_t     *localhost;
+	dns_acl_t     *localnets;
+	bool           match_mapped;
 #if defined(HAVE_GEOIP2)
 	dns_geoip_databases_t *geoip;
 #endif /* HAVE_GEOIP2 */
 };
 
-#define DNS_ACL_MAGIC	 ISC_MAGIC('D', 'a', 'c', 'l')
+#define DNS_ACL_MAGIC    ISC_MAGIC('D', 'a', 'c', 'l')
 #define DNS_ACL_VALID(a) ISC_MAGIC_VALID(a, DNS_ACL_MAGIC)
 
 /***

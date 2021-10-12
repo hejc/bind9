@@ -39,9 +39,9 @@ isc_logcategory_t ns_categories[] = { { "client", 0 },
  * \#define to <ns/log.h>.
  */
 isc_logmodule_t ns_modules[] = {
-	{ "ns/client", 0 }, { "ns/query", 0 },	 { "ns/interfacemgr", 0 },
+	{ "ns/client", 0 }, { "ns/query", 0 },   { "ns/interfacemgr", 0 },
 	{ "ns/update", 0 }, { "ns/xfer-in", 0 }, { "ns/xfer-out", 0 },
-	{ "ns/notify", 0 }, { "ns/hooks", 0 },	 { NULL, 0 }
+	{ "ns/notify", 0 }, { "ns/hooks", 0 },   { NULL, 0 }
 };
 
 isc_log_t *ns_lctx = NULL;

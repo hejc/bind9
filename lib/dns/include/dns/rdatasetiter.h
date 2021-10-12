@@ -71,7 +71,7 @@ typedef struct dns_rdatasetitermethods {
 	void (*current)(dns_rdatasetiter_t *iterator, dns_rdataset_t *rdataset);
 } dns_rdatasetitermethods_t;
 
-#define DNS_RDATASETITER_MAGIC	  ISC_MAGIC('D', 'N', 'S', 'i')
+#define DNS_RDATASETITER_MAGIC    ISC_MAGIC('D', 'N', 'S', 'i')
 #define DNS_RDATASETITER_VALID(i) ISC_MAGIC_VALID(i, DNS_RDATASETITER_MAGIC)
 
 /*%
@@ -85,12 +85,12 @@ typedef struct dns_rdatasetitermethods {
  */
 struct dns_rdatasetiter {
 	/* Unlocked. */
-	unsigned int		   magic;
+	unsigned int               magic;
 	dns_rdatasetitermethods_t *methods;
-	dns_db_t			 *db;
-	dns_dbnode_t		     *node;
-	dns_dbversion_t		*version;
-	isc_stdtime_t		   now;
+	dns_db_t                  *db;
+	dns_dbnode_t              *node;
+	dns_dbversion_t           *version;
+	isc_stdtime_t              now;
 };
 
 void
@@ -142,7 +142,7 @@ dns_rdatasetiter_next(dns_rdatasetiter_t *iterator);
 
 void
 dns_rdatasetiter_current(dns_rdatasetiter_t *iterator,
-			 dns_rdataset_t	*rdataset);
+			 dns_rdataset_t     *rdataset);
 /*%<
  * Return the current rdataset.
  *

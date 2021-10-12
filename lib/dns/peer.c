@@ -78,24 +78,24 @@ struct dns_peer {
 /*%
  * Bit positions in the dns_peer_t structure flags field
  */
-#define BOGUS_BIT		   0
+#define BOGUS_BIT 0
 #define SERVER_TRANSFER_FORMAT_BIT 1
-#define TRANSFERS_BIT		   2
-#define PROVIDE_IXFR_BIT	   3
-#define REQUEST_IXFR_BIT	   4
-#define SUPPORT_EDNS_BIT	   5
-#define SERVER_UDPSIZE_BIT	   6
-#define SERVER_MAXUDP_BIT	   7
-#define REQUEST_NSID_BIT	   8
-#define SEND_COOKIE_BIT		   9
-#define NOTIFY_DSCP_BIT		   10
-#define TRANSFER_DSCP_BIT	   11
-#define QUERY_DSCP_BIT		   12
-#define REQUEST_EXPIRE_BIT	   13
-#define EDNS_VERSION_BIT	   14
-#define FORCE_TCP_BIT		   15
-#define SERVER_PADDING_BIT	   16
-#define REQUEST_TCP_KEEPALIVE_BIT  17
+#define TRANSFERS_BIT 2
+#define PROVIDE_IXFR_BIT 3
+#define REQUEST_IXFR_BIT 4
+#define SUPPORT_EDNS_BIT 5
+#define SERVER_UDPSIZE_BIT 6
+#define SERVER_MAXUDP_BIT 7
+#define REQUEST_NSID_BIT 8
+#define SEND_COOKIE_BIT 9
+#define NOTIFY_DSCP_BIT 10
+#define TRANSFER_DSCP_BIT 11
+#define QUERY_DSCP_BIT 12
+#define REQUEST_EXPIRE_BIT 13
+#define EDNS_VERSION_BIT 14
+#define FORCE_TCP_BIT 15
+#define SERVER_PADDING_BIT 16
+#define REQUEST_TCP_KEEPALIVE_BIT 17
 
 static void
 peerlist_delete(dns_peerlist_t **list);

@@ -779,7 +779,7 @@ cfg_acl_fromconfig2(const cfg_obj_t *caml, const cfg_obj_t *cctx,
 			if (result != ISC_R_SUCCESS) {
 				goto cleanup;
 			}
-		nested_acl:
+nested_acl:
 			if (nest_level > 0 || inneracl->has_negatives) {
 				INSIST(dacl->length < dacl->alloc);
 				de->type = dns_aclelementtype_nestedacl;

@@ -76,7 +76,7 @@
 #define REQSHUTDOWN(v) \
 	((atomic_load(&(v)->attributes) & DNS_VIEWATTR_REQSHUTDOWN) != 0)
 
-#define DNS_VIEW_DELONLYHASH   111
+#define DNS_VIEW_DELONLYHASH 111
 #define DNS_VIEW_FAILCACHESIZE 1021
 
 static void

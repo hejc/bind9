@@ -147,21 +147,21 @@ typedef struct sdlz_rdatasetiter {
 #define VALID_SDLZDB(sdlzdb) \
 	((sdlzdb) != NULL && (sdlzdb)->common.impmagic == SDLZDB_MAGIC)
 
-#define SDLZLOOKUP_MAGIC	ISC_MAGIC('D', 'L', 'Z', 'L')
+#define SDLZLOOKUP_MAGIC ISC_MAGIC('D', 'L', 'Z', 'L')
 #define VALID_SDLZLOOKUP(sdlzl) ISC_MAGIC_VALID(sdlzl, SDLZLOOKUP_MAGIC)
-#define VALID_SDLZNODE(sdlzn)	VALID_SDLZLOOKUP(sdlzn)
+#define VALID_SDLZNODE(sdlzn) VALID_SDLZLOOKUP(sdlzn)
 
 /* These values are taken from RFC 1537 */
-#define SDLZ_DEFAULT_REFRESH 28800U  /* 8 hours */
-#define SDLZ_DEFAULT_RETRY   7200U   /* 2 hours */
-#define SDLZ_DEFAULT_EXPIRE  604800U /* 7 days */
-#define SDLZ_DEFAULT_MINIMUM 86400U  /* 1 day */
+#define SDLZ_DEFAULT_REFRESH 28800U /* 8 hours */
+#define SDLZ_DEFAULT_RETRY 7200U    /* 2 hours */
+#define SDLZ_DEFAULT_EXPIRE 604800U /* 7 days */
+#define SDLZ_DEFAULT_MINIMUM 86400U /* 1 day */
 
 /* This is a reasonable value */
 #define SDLZ_DEFAULT_TTL (60 * 60 * 24)
 
 #ifdef __COVERITY__
-#define MAYBE_LOCK(imp)	  LOCK(&imp->driverlock)
+#define MAYBE_LOCK(imp) LOCK(&imp->driverlock)
 #define MAYBE_UNLOCK(imp) UNLOCK(&imp->driverlock)
 #else /* ifdef __COVERITY__ */
 #define MAYBE_LOCK(imp)                                     \
@@ -890,7 +890,7 @@ findext(dns_db_t *db, const dns_name_t *name, dns_dbversion_t *version,
 	}
 
 	for (i = olabels; i <= nlabels; i++) {
-	search:
+search:
 		/*
 		 * Look up the next label.
 		 */
@@ -1234,34 +1234,34 @@ getoriginnode(dns_db_t *db, dns_dbnode_t **nodep) {
 }
 
 static dns_dbmethods_t sdlzdb_methods = {
-	attach,		detach,		beginload,
-	endload,	dump,		currentversion,
-	newversion,	attachversion,	closeversion,
-	findnode,	find,		findzonecut,
-	attachnode,	detachnode,	expirenode,
-	printnode,	createiterator, findrdataset,
-	allrdatasets,	addrdataset,	subtractrdataset,
-	deleterdataset, issecure,	nodecount,
-	ispersistent,	overmem,	settask,
-	getoriginnode,	NULL,		      /* transfernode */
-	NULL,				      /* getnsec3parameters */
-	NULL,				      /* findnsec3node */
-	NULL,				      /* setsigningtime */
-	NULL,				      /* getsigningtime */
-	NULL,				      /* resigned */
-	NULL,				      /* isdnssec */
-	NULL,				      /* getrrsetstats */
-	NULL,				      /* rpz_attach */
-	NULL,				      /* rpz_ready */
-	findnodeext,	findext,	NULL, /* setcachestats */
-	NULL,				      /* hashsize */
-	NULL,				      /* nodefullname */
-	NULL,				      /* getsize */
-	NULL,				      /* setservestalettl */
-	NULL,				      /* getservestalettl */
-	NULL,				      /* setservestalerefresh */
-	NULL,				      /* getservestalerefresh */
-	NULL,				      /* setgluecachestats */
+	attach,         detach,         beginload,
+	endload,        dump,           currentversion,
+	newversion,     attachversion,  closeversion,
+	findnode,       find,           findzonecut,
+	attachnode,     detachnode,     expirenode,
+	printnode,      createiterator, findrdataset,
+	allrdatasets,   addrdataset,    subtractrdataset,
+	deleterdataset, issecure,       nodecount,
+	ispersistent,   overmem,        settask,
+	getoriginnode,  NULL,                 /* transfernode */
+	NULL,                                 /* getnsec3parameters */
+	NULL,                                 /* findnsec3node */
+	NULL,                                 /* setsigningtime */
+	NULL,                                 /* getsigningtime */
+	NULL,                                 /* resigned */
+	NULL,                                 /* isdnssec */
+	NULL,                                 /* getrrsetstats */
+	NULL,                                 /* rpz_attach */
+	NULL,                                 /* rpz_ready */
+	findnodeext,    findext,        NULL, /* setcachestats */
+	NULL,                                 /* hashsize */
+	NULL,                                 /* nodefullname */
+	NULL,                                 /* getsize */
+	NULL,                                 /* setservestalettl */
+	NULL,                                 /* getservestalettl */
+	NULL,                                 /* setservestalerefresh */
+	NULL,                                 /* getservestalerefresh */
+	NULL,                                 /* setgluecachestats */
 };
 
 /*
@@ -1757,7 +1757,7 @@ dns_sdlzssumatch(const dns_name_t *signer, const dns_name_t *name,
 	return (ret);
 }
 
-static dns_dlzmethods_t sdlzmethods = { dns_sdlzcreate,	   dns_sdlzdestroy,
+static dns_dlzmethods_t sdlzmethods = { dns_sdlzcreate,    dns_sdlzdestroy,
 					dns_sdlzfindzone,  dns_sdlzallowzonexfr,
 					dns_sdlzconfigure, dns_sdlzssumatch };
 

@@ -50,7 +50,7 @@ typedef atomic_uint_fast32_t isc_refcount_t;
  *   atomic_load_explicit() by casting to uint_fast32_t.
  */
 
-#define isc_refcount_current(target) (uint_fast32_t) atomic_load_acquire(target)
+#define isc_refcount_current(target)     (uint_fast32_t) atomic_load_acquire(target)
 
 /** \def isc_refcount_destroy(ref)
  *  \brief a destructor that makes sure that all references were cleared.

@@ -90,19 +90,19 @@
  */
 
 typedef enum {
-	NS_CLIENTSTATE_FREED = 0,
+	NS_CLIENTSTATE_FREED     = 0,
 	/*%<
 	 * The client object no longer exists.
 	 */
 
-	NS_CLIENTSTATE_INACTIVE = 1,
+	NS_CLIENTSTATE_INACTIVE  = 1,
 	/*%<
 	 * The client object exists and has a task and timer.
 	 * Its "query" struct and sendbuf are initialized.
 	 * It has a message and OPT, both in the reset state.
 	 */
 
-	NS_CLIENTSTATE_READY = 2,
+	NS_CLIENTSTATE_READY     = 2,
 	/*%<
 	 * The client object is either a TCP or a UDP one, and
 	 * it is associated with a network interface.  It is on the
@@ -115,7 +115,7 @@ typedef enum {
 	 * and an outstanding UDP receive request.
 	 */
 
-	NS_CLIENTSTATE_WORKING = 3,
+	NS_CLIENTSTATE_WORKING   = 3,
 	/*%<
 	 * The client object has received a request and is working
 	 * on it.  It has a view, and it may have any of a non-reset OPT,
@@ -128,7 +128,7 @@ typedef enum {
 	 * 'recursing' list.
 	 */
 
-	NS_CLIENTSTATE_MAX = 5
+	NS_CLIENTSTATE_MAX       = 5
 	/*%<
 	 * Sentinel value used to indicate "no state".
 	 */
@@ -139,82 +139,82 @@ typedef ISC_LIST(ns_client_t) client_list_t;
 /*% nameserver client manager structure */
 struct ns_clientmgr {
 	/* Unlocked. */
-	unsigned int magic;
+	unsigned int    magic;
 
-	isc_mem_t	  *mctx;
+	isc_mem_t      *mctx;
 	ns_server_t    *sctx;
 	isc_taskmgr_t  *taskmgr;
 	isc_timermgr_t *timermgr;
-	isc_task_t	   *excl;
-	isc_refcount_t	references;
-	int		tid;
+	isc_task_t     *excl;
+	isc_refcount_t  references;
+	int             tid;
 
 	/* Attached by clients, needed for e.g. recursion */
-	isc_task_t *task;
+	isc_task_t     *task;
 
-	dns_aclenv_t *aclenv;
+	dns_aclenv_t   *aclenv;
 
 	/* Lock covers manager state. */
-	isc_mutex_t lock;
-	bool	    exiting;
+	isc_mutex_t     lock;
+	bool            exiting;
 
 	/* Lock covers the recursing list */
-	isc_mutex_t   reclock;
-	client_list_t recursing; /*%< Recursing clients */
+	isc_mutex_t     reclock;
+	client_list_t   recursing; /*%< Recursing clients */
 };
 
 /*% nameserver client structure */
 struct ns_client {
-	unsigned int	 magic;
-	isc_mem_t	  *mctx;
-	int		 tid;
-	bool		 allocated; /* Do we need to free it? */
-	ns_server_t	    *sctx;
+	unsigned int     magic;
+	isc_mem_t       *mctx;
+	int              tid;
+	bool             allocated; /* Do we need to free it? */
+	ns_server_t     *sctx;
 	ns_clientmgr_t  *manager;
 	ns_clientstate_t state;
-	int		 nupdates;
-	bool		 nodetach;
-	bool		 shuttingdown;
-	unsigned int	 attributes;
-	isc_task_t	   *task;
-	dns_view_t	   *view;
+	int              nupdates;
+	bool             nodetach;
+	bool             shuttingdown;
+	unsigned int     attributes;
+	isc_task_t      *task;
+	dns_view_t      *view;
 	dns_dispatch_t  *dispatch;
-	isc_nmhandle_t  *handle;	/* Permanent pointer to handle */
-	isc_nmhandle_t  *sendhandle;	/* Waiting for send callback */
-	isc_nmhandle_t  *reqhandle;	/* Waiting for request callback
-					   (query, update, notify) */
-	isc_nmhandle_t *fetchhandle;	/* Waiting for recursive fetch */
-	isc_nmhandle_t *prefetchhandle; /* Waiting for prefetch / rpzfetch */
-	isc_nmhandle_t *updatehandle;	/* Waiting for update callback */
-	unsigned char  *tcpbuf;
-	dns_message_t  *message;
-	unsigned char  *sendbuf;
-	dns_rdataset_t *opt;
-	uint16_t	udpsize;
-	uint16_t	extflags;
-	int16_t		ednsversion; /* -1 noedns */
-	uint16_t	additionaldepth;
+	isc_nmhandle_t  *handle;         /* Permanent pointer to handle */
+	isc_nmhandle_t  *sendhandle;     /* Waiting for send callback */
+	isc_nmhandle_t  *reqhandle;      /* Waiting for request callback
+					    (query, update, notify) */
+	isc_nmhandle_t  *fetchhandle;    /* Waiting for recursive fetch */
+	isc_nmhandle_t  *prefetchhandle; /* Waiting for prefetch / rpzfetch */
+	isc_nmhandle_t  *updatehandle;   /* Waiting for update callback */
+	unsigned char   *tcpbuf;
+	dns_message_t   *message;
+	unsigned char   *sendbuf;
+	dns_rdataset_t  *opt;
+	uint16_t         udpsize;
+	uint16_t         extflags;
+	int16_t          ednsversion; /* -1 noedns */
+	uint16_t         additionaldepth;
 	void (*cleanup)(ns_client_t *);
 	void (*shutdown)(void *arg, isc_result_t result);
-	void	     *shutdown_arg;
-	ns_query_t    query;
-	isc_time_t    requesttime;
-	isc_stdtime_t now;
-	isc_time_t    tnow;
-	dns_name_t    signername; /*%< [T]SIG key name */
-	dns_name_t   *signer;	  /*%< NULL if not valid sig */
-	bool	      mortal;	  /*%< Die after handling request */
-	isc_quota_t  *recursionquota;
+	void              *shutdown_arg;
+	ns_query_t         query;
+	isc_time_t         requesttime;
+	isc_stdtime_t      now;
+	isc_time_t         tnow;
+	dns_name_t         signername; /*%< [T]SIG key name */
+	dns_name_t        *signer;     /*%< NULL if not valid sig */
+	bool               mortal;     /*%< Die after handling request */
+	isc_quota_t       *recursionquota;
 
-	isc_sockaddr_t peeraddr;
-	bool	       peeraddr_valid;
-	isc_netaddr_t  destaddr;
-	isc_sockaddr_t destsockaddr;
+	isc_sockaddr_t     peeraddr;
+	bool               peeraddr_valid;
+	isc_netaddr_t      destaddr;
+	isc_sockaddr_t     destsockaddr;
 
-	dns_ecs_t ecs; /*%< EDNS client subnet sent by client */
+	dns_ecs_t          ecs; /*%< EDNS client subnet sent by client */
 
 	struct in6_pktinfo pktinfo;
-	isc_dscp_t	   dscp;
+	isc_dscp_t         dscp;
 	/*%
 	 * Information about recent FORMERR response(s), for
 	 * FORMERR loop avoidance.  This is separate for each
@@ -222,8 +222,8 @@ struct ns_client {
 	 * the need for locking.
 	 */
 	struct {
-		isc_sockaddr_t	addr;
-		isc_stdtime_t	time;
+		isc_sockaddr_t  addr;
+		isc_stdtime_t   time;
 		dns_messageid_t id;
 	} formerrcache;
 
@@ -242,38 +242,38 @@ struct ns_client {
 	 * but if set to any other value, the least significant 12
 	 * bits will be used as the rcode in the response message.
 	 */
-	int32_t rcode_override;
+	int32_t        rcode_override;
 };
 
-#define NS_CLIENT_MAGIC	   ISC_MAGIC('N', 'S', 'C', 'c')
-#define NS_CLIENT_VALID(c) ISC_MAGIC_VALID(c, NS_CLIENT_MAGIC)
+#define NS_CLIENT_MAGIC            ISC_MAGIC('N', 'S', 'C', 'c')
+#define NS_CLIENT_VALID(c)         ISC_MAGIC_VALID(c, NS_CLIENT_MAGIC)
 
-#define NS_CLIENTATTR_TCP	 0x00001
-#define NS_CLIENTATTR_RA	 0x00002 /*%< Client gets recursive service */
-#define NS_CLIENTATTR_PKTINFO	 0x00004 /*%< pktinfo is valid */
-#define NS_CLIENTATTR_MULTICAST	 0x00008 /*%< recv'd from multicast */
-#define NS_CLIENTATTR_WANTDNSSEC 0x00010 /*%< include dnssec records */
-#define NS_CLIENTATTR_WANTNSID	 0x00020 /*%< include nameserver ID */
+#define NS_CLIENTATTR_TCP          0x00001
+#define NS_CLIENTATTR_RA           0x00002 /*%< Client gets recursive service */
+#define NS_CLIENTATTR_PKTINFO      0x00004 /*%< pktinfo is valid */
+#define NS_CLIENTATTR_MULTICAST    0x00008 /*%< recv'd from multicast */
+#define NS_CLIENTATTR_WANTDNSSEC   0x00010 /*%< include dnssec records */
+#define NS_CLIENTATTR_WANTNSID     0x00020 /*%< include nameserver ID */
 /* Obsolete: NS_CLIENTATTR_FILTER_AAAA	0x00040 */
 /* Obsolete: NS_CLIENTATTR_FILTER_AAAA_RC 0x00080 */
-#define NS_CLIENTATTR_WANTAD	   0x00100 /*%< want AD in response if possible */
+#define NS_CLIENTATTR_WANTAD       0x00100 /*%< want AD in response if possible */
 #define NS_CLIENTATTR_WANTCOOKIE   0x00200 /*%< return a COOKIE */
 #define NS_CLIENTATTR_HAVECOOKIE   0x00400 /*%< has a valid COOKIE */
 #define NS_CLIENTATTR_WANTEXPIRE   0x00800 /*%< return seconds to expire */
 #define NS_CLIENTATTR_HAVEEXPIRE   0x01000 /*%< return seconds to expire */
-#define NS_CLIENTATTR_WANTOPT	   0x02000 /*%< add opt to reply */
-#define NS_CLIENTATTR_HAVEECS	   0x04000 /*%< received an ECS option */
-#define NS_CLIENTATTR_WANTPAD	   0x08000 /*%< pad reply */
+#define NS_CLIENTATTR_WANTOPT      0x02000 /*%< add opt to reply */
+#define NS_CLIENTATTR_HAVEECS      0x04000 /*%< received an ECS option */
+#define NS_CLIENTATTR_WANTPAD      0x08000 /*%< pad reply */
 #define NS_CLIENTATTR_USEKEEPALIVE 0x10000 /*%< use TCP keepalive */
 
-#define NS_CLIENTATTR_NOSETFC	0x20000 /*%< don't set servfail cache */
-#define NS_CLIENTATTR_RECURSING 0x40000 /*%< client is recursing */
+#define NS_CLIENTATTR_NOSETFC      0x20000 /*%< don't set servfail cache */
+#define NS_CLIENTATTR_RECURSING    0x40000 /*%< client is recursing */
 
 /*
  * Flag to use with the SERVFAIL cache to indicate
  * that a query had the CD bit set.
  */
-#define NS_FAILCACHE_CD 0x01
+#define NS_FAILCACHE_CD            0x01
 
 extern atomic_uint_fast64_t ns_client_requests;
 

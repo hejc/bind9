@@ -31,7 +31,7 @@
 
 #define DNSCONF_GET_STRING(FIELD)                                             \
 	char *CONCAT(DNSConf_get, FIELD)(DNSConf * cfg) {                     \
-		char *result = NULL;                                          \
+		char        *result = NULL;                                   \
 		isc_result_t tmpres;                                          \
                                                                               \
 		if (cfg == NULL || cfg->confctx == NULL)                      \

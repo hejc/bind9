@@ -227,8 +227,8 @@ typedef union {
  * There is one of these at the beginning of each transaction.
  */
 typedef struct {
-	unsigned char size[4];	  /*%< In bytes, excluding header. */
-	unsigned char count[4];	  /*%< Number of records in transaction */
+	unsigned char size[4];    /*%< In bytes, excluding header. */
+	unsigned char count[4];   /*%< Number of records in transaction */
 	unsigned char serial0[4]; /*%< SOA serial before update. */
 	unsigned char serial1[4]; /*%< SOA serial after update. */
 } journal_rawxhdr_t;
@@ -259,7 +259,7 @@ typedef struct {
 	isc_offset_t offset;
 } journal_pos_t;
 
-#define POS_VALID(pos)	    ((pos).offset != 0)
+#define POS_VALID(pos) ((pos).offset != 0)
 #define POS_INVALIDATE(pos) ((pos).offset = 0, (pos).serial = 0)
 
 typedef struct {
@@ -321,18 +321,18 @@ struct dns_journal {
 	isc_mem_t *mctx;    /*%< Memory context */
 	journal_state_t state;
 	xhdr_version_t xhdr_version; /*%< Expected transaction header version */
-	bool header_ver1;	     /*%< Transaction header compatibility
+	bool header_ver1;            /*%< Transaction header compatibility
 				      *   mode is allowed */
-	bool recovered;		     /*%< A recoverable error was found
+	bool recovered;              /*%< A recoverable error was found
 				      *   while reading the journal */
-	char *filename;		     /*%< Journal file name */
-	FILE *fp;		     /*%< File handle */
-	isc_offset_t offset;	     /*%< Current file offset */
-	journal_xhdr_t curxhdr;	     /*%< Current transaction header */
+	char *filename;              /*%< Journal file name */
+	FILE *fp;                    /*%< File handle */
+	isc_offset_t offset;         /*%< Current file offset */
+	journal_xhdr_t curxhdr;      /*%< Current transaction header */
 	journal_header_t header;     /*%< In-core journal header */
 	unsigned char *rawindex;     /*%< In-core buffer for journal index
 				      * in on-disk format */
-	journal_pos_t *index;	     /*%< In-core journal index */
+	journal_pos_t *index;        /*%< In-core journal index */
 
 	/*% Current transaction state (when writing). */
 	struct {
@@ -349,19 +349,19 @@ struct dns_journal {
 		journal_pos_t epos; /*%< and after last transaction */
 		/* The rest is iterator state. */
 		uint32_t current_serial; /*%< Current SOA serial */
-		isc_buffer_t source;	 /*%< Data from disk */
-		isc_buffer_t target;	 /*%< Data from _fromwire check */
-		dns_decompress_t dctx;	 /*%< Dummy decompression ctx */
-		dns_name_t name;	 /*%< Current domain name */
-		dns_rdata_t rdata;	 /*%< Current rdata */
-		uint32_t ttl;		 /*%< Current TTL */
-		unsigned int xsize;	 /*%< Size of transaction data */
-		unsigned int xpos;	 /*%< Current position in it */
-		isc_result_t result;	 /*%< Result of last call */
+		isc_buffer_t source;     /*%< Data from disk */
+		isc_buffer_t target;     /*%< Data from _fromwire check */
+		dns_decompress_t dctx;   /*%< Dummy decompression ctx */
+		dns_name_t name;         /*%< Current domain name */
+		dns_rdata_t rdata;       /*%< Current rdata */
+		uint32_t ttl;            /*%< Current TTL */
+		unsigned int xsize;      /*%< Size of transaction data */
+		unsigned int xpos;       /*%< Current position in it */
+		isc_result_t result;     /*%< Result of last call */
 	} it;
 };
 
-#define DNS_JOURNAL_MAGIC    ISC_MAGIC('J', 'O', 'U', 'R')
+#define DNS_JOURNAL_MAGIC ISC_MAGIC('J', 'O', 'U', 'R')
 #define DNS_JOURNAL_VALID(t) ISC_MAGIC_VALID(t, DNS_JOURNAL_MAGIC)
 
 static void
@@ -1930,7 +1930,7 @@ dns_journal_first_rr(dns_journal_t *j) {
 	j->it.current_serial = j->it.bpos.serial;
 
 	j->it.xsize = 0; /* We have no transaction data yet... */
-	j->it.xpos = 0;	 /* ...and haven't used any of it. */
+	j->it.xpos = 0;  /* ...and haven't used any of it. */
 
 	return (read_one_rr(j));
 
@@ -2242,7 +2242,7 @@ dns_diff_subtract(dns_diff_t diff[2], dns_diff_t *r) {
 				dns_difftuple_free(&p[i]);
 			}
 		}
-	next:;
+next:;
 	}
 	ISC_LIST_APPENDLIST(r->tuples, del, link);
 	ISC_LIST_APPENDLIST(r->tuples, add, link);
@@ -2336,7 +2336,7 @@ diff_namespace(dns_db_t *dba, dns_dbversion_t *dbvera, dns_db_t *dbb,
 		INSIST(ISC_LIST_EMPTY(diff[0].tuples));
 		INSIST(ISC_LIST_EMPTY(diff[1].tuples));
 		have[0] = have[1] = false;
-	next:;
+next:;
 	}
 	if (itresult[0] != ISC_R_NOMORE) {
 		FAIL(itresult[0]);
@@ -2795,7 +2795,7 @@ dns_journal_compact(isc_mem_t *mctx, char *filename, uint32_t serial,
 			}
 			(void)isc_file_remove(backup);
 		} else {
-		maperrno:
+maperrno:
 			result = ISC_R_FAILURE;
 			goto failure;
 		}

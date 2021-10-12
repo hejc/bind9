@@ -183,17 +183,17 @@ client_trace(ns_client_t *client, int level, const char *message) {
 			      client, isc_thread_self(), message);
 	}
 }
-#define CTRACE(l, m)  client_trace(client, l, m)
+#define CTRACE(l, m) client_trace(client, l, m)
 #define CCTRACE(l, m) client_trace(qctx->client, l, m)
 #else /* ifdef WANT_QUERYTRACE */
-#define CTRACE(l, m)  ((void)m)
+#define CTRACE(l, m) ((void)m)
 #define CCTRACE(l, m) ((void)m)
 #endif /* WANT_QUERYTRACE */
 
-#define DNS_GETDB_NOEXACT    0x01U
-#define DNS_GETDB_NOLOG	     0x02U
-#define DNS_GETDB_PARTIAL    0x04U
-#define DNS_GETDB_IGNOREACL  0x08U
+#define DNS_GETDB_NOEXACT 0x01U
+#define DNS_GETDB_NOLOG 0x02U
+#define DNS_GETDB_PARTIAL 0x04U
+#define DNS_GETDB_IGNOREACL 0x08U
 #define DNS_GETDB_STALEFIRST 0X0CU
 
 #define PENDINGOK(x) (((x)&DNS_DBFIND_PENDINGOK) != 0)
@@ -1968,7 +1968,7 @@ found:
 				}
 			}
 		}
-	aaaa_lookup:
+aaaa_lookup:
 		if (query_isduplicate(client, fname, dns_rdatatype_aaaa, NULL))
 		{
 			goto addname;
@@ -6814,9 +6814,9 @@ query_hookresume(isc_task_t *task, isc_event_t *event) {
 
 		/* Not all hookpoints can use recursion.  Catch violations */
 		case NS_QUERY_RESPOND_ANY_FOUND: /* due to side effect */
-		case NS_QUERY_NOTFOUND_RECURSE:	 /* in recursion */
-		case NS_QUERY_ZEROTTL_RECURSE:	 /* in recursion */
-		default:			 /* catch-all just in case */
+		case NS_QUERY_NOTFOUND_RECURSE:  /* in recursion */
+		case NS_QUERY_ZEROTTL_RECURSE:   /* in recursion */
+		default:                         /* catch-all just in case */
 			INSIST(false);
 		}
 	}

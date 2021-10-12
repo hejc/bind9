@@ -83,8 +83,8 @@ typedef struct {
  * contains "." which is not included in this list).
  */
 static const char *const domain_names[] = {
-	"c",	     "b",	    "a",	   "x.d.e.f",
-	"z.d.e.f",   "g.h",	    "i.g.h",	   "o.w.y.d.e.f",
+	"c",         "b",           "a",           "x.d.e.f",
+	"z.d.e.f",   "g.h",         "i.g.h",       "o.w.y.d.e.f",
 	"j.z.d.e.f", "p.w.y.d.e.f", "q.w.y.d.e.f", "k.g.h"
 };
 
@@ -118,9 +118,9 @@ static const int node_distances[] = { 3, 1, 2, 2, 2, 3, 1, 2, 1, 1, 2, 2 };
  */
 
 static const char *const ordered_names[] = {
-	"a",	     "b",	    "c",	   "d.e.f",	  "x.d.e.f",
+	"a",         "b",           "c",           "d.e.f",       "x.d.e.f",
 	"w.y.d.e.f", "o.w.y.d.e.f", "p.w.y.d.e.f", "q.w.y.d.e.f", "z.d.e.f",
-	"j.z.d.e.f", "g.h",	    "i.g.h",	   "k.g.h"
+	"j.z.d.e.f", "g.h",         "i.g.h",       "k.g.h"
 };
 
 static const size_t ordered_names_count =

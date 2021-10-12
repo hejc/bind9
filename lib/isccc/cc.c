@@ -46,18 +46,18 @@
 #include <isccc/symtype.h>
 #include <isccc/util.h>
 
-#define MAX_TAGS     256
+#define MAX_TAGS 256
 #define DUP_LIFETIME 900
 
 typedef isccc_sexpr_t *sexpr_ptr;
 
 static unsigned char auth_hmd5[] = {
 	0x05, 0x5f, 0x61, 0x75, 0x74, 0x68, /*%< len + _auth */
-	ISCCC_CCMSGTYPE_TABLE,		    /*%< message type */
-	0x00, 0x00, 0x00, 0x20,		    /*%< length == 32 */
-	0x04, 0x68, 0x6d, 0x64, 0x35,	    /*%< len + hmd5 */
-	ISCCC_CCMSGTYPE_BINARYDATA,	    /*%< message type */
-	0x00, 0x00, 0x00, 0x16,		    /*%< length == 22 */
+	ISCCC_CCMSGTYPE_TABLE,              /*%< message type */
+	0x00, 0x00, 0x00, 0x20,             /*%< length == 32 */
+	0x04, 0x68, 0x6d, 0x64, 0x35,       /*%< len + hmd5 */
+	ISCCC_CCMSGTYPE_BINARYDATA,         /*%< message type */
+	0x00, 0x00, 0x00, 0x16,             /*%< length == 22 */
 	/*
 	 * The base64 encoding of one of our HMAC-MD5 signatures is
 	 * 22 bytes.
@@ -71,12 +71,12 @@ static unsigned char auth_hmd5[] = {
 
 static unsigned char auth_hsha[] = {
 	0x05, 0x5f, 0x61, 0x75, 0x74, 0x68, /*%< len + _auth */
-	ISCCC_CCMSGTYPE_TABLE,		    /*%< message type */
-	0x00, 0x00, 0x00, 0x63,		    /*%< length == 99 */
-	0x04, 0x68, 0x73, 0x68, 0x61,	    /*%< len + hsha */
-	ISCCC_CCMSGTYPE_BINARYDATA,	    /*%< message type */
-	0x00, 0x00, 0x00, 0x59,		    /*%< length == 89 */
-	0x00,				    /*%< algorithm */
+	ISCCC_CCMSGTYPE_TABLE,              /*%< message type */
+	0x00, 0x00, 0x00, 0x63,             /*%< length == 99 */
+	0x04, 0x68, 0x73, 0x68, 0x61,       /*%< len + hsha */
+	ISCCC_CCMSGTYPE_BINARYDATA,         /*%< message type */
+	0x00, 0x00, 0x00, 0x59,             /*%< length == 89 */
+	0x00,                               /*%< algorithm */
 	/*
 	 * The base64 encoding of one of our HMAC-SHA* signatures is
 	 * 88 bytes.

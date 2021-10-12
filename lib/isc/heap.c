@@ -35,12 +35,12 @@
  * The right child is index*2+1.
  */
 #define heap_parent(i) ((i) >> 1)
-#define heap_left(i)   ((i) << 1)
+#define heap_left(i) ((i) << 1)
 /*@}*/
 
 #define SIZE_INCREMENT 1024
 
-#define HEAP_MAGIC    ISC_MAGIC('H', 'E', 'A', 'P')
+#define HEAP_MAGIC ISC_MAGIC('H', 'E', 'A', 'P')
 #define VALID_HEAP(h) ISC_MAGIC_VALID(h, HEAP_MAGIC)
 
 /*%

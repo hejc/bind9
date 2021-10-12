@@ -116,7 +116,7 @@ nsec3param_salttotext_test(const nsec3param_salttotext_test_params_t *params) {
 	 */
 	length = strlen(params->expected_salt);
 	assert_true(length < sizeof(salt) - 1); /* prevent buffer overwrite */
-	assert_true(length > 0U);		/* prevent length underflow */
+	assert_true(length > 0U);               /* prevent length underflow */
 
 	result = dns_nsec3param_salttotext(&nsec3param, salt, length - 1);
 	assert_int_equal(result, ISC_R_NOSPACE);

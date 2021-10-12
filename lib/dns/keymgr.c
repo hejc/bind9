@@ -53,11 +53,11 @@
 	} while (0)
 
 /* Shorter keywords for better readability. */
-#define HIDDEN	    DST_KEY_STATE_HIDDEN
-#define RUMOURED    DST_KEY_STATE_RUMOURED
+#define HIDDEN DST_KEY_STATE_HIDDEN
+#define RUMOURED DST_KEY_STATE_RUMOURED
 #define OMNIPRESENT DST_KEY_STATE_OMNIPRESENT
 #define UNRETENTIVE DST_KEY_STATE_UNRETENTIVE
-#define NA	    DST_KEY_STATE_NA
+#define NA DST_KEY_STATE_NA
 
 /* Quickly get key state timing metadata. */
 #define NUM_KEYSTATES (DST_MAX_KEYSTATES)

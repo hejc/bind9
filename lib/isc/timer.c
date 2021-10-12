@@ -31,7 +31,7 @@
 #include "timer_p.h"
 
 #ifdef ISC_TIMER_TRACE
-#define XTRACE(s)      fprintf(stderr, "%s\n", (s))
+#define XTRACE(s) fprintf(stderr, "%s\n", (s))
 #define XTRACEID(s, t) fprintf(stderr, "%s %p\n", (s), (t))
 #define XTRACETIME(s, d) \
 	fprintf(stderr, "%s %u.%09u\n", (s), (d).seconds, (d).nanoseconds)
@@ -49,7 +49,7 @@
 #define XTRACETIMER(s, t, d)
 #endif /* ISC_TIMER_TRACE */
 
-#define TIMER_MAGIC    ISC_MAGIC('T', 'I', 'M', 'R')
+#define TIMER_MAGIC ISC_MAGIC('T', 'I', 'M', 'R')
 #define VALID_TIMER(t) ISC_MAGIC_VALID(t, TIMER_MAGIC)
 
 struct isc_timer {
@@ -73,7 +73,7 @@ struct isc_timer {
 };
 
 #define TIMER_MANAGER_MAGIC ISC_MAGIC('T', 'I', 'M', 'M')
-#define VALID_MANAGER(m)    ISC_MAGIC_VALID(m, TIMER_MANAGER_MAGIC)
+#define VALID_MANAGER(m) ISC_MAGIC_VALID(m, TIMER_MANAGER_MAGIC)
 
 struct isc_timermgr {
 	/* Not locked. */

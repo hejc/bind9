@@ -54,7 +54,7 @@
 
 #define RUNCHECK(x) RUNTIME_CHECK((x) == ISC_R_SUCCESS)
 
-#define PORT	5300
+#define PORT 5300
 #define TIMEOUT 30
 
 static isc_mem_t *mctx = NULL;

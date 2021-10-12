@@ -56,15 +56,15 @@
 
 ISC_LANG_BEGINDECLS
 
-#define DNS_SDLZFLAG_THREADSAFE	   0x00000001U
+#define DNS_SDLZFLAG_THREADSAFE    0x00000001U
 #define DNS_SDLZFLAG_RELATIVEOWNER 0x00000002U
 #define DNS_SDLZFLAG_RELATIVERDATA 0x00000004U
 
 /* A simple DLZ database. */
-typedef struct dns_sdlz_db dns_sdlz_db_t;
+typedef struct dns_sdlz_db      dns_sdlz_db_t;
 
 /* A simple DLZ database lookup in progress. */
-typedef struct dns_sdlzlookup dns_sdlzlookup_t;
+typedef struct dns_sdlzlookup   dns_sdlzlookup_t;
 
 /* A simple DLZ database traversal in progress. */
 typedef struct dns_sdlzallnodes dns_sdlzallnodes_t;
@@ -145,9 +145,9 @@ typedef void (*dns_sdlzdestroy_t)(void *driverarg, void *dbdata);
  */
 
 typedef isc_result_t (*dns_sdlzfindzone_t)(void *driverarg, void *dbdata,
-					   const char	      *name,
+					   const char              *name,
 					   dns_clientinfomethods_t *methods,
-					   dns_clientinfo_t	    *clientinfo);
+					   dns_clientinfo_t        *clientinfo);
 /*%<
  * Method prototype.  Drivers implementing the SDLZ interface MUST
  * supply a find zone method.  This method is called when the DNS
@@ -177,7 +177,7 @@ typedef isc_result_t (*dns_sdlzfindzone_t)(void *driverarg, void *dbdata,
 
 typedef isc_result_t (*dns_sdlzlookupfunc_t)(const char *zone, const char *name,
 					     void *driverarg, void *dbdata,
-					     dns_sdlzlookup_t	      *lookup,
+					     dns_sdlzlookup_t        *lookup,
 					     dns_clientinfomethods_t *methods,
 					     dns_clientinfo_t *clientinfo);
 
@@ -271,20 +271,20 @@ typedef isc_result_t (*dns_sdlzdelrdataset_t)(const char *name,
  */
 
 typedef struct dns_sdlzmethods {
-	dns_sdlzcreate_t	create;
-	dns_sdlzdestroy_t	destroy;
-	dns_sdlzfindzone_t	findzone;
-	dns_sdlzlookupfunc_t	lookup;
+	dns_sdlzcreate_t        create;
+	dns_sdlzdestroy_t       destroy;
+	dns_sdlzfindzone_t      findzone;
+	dns_sdlzlookupfunc_t    lookup;
 	dns_sdlzauthorityfunc_t authority;
-	dns_sdlzallnodesfunc_t	allnodes;
-	dns_sdlzallowzonexfr_t	allowzonexfr;
-	dns_sdlznewversion_t	newversion;
-	dns_sdlzcloseversion_t	closeversion;
-	dns_sdlzconfigure_t	configure;
-	dns_sdlzssumatch_t	ssumatch;
-	dns_sdlzmodrdataset_t	addrdataset;
-	dns_sdlzmodrdataset_t	subtractrdataset;
-	dns_sdlzdelrdataset_t	delrdataset;
+	dns_sdlzallnodesfunc_t  allnodes;
+	dns_sdlzallowzonexfr_t  allowzonexfr;
+	dns_sdlznewversion_t    newversion;
+	dns_sdlzcloseversion_t  closeversion;
+	dns_sdlzconfigure_t     configure;
+	dns_sdlzssumatch_t      ssumatch;
+	dns_sdlzmodrdataset_t   addrdataset;
+	dns_sdlzmodrdataset_t   subtractrdataset;
+	dns_sdlzdelrdataset_t   delrdataset;
 } dns_sdlzmethods_t;
 
 isc_result_t

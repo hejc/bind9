@@ -103,8 +103,8 @@ dns_rpz_update_taskaction(isc_task_t *task, isc_event_t *event);
  */
 typedef uint32_t dns_rpz_cidr_word_t;
 #define DNS_RPZ_CIDR_WORD_BITS ((int)sizeof(dns_rpz_cidr_word_t) * 8)
-#define DNS_RPZ_CIDR_KEY_BITS  ((int)sizeof(dns_rpz_cidr_key_t) * 8)
-#define DNS_RPZ_CIDR_WORDS     (128 / DNS_RPZ_CIDR_WORD_BITS)
+#define DNS_RPZ_CIDR_KEY_BITS ((int)sizeof(dns_rpz_cidr_key_t) * 8)
+#define DNS_RPZ_CIDR_WORDS (128 / DNS_RPZ_CIDR_WORD_BITS)
 typedef struct {
 	dns_rpz_cidr_word_t w[DNS_RPZ_CIDR_WORDS];
 } dns_rpz_cidr_key_t;

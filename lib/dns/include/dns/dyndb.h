@@ -31,15 +31,15 @@ ISC_LANG_BEGINDECLS
  * function should detach from them.
  */
 struct dns_dyndbctx {
-	unsigned int	magic;
-	const void	   *hashinit;
-	isc_mem_t	  *mctx;
-	isc_log_t	  *lctx;
-	dns_view_t	   *view;
+	unsigned int    magic;
+	const void     *hashinit;
+	isc_mem_t      *mctx;
+	isc_log_t      *lctx;
+	dns_view_t     *view;
 	dns_zonemgr_t  *zmgr;
-	isc_task_t	   *task;
+	isc_task_t     *task;
 	isc_timermgr_t *timermgr;
-	const bool	   *refvar;
+	const bool     *refvar;
 };
 
 #define DNS_DYNDBCTX_MAGIC    ISC_MAGIC('D', 'd', 'b', 'c')
@@ -55,7 +55,7 @@ struct dns_dyndbctx {
  */
 #ifndef DNS_DYNDB_VERSION
 #define DNS_DYNDB_VERSION 1
-#define DNS_DYNDB_AGE	  0
+#define DNS_DYNDB_AGE     0
 #endif /* ifndef DNS_DYNDB_VERSION */
 
 typedef isc_result_t

@@ -60,41 +60,41 @@
  * validate_nx:       attempt to prove a negative response.
  */
 
-#define VALIDATOR_MAGIC	   ISC_MAGIC('V', 'a', 'l', '?')
+#define VALIDATOR_MAGIC ISC_MAGIC('V', 'a', 'l', '?')
 #define VALID_VALIDATOR(v) ISC_MAGIC_VALID(v, VALIDATOR_MAGIC)
 
 #define VALATTR_SHUTDOWN 0x0001 /*%< Shutting down. */
 #define VALATTR_CANCELED 0x0002 /*%< Canceled. */
 #define VALATTR_TRIEDVERIFY                                    \
-	0x0004			  /*%< We have found a key and \
+	0x0004                    /*%< We have found a key and \
 				   * have attempted a verify. */
 #define VALATTR_INSECURITY 0x0010 /*%< Attempting proveunsecure. */
 
 /*!
  * NSEC proofs to be looked for.
  */
-#define VALATTR_NEEDNOQNAME    0x00000100
+#define VALATTR_NEEDNOQNAME 0x00000100
 #define VALATTR_NEEDNOWILDCARD 0x00000200
-#define VALATTR_NEEDNODATA     0x00000400
+#define VALATTR_NEEDNODATA 0x00000400
 
 /*!
  * NSEC proofs that have been found.
  */
-#define VALATTR_FOUNDNOQNAME	0x00001000
+#define VALATTR_FOUNDNOQNAME 0x00001000
 #define VALATTR_FOUNDNOWILDCARD 0x00002000
-#define VALATTR_FOUNDNODATA	0x00004000
-#define VALATTR_FOUNDCLOSEST	0x00008000
-#define VALATTR_FOUNDOPTOUT	0x00010000
-#define VALATTR_FOUNDUNKNOWN	0x00020000
+#define VALATTR_FOUNDNODATA 0x00004000
+#define VALATTR_FOUNDCLOSEST 0x00008000
+#define VALATTR_FOUNDOPTOUT 0x00010000
+#define VALATTR_FOUNDUNKNOWN 0x00020000
 
-#define NEEDNODATA(val)	     ((val->attributes & VALATTR_NEEDNODATA) != 0)
-#define NEEDNOQNAME(val)     ((val->attributes & VALATTR_NEEDNOQNAME) != 0)
-#define NEEDNOWILDCARD(val)  ((val->attributes & VALATTR_NEEDNOWILDCARD) != 0)
-#define FOUNDNODATA(val)     ((val->attributes & VALATTR_FOUNDNODATA) != 0)
-#define FOUNDNOQNAME(val)    ((val->attributes & VALATTR_FOUNDNOQNAME) != 0)
+#define NEEDNODATA(val) ((val->attributes & VALATTR_NEEDNODATA) != 0)
+#define NEEDNOQNAME(val) ((val->attributes & VALATTR_NEEDNOQNAME) != 0)
+#define NEEDNOWILDCARD(val) ((val->attributes & VALATTR_NEEDNOWILDCARD) != 0)
+#define FOUNDNODATA(val) ((val->attributes & VALATTR_FOUNDNODATA) != 0)
+#define FOUNDNOQNAME(val) ((val->attributes & VALATTR_FOUNDNOQNAME) != 0)
 #define FOUNDNOWILDCARD(val) ((val->attributes & VALATTR_FOUNDNOWILDCARD) != 0)
-#define FOUNDCLOSEST(val)    ((val->attributes & VALATTR_FOUNDCLOSEST) != 0)
-#define FOUNDOPTOUT(val)     ((val->attributes & VALATTR_FOUNDOPTOUT) != 0)
+#define FOUNDCLOSEST(val) ((val->attributes & VALATTR_FOUNDCLOSEST) != 0)
+#define FOUNDOPTOUT(val) ((val->attributes & VALATTR_FOUNDOPTOUT) != 0)
 
 #define SHUTDOWN(v) (((v)->attributes & VALATTR_SHUTDOWN) != 0)
 #define CANCELED(v) (((v)->attributes & VALATTR_CANCELED) != 0)
@@ -600,7 +600,7 @@ fetch_callback_ds(isc_task_t *task, isc_event_t *event) {
 		break;
 
 	default:
-	unexpected:
+unexpected:
 		validator_log(val, ISC_LOG_DEBUG(3),
 			      "fetch_callback_ds: got %s",
 			      isc_result_totext(eresult));

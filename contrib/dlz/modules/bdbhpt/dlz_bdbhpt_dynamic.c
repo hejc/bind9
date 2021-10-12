@@ -70,9 +70,9 @@
 #define bdbhpt_threads DB_THREAD
 
 /* bdbhpt database names */
-#define dlz_data   "dns_data"
-#define dlz_zone   "dns_zone"
-#define dlz_xfr	   "dns_xfr"
+#define dlz_data "dns_data"
+#define dlz_zone "dns_zone"
+#define dlz_xfr "dns_xfr"
 #define dlz_client "dns_client"
 
 #define dlz_bdbhpt_dynamic_version "0.1"

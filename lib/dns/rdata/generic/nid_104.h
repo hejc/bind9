@@ -14,6 +14,6 @@
 
 typedef struct dns_rdata_nid {
 	dns_rdatacommon_t common;
-	uint16_t pref;
-	unsigned char nid[8];
+	uint16_t          pref;
+	unsigned char     nid[8];
 } dns_rdata_nid_t;

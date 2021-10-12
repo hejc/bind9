@@ -103,9 +103,9 @@ netaddr_multicast(void **state) {
 		const char *addr;
 		bool is_multicast;
 	} tests[] = {
-		{ AF_INET, "1.2.3.4", false },	{ AF_INET, "4.3.2.1", false },
+		{ AF_INET, "1.2.3.4", false },  { AF_INET, "4.3.2.1", false },
 		{ AF_INET, "224.1.1.1", true }, { AF_INET, "1.1.1.244", false },
-		{ AF_INET6, "::1", false },	{ AF_INET6, "ff02::1", true }
+		{ AF_INET6, "::1", false },     { AF_INET6, "ff02::1", true }
 	};
 
 	UNUSED(state);

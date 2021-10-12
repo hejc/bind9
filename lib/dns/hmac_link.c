@@ -40,11 +40,11 @@
 #include "dst_internal.h"
 #ifdef HAVE_FIPS_MODE
 #include "dst_openssl.h" /* FIPS_mode() prototype */
-#endif			 /* ifdef HAVE_FIPS_MODE */
+#endif                   /* ifdef HAVE_FIPS_MODE */
 #include "dst_parse.h"
 
-#define ISC_MD_md5    ISC_MD_MD5
-#define ISC_MD_sha1   ISC_MD_SHA1
+#define ISC_MD_md5 ISC_MD_MD5
+#define ISC_MD_sha1 ISC_MD_SHA1
 #define ISC_MD_sha224 ISC_MD_SHA224
 #define ISC_MD_sha256 ISC_MD_SHA256
 #define ISC_MD_sha384 ISC_MD_SHA384

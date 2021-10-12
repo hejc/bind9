@@ -39,12 +39,12 @@ dump_zone(const char *zonename, dns_zone_t *zone, const char *filename,
 	  dns_masterformat_t fileformat, const dns_master_style_t *style,
 	  const uint32_t rawversion);
 
-extern int debug;
-extern const char *journal;
-extern bool nomerge;
-extern bool docheckmx;
-extern bool docheckns;
-extern bool dochecksrv;
+extern int           debug;
+extern const char   *journal;
+extern bool          nomerge;
+extern bool          docheckmx;
+extern bool          docheckns;
+extern bool          dochecksrv;
 extern dns_zoneopt_t zone_options;
 
 ISC_LANG_ENDDECLS

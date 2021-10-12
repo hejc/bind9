@@ -28,7 +28,7 @@
 
 #include "isctest.h"
 
-#define TASK_MAGIC    ISC_MAGIC('T', 'A', 'S', 'K')
+#define TASK_MAGIC ISC_MAGIC('T', 'A', 'S', 'K')
 #define VALID_TASK(t) ISC_MAGIC_VALID(t, TASK_MAGIC)
 
 static int

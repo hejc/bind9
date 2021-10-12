@@ -24,7 +24,7 @@
 /*
  * Assuming SHA-384 digest type.
  */
-#define DNS_DS_BUFFERSIZE (52)
+#define DNS_DS_BUFFERSIZE   (52)
 
 ISC_LANG_BEGINDECLS
 

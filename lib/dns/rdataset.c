@@ -29,11 +29,11 @@
 #include <dns/rdataset.h>
 
 static const char *trustnames[] = {
-	"none",		  "pending-additional",
+	"none",           "pending-additional",
 	"pending-answer", "additional",
-	"glue",		  "answer",
+	"glue",           "answer",
 	"authauthority",  "authanswer",
-	"secure",	  "local" /* aka ultimate */
+	"secure",         "local" /* aka ultimate */
 };
 
 const char *
@@ -278,8 +278,8 @@ dns_rdataset_current(dns_rdataset_t *rdataset, dns_rdata_t *rdata) {
 	(rdataset->methods->current)(rdataset, rdata);
 }
 
-#define MAX_SHUFFLE    32
-#define WANT_FIXED(r)  (((r)->attributes & DNS_RDATASETATTR_FIXEDORDER) != 0)
+#define MAX_SHUFFLE 32
+#define WANT_FIXED(r) (((r)->attributes & DNS_RDATASETATTR_FIXEDORDER) != 0)
 #define WANT_RANDOM(r) (((r)->attributes & DNS_RDATASETATTR_RANDOMIZE) != 0)
 #define WANT_CYCLIC(r) (((r)->attributes & DNS_RDATASETATTR_CYCLIC) != 0)
 

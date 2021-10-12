@@ -507,11 +507,11 @@ dlopen_dlz_delrdataset(const char *name, const char *type, void *driverarg,
 }
 
 static dns_sdlzmethods_t dlz_dlopen_methods = {
-	dlopen_dlz_create,	 dlopen_dlz_destroy,	dlopen_dlz_findzonedb,
-	dlopen_dlz_lookup,	 dlopen_dlz_authority,	dlopen_dlz_allnodes,
+	dlopen_dlz_create,       dlopen_dlz_destroy,    dlopen_dlz_findzonedb,
+	dlopen_dlz_lookup,       dlopen_dlz_authority,  dlopen_dlz_allnodes,
 	dlopen_dlz_allowzonexfr, dlopen_dlz_newversion, dlopen_dlz_closeversion,
-	dlopen_dlz_configure,	 dlopen_dlz_ssumatch,	dlopen_dlz_addrdataset,
-	dlopen_dlz_subrdataset,	 dlopen_dlz_delrdataset
+	dlopen_dlz_configure,    dlopen_dlz_ssumatch,   dlopen_dlz_addrdataset,
+	dlopen_dlz_subrdataset,  dlopen_dlz_delrdataset
 };
 
 /*

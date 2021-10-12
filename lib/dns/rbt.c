@@ -48,7 +48,7 @@
 			goto cleanup;        \
 	} while (0)
 
-#define RBT_MAGIC      ISC_MAGIC('R', 'B', 'T', '+')
+#define RBT_MAGIC ISC_MAGIC('R', 'B', 'T', '+')
 #define VALID_RBT(rbt) ISC_MAGIC_VALID(rbt, RBT_MAGIC)
 
 /*
@@ -56,12 +56,12 @@
  * chain junk, and replace with dns_rbt_firstnode, _previousnode, _nextnode,
  * _lastnode.  This would involve pretty major change to the API.
  */
-#define CHAIN_MAGIC	   ISC_MAGIC('0', '-', '0', '-')
+#define CHAIN_MAGIC ISC_MAGIC('0', '-', '0', '-')
 #define VALID_CHAIN(chain) ISC_MAGIC_VALID(chain, CHAIN_MAGIC)
 
-#define RBT_HASH_NO_BITS    0
-#define RBT_HASH_MIN_BITS   4
-#define RBT_HASH_MAX_BITS   32
+#define RBT_HASH_NO_BITS 0
+#define RBT_HASH_MIN_BITS 4
+#define RBT_HASH_MAX_BITS 32
 #define RBT_HASH_OVERCOMMIT 3
 
 #define RBT_HASH_NEXTTABLE(hindex) ((hindex == 0) ? 1 : 0)
@@ -69,7 +69,7 @@
 #ifdef RBT_MEM_TEST
 #undef RBT_HASH_SIZE
 #define RBT_HASH_SIZE 2 /*%< To give the reallocation code a workout. */
-#endif			/* ifdef RBT_MEM_TEST */
+#endif                  /* ifdef RBT_MEM_TEST */
 
 #define GOLDEN_RATIO_32 0x61C88647
 
@@ -95,27 +95,27 @@ struct dns_rbt {
 	uint32_t hiter;
 };
 
-#define RED   0
+#define RED 0
 #define BLACK 1
 
 /*%
  * Elements of the rbtnode structure.
  */
-#define PARENT(node)	   ((node)->parent)
-#define LEFT(node)	   ((node)->left)
-#define RIGHT(node)	   ((node)->right)
-#define DOWN(node)	   ((node)->down)
-#define UPPERNODE(node)	   ((node)->uppernode)
-#define DATA(node)	   ((node)->data)
-#define IS_EMPTY(node)	   ((node)->data == NULL)
-#define HASHNEXT(node)	   ((node)->hashnext)
-#define HASHVAL(node)	   ((node)->hashval)
-#define COLOR(node)	   ((node)->color)
-#define NAMELEN(node)	   ((node)->namelen)
-#define OLDNAMELEN(node)   ((node)->oldnamelen)
-#define OFFSETLEN(node)	   ((node)->offsetlen)
-#define ATTRS(node)	   ((node)->attributes)
-#define IS_ROOT(node)	   ((node)->is_root)
+#define PARENT(node) ((node)->parent)
+#define LEFT(node) ((node)->left)
+#define RIGHT(node) ((node)->right)
+#define DOWN(node) ((node)->down)
+#define UPPERNODE(node) ((node)->uppernode)
+#define DATA(node) ((node)->data)
+#define IS_EMPTY(node) ((node)->data == NULL)
+#define HASHNEXT(node) ((node)->hashnext)
+#define HASHVAL(node) ((node)->hashval)
+#define COLOR(node) ((node)->color)
+#define NAMELEN(node) ((node)->namelen)
+#define OLDNAMELEN(node) ((node)->oldnamelen)
+#define OFFSETLEN(node) ((node)->offsetlen)
+#define ATTRS(node) ((node)->attributes)
+#define IS_ROOT(node) ((node)->is_root)
 #define FINDCALLBACK(node) ((node)->find_callback)
 
 #define WANTEMPTYDATA_OR_DATA(options, node) \
@@ -125,8 +125,8 @@ struct dns_rbt {
  * Structure elements from the rbtdb.c, not
  * used as part of the rbt.c algorithms.
  */
-#define DIRTY(node)   ((node)->dirty)
-#define WILD(node)    ((node)->wild)
+#define DIRTY(node) ((node)->dirty)
+#define WILD(node) ((node)->wild)
 #define LOCKNUM(node) ((node)->locknum)
 
 /*%
@@ -142,8 +142,8 @@ struct dns_rbt {
  * was created.
  */
 
-#define NAME(node)	   ((unsigned char *)((node) + 1))
-#define OFFSETS(node)	   (NAME(node) + OLDNAMELEN(node) + 1)
+#define NAME(node) ((unsigned char *)((node) + 1))
+#define OFFSETS(node) (NAME(node) + OLDNAMELEN(node) + 1)
 #define OLDOFFSETLEN(node) (OFFSETS(node)[-1])
 
 #define NODE_SIZE(node) \
@@ -152,9 +152,9 @@ struct dns_rbt {
 /*%
  * Color management.
  */
-#define IS_RED(node)	 ((node) != NULL && (node)->color == RED)
-#define IS_BLACK(node)	 ((node) == NULL || (node)->color == BLACK)
-#define MAKE_RED(node)	 ((node)->color = RED)
+#define IS_RED(node) ((node) != NULL && (node)->color == RED)
+#define IS_BLACK(node) ((node) == NULL || (node)->color == BLACK)
+#define MAKE_RED(node) ((node)->color = RED)
 #define MAKE_BLACK(node) ((node)->color = BLACK)
 
 /*%
@@ -913,7 +913,7 @@ dns_rbt_findnode(dns_rbt_t *rbt, const dns_name_t *name, dns_name_t *foundname,
 			up_current = PARENT(current);
 			dns_name_init(&hash_name, NULL);
 
-		hashagain:
+hashagain:
 			hindex = rbt->hindex;
 			/*
 			 * Compute the hash over the full absolute
@@ -932,7 +932,7 @@ dns_rbt_findnode(dns_rbt_t *rbt, const dns_name_t *name, dns_name_t *foundname,
 						  nlabels - tlabels, tlabels,
 						  &hash_name);
 
-		nexttable:
+nexttable:
 			/*
 			 * Walk all the nodes in the hash bucket pointed
 			 * by the computed hash value.
@@ -1017,7 +1017,7 @@ dns_rbt_findnode(dns_rbt_t *rbt, const dns_name_t *name, dns_name_t *foundname,
 			 * down pointer and search in the new tree.
 			 */
 			if (compared == dns_namereln_subdomain) {
-			subdomain:
+subdomain:
 				/*
 				 * Whack off the current node's common parts
 				 * for the name to search in the next level.

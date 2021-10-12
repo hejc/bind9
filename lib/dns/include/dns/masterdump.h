@@ -40,7 +40,7 @@ typedef struct dns_master_style dns_master_style_t;
  */
 
 /*% Omit the owner name when possible. */
-#define DNS_STYLEFLAG_OMIT_OWNER 0x000010000ULL
+#define DNS_STYLEFLAG_OMIT_OWNER  0x000010000ULL
 
 /*%
  * Omit the TTL when possible.  If DNS_STYLEFLAG_TTL is
@@ -58,59 +58,59 @@ typedef struct dns_master_style dns_master_style_t;
  * versions of BIND which use the SOA MINTTL as a
  * default TTL value.
  */
-#define DNS_STYLEFLAG_OMIT_TTL 0x000020000ULL
+#define DNS_STYLEFLAG_OMIT_TTL    0x000020000ULL
 
 /*% Omit the class when possible. */
-#define DNS_STYLEFLAG_OMIT_CLASS 0x000040000ULL
+#define DNS_STYLEFLAG_OMIT_CLASS  0x000040000ULL
 
 /*% Output $TTL directives. */
-#define DNS_STYLEFLAG_TTL 0x000080000ULL
+#define DNS_STYLEFLAG_TTL         0x000080000ULL
 
 /*%
  * Output $ORIGIN directives and print owner names relative to
  * the origin when possible.
  */
-#define DNS_STYLEFLAG_REL_OWNER 0x000100000ULL
+#define DNS_STYLEFLAG_REL_OWNER   0x000100000ULL
 
 /*% Print domain names in RR data in relative form when possible.
  * For this to take effect, DNS_STYLEFLAG_REL_OWNER must also be set. */
-#define DNS_STYLEFLAG_REL_DATA 0x000200000ULL
+#define DNS_STYLEFLAG_REL_DATA    0x000200000ULL
 
 /*% Print the trust level of each rdataset. */
-#define DNS_STYLEFLAG_TRUST 0x000400000ULL
+#define DNS_STYLEFLAG_TRUST       0x000400000ULL
 
 /*% Print negative caching entries. */
-#define DNS_STYLEFLAG_NCACHE 0x000800000ULL
+#define DNS_STYLEFLAG_NCACHE      0x000800000ULL
 
 /*% Never print the TTL. */
-#define DNS_STYLEFLAG_NO_TTL 0x001000000ULL
+#define DNS_STYLEFLAG_NO_TTL      0x001000000ULL
 
 /*% Never print the CLASS. */
-#define DNS_STYLEFLAG_NO_CLASS 0x002000000ULL
+#define DNS_STYLEFLAG_NO_CLASS    0x002000000ULL
 
 /*% Report re-signing time. */
-#define DNS_STYLEFLAG_RESIGN 0x004000000ULL
+#define DNS_STYLEFLAG_RESIGN      0x004000000ULL
 
 /*% Don't printout the cryptographic parts of DNSSEC records. */
-#define DNS_STYLEFLAG_NOCRYPTO 0x008000000ULL
+#define DNS_STYLEFLAG_NOCRYPTO    0x008000000ULL
 
 /*% Comment out data by prepending with ";" */
 #define DNS_STYLEFLAG_COMMENTDATA 0x010000000ULL
 
 /*% Print TTL with human-readable units. */
-#define DNS_STYLEFLAG_TTL_UNITS 0x020000000ULL
+#define DNS_STYLEFLAG_TTL_UNITS   0x020000000ULL
 
 /*% Indent output. */
-#define DNS_STYLEFLAG_INDENT 0x040000000ULL
+#define DNS_STYLEFLAG_INDENT      0x040000000ULL
 
 /*% Output in YAML style. */
-#define DNS_STYLEFLAG_YAML 0x080000000ULL
+#define DNS_STYLEFLAG_YAML        0x080000000ULL
 
 /*% Print ECS cache entries as comments (reserved for future use). */
-#define DNS_STYLEFLAG_ECSCACHE 0x100000000ULL
+#define DNS_STYLEFLAG_ECSCACHE    0x100000000ULL
 
 /*% Print expired cache entries. */
-#define DNS_STYLEFLAG_EXPIRED 0x200000000ULL
+#define DNS_STYLEFLAG_EXPIRED     0x200000000ULL
 
 ISC_LANG_BEGINDECLS
 
@@ -241,7 +241,7 @@ dns_dumpctx_db(dns_dumpctx_t *dctx);
 /*@{*/
 isc_result_t
 dns_master_dumptostreamasync(isc_mem_t *mctx, dns_db_t *db,
-			     dns_dbversion_t	     *version,
+			     dns_dbversion_t          *version,
 			     const dns_master_style_t *style, FILE *f,
 			     isc_task_t *task, dns_dumpdonefunc_t done,
 			     void *done_arg, dns_dumpctx_t **dctxp);
@@ -249,7 +249,7 @@ dns_master_dumptostreamasync(isc_mem_t *mctx, dns_db_t *db,
 isc_result_t
 dns_master_dumptostream(isc_mem_t *mctx, dns_db_t *db, dns_dbversion_t *version,
 			const dns_master_style_t *style,
-			dns_masterformat_t	  format,
+			dns_masterformat_t        format,
 			dns_masterrawheader_t *header, FILE *f);
 /*%<
  * Dump the database 'db' to the steam 'f' in the specified format by
@@ -307,8 +307,8 @@ dns_master_dump(isc_mem_t *mctx, dns_db_t *db, dns_dbversion_t *version,
 /*@}*/
 
 isc_result_t
-dns_master_rdatasettotext(const dns_name_t	   *owner_name,
-			  dns_rdataset_t		 *rdataset,
+dns_master_rdatasettotext(const dns_name_t         *owner_name,
+			  dns_rdataset_t           *rdataset,
 			  const dns_master_style_t *style, dns_indent_t *indent,
 			  isc_buffer_t *target);
 /*%<
@@ -324,15 +324,15 @@ dns_master_rdatasettotext(const dns_name_t	   *owner_name,
  */
 
 isc_result_t
-dns_master_questiontotext(const dns_name_t	   *owner_name,
-			  dns_rdataset_t		 *rdataset,
+dns_master_questiontotext(const dns_name_t         *owner_name,
+			  dns_rdataset_t           *rdataset,
 			  const dns_master_style_t *style,
-			  isc_buffer_t	       *target);
+			  isc_buffer_t             *target);
 
 isc_result_t
 dns_master_dumpnodetostream(isc_mem_t *mctx, dns_db_t *db,
 			    dns_dbversion_t *version, dns_dbnode_t *node,
-			    const dns_name_t	     *name,
+			    const dns_name_t         *name,
 			    const dns_master_style_t *style, FILE *f);
 
 isc_result_t
@@ -344,7 +344,7 @@ dns_masterstyle_flags_t
 dns_master_styleflags(const dns_master_style_t *style);
 
 isc_result_t
-dns_master_stylecreate(dns_master_style_t	  **style,
+dns_master_stylecreate(dns_master_style_t    **style,
 		       dns_masterstyle_flags_t flags, unsigned int ttl_column,
 		       unsigned int class_column, unsigned int type_column,
 		       unsigned int rdata_column, unsigned int line_length,

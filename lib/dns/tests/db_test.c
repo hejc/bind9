@@ -50,8 +50,8 @@ _teardown(void **state) {
 	return (0);
 }
 
-#define BUFLEN	    255
-#define BIGBUFLEN   (64 * 1024)
+#define BUFLEN 255
+#define BIGBUFLEN (64 * 1024)
 #define TEST_ORIGIN "test"
 
 /*

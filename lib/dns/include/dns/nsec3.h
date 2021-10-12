@@ -23,14 +23,14 @@
 #include <dns/rdatastruct.h>
 #include <dns/types.h>
 
-#define DNS_NSEC3_SALTSIZE	255
-#define DNS_NSEC3_MAXITERATIONS 150U
+#define DNS_NSEC3_SALTSIZE        255
+#define DNS_NSEC3_MAXITERATIONS   150U
 
 /*
  * hash = 1, flags =1, iterations = 2, salt length = 1, salt = 255 (max)
  * hash length = 1, hash = 255 (max), bitmap = 8192 + 512 (max)
  */
-#define DNS_NSEC3_BUFFERSIZE (6 + 255 + 255 + 8192 + 512)
+#define DNS_NSEC3_BUFFERSIZE      (6 + 255 + 255 + 8192 + 512)
 /*
  * hash = 1, flags = 1, iterations = 2, salt length = 1, salt = 255 (max)
  */
@@ -39,7 +39,7 @@
 /*
  * Test "unknown" algorithm.  Is mapped to dns_hash_sha1.
  */
-#define DNS_NSEC3_UNKNOWNALG ((dns_hash_t)245U)
+#define DNS_NSEC3_UNKNOWNALG      ((dns_hash_t)245U)
 
 ISC_LANG_BEGINDECLS
 
@@ -106,7 +106,7 @@ dns_nsec3_supportedhash(dns_hash_t hash);
 
 isc_result_t
 dns_nsec3_addnsec3(dns_db_t *db, dns_dbversion_t *version,
-		   const dns_name_t		    *name,
+		   const dns_name_t             *name,
 		   const dns_rdata_nsec3param_t *nsec3param, dns_ttl_t nsecttl,
 		   bool unsecure, dns_diff_t *diff);
 
@@ -153,7 +153,7 @@ dns_nsec3_addnsec3sx(dns_db_t *db, dns_dbversion_t *version,
 
 isc_result_t
 dns_nsec3_delnsec3(dns_db_t *db, dns_dbversion_t *version,
-		   const dns_name_t		    *name,
+		   const dns_name_t             *name,
 		   const dns_rdata_nsec3param_t *nsec3param, dns_diff_t *diff);
 
 isc_result_t
@@ -163,7 +163,7 @@ dns_nsec3_delnsec3s(dns_db_t *db, dns_dbversion_t *version,
 isc_result_t
 dns_nsec3_delnsec3sx(dns_db_t *db, dns_dbversion_t *version,
 		     const dns_name_t *name, dns_rdatatype_t private,
-		     dns_diff_t	*diff);
+		     dns_diff_t       *diff);
 /*%<
  * Remove NSEC3 records for 'name', recording the change in 'diff'.
  * Adjust previous NSEC3 records, if any, to reflect the removal.

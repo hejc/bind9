@@ -28,15 +28,15 @@ ISC_LANG_BEGINDECLS
 /* Key agreement modes */
 #define DNS_TKEYMODE_SERVERASSIGNED   1
 #define DNS_TKEYMODE_DIFFIEHELLMAN    2
-#define DNS_TKEYMODE_GSSAPI	      3
+#define DNS_TKEYMODE_GSSAPI           3
 #define DNS_TKEYMODE_RESOLVERASSIGNED 4
-#define DNS_TKEYMODE_DELETE	      5
+#define DNS_TKEYMODE_DELETE           5
 
 struct dns_tkeyctx {
-	dst_key_t	  *dhkey;
-	dns_name_t	   *domain;
+	dst_key_t        *dhkey;
+	dns_name_t       *domain;
 	dns_gss_cred_id_t gsscred;
-	isc_mem_t	  *mctx;
+	isc_mem_t        *mctx;
 	char	     *gssapi_keytab;
 };
 

@@ -16,6 +16,6 @@
 
 typedef struct dns_rdata_in_nsap_ptr {
 	dns_rdatacommon_t common;
-	isc_mem_t *mctx;
-	dns_name_t owner;
+	isc_mem_t        *mctx;
+	dns_name_t        owner;
 } dns_rdata_in_nsap_ptr_t;

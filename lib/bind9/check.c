@@ -485,11 +485,11 @@ check_viewacls(cfg_aclconfctx_t *actx, const cfg_obj_t *voptions,
 	int i = 0;
 
 	static const char *acls[] = {
-		"allow-query",	     "allow-query-on",
+		"allow-query",       "allow-query-on",
 		"allow-query-cache", "allow-query-cache-on",
-		"blackhole",	     "keep-response-order",
+		"blackhole",         "keep-response-order",
 		"match-clients",     "match-destinations",
-		"sortlist",	     NULL
+		"sortlist",          NULL
 	};
 
 	while (acls[i] != NULL) {
@@ -1100,7 +1100,7 @@ check_options(const cfg_obj_t *options, const cfg_obj_t *config,
 
 		/* minimum and maximum cache and negative cache TTLs */
 		{ "min-cache-ttl", 1, MAX_MIN_CACHE_TTL },   /* 90 secs */
-		{ "max-cache-ttl", 1, UINT32_MAX },	     /* no limit */
+		{ "max-cache-ttl", 1, UINT32_MAX },          /* no limit */
 		{ "min-ncache-ttl", 1, MAX_MIN_NCACHE_TTL }, /* 90 secs */
 		{ "max-ncache-ttl", 1, MAX_MAX_NCACHE_TTL }, /*  7 days */
 	};
@@ -2818,7 +2818,7 @@ check_zoneconf(const cfg_obj_t *zconfig, const cfg_obj_t *voptions,
 	};
 	static const char *sources[] = {
 		"transfer-source",  "transfer-source-v6", "notify-source",
-		"notify-source-v6", "parental-source",	  "parental-source-v6",
+		"notify-source-v6", "parental-source",    "parental-source-v6",
 	};
 
 	znamestr = cfg_obj_asstring(cfg_tuple_get(zconfig, "name"));
@@ -2925,7 +2925,7 @@ check_zoneconf(const cfg_obj_t *zconfig, const cfg_obj_t *voptions,
 		zname = dns_fixedname_name(&fixedname);
 		dns_name_format(zname, namebuf, sizeof(namebuf));
 		tresult = nameexist(zconfig, namebuf,
-				    ztype == CFG_ZONE_HINT	 ? 1
+				    ztype == CFG_ZONE_HINT       ? 1
 				    : ztype == CFG_ZONE_REDIRECT ? 2
 								 : 3,
 				    symtab,
@@ -2946,7 +2946,7 @@ check_zoneconf(const cfg_obj_t *zconfig, const cfg_obj_t *voptions,
 		len -= strlen(tmp);
 		(void)snprintf(tmp, len, "%u/%s", zclass,
 			       (ztype == CFG_ZONE_INVIEW) ? target
-			       : (viewname != NULL)	  ? viewname
+			       : (viewname != NULL)       ? viewname
 							  : "_default");
 		switch (ztype) {
 		case CFG_ZONE_INVIEW:
@@ -4175,11 +4175,11 @@ check_servers(const cfg_obj_t *config, const cfg_obj_t *voptions,
 	return (result);
 }
 
-#define ROOT_KSK_STATIC	 0x01
+#define ROOT_KSK_STATIC 0x01
 #define ROOT_KSK_MANAGED 0x02
-#define ROOT_KSK_ANY	 0x03
-#define ROOT_KSK_2010	 0x04
-#define ROOT_KSK_2017	 0x08
+#define ROOT_KSK_ANY 0x03
+#define ROOT_KSK_2010 0x04
+#define ROOT_KSK_2017 0x08
 
 static isc_result_t
 check_trust_anchor(const cfg_obj_t *key, bool managed, unsigned int *flagsp,

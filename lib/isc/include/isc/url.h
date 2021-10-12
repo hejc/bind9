@@ -47,14 +47,14 @@
 #endif
 
 typedef enum {
-	ISC_UF_SCHEMA = 0,
-	ISC_UF_HOST = 1,
-	ISC_UF_PORT = 2,
-	ISC_UF_PATH = 3,
-	ISC_UF_QUERY = 4,
+	ISC_UF_SCHEMA   = 0,
+	ISC_UF_HOST     = 1,
+	ISC_UF_PORT     = 2,
+	ISC_UF_PATH     = 3,
+	ISC_UF_QUERY    = 4,
 	ISC_UF_FRAGMENT = 5,
 	ISC_UF_USERINFO = 6,
-	ISC_UF_MAX = 7
+	ISC_UF_MAX      = 7
 } isc_url_field_t;
 
 /* Result structure for isc_url_parse().
@@ -66,7 +66,7 @@ typedef enum {
  */
 typedef struct {
 	uint16_t field_set; /* Bitmask of (1 << UF_*) values */
-	uint16_t port;	    /* Converted UF_PORT string */
+	uint16_t port;      /* Converted UF_PORT string */
 
 	struct {
 		uint16_t off; /* Offset into buffer in which field starts */

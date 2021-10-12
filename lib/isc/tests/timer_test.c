@@ -39,7 +39,7 @@
 /* Set to true (or use -v option) for verbose output */
 static bool verbose = false;
 
-#define FUDGE_SECONDS	  0	    /* in absence of clock_getres() */
+#define FUDGE_SECONDS 0             /* in absence of clock_getres() */
 #define FUDGE_NANOSECONDS 500000000 /* in absence of clock_getres() */
 
 static isc_timer_t *timer = NULL;

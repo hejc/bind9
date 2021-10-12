@@ -47,17 +47,17 @@ static dns_rdatatype_t list_type = dns_rdatatype_a;
 static bool printed_server = false;
 static bool ipv4only = false, ipv6only = false;
 
-static const char *opcodetext[] = { "QUERY",	  "IQUERY",	"STATUS",
-				    "RESERVED3",  "NOTIFY",	"UPDATE",
-				    "RESERVED6",  "RESERVED7",	"RESERVED8",
+static const char *opcodetext[] = { "QUERY",      "IQUERY",     "STATUS",
+				    "RESERVED3",  "NOTIFY",     "UPDATE",
+				    "RESERVED6",  "RESERVED7",  "RESERVED8",
 				    "RESERVED9",  "RESERVED10", "RESERVED11",
 				    "RESERVED12", "RESERVED13", "RESERVED14",
 				    "RESERVED15" };
 
-static const char *rcodetext[] = { "NOERROR",	 "FORMERR",    "SERVFAIL",
-				   "NXDOMAIN",	 "NOTIMP",     "REFUSED",
-				   "YXDOMAIN",	 "YXRRSET",    "NXRRSET",
-				   "NOTAUTH",	 "NOTZONE",    "RESERVED11",
+static const char *rcodetext[] = { "NOERROR",    "FORMERR",    "SERVFAIL",
+				   "NXDOMAIN",   "NOTIMP",     "REFUSED",
+				   "YXDOMAIN",   "YXRRSET",    "NXRRSET",
+				   "NOTAUTH",    "NOTZONE",    "RESERVED11",
 				   "RESERVED12", "RESERVED13", "RESERVED14",
 				   "RESERVED15", "BADVERS" };
 
@@ -300,7 +300,7 @@ printsection(dns_message_t *msg, dns_section_t sectionid,
 					snprintf(typebuf2, sizeof(typebuf2),
 						 "has %s record", typebuf);
 					rtt = typebuf2;
-				found:
+found:
 					say_message(print_name, rtt, &rdata,
 						    query);
 					dns_rdata_reset(&rdata);

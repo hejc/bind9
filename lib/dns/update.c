@@ -58,7 +58,7 @@
 
 /**************************************************************************/
 
-#define STATE_MAGIC	       ISC_MAGIC('S', 'T', 'T', 'E')
+#define STATE_MAGIC ISC_MAGIC('S', 'T', 'T', 'E')
 #define DNS_STATE_VALID(state) ISC_MAGIC_VALID(state, STATE_MAGIC)
 
 /*%
@@ -1122,9 +1122,9 @@ add_sigs(dns_update_log_t *log, dns_zone_t *zone, dns_db_t *db,
 	dns_db_detachnode(db, &node);
 
 #define REVOKE(x) ((dst_key_flags(x) & DNS_KEYFLAG_REVOKE) != 0)
-#define KSK(x)	  ((dst_key_flags(x) & DNS_KEYFLAG_KSK) != 0)
-#define ID(x)	  dst_key_id(x)
-#define ALG(x)	  dst_key_alg(x)
+#define KSK(x) ((dst_key_flags(x) & DNS_KEYFLAG_KSK) != 0)
+#define ID(x) dst_key_id(x)
+#define ALG(x) dst_key_alg(x)
 
 	/*
 	 * If we are honoring KSK flags then we need to check that we
@@ -1689,7 +1689,7 @@ next_state:
 						state->keyset_kskonly));
 					sigs++;
 				}
-			skip:
+skip:
 				/* Skip any other updates to the same RRset. */
 				while (t != NULL &&
 				       dns_name_equal(&t->name, name) &&
@@ -1889,7 +1889,7 @@ next_state:
 					state->expire, state->check_ksk,
 					state->keyset_kskonly, &sigs));
 			}
-		unlink:
+unlink:
 			ISC_LIST_UNLINK(state->affected.tuples, t, link);
 			ISC_LIST_APPEND(state->work.tuples, t, link);
 			if (state != &mystate && sigs > maxsigs) {
@@ -2065,7 +2065,7 @@ next_state:
 			CHECK(namelist_append_subdomain(db, name,
 							&state->affected));
 
-		nextname:
+nextname:
 			while (t != NULL && dns_name_equal(&t->name, name)) {
 				t = ISC_LIST_NEXT(t, link);
 			}

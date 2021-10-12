@@ -531,7 +531,7 @@ key_collision(dst_key_t *dstkey, dns_name_t *name, const char *dir,
 			}
 		}
 
-	next:
+next:
 		ISC_LIST_UNLINK(matchkeys, key, link);
 		dns_dnsseckey_destroy(mctx, &key);
 	}

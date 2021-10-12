@@ -25,7 +25,7 @@
 #include <dns/rdatatype.h>
 #include <dns/stats.h>
 
-#define DNS_STATS_MAGIC	   ISC_MAGIC('D', 's', 't', 't')
+#define DNS_STATS_MAGIC ISC_MAGIC('D', 's', 't', 't')
 #define DNS_STATS_VALID(x) ISC_MAGIC_VALID(x, DNS_STATS_MAGIC)
 
 /*%
@@ -73,8 +73,8 @@ typedef enum {
  * Since a counter cannot be stale and ancient at the same time, we
  * treat S = 0b11 as a special case to deal with NXDOMAIN counters.
  */
-#define RDTYPECOUNTER_STALE    (1 << 9)
-#define RDTYPECOUNTER_ANCIENT  (1 << 10)
+#define RDTYPECOUNTER_STALE (1 << 9)
+#define RDTYPECOUNTER_ANCIENT (1 << 10)
 #define RDTYPECOUNTER_NXDOMAIN ((1 << 9) | (1 << 10))
 
 /*
@@ -86,7 +86,7 @@ typedef enum {
  *     RRType = 2 (0b02) means Ancient
  *
  */
-#define RDTYPECOUNTER_NXDOMAIN_STALE   1
+#define RDTYPECOUNTER_NXDOMAIN_STALE 1
 #define RDTYPECOUNTER_NXDOMAIN_ANCIENT 2
 
 /*
@@ -622,7 +622,7 @@ dns_rcodestats_dump(dns_stats_t *stats, dns_rcodestats_dumper_t dump_fn,
  ***/
 const char *dns_statscounter_names[DNS_STATS_NCOUNTERS] = {
 	"success",   "referral", "nxrrset",   "nxdomain",
-	"recursion", "failure",	 "duplicate", "dropped"
+	"recursion", "failure",  "duplicate", "dropped"
 };
 
 isc_result_t

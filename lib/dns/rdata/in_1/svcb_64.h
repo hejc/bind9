@@ -17,12 +17,12 @@
 
 typedef struct dns_rdata_in_svcb {
 	dns_rdatacommon_t common;
-	isc_mem_t *mctx;
-	uint16_t priority;
-	dns_name_t svcdomain;
-	unsigned char *svc;
-	uint16_t svclen;
-	uint16_t offset;
+	isc_mem_t        *mctx;
+	uint16_t          priority;
+	dns_name_t        svcdomain;
+	unsigned char    *svc;
+	uint16_t          svclen;
+	uint16_t          offset;
 } dns_rdata_in_svcb_t;
 
 isc_result_t

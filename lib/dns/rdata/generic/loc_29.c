@@ -66,7 +66,7 @@ loc_getdecimal(const char *str, unsigned long max, size_t precision, char units,
 
 static isc_result_t
 loc_getprecision(const char *str, unsigned char *valuep) {
-	unsigned long poweroften[8] = { 1,     10,     100,	1000,
+	unsigned long poweroften[8] = { 1,     10,     100,     1000,
 					10000, 100000, 1000000, 10000000 };
 	unsigned long m, cm;
 	bool ok;
@@ -452,7 +452,7 @@ totext_loc(ARGS_TOTEXT) {
 	char buf[8 * 6 + 12 * 1 + 2 * 10 + sizeof(sbuf) + sizeof(hbuf) +
 		 sizeof(vbuf)];
 	unsigned char size, hp, vp;
-	unsigned long poweroften[8] = { 1,     10,     100,	1000,
+	unsigned long poweroften[8] = { 1,     10,     100,     1000,
 					10000, 100000, 1000000, 10000000 };
 
 	UNUSED(tctx);

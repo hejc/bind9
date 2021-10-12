@@ -63,14 +63,14 @@
 			goto cleanup;        \
 	} while (0)
 
-#define ERR_IS_CNAME	   1
-#define ERR_NO_ADDRESSES   2
+#define ERR_IS_CNAME 1
+#define ERR_NO_ADDRESSES 2
 #define ERR_LOOKUP_FAILURE 3
-#define ERR_EXTRA_A	   4
-#define ERR_EXTRA_AAAA	   5
-#define ERR_MISSING_GLUE   5
-#define ERR_IS_MXCNAME	   6
-#define ERR_IS_SRVCNAME	   7
+#define ERR_EXTRA_A 4
+#define ERR_EXTRA_AAAA 5
+#define ERR_MISSING_GLUE 5
+#define ERR_IS_MXCNAME 6
+#define ERR_IS_SRVCNAME 7
 
 static const char *dbtype[] = { "rbt" };
 

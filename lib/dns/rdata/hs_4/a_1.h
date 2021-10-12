@@ -14,5 +14,5 @@
 
 typedef struct dns_rdata_hs_a {
 	dns_rdatacommon_t common;
-	struct in_addr in_addr;
+	struct in_addr    in_addr;
 } dns_rdata_hs_a_t;

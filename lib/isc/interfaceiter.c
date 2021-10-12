@@ -15,7 +15,7 @@
 #include <sys/types.h>
 #ifdef HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h> /* Required for ifiter_ioctl.c. */
-#endif			/* ifdef HAVE_SYS_SOCKIO_H */
+#endif                  /* ifdef HAVE_SYS_SOCKIO_H */
 
 #include <errno.h>
 #include <ifaddrs.h>
@@ -157,12 +157,12 @@ static bool seenv6 = false;
 struct isc_interfaceiter {
 	unsigned int magic; /*%< Magic number. */
 	isc_mem_t *mctx;
-	void *buf;		 /*%< (unused) */
-	unsigned int bufsize;	 /*%< (always 0) */
+	void *buf;               /*%< (unused) */
+	unsigned int bufsize;    /*%< (always 0) */
 	struct ifaddrs *ifaddrs; /*%< List of ifaddrs */
-	struct ifaddrs *pos;	 /*%< Ptr to current ifaddr */
+	struct ifaddrs *pos;     /*%< Ptr to current ifaddr */
 	isc_interface_t current; /*%< Current interface data. */
-	isc_result_t result;	 /*%< Last result code. */
+	isc_result_t result;     /*%< Last result code. */
 #ifdef __linux
 	FILE *proc;
 	char entry[ISC_IF_INET6_SZ];
@@ -224,7 +224,7 @@ failure:
 	if (iter->proc != NULL) {
 		fclose(iter->proc);
 	}
-#endif				     /* ifdef __linux */
+#endif                               /* ifdef __linux */
 	if (iter->ifaddrs != NULL) { /* just in case */
 		freeifaddrs(iter->ifaddrs);
 	}

@@ -17,10 +17,10 @@
 #include <isc/quota.h>
 #include <isc/util.h>
 
-#define QUOTA_MAGIC    ISC_MAGIC('Q', 'U', 'O', 'T')
+#define QUOTA_MAGIC ISC_MAGIC('Q', 'U', 'O', 'T')
 #define VALID_QUOTA(p) ISC_MAGIC_VALID(p, QUOTA_MAGIC)
 
-#define QUOTA_CB_MAGIC	  ISC_MAGIC('Q', 'T', 'C', 'B')
+#define QUOTA_CB_MAGIC ISC_MAGIC('Q', 'T', 'C', 'B')
 #define VALID_QUOTA_CB(p) ISC_MAGIC_VALID(p, QUOTA_CB_MAGIC)
 
 void

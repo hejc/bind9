@@ -128,7 +128,7 @@ isc_rwlock_destroy(isc_rwlock_t *rwl) {
 
 #else /* if USE_PTHREAD_RWLOCK */
 
-#define RWLOCK_MAGIC	  ISC_MAGIC('R', 'W', 'L', 'k')
+#define RWLOCK_MAGIC ISC_MAGIC('R', 'W', 'L', 'k')
 #define VALID_RWLOCK(rwl) ISC_MAGIC_VALID(rwl, RWLOCK_MAGIC)
 
 #ifndef RWLOCK_DEFAULT_READ_QUOTA
@@ -188,7 +188,7 @@ print_lock(const char *operation, isc_rwlock_t *rwl, isc_rwlocktype_t type) {
 		atomic_load_acquire(&rwl->cnt_and_flag), rwl->readers_waiting,
 		atomic_load_acquire(&rwl->write_granted), rwl->write_quota);
 }
-#endif			/* ISC_RWLOCK_TRACE */
+#endif                  /* ISC_RWLOCK_TRACE */
 
 void
 isc_rwlock_init(isc_rwlock_t *rwl, unsigned int read_quota,
@@ -302,7 +302,7 @@ isc_rwlock_destroy(isc_rwlock_t *rwl) {
  */
 
 #define WRITER_ACTIVE 0x1
-#define READER_INCR   0x2
+#define READER_INCR 0x2
 
 static isc_result_t
 isc__rwlock_lock(isc_rwlock_t *rwl, isc_rwlocktype_t type) {

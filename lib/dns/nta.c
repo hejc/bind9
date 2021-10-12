@@ -50,7 +50,7 @@ struct dns_nta {
 	isc_stdtime_t expiry;
 };
 
-#define NTA_MAGIC     ISC_MAGIC('N', 'T', 'A', 'n')
+#define NTA_MAGIC ISC_MAGIC('N', 'T', 'A', 'n')
 #define VALID_NTA(nn) ISC_MAGIC_VALID(nn, NTA_MAGIC)
 
 /*
@@ -646,7 +646,7 @@ dns_ntatable_save(dns_ntatable_t *ntatable, FILE *fp) {
 				n->forced ? "forced" : "regular", tbuf);
 			written = true;
 		}
-	skip:
+skip:
 		result = dns_rbtnodechain_next(&chain, NULL, NULL);
 		if (result != ISC_R_SUCCESS && result != DNS_R_NEWORIGIN) {
 			if (result == ISC_R_NOMORE) {

@@ -218,7 +218,7 @@ setresign(dns_rdataset_t *modified) {
 		if (when == 0 || dns_time64_from32(sig.timeexpire) < when) {
 			when = dns_time64_from32(sig.timeexpire);
 		}
-	next_rr:
+next_rr:
 		dns_rdata_reset(&rdata);
 		result = dns_rdataset_next(modified);
 	}
@@ -620,7 +620,7 @@ dns_diff_print(dns_diff_t *diff, FILE *file) {
 			result = ISC_R_UNEXPECTED;
 			goto cleanup;
 		}
-	again:
+again:
 		isc_buffer_init(&buf, mem, size);
 		result = dns_rdataset_totext(&rds, &t->name, false, false,
 					     &buf);

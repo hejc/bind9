@@ -40,7 +40,7 @@
 #define CAR(s) (s)->value.as_dottedpair.car
 #define CDR(s) (s)->value.as_dottedpair.cdr
 
-#define ALIST_TAG  "*alist*"
+#define ALIST_TAG "*alist*"
 #define MAX_INDENT 64
 
 static char spaces[MAX_INDENT + 1] = "                                         "

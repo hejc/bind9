@@ -47,7 +47,7 @@
 
 #include "rbtdb.h"
 
-#define CACHE_MAGIC	   ISC_MAGIC('$', '$', '$', '$')
+#define CACHE_MAGIC ISC_MAGIC('$', '$', '$', '$')
 #define VALID_CACHE(cache) ISC_MAGIC_VALID(cache, CACHE_MAGIC)
 
 /*!
@@ -77,7 +77,7 @@ typedef struct cache_cleaner cache_cleaner_t;
 typedef enum {
 	cleaner_s_idle, /*%< Waiting for cleaning interval to expire. */
 	cleaner_s_busy, /*%< Currently cleaning. */
-	cleaner_s_done	/*%< Freed enough memory after being overmem. */
+	cleaner_s_done  /*%< Freed enough memory after being overmem. */
 } cleaner_state_t;
 
 /*
@@ -111,8 +111,8 @@ struct cache_cleaner {
 	dns_dbiterator_t *iterator;
 	unsigned int increment; /*% Number of names to
 				 * clean in one increment */
-	cleaner_state_t state;	/*% Idle/Busy. */
-	bool overmem;		/*% The cache is in an overmem state.
+	cleaner_state_t state;  /*% Idle/Busy. */
+	bool overmem;           /*% The cache is in an overmem state.
 				 * */
 	bool replaceiterator;
 };
@@ -1203,9 +1203,9 @@ dns_cache_updatestats(dns_cache_t *cache, isc_result_t result) {
  */
 typedef struct cache_dumparg {
 	isc_statsformat_t type;
-	void *arg;		 /* type dependent argument */
-	int ncounters;		 /* for general statistics */
-	int *counterindices;	 /* for general statistics */
+	void *arg;               /* type dependent argument */
+	int ncounters;           /* for general statistics */
+	int *counterindices;     /* for general statistics */
 	uint64_t *countervalues; /* for general statistics */
 	isc_result_t result;
 } cache_dumparg_t;

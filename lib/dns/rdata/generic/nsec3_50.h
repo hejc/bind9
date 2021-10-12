@@ -18,23 +18,23 @@
 
 typedef struct dns_rdata_nsec3 {
 	dns_rdatacommon_t common;
-	isc_mem_t *mctx;
-	dns_hash_t hash;
-	unsigned char flags;
-	dns_iterations_t iterations;
-	unsigned char salt_length;
-	unsigned char next_length;
-	uint16_t len;
-	unsigned char *salt;
-	unsigned char *next;
-	unsigned char *typebits;
+	isc_mem_t        *mctx;
+	dns_hash_t        hash;
+	unsigned char     flags;
+	dns_iterations_t  iterations;
+	unsigned char     salt_length;
+	unsigned char     next_length;
+	uint16_t          len;
+	unsigned char    *salt;
+	unsigned char    *next;
+	unsigned char    *typebits;
 } dns_rdata_nsec3_t;
 
 /*
  * The corresponding NSEC3 interval is OPTOUT indicating possible
  * insecure delegations.
  */
-#define DNS_NSEC3FLAG_OPTOUT 0x01U
+#define DNS_NSEC3FLAG_OPTOUT  0x01U
 
 /*%
  * The following flags are used in the private-type record (implemented in
@@ -59,7 +59,7 @@ typedef struct dns_rdata_nsec3 {
  * but if they are, they should be ignored by RFC 5155 compliant
  * nameservers.
  */
-#define DNS_NSEC3FLAG_CREATE 0x80U
+#define DNS_NSEC3FLAG_CREATE  0x80U
 
 /*%
  * Non-standard, private type only.
@@ -74,7 +74,7 @@ typedef struct dns_rdata_nsec3 {
  * but if they are, they should be ignored by RFC 5155 compliant
  * nameservers.
  */
-#define DNS_NSEC3FLAG_REMOVE 0x40U
+#define DNS_NSEC3FLAG_REMOVE  0x40U
 
 /*%
  * Non-standard, private type only.
@@ -104,4 +104,4 @@ typedef struct dns_rdata_nsec3 {
  * but if they are, they should be ignored by RFC 5155 compliant
  * nameservers.
  */
-#define DNS_NSEC3FLAG_NONSEC 0x10U
+#define DNS_NSEC3FLAG_NONSEC  0x10U

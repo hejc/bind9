@@ -21,9 +21,9 @@
 #include <dns/types.h>
 
 struct dns_iptable {
-	unsigned int	  magic;
-	isc_mem_t	  *mctx;
-	isc_refcount_t	  refcount;
+	unsigned int      magic;
+	isc_mem_t        *mctx;
+	isc_refcount_t    refcount;
 	isc_radix_tree_t *radix;
 	ISC_LINK(dns_iptable_t) nextincache;
 };

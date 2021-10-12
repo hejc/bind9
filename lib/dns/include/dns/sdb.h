@@ -38,12 +38,12 @@
 /*%
  * A simple database.  This is an opaque type.
  */
-typedef struct dns_sdb dns_sdb_t;
+typedef struct dns_sdb         dns_sdb_t;
 
 /*%
  * A simple database lookup in progress.  This is an opaque type.
  */
-typedef struct dns_sdblookup dns_sdblookup_t;
+typedef struct dns_sdblookup   dns_sdblookup_t;
 
 /*%
  * A simple database traversal in progress.  This is an opaque type.
@@ -51,14 +51,14 @@ typedef struct dns_sdblookup dns_sdblookup_t;
 typedef struct dns_sdballnodes dns_sdballnodes_t;
 
 typedef isc_result_t (*dns_sdblookupfunc_t)(const char *zone, const char *name,
-					    void			 *dbdata,
-					    dns_sdblookup_t	    *lookup,
+					    void                    *dbdata,
+					    dns_sdblookup_t         *lookup,
 					    dns_clientinfomethods_t *methods,
 					    dns_clientinfo_t *clientinfo);
-typedef isc_result_t (*dns_sdblookup2func_t)(const dns_name_t	      *zone,
-					     const dns_name_t	      *name,
-					     void			  *dbdata,
-					     dns_sdblookup_t	     *lookup,
+typedef isc_result_t (*dns_sdblookup2func_t)(const dns_name_t        *zone,
+					     const dns_name_t        *name,
+					     void                    *dbdata,
+					     dns_sdblookup_t         *lookup,
 					     dns_clientinfomethods_t *methods,
 					     dns_clientinfo_t *clientinfo);
 
@@ -92,8 +92,8 @@ ISC_LANG_BEGINDECLS
 
 #define DNS_SDBFLAG_RELATIVEOWNER 0x00000001U
 #define DNS_SDBFLAG_RELATIVERDATA 0x00000002U
-#define DNS_SDBFLAG_THREADSAFE	  0x00000004U
-#define DNS_SDBFLAG_DNS64	  0x00000008U
+#define DNS_SDBFLAG_THREADSAFE    0x00000004U
+#define DNS_SDBFLAG_DNS64         0x00000008U
 
 isc_result_t
 dns_sdb_register(const char *drivername, const dns_sdbmethods_t *methods,

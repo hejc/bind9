@@ -32,10 +32,10 @@
 #include <dns/request.h>
 #include <dns/tsig.h>
 
-#define REQUESTMGR_MAGIC      ISC_MAGIC('R', 'q', 'u', 'M')
+#define REQUESTMGR_MAGIC ISC_MAGIC('R', 'q', 'u', 'M')
 #define VALID_REQUESTMGR(mgr) ISC_MAGIC_VALID(mgr, REQUESTMGR_MAGIC)
 
-#define REQUEST_MAGIC	       ISC_MAGIC('R', 'q', 'u', '!')
+#define REQUEST_MAGIC ISC_MAGIC('R', 'q', 'u', '!')
 #define VALID_REQUEST(request) ISC_MAGIC_VALID(request, REQUEST_MAGIC)
 
 typedef ISC_LIST(dns_request_t) dns_requestlist_t;
@@ -85,13 +85,13 @@ struct dns_request {
 };
 
 #define DNS_REQUEST_F_CONNECTING 0x0001
-#define DNS_REQUEST_F_SENDING	 0x0002
-#define DNS_REQUEST_F_CANCELED	 0x0004
-#define DNS_REQUEST_F_TCP	 0x0010
+#define DNS_REQUEST_F_SENDING 0x0002
+#define DNS_REQUEST_F_CANCELED 0x0004
+#define DNS_REQUEST_F_TCP 0x0010
 
-#define DNS_REQUEST_CANCELED(r)	  (((r)->flags & DNS_REQUEST_F_CANCELED) != 0)
+#define DNS_REQUEST_CANCELED(r) (((r)->flags & DNS_REQUEST_F_CANCELED) != 0)
 #define DNS_REQUEST_CONNECTING(r) (((r)->flags & DNS_REQUEST_F_CONNECTING) != 0)
-#define DNS_REQUEST_SENDING(r)	  (((r)->flags & DNS_REQUEST_F_SENDING) != 0)
+#define DNS_REQUEST_SENDING(r) (((r)->flags & DNS_REQUEST_F_SENDING) != 0)
 
 /***
  *** Forward

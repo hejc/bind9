@@ -21,7 +21,7 @@
 #include <isc/util.h>
 
 #if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
-#define EVP_CIPHER_CTX_new()   &(_context), EVP_CIPHER_CTX_init(&_context)
+#define EVP_CIPHER_CTX_new() &(_context), EVP_CIPHER_CTX_init(&_context)
 #define EVP_CIPHER_CTX_free(c) RUNTIME_CHECK(EVP_CIPHER_CTX_cleanup(c) == 1)
 #endif /* if OPENSSL_VERSION_NUMBER < 0x10100000L || \
 	* defined(LIBRESSL_VERSION_NUMBER) */

@@ -42,22 +42,22 @@
  */
 
 struct isc_interface {
-	char	      name[32];	  /*%< Interface name, null-terminated. */
-	unsigned int  af;	  /*%< Address family. */
-	isc_netaddr_t address;	  /*%< Local address. */
-	isc_netaddr_t netmask;	  /*%< Network mask. */
+	char          name[32];   /*%< Interface name, null-terminated. */
+	unsigned int  af;         /*%< Address family. */
+	isc_netaddr_t address;    /*%< Local address. */
+	isc_netaddr_t netmask;    /*%< Network mask. */
 	isc_netaddr_t dstaddress; /*%< Destination address
 				   * (point-to-point
 				   * only). */
-	uint32_t flags;		  /*%< Flags; see INTERFACE flags. */
+	uint32_t      flags;      /*%< Flags; see INTERFACE flags. */
 };
 
 /*@{*/
 /*! Interface flags. */
 
-#define INTERFACE_F_UP		 0x00000001U
+#define INTERFACE_F_UP           0x00000001U
 #define INTERFACE_F_POINTTOPOINT 0x00000002U
-#define INTERFACE_F_LOOPBACK	 0x00000004U
+#define INTERFACE_F_LOOPBACK     0x00000004U
 /*@}*/
 
 /***

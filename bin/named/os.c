@@ -600,8 +600,8 @@ mkdirpath(char *filename, void (*report)(const char *, ...)) {
 				return (0);
 			}
 			mode = S_IRUSR | S_IWUSR | S_IXUSR; /* u=rwx */
-			mode |= S_IRGRP | S_IXGRP;	    /* g=rx */
-			mode |= S_IROTH | S_IXOTH;	    /* o=rx */
+			mode |= S_IRGRP | S_IXGRP;          /* g=rx */
+			mode |= S_IROTH | S_IXOTH;          /* o=rx */
 			if (mkdir(filename, mode) == -1) {
 				strerror_r(errno, strbuf, sizeof(strbuf));
 				(*report)("couldn't mkdir '%s': %s", filename,

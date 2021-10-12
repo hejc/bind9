@@ -98,13 +98,13 @@ typedef enum {
  * _USEMINMTU:	Set the per packet IPV6_USE_MIN_MTU flag.
  */
 typedef enum {
-	ISC_SOCKEVENTATTR_ATTACHED = 0x10000000U,  /* internal */
-	ISC_SOCKEVENTATTR_TRUNC = 0x00800000U,	   /* public */
-	ISC_SOCKEVENTATTR_CTRUNC = 0x00400000U,	   /* public */
+	ISC_SOCKEVENTATTR_ATTACHED  = 0x10000000U, /* internal */
+	ISC_SOCKEVENTATTR_TRUNC     = 0x00800000U, /* public */
+	ISC_SOCKEVENTATTR_CTRUNC    = 0x00400000U, /* public */
 	ISC_SOCKEVENTATTR_TIMESTAMP = 0x00200000U, /* public */
-	ISC_SOCKEVENTATTR_PKTINFO = 0x00100000U,   /* public */
+	ISC_SOCKEVENTATTR_PKTINFO   = 0x00100000U, /* public */
 	ISC_SOCKEVENTATTR_MULTICAST = 0x00080000U, /* public */
-	ISC_SOCKEVENTATTR_DSCP = 0x00040000U,	   /* public */
+	ISC_SOCKEVENTATTR_DSCP      = 0x00040000U, /* public */
 	ISC_SOCKEVENTATTR_USEMINMTU = 0x00020000U  /* public */
 } isc_sockeventattr_t;
 /*@}*/
@@ -115,25 +115,25 @@ typedef enum {
 
 struct isc_socketevent {
 	ISC_EVENT_COMMON(isc_socketevent_t);
-	isc_result_t	    result;	/*%< OK, EOF, whatever else */
-	unsigned int	    minimum;	/*%< minimum i/o for event */
-	unsigned int	    n;		/*%< bytes read or written */
-	unsigned int	    offset;	/*%< offset into buffer list */
-	isc_region_t	    region;	/*%< for single-buffer i/o */
-	isc_sockaddr_t	    address;	/*%< source address */
-	isc_time_t	    timestamp;	/*%< timestamp of packet recv */
-	struct in6_pktinfo  pktinfo;	/*%< ipv6 pktinfo */
-	isc_sockeventattr_t attributes; /*%< see isc_sockeventattr_t
-					 *   enum */
-	isc_eventdestructor_t destroy;	/*%< original destructor */
-	unsigned int	      dscp;	/*%< UDP dscp value */
+	isc_result_t          result;     /*%< OK, EOF, whatever else */
+	unsigned int          minimum;    /*%< minimum i/o for event */
+	unsigned int          n;          /*%< bytes read or written */
+	unsigned int          offset;     /*%< offset into buffer list */
+	isc_region_t          region;     /*%< for single-buffer i/o */
+	isc_sockaddr_t        address;    /*%< source address */
+	isc_time_t            timestamp;  /*%< timestamp of packet recv */
+	struct in6_pktinfo    pktinfo;    /*%< ipv6 pktinfo */
+	isc_sockeventattr_t   attributes; /*%< see isc_sockeventattr_t
+					   *   enum */
+	isc_eventdestructor_t destroy;    /*%< original destructor */
+	unsigned int          dscp;       /*%< UDP dscp value */
 };
 
 typedef struct isc_socket_newconnev isc_socket_newconnev_t;
 struct isc_socket_newconnev {
 	ISC_EVENT_COMMON(isc_socket_newconnev_t);
 	isc_socket_t  *newsocket;
-	isc_result_t   result;	/*%< OK, EOF, whatever else */
+	isc_result_t   result;  /*%< OK, EOF, whatever else */
 	isc_sockaddr_t address; /*%< source address */
 };
 
@@ -152,23 +152,23 @@ struct isc_socket_connev {
 /*
  * Internal events.
  */
-#define ISC_SOCKEVENT_INTR (ISC_EVENTCLASS_SOCKET + 256)
-#define ISC_SOCKEVENT_INTW (ISC_EVENTCLASS_SOCKET + 257)
+#define ISC_SOCKEVENT_INTR     (ISC_EVENTCLASS_SOCKET + 256)
+#define ISC_SOCKEVENT_INTW     (ISC_EVENTCLASS_SOCKET + 257)
 
 typedef enum {
-	isc_sockettype_udp = 1,
-	isc_sockettype_tcp = 2,
+	isc_sockettype_udp  = 1,
+	isc_sockettype_tcp  = 2,
 	isc_sockettype_unix = 3,
-	isc_sockettype_raw = 4
+	isc_sockettype_raw  = 4
 } isc_sockettype_t;
 
 /*@{*/
 /*!
  * How a socket should be shutdown in isc_socket_shutdown() calls.
  */
-#define ISC_SOCKSHUT_RECV 0x00000001 /*%< close read side */
-#define ISC_SOCKSHUT_SEND 0x00000002 /*%< close write side */
-#define ISC_SOCKSHUT_ALL  0x00000003 /*%< close them all */
+#define ISC_SOCKSHUT_RECV      0x00000001 /*%< close read side */
+#define ISC_SOCKSHUT_SEND      0x00000002 /*%< close write side */
+#define ISC_SOCKSHUT_ALL       0x00000003 /*%< close them all */
 /*@}*/
 
 /*@{*/
@@ -836,7 +836,7 @@ isc_socketmgr_renderjson(isc_socketmgr_t *mgr, void *stats0);
 /*%<
  * See isc_socketmgr_create() above.
  */
-typedef isc_result_t (*isc_socketmgrcreatefunc_t)(isc_mem_t	    *mctx,
+typedef isc_result_t (*isc_socketmgrcreatefunc_t)(isc_mem_t        *mctx,
 						  isc_socketmgr_t **managerp);
 
 ISC_LANG_ENDDECLS

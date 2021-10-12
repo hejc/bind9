@@ -56,56 +56,56 @@ static int query_error = 1, print_error = 0;
 
 static char domainopt[DNS_NAME_MAXTEXT];
 
-static const char *rcodetext[] = { "NOERROR",	 "FORMERR",    "SERVFAIL",
-				   "NXDOMAIN",	 "NOTIMP",     "REFUSED",
-				   "YXDOMAIN",	 "YXRRSET",    "NXRRSET",
-				   "NOTAUTH",	 "NOTZONE",    "RESERVED11",
+static const char *rcodetext[] = { "NOERROR",    "FORMERR",    "SERVFAIL",
+				   "NXDOMAIN",   "NOTIMP",     "REFUSED",
+				   "YXDOMAIN",   "YXRRSET",    "NXRRSET",
+				   "NOTAUTH",    "NOTZONE",    "RESERVED11",
 				   "RESERVED12", "RESERVED13", "RESERVED14",
 				   "RESERVED15", "BADVERS" };
 
 static const char *rtypetext[] = {
-	"rtype_0 = ",	       /* 0 */
+	"rtype_0 = ",          /* 0 */
 	"internet address = ", /* 1 */
 	"nameserver = ",       /* 2 */
-	"md = ",	       /* 3 */
-	"mf = ",	       /* 4 */
+	"md = ",               /* 3 */
+	"mf = ",               /* 4 */
 	"canonical name = ",   /* 5 */
-	"soa = ",	       /* 6 */
-	"mb = ",	       /* 7 */
-	"mg = ",	       /* 8 */
-	"mr = ",	       /* 9 */
-	"rtype_10 = ",	       /* 10 */
-	"protocol = ",	       /* 11 */
-	"name = ",	       /* 12 */
-	"hinfo = ",	       /* 13 */
-	"minfo = ",	       /* 14 */
+	"soa = ",              /* 6 */
+	"mb = ",               /* 7 */
+	"mg = ",               /* 8 */
+	"mr = ",               /* 9 */
+	"rtype_10 = ",         /* 10 */
+	"protocol = ",         /* 11 */
+	"name = ",             /* 12 */
+	"hinfo = ",            /* 13 */
+	"minfo = ",            /* 14 */
 	"mail exchanger = ",   /* 15 */
-	"text = ",	       /* 16 */
-	"rp = ",	       /* 17 */
-	"afsdb = ",	       /* 18 */
+	"text = ",             /* 16 */
+	"rp = ",               /* 17 */
+	"afsdb = ",            /* 18 */
 	"x25 address = ",      /* 19 */
 	"isdn address = ",     /* 20 */
-	"rt = ",	       /* 21 */
-	"nsap = ",	       /* 22 */
-	"nsap_ptr = ",	       /* 23 */
-	"signature = ",	       /* 24 */
-	"key = ",	       /* 25 */
-	"px = ",	       /* 26 */
-	"gpos = ",	       /* 27 */
+	"rt = ",               /* 21 */
+	"nsap = ",             /* 22 */
+	"nsap_ptr = ",         /* 23 */
+	"signature = ",        /* 24 */
+	"key = ",              /* 25 */
+	"px = ",               /* 26 */
+	"gpos = ",             /* 27 */
 	"has AAAA address ",   /* 28 */
-	"loc = ",	       /* 29 */
-	"next = ",	       /* 30 */
-	"rtype_31 = ",	       /* 31 */
-	"rtype_32 = ",	       /* 32 */
-	"service = ",	       /* 33 */
-	"rtype_34 = ",	       /* 34 */
-	"naptr = ",	       /* 35 */
-	"kx = ",	       /* 36 */
-	"cert = ",	       /* 37 */
+	"loc = ",              /* 29 */
+	"next = ",             /* 30 */
+	"rtype_31 = ",         /* 31 */
+	"rtype_32 = ",         /* 32 */
+	"service = ",          /* 33 */
+	"rtype_34 = ",         /* 34 */
+	"naptr = ",            /* 35 */
+	"kx = ",               /* 36 */
+	"cert = ",             /* 37 */
 	"v6 address = ",       /* 38 */
-	"dname = ",	       /* 39 */
-	"rtype_40 = ",	       /* 40 */
-	"optional = "	       /* 41 */
+	"dname = ",            /* 39 */
+	"rtype_40 = ",         /* 40 */
+	"optional = "          /* 41 */
 };
 
 #define N_KNOWN_RRTYPES (sizeof(rtypetext) / sizeof(rtypetext[0]))
@@ -253,7 +253,7 @@ printsection(dig_query_t *query, dns_message_t *msg, bool headers,
 					printsoa(&rdata);
 					break;
 				default:
-				def_short_section:
+def_short_section:
 					dns_name_format(name, namebuf,
 							sizeof(namebuf));
 					printf("%s\t", namebuf);

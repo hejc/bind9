@@ -60,7 +60,7 @@ struct zt_freeze_params {
 	bool freeze;
 };
 
-#define ZTMAGIC	     ISC_MAGIC('Z', 'T', 'b', 'l')
+#define ZTMAGIC ISC_MAGIC('Z', 'T', 'b', 'l')
 #define VALID_ZT(zt) ISC_MAGIC_VALID(zt, ZTMAGIC)
 
 static void

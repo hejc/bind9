@@ -150,13 +150,13 @@
 	} while (0)
 #endif /* WANT_QUERYTRACE */
 
-#define US_PER_SEC  1000000U
+#define US_PER_SEC 1000000U
 #define US_PER_MSEC 1000U
-#define NS_PER_US   1000U
+#define NS_PER_US 1000U
 /*
  * The maximum time we will wait for a single query.
  */
-#define MAX_SINGLE_QUERY_TIMEOUT    9000U
+#define MAX_SINGLE_QUERY_TIMEOUT 9000U
 #define MAX_SINGLE_QUERY_TIMEOUT_US (MAX_SINGLE_QUERY_TIMEOUT * US_PER_MSEC)
 
 /*
@@ -190,7 +190,7 @@
  * stop trying to fetch, in order to avoid wasting resources.
  */
 #define NS_FAIL_LIMIT 4
-#define NS_RR_LIMIT   5
+#define NS_RR_LIMIT 5
 
 /* Number of hash buckets for zone counters */
 #ifndef RES_DOMAIN_BUCKETS
@@ -252,14 +252,14 @@ struct tried {
 	ISC_LINK(struct tried) link;
 };
 
-#define QUERY_MAGIC	   ISC_MAGIC('Q', '!', '!', '!')
+#define QUERY_MAGIC ISC_MAGIC('Q', '!', '!', '!')
 #define VALID_QUERY(query) ISC_MAGIC_VALID(query, QUERY_MAGIC)
 
 #define RESQUERY_ATTR_CANCELED 0x02
 
 #define RESQUERY_CONNECTING(q) ((q)->connects > 0)
-#define RESQUERY_CANCELED(q)   (((q)->attributes & RESQUERY_ATTR_CANCELED) != 0)
-#define RESQUERY_SENDING(q)    ((q)->sends > 0)
+#define RESQUERY_CANCELED(q) (((q)->attributes & RESQUERY_ATTR_CANCELED) != 0)
+#define RESQUERY_SENDING(q) ((q)->sends > 0)
 
 typedef enum {
 	fetchstate_init = 0, /*%< Start event has not run yet. */
@@ -409,18 +409,18 @@ struct fetchctx {
 	char clientstr[ISC_SOCKADDR_FORMATSIZE];
 };
 
-#define FCTX_MAGIC	 ISC_MAGIC('F', '!', '!', '!')
+#define FCTX_MAGIC ISC_MAGIC('F', '!', '!', '!')
 #define VALID_FCTX(fctx) ISC_MAGIC_VALID(fctx, FCTX_MAGIC)
 
-#define FCTX_ATTR_HAVEANSWER   0x0001
-#define FCTX_ATTR_GLUING       0x0002
-#define FCTX_ATTR_ADDRWAIT     0x0004
+#define FCTX_ATTR_HAVEANSWER 0x0001
+#define FCTX_ATTR_GLUING 0x0002
+#define FCTX_ATTR_ADDRWAIT 0x0004
 #define FCTX_ATTR_SHUTTINGDOWN 0x0008 /* Bucket lock */
-#define FCTX_ATTR_WANTCACHE    0x0010
-#define FCTX_ATTR_WANTNCACHE   0x0020
-#define FCTX_ATTR_NEEDEDNS0    0x0040
-#define FCTX_ATTR_TRIEDFIND    0x0080
-#define FCTX_ATTR_TRIEDALT     0x0100
+#define FCTX_ATTR_WANTCACHE 0x0010
+#define FCTX_ATTR_WANTNCACHE 0x0020
+#define FCTX_ATTR_NEEDEDNS0 0x0040
+#define FCTX_ATTR_TRIEDFIND 0x0080
+#define FCTX_ATTR_TRIEDALT 0x0100
 
 #define HAVE_ANSWER(f) \
 	((atomic_load_acquire(&(f)->attributes) & FCTX_ATTR_HAVEANSWER) != 0)
@@ -457,7 +457,7 @@ struct dns_fetch {
 	fetchctx_t *private;
 };
 
-#define DNS_FETCH_MAGIC	       ISC_MAGIC('F', 't', 'c', 'h')
+#define DNS_FETCH_MAGIC ISC_MAGIC('F', 't', 'c', 'h')
 #define DNS_FETCH_VALID(fetch) ISC_MAGIC_VALID(fetch, DNS_FETCH_MAGIC)
 
 typedef struct fctxbucket {
@@ -557,24 +557,24 @@ struct dns_resolver {
 	atomic_uint_fast32_t nfctx;
 };
 
-#define RES_MAGIC	    ISC_MAGIC('R', 'e', 's', '!')
+#define RES_MAGIC ISC_MAGIC('R', 'e', 's', '!')
 #define VALID_RESOLVER(res) ISC_MAGIC_VALID(res, RES_MAGIC)
 
 /*%
  * Private addrinfo flags.  These must not conflict with DNS_FETCHOPT_NOEDNS0
  * (0x008) which we also use as an addrinfo flag.
  */
-#define FCTX_ADDRINFO_MARK	0x00001
+#define FCTX_ADDRINFO_MARK 0x00001
 #define FCTX_ADDRINFO_FORWARDER 0x01000
-#define FCTX_ADDRINFO_EDNSOK	0x04000
-#define FCTX_ADDRINFO_NOCOOKIE	0x08000
+#define FCTX_ADDRINFO_EDNSOK 0x04000
+#define FCTX_ADDRINFO_NOCOOKIE 0x08000
 #define FCTX_ADDRINFO_BADCOOKIE 0x10000
 
-#define UNMARKED(a)    (((a)->flags & FCTX_ADDRINFO_MARK) == 0)
+#define UNMARKED(a) (((a)->flags & FCTX_ADDRINFO_MARK) == 0)
 #define ISFORWARDER(a) (((a)->flags & FCTX_ADDRINFO_FORWARDER) != 0)
-#define NOCOOKIE(a)    (((a)->flags & FCTX_ADDRINFO_NOCOOKIE) != 0)
-#define EDNSOK(a)      (((a)->flags & FCTX_ADDRINFO_EDNSOK) != 0)
-#define BADCOOKIE(a)   (((a)->flags & FCTX_ADDRINFO_BADCOOKIE) != 0)
+#define NOCOOKIE(a) (((a)->flags & FCTX_ADDRINFO_NOCOOKIE) != 0)
+#define EDNSOK(a) (((a)->flags & FCTX_ADDRINFO_EDNSOK) != 0)
+#define BADCOOKIE(a) (((a)->flags & FCTX_ADDRINFO_BADCOOKIE) != 0)
 
 #define NXDOMAIN(r) (((r)->attributes & DNS_RDATASETATTR_NXDOMAIN) != 0)
 #define NEGATIVE(r) (((r)->attributes & DNS_RDATASETATTR_NEGATIVE) != 0)
@@ -720,9 +720,9 @@ typedef struct respctx {
 
 	dns_rdatatype_t type; /* type being sought (set to
 			       * ANY if qtype was SIG or RRSIG) */
-	bool aa;	      /* authoritative answer? */
+	bool aa;              /* authoritative answer? */
 	dns_trust_t trust;    /* answer trust level */
-	bool chaining;	      /* CNAME/DNAME processing? */
+	bool chaining;        /* CNAME/DNAME processing? */
 	bool next_server;     /* give up, try the next server
 			       * */
 
@@ -732,16 +732,16 @@ typedef struct respctx {
 
 	bool get_nameservers; /* get a new NS rrset at
 			       * zone cut? */
-	bool resend;	      /* resend this query? */
-	bool nextitem;	      /* invalid response; keep
+	bool resend;          /* resend this query? */
+	bool nextitem;        /* invalid response; keep
 			       * listening for the correct one */
-	bool truncated;	      /* response was truncated */
+	bool truncated;       /* response was truncated */
 	bool no_response;     /* no response was received */
 	bool glue_in_answer;  /* glue may be in the answer
 			       * section */
 	bool ns_in_answer;    /* NS may be in the answer
 			       * section */
-	bool negative;	      /* is this a negative response? */
+	bool negative;        /* is this a negative response? */
 
 	isc_stdtime_t now; /* time info */
 	isc_time_t tnow;
@@ -752,22 +752,22 @@ typedef struct respctx {
 				     * of
 				     * labels in a DNAME */
 
-	dns_name_t *aname;	   /* answer name */
+	dns_name_t *aname;         /* answer name */
 	dns_rdataset_t *ardataset; /* answer rdataset */
 
-	dns_name_t *cname;	   /* CNAME name */
+	dns_name_t *cname;         /* CNAME name */
 	dns_rdataset_t *crdataset; /* CNAME rdataset */
 
-	dns_name_t *dname;	   /* DNAME name */
+	dns_name_t *dname;         /* DNAME name */
 	dns_rdataset_t *drdataset; /* DNAME rdataset */
 
-	dns_name_t *ns_name;	     /* NS name */
+	dns_name_t *ns_name;         /* NS name */
 	dns_rdataset_t *ns_rdataset; /* NS rdataset */
 
 	dns_name_t *soa_name; /* SOA name in a negative answer */
 	dns_name_t *ds_name;  /* DS name in a negative answer */
 
-	dns_name_t *found_name;	    /* invalid name in negative
+	dns_name_t *found_name;     /* invalid name in negative
 				     * response */
 	dns_rdatatype_t found_type; /* invalid type in negative
 				     * response */
@@ -5089,12 +5089,12 @@ clone_results(fetchctx_t *fctx) {
 	}
 }
 
-#define CACHE(r)      (((r)->attributes & DNS_RDATASETATTR_CACHE) != 0)
-#define ANSWER(r)     (((r)->attributes & DNS_RDATASETATTR_ANSWER) != 0)
-#define ANSWERSIG(r)  (((r)->attributes & DNS_RDATASETATTR_ANSWERSIG) != 0)
-#define EXTERNAL(r)   (((r)->attributes & DNS_RDATASETATTR_EXTERNAL) != 0)
-#define CHAINING(r)   (((r)->attributes & DNS_RDATASETATTR_CHAINING) != 0)
-#define CHASE(r)      (((r)->attributes & DNS_RDATASETATTR_CHASE) != 0)
+#define CACHE(r) (((r)->attributes & DNS_RDATASETATTR_CACHE) != 0)
+#define ANSWER(r) (((r)->attributes & DNS_RDATASETATTR_ANSWER) != 0)
+#define ANSWERSIG(r) (((r)->attributes & DNS_RDATASETATTR_ANSWERSIG) != 0)
+#define EXTERNAL(r) (((r)->attributes & DNS_RDATASETATTR_EXTERNAL) != 0)
+#define CHAINING(r) (((r)->attributes & DNS_RDATASETATTR_CHAINING) != 0)
+#define CHASE(r) (((r)->attributes & DNS_RDATASETATTR_CHASE) != 0)
 #define CHECKNAMES(r) (((r)->attributes & DNS_RDATASETATTR_CHECKNAMES) != 0)
 
 /*

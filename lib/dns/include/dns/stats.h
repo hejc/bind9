@@ -24,145 +24,145 @@ enum {
 	/*%
 	 * Resolver statistics counters.
 	 */
-	dns_resstatscounter_queryv4 = 0,
-	dns_resstatscounter_queryv6 = 1,
-	dns_resstatscounter_responsev4 = 2,
-	dns_resstatscounter_responsev6 = 3,
-	dns_resstatscounter_nxdomain = 4,
-	dns_resstatscounter_servfail = 5,
-	dns_resstatscounter_formerr = 6,
-	dns_resstatscounter_othererror = 7,
-	dns_resstatscounter_edns0fail = 8,
-	dns_resstatscounter_mismatch = 9,
-	dns_resstatscounter_truncated = 10,
-	dns_resstatscounter_lame = 11,
-	dns_resstatscounter_retry = 12,
-	dns_resstatscounter_gluefetchv4 = 13,
-	dns_resstatscounter_gluefetchv6 = 14,
+	dns_resstatscounter_queryv4         = 0,
+	dns_resstatscounter_queryv6         = 1,
+	dns_resstatscounter_responsev4      = 2,
+	dns_resstatscounter_responsev6      = 3,
+	dns_resstatscounter_nxdomain        = 4,
+	dns_resstatscounter_servfail        = 5,
+	dns_resstatscounter_formerr         = 6,
+	dns_resstatscounter_othererror      = 7,
+	dns_resstatscounter_edns0fail       = 8,
+	dns_resstatscounter_mismatch        = 9,
+	dns_resstatscounter_truncated       = 10,
+	dns_resstatscounter_lame            = 11,
+	dns_resstatscounter_retry           = 12,
+	dns_resstatscounter_gluefetchv4     = 13,
+	dns_resstatscounter_gluefetchv6     = 14,
 	dns_resstatscounter_gluefetchv4fail = 15,
 	dns_resstatscounter_gluefetchv6fail = 16,
-	dns_resstatscounter_val = 17,
-	dns_resstatscounter_valsuccess = 18,
-	dns_resstatscounter_valnegsuccess = 19,
-	dns_resstatscounter_valfail = 20,
-	dns_resstatscounter_dispabort = 21,
-	dns_resstatscounter_dispsockfail = 22,
-	dns_resstatscounter_querytimeout = 23,
-	dns_resstatscounter_queryrtt0 = 24,
-	dns_resstatscounter_queryrtt1 = 25,
-	dns_resstatscounter_queryrtt2 = 26,
-	dns_resstatscounter_queryrtt3 = 27,
-	dns_resstatscounter_queryrtt4 = 28,
-	dns_resstatscounter_queryrtt5 = 29,
-	dns_resstatscounter_nfetch = 30,
-	dns_resstatscounter_disprequdp = 31,
-	dns_resstatscounter_dispreqtcp = 32,
-	dns_resstatscounter_buckets = 33,
-	dns_resstatscounter_refused = 34,
-	dns_resstatscounter_cookienew = 35,
-	dns_resstatscounter_cookieout = 36,
-	dns_resstatscounter_cookiein = 37,
-	dns_resstatscounter_cookieok = 38,
-	dns_resstatscounter_badvers = 39,
-	dns_resstatscounter_badcookie = 40,
-	dns_resstatscounter_zonequota = 41,
-	dns_resstatscounter_serverquota = 42,
-	dns_resstatscounter_nextitem = 43,
-	dns_resstatscounter_priming = 44,
-	dns_resstatscounter_max = 45,
+	dns_resstatscounter_val             = 17,
+	dns_resstatscounter_valsuccess      = 18,
+	dns_resstatscounter_valnegsuccess   = 19,
+	dns_resstatscounter_valfail         = 20,
+	dns_resstatscounter_dispabort       = 21,
+	dns_resstatscounter_dispsockfail    = 22,
+	dns_resstatscounter_querytimeout    = 23,
+	dns_resstatscounter_queryrtt0       = 24,
+	dns_resstatscounter_queryrtt1       = 25,
+	dns_resstatscounter_queryrtt2       = 26,
+	dns_resstatscounter_queryrtt3       = 27,
+	dns_resstatscounter_queryrtt4       = 28,
+	dns_resstatscounter_queryrtt5       = 29,
+	dns_resstatscounter_nfetch          = 30,
+	dns_resstatscounter_disprequdp      = 31,
+	dns_resstatscounter_dispreqtcp      = 32,
+	dns_resstatscounter_buckets         = 33,
+	dns_resstatscounter_refused         = 34,
+	dns_resstatscounter_cookienew       = 35,
+	dns_resstatscounter_cookieout       = 36,
+	dns_resstatscounter_cookiein        = 37,
+	dns_resstatscounter_cookieok        = 38,
+	dns_resstatscounter_badvers         = 39,
+	dns_resstatscounter_badcookie       = 40,
+	dns_resstatscounter_zonequota       = 41,
+	dns_resstatscounter_serverquota     = 42,
+	dns_resstatscounter_nextitem        = 43,
+	dns_resstatscounter_priming         = 44,
+	dns_resstatscounter_max             = 45,
 
 	/*
 	 * DNSSEC stats.
 	 */
-	dns_dnssecstats_asis = 0,
-	dns_dnssecstats_downcase = 1,
-	dns_dnssecstats_wildcard = 2,
-	dns_dnssecstats_fail = 3,
+	dns_dnssecstats_asis                = 0,
+	dns_dnssecstats_downcase            = 1,
+	dns_dnssecstats_wildcard            = 2,
+	dns_dnssecstats_fail                = 3,
 
-	dns_dnssecstats_max = 4,
+	dns_dnssecstats_max                 = 4,
 
 	/*%
 	 * Zone statistics counters.
 	 */
-	dns_zonestatscounter_notifyoutv4 = 0,
-	dns_zonestatscounter_notifyoutv6 = 1,
-	dns_zonestatscounter_notifyinv4 = 2,
-	dns_zonestatscounter_notifyinv6 = 3,
-	dns_zonestatscounter_notifyrej = 4,
-	dns_zonestatscounter_soaoutv4 = 5,
-	dns_zonestatscounter_soaoutv6 = 6,
-	dns_zonestatscounter_axfrreqv4 = 7,
-	dns_zonestatscounter_axfrreqv6 = 8,
-	dns_zonestatscounter_ixfrreqv4 = 9,
-	dns_zonestatscounter_ixfrreqv6 = 10,
-	dns_zonestatscounter_xfrsuccess = 11,
-	dns_zonestatscounter_xfrfail = 12,
+	dns_zonestatscounter_notifyoutv4    = 0,
+	dns_zonestatscounter_notifyoutv6    = 1,
+	dns_zonestatscounter_notifyinv4     = 2,
+	dns_zonestatscounter_notifyinv6     = 3,
+	dns_zonestatscounter_notifyrej      = 4,
+	dns_zonestatscounter_soaoutv4       = 5,
+	dns_zonestatscounter_soaoutv6       = 6,
+	dns_zonestatscounter_axfrreqv4      = 7,
+	dns_zonestatscounter_axfrreqv6      = 8,
+	dns_zonestatscounter_ixfrreqv4      = 9,
+	dns_zonestatscounter_ixfrreqv6      = 10,
+	dns_zonestatscounter_xfrsuccess     = 11,
+	dns_zonestatscounter_xfrfail        = 12,
 
-	dns_zonestatscounter_max = 13,
+	dns_zonestatscounter_max            = 13,
 
 	/*
 	 * Adb statistics values.
 	 */
-	dns_adbstats_nentries = 0,
-	dns_adbstats_entriescnt = 1,
-	dns_adbstats_nnames = 2,
-	dns_adbstats_namescnt = 3,
+	dns_adbstats_nentries               = 0,
+	dns_adbstats_entriescnt             = 1,
+	dns_adbstats_nnames                 = 2,
+	dns_adbstats_namescnt               = 3,
 
-	dns_adbstats_max = 4,
+	dns_adbstats_max                    = 4,
 
 	/*
 	 * Cache statistics values.
 	 */
-	dns_cachestatscounter_hits = 1,
-	dns_cachestatscounter_misses = 2,
-	dns_cachestatscounter_queryhits = 3,
-	dns_cachestatscounter_querymisses = 4,
-	dns_cachestatscounter_deletelru = 5,
-	dns_cachestatscounter_deletettl = 6,
+	dns_cachestatscounter_hits          = 1,
+	dns_cachestatscounter_misses        = 2,
+	dns_cachestatscounter_queryhits     = 3,
+	dns_cachestatscounter_querymisses   = 4,
+	dns_cachestatscounter_deletelru     = 5,
+	dns_cachestatscounter_deletettl     = 6,
 
-	dns_cachestatscounter_max = 7,
+	dns_cachestatscounter_max           = 7,
 
 	/*%
 	 * Query statistics counters (obsolete).
 	 */
-	dns_statscounter_success = 0,	/*%< Successful lookup */
-	dns_statscounter_referral = 1,	/*%< Referral result */
-	dns_statscounter_nxrrset = 2,	/*%< NXRRSET result */
-	dns_statscounter_nxdomain = 3,	/*%< NXDOMAIN result */
-	dns_statscounter_recursion = 4, /*%< Recursion was used */
-	dns_statscounter_failure = 5,	/*%< Some other failure */
-	dns_statscounter_duplicate = 6, /*%< Duplicate query */
-	dns_statscounter_dropped = 7,	/*%< Duplicate query (dropped) */
+	dns_statscounter_success            = 0, /*%< Successful lookup */
+	dns_statscounter_referral           = 1, /*%< Referral result */
+	dns_statscounter_nxrrset            = 2, /*%< NXRRSET result */
+	dns_statscounter_nxdomain           = 3, /*%< NXDOMAIN result */
+	dns_statscounter_recursion          = 4, /*%< Recursion was used */
+	dns_statscounter_failure            = 5, /*%< Some other failure */
+	dns_statscounter_duplicate          = 6, /*%< Duplicate query */
+	dns_statscounter_dropped  = 7, /*%< Duplicate query (dropped) */
 
 	/*%
 	 * DNSTAP statistics counters.
 	 */
 	dns_dnstapcounter_success = 0,
-	dns_dnstapcounter_drop = 1,
-	dns_dnstapcounter_max = 2,
+	dns_dnstapcounter_drop    = 1,
+	dns_dnstapcounter_max     = 2,
 
 	/*
 	 * Glue cache statistics counters.
 	 */
-	dns_gluecachestatscounter_hits_present = 0,
-	dns_gluecachestatscounter_hits_absent = 1,
+	dns_gluecachestatscounter_hits_present    = 0,
+	dns_gluecachestatscounter_hits_absent     = 1,
 	dns_gluecachestatscounter_inserts_present = 2,
-	dns_gluecachestatscounter_inserts_absent = 3,
+	dns_gluecachestatscounter_inserts_absent  = 3,
 
-	dns_gluecachestatscounter_max = 4,
+	dns_gluecachestatscounter_max             = 4,
 };
 
 /*%
  * Traffic size statistics counters. Used as isc_statscounter_t values.
  */
 enum {
-	dns_sizecounter_in_0 = 0,
-	dns_sizecounter_in_16 = 1,
-	dns_sizecounter_in_32 = 2,
-	dns_sizecounter_in_48 = 3,
-	dns_sizecounter_in_64 = 4,
-	dns_sizecounter_in_80 = 5,
-	dns_sizecounter_in_96 = 6,
+	dns_sizecounter_in_0   = 0,
+	dns_sizecounter_in_16  = 1,
+	dns_sizecounter_in_32  = 2,
+	dns_sizecounter_in_48  = 3,
+	dns_sizecounter_in_64  = 4,
+	dns_sizecounter_in_80  = 5,
+	dns_sizecounter_in_96  = 6,
 	dns_sizecounter_in_112 = 7,
 	dns_sizecounter_in_128 = 8,
 	dns_sizecounter_in_144 = 9,
@@ -180,69 +180,69 @@ enum {
 };
 
 enum {
-	dns_sizecounter_out_0 = 0,
-	dns_sizecounter_out_16 = 1,
-	dns_sizecounter_out_32 = 2,
-	dns_sizecounter_out_48 = 3,
-	dns_sizecounter_out_64 = 4,
-	dns_sizecounter_out_80 = 5,
-	dns_sizecounter_out_96 = 6,
-	dns_sizecounter_out_112 = 7,
-	dns_sizecounter_out_128 = 8,
-	dns_sizecounter_out_144 = 9,
-	dns_sizecounter_out_160 = 10,
-	dns_sizecounter_out_176 = 11,
-	dns_sizecounter_out_192 = 12,
-	dns_sizecounter_out_208 = 13,
-	dns_sizecounter_out_224 = 14,
-	dns_sizecounter_out_240 = 15,
-	dns_sizecounter_out_256 = 16,
-	dns_sizecounter_out_272 = 17,
-	dns_sizecounter_out_288 = 18,
-	dns_sizecounter_out_304 = 19,
-	dns_sizecounter_out_320 = 20,
-	dns_sizecounter_out_336 = 21,
-	dns_sizecounter_out_352 = 22,
-	dns_sizecounter_out_368 = 23,
-	dns_sizecounter_out_384 = 24,
-	dns_sizecounter_out_400 = 25,
-	dns_sizecounter_out_416 = 26,
-	dns_sizecounter_out_432 = 27,
-	dns_sizecounter_out_448 = 28,
-	dns_sizecounter_out_464 = 29,
-	dns_sizecounter_out_480 = 30,
-	dns_sizecounter_out_496 = 31,
-	dns_sizecounter_out_512 = 32,
-	dns_sizecounter_out_528 = 33,
-	dns_sizecounter_out_544 = 34,
-	dns_sizecounter_out_560 = 35,
-	dns_sizecounter_out_576 = 36,
-	dns_sizecounter_out_592 = 37,
-	dns_sizecounter_out_608 = 38,
-	dns_sizecounter_out_624 = 39,
-	dns_sizecounter_out_640 = 40,
-	dns_sizecounter_out_656 = 41,
-	dns_sizecounter_out_672 = 42,
-	dns_sizecounter_out_688 = 43,
-	dns_sizecounter_out_704 = 44,
-	dns_sizecounter_out_720 = 45,
-	dns_sizecounter_out_736 = 46,
-	dns_sizecounter_out_752 = 47,
-	dns_sizecounter_out_768 = 48,
-	dns_sizecounter_out_784 = 49,
-	dns_sizecounter_out_800 = 50,
-	dns_sizecounter_out_816 = 51,
-	dns_sizecounter_out_832 = 52,
-	dns_sizecounter_out_848 = 53,
-	dns_sizecounter_out_864 = 54,
-	dns_sizecounter_out_880 = 55,
-	dns_sizecounter_out_896 = 56,
-	dns_sizecounter_out_912 = 57,
-	dns_sizecounter_out_928 = 58,
-	dns_sizecounter_out_944 = 59,
-	dns_sizecounter_out_960 = 60,
-	dns_sizecounter_out_976 = 61,
-	dns_sizecounter_out_992 = 62,
+	dns_sizecounter_out_0    = 0,
+	dns_sizecounter_out_16   = 1,
+	dns_sizecounter_out_32   = 2,
+	dns_sizecounter_out_48   = 3,
+	dns_sizecounter_out_64   = 4,
+	dns_sizecounter_out_80   = 5,
+	dns_sizecounter_out_96   = 6,
+	dns_sizecounter_out_112  = 7,
+	dns_sizecounter_out_128  = 8,
+	dns_sizecounter_out_144  = 9,
+	dns_sizecounter_out_160  = 10,
+	dns_sizecounter_out_176  = 11,
+	dns_sizecounter_out_192  = 12,
+	dns_sizecounter_out_208  = 13,
+	dns_sizecounter_out_224  = 14,
+	dns_sizecounter_out_240  = 15,
+	dns_sizecounter_out_256  = 16,
+	dns_sizecounter_out_272  = 17,
+	dns_sizecounter_out_288  = 18,
+	dns_sizecounter_out_304  = 19,
+	dns_sizecounter_out_320  = 20,
+	dns_sizecounter_out_336  = 21,
+	dns_sizecounter_out_352  = 22,
+	dns_sizecounter_out_368  = 23,
+	dns_sizecounter_out_384  = 24,
+	dns_sizecounter_out_400  = 25,
+	dns_sizecounter_out_416  = 26,
+	dns_sizecounter_out_432  = 27,
+	dns_sizecounter_out_448  = 28,
+	dns_sizecounter_out_464  = 29,
+	dns_sizecounter_out_480  = 30,
+	dns_sizecounter_out_496  = 31,
+	dns_sizecounter_out_512  = 32,
+	dns_sizecounter_out_528  = 33,
+	dns_sizecounter_out_544  = 34,
+	dns_sizecounter_out_560  = 35,
+	dns_sizecounter_out_576  = 36,
+	dns_sizecounter_out_592  = 37,
+	dns_sizecounter_out_608  = 38,
+	dns_sizecounter_out_624  = 39,
+	dns_sizecounter_out_640  = 40,
+	dns_sizecounter_out_656  = 41,
+	dns_sizecounter_out_672  = 42,
+	dns_sizecounter_out_688  = 43,
+	dns_sizecounter_out_704  = 44,
+	dns_sizecounter_out_720  = 45,
+	dns_sizecounter_out_736  = 46,
+	dns_sizecounter_out_752  = 47,
+	dns_sizecounter_out_768  = 48,
+	dns_sizecounter_out_784  = 49,
+	dns_sizecounter_out_800  = 50,
+	dns_sizecounter_out_816  = 51,
+	dns_sizecounter_out_832  = 52,
+	dns_sizecounter_out_848  = 53,
+	dns_sizecounter_out_864  = 54,
+	dns_sizecounter_out_880  = 55,
+	dns_sizecounter_out_896  = 56,
+	dns_sizecounter_out_912  = 57,
+	dns_sizecounter_out_928  = 58,
+	dns_sizecounter_out_944  = 59,
+	dns_sizecounter_out_960  = 60,
+	dns_sizecounter_out_976  = 61,
+	dns_sizecounter_out_992  = 62,
 	dns_sizecounter_out_1008 = 63,
 	dns_sizecounter_out_1024 = 64,
 	dns_sizecounter_out_1040 = 65,
@@ -438,7 +438,7 @@ enum {
 	dns_sizecounter_out_4080 = 255,
 	dns_sizecounter_out_4096 = 256,
 
-	dns_sizecounter_out_max = 257
+	dns_sizecounter_out_max  = 257
 };
 
 #define DNS_STATS_NCOUNTERS 8
@@ -450,7 +450,7 @@ enum {
  * intentionally defined to be the same value to ensure binary compatibility.
  */
 #define DNS_STATSDUMP_VERBOSE 0x00000001 /*%< dump 0-value counters */
-#endif					 /* if 0 */
+#endif                                   /* if 0 */
 
 /*%<
  * (Obsoleted)
@@ -481,23 +481,23 @@ extern const char *dns_statscounter_names[];
  *	removal.
  */
 #define DNS_RDATASTATSTYPE_ATTR_OTHERTYPE 0x0001
-#define DNS_RDATASTATSTYPE_ATTR_NXRRSET	  0x0002
+#define DNS_RDATASTATSTYPE_ATTR_NXRRSET   0x0002
 #define DNS_RDATASTATSTYPE_ATTR_NXDOMAIN  0x0004
-#define DNS_RDATASTATSTYPE_ATTR_STALE	  0x0008
-#define DNS_RDATASTATSTYPE_ATTR_ANCIENT	  0x0010
+#define DNS_RDATASTATSTYPE_ATTR_STALE     0x0008
+#define DNS_RDATASTATSTYPE_ATTR_ANCIENT   0x0010
 
 /*%<
  * Conversion macros among dns_rdatatype_t, attributes and isc_statscounter_t.
  */
-#define DNS_RDATASTATSTYPE_BASE(type)  ((dns_rdatatype_t)((type)&0xFFFF))
-#define DNS_RDATASTATSTYPE_ATTR(type)  ((type) >> 16)
-#define DNS_RDATASTATSTYPE_VALUE(b, a) (((a) << 16) | (b))
+#define DNS_RDATASTATSTYPE_BASE(type)     ((dns_rdatatype_t)((type)&0xFFFF))
+#define DNS_RDATASTATSTYPE_ATTR(type)     ((type) >> 16)
+#define DNS_RDATASTATSTYPE_VALUE(b, a)    (((a) << 16) | (b))
 
 /*%
  * Types of DNSSEC sign statistics operations.
  */
 typedef enum {
-	dns_dnssecsignstats_sign = 1,
+	dns_dnssecsignstats_sign    = 1,
 	dns_dnssecsignstats_refresh = 2
 } dnssecsignstats_type_t;
 

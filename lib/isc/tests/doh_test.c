@@ -88,7 +88,7 @@ static isc_nm_http_endpoints_t *endpoints = NULL;
 /* Timeout for soft-timeout tests (0.05 seconds) */
 #define T_SOFT 50
 
-#define NSENDS	100
+#define NSENDS 100
 #define NWRITES 10
 
 #define CHECK_RANGE_FULL(v)                                    \

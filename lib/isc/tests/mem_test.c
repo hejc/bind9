@@ -58,8 +58,8 @@ _teardown(void **state) {
 	return (0);
 }
 
-#define MP1_FREEMAX  10
-#define MP1_FILLCNT  10
+#define MP1_FREEMAX 10
+#define MP1_FILLCNT 10
 #define MP1_MAXALLOC 30
 
 #define MP2_FREEMAX 25
@@ -230,8 +230,8 @@ isc_mem_zeroget_test(void **state) {
 	isc_mem_put(test_mctx, data, 0);
 }
 
-#define REGET_INIT_SIZE	  1024
-#define REGET_GROW_SIZE	  2048
+#define REGET_INIT_SIZE 1024
+#define REGET_GROW_SIZE 2048
 #define REGET_SHRINK_SIZE 512
 
 static void
@@ -420,7 +420,7 @@ isc_mem_traceflag_test(void **state) {
 
 #if !defined(__SANITIZE_THREAD__)
 
-#define ITERS	  512
+#define ITERS 512
 #define NUM_ITEMS 1024 /* 768 */
 #define ITEM_SIZE 65534
 

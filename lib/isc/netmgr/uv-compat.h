@@ -68,7 +68,7 @@ isc_uv_udp_connect(uv_udp_t *handle, const struct sockaddr *addr);
 static inline int
 uv_os_getenv(const char *name, char *buffer, size_t *size) {
 	size_t len;
-	char *buf = getenv(name);
+	char  *buf = getenv(name);
 
 	if (buf == NULL) {
 		return (UV_ENOENT);

@@ -93,12 +93,12 @@ typedef struct filter_instance {
  * Per-client flags set by this module
  */
 #define FILTER_AAAA_RECURSING 0x0001 /* Recursing for A */
-#define FILTER_AAAA_FILTERED  0x0002 /* AAAA was removed from answer */
+#define FILTER_AAAA_FILTERED 0x0002  /* AAAA was removed from answer */
 
 /*
  * Client attribute tests.
  */
-#define WANTDNSSEC(c)  (((c)->attributes & NS_CLIENTATTR_WANTDNSSEC) != 0)
+#define WANTDNSSEC(c) (((c)->attributes & NS_CLIENTATTR_WANTDNSSEC) != 0)
 #define RECURSIONOK(c) (((c)->query.attributes & NS_QUERYATTR_RECURSIONOK) != 0)
 
 /*
@@ -186,7 +186,7 @@ doc_filter_aaaa(cfg_printer_t *pctx, const cfg_type_t *type) {
 }
 
 static cfg_type_t cfg_type_filter_aaaa = {
-	"filter_aaaa",	 parse_filter_aaaa, cfg_print_ustring,
+	"filter_aaaa",   parse_filter_aaaa, cfg_print_ustring,
 	doc_filter_aaaa, &cfg_rep_string,   filter_aaaa_enums,
 };
 
@@ -200,7 +200,7 @@ static cfg_clausedef_t *param_clausesets[] = { param_clauses, NULL };
 
 static cfg_type_t cfg_type_parameters = {
 	"filter-aaaa-params", cfg_parse_mapbody, cfg_print_mapbody,
-	cfg_doc_mapbody,      &cfg_rep_map,	 param_clausesets
+	cfg_doc_mapbody,      &cfg_rep_map,      param_clausesets
 };
 
 static isc_result_t

@@ -40,8 +40,8 @@ dns_time64_totext(int64_t t, isc_buffer_t *target) {
 /*
  * Warning. Do NOT use arguments with side effects with these macros.
  */
-#define is_leap(y)	 ((((y) % 4) == 0 && ((y) % 100) != 0) || ((y) % 400) == 0)
-#define year_secs(y)	 ((is_leap(y) ? 366 : 365) * 86400)
+#define is_leap(y) ((((y) % 4) == 0 && ((y) % 100) != 0) || ((y) % 400) == 0)
+#define year_secs(y) ((is_leap(y) ? 366 : 365) * 86400)
 #define month_secs(m, y) ((days[m] + ((m == 1 && is_leap(y)) ? 1 : 0)) * 86400)
 
 	tm.tm_year = 70;

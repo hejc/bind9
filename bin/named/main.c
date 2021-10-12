@@ -450,7 +450,7 @@ set_flags(const char *arg, struct flag_def *defs, unsigned int *ret) {
 			}
 		}
 		named_main_earlyfatal("unrecognized flag '%.*s'", arglen, arg);
-	found:
+found:
 		if (clear || (*end == '\0')) {
 			break;
 		}

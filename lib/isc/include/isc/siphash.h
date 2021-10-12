@@ -16,8 +16,8 @@
 #include <isc/lang.h>
 #include <isc/types.h>
 
-#define ISC_SIPHASH24_KEY_LENGTH 128 / 8
-#define ISC_SIPHASH24_TAG_LENGTH 64 / 8
+#define ISC_SIPHASH24_KEY_LENGTH     128 / 8
+#define ISC_SIPHASH24_TAG_LENGTH     64 / 8
 
 #define ISC_HALFSIPHASH24_KEY_LENGTH 64 / 8
 #define ISC_HALFSIPHASH24_TAG_LENGTH 32 / 8

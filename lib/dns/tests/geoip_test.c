@@ -405,7 +405,7 @@ main(void) {
 		cmocka_unit_test(baseline),   cmocka_unit_test(country),
 		cmocka_unit_test(country_v6), cmocka_unit_test(city),
 		cmocka_unit_test(city_v6),    cmocka_unit_test(asnum),
-		cmocka_unit_test(isp),	      cmocka_unit_test(org),
+		cmocka_unit_test(isp),        cmocka_unit_test(org),
 		cmocka_unit_test(domain),
 	};
 

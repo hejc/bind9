@@ -26,7 +26,7 @@
 
 #include "errno2result.h"
 
-#define ISC_DIR_MAGIC  ISC_MAGIC('D', 'I', 'R', '*')
+#define ISC_DIR_MAGIC ISC_MAGIC('D', 'I', 'R', '*')
 #define VALID_DIR(dir) ISC_MAGIC_VALID(dir, ISC_DIR_MAGIC)
 
 void

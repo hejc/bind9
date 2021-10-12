@@ -41,7 +41,7 @@ struct dns_order {
 	isc_mem_t *mctx;
 };
 
-#define DNS_ORDER_MAGIC	       ISC_MAGIC('O', 'r', 'd', 'r')
+#define DNS_ORDER_MAGIC ISC_MAGIC('O', 'r', 'd', 'r')
 #define DNS_ORDER_VALID(order) ISC_MAGIC_VALID(order, DNS_ORDER_MAGIC)
 
 isc_result_t

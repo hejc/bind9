@@ -49,7 +49,7 @@
 
 #if HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR && HAVE_FUNC_ATTRIBUTE_DESTRUCTOR
 #define ISC_CONSTRUCTOR __attribute__((constructor))
-#define ISC_DESTRUCTOR	__attribute__((destructor))
+#define ISC_DESTRUCTOR  __attribute__((destructor))
 #else
 #define ISC_CONSTRUCTOR
 #define ISC_DESTRUCTOR
@@ -58,10 +58,10 @@
 /*%
  * The opposite: silent warnings about stored values which are never read.
  */
-#define POST(x) (void)(x)
+#define POST(x)            (void)(x)
 
-#define ISC_MAX(a, b) ((a) > (b) ? (a) : (b))
-#define ISC_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define ISC_MAX(a, b)      ((a) > (b) ? (a) : (b))
+#define ISC_MIN(a, b)      ((a) < (b) ? (a) : (b))
 
 #define ISC_CLAMP(v, x, y) ((v) < (x) ? (x) : ((v) > (y) ? (y) : (v)))
 
@@ -77,13 +77,13 @@
 	do {                           \
 		union {                \
 			const void *k; \
-			void	     *v; \
+			void       *v; \
 		} _u;                  \
 		_u.k = konst;          \
-		var = _u.v;            \
+		var  = _u.v;           \
 	} while (0)
 
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
+#define ARRAY_SIZE(x)          (sizeof(x) / sizeof(x[0]))
 
 /*%
  * Use this in translation units that would otherwise be empty, to
@@ -101,7 +101,7 @@
 #ifdef ISC_UTIL_TRACEON
 #define ISC_UTIL_TRACE(a) a
 #include <stdio.h> /* Required for fprintf/stderr when tracing. */
-#else		   /* ifdef ISC_UTIL_TRACEON */
+#else              /* ifdef ISC_UTIL_TRACEON */
 #define ISC_UTIL_TRACE(a)
 #endif /* ifdef ISC_UTIL_TRACEON */
 
@@ -174,18 +174,18 @@
  */
 #include <isc/list.h> /* Contractual promise. */
 
-#define LIST(type)		       ISC_LIST(type)
-#define INIT_LIST(type)		       ISC_LIST_INIT(type)
-#define LINK(type)		       ISC_LINK(type)
-#define INIT_LINK(elt, link)	       ISC_LINK_INIT(elt, link)
-#define HEAD(list)		       ISC_LIST_HEAD(list)
-#define TAIL(list)		       ISC_LIST_TAIL(list)
-#define EMPTY(list)		       ISC_LIST_EMPTY(list)
-#define PREV(elt, link)		       ISC_LIST_PREV(elt, link)
-#define NEXT(elt, link)		       ISC_LIST_NEXT(elt, link)
-#define APPEND(list, elt, link)	       ISC_LIST_APPEND(list, elt, link)
+#define LIST(type)                     ISC_LIST(type)
+#define INIT_LIST(type)                ISC_LIST_INIT(type)
+#define LINK(type)                     ISC_LINK(type)
+#define INIT_LINK(elt, link)           ISC_LINK_INIT(elt, link)
+#define HEAD(list)                     ISC_LIST_HEAD(list)
+#define TAIL(list)                     ISC_LIST_TAIL(list)
+#define EMPTY(list)                    ISC_LIST_EMPTY(list)
+#define PREV(elt, link)                ISC_LIST_PREV(elt, link)
+#define NEXT(elt, link)                ISC_LIST_NEXT(elt, link)
+#define APPEND(list, elt, link)        ISC_LIST_APPEND(list, elt, link)
 #define PREPEND(list, elt, link)       ISC_LIST_PREPEND(list, elt, link)
-#define UNLINK(list, elt, link)	       ISC_LIST_UNLINK(list, elt, link)
+#define UNLINK(list, elt, link)        ISC_LIST_UNLINK(list, elt, link)
 #define ENQUEUE(list, elt, link)       ISC_LIST_APPEND(list, elt, link)
 #define DEQUEUE(list, elt, link)       ISC_LIST_UNLINK(list, elt, link)
 #define INSERTBEFORE(li, b, e, ln)     ISC_LIST_INSERTBEFORE(li, b, e, ln)
@@ -229,7 +229,7 @@
 #else /* if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR >= 6) */
 
 /* Courtesy of Joseph Quinsey: https://godbolt.org/z/K9RvWS */
-#define TOKENPASTE(a, b)	a##b /* "##" is the "Token Pasting Operator" */
+#define TOKENPASTE(a, b)        a##b /* "##" is the "Token Pasting Operator" */
 #define EXPAND_THEN_PASTE(a, b) TOKENPASTE(a, b) /* expand then paste */
 #define STATIC_ASSERT(x, msg) \
 	enum { EXPAND_THEN_PASTE(ASSERT_line_, __LINE__) = 1 / ((msg) && (x)) }
@@ -316,7 +316,7 @@ mock_assert(const int result, const char *const expression,
 /*% Unexpected Error */
 #define UNEXPECTED_ERROR isc_error_unexpected
 /*% Fatal Error */
-#define FATAL_ERROR isc_error_fatal
+#define FATAL_ERROR      isc_error_fatal
 
 #ifdef UNIT_TESTING
 

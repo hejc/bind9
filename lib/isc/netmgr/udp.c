@@ -834,7 +834,7 @@ isc__nm_udp_failed_read_cb(isc_nmsocket_t *sock, isc_result_t result) {
 			isc__nm_readcb(sock, req, result);
 		}
 
-	destroy:
+destroy:
 		isc__nmsocket_prep_destroy(sock);
 		return;
 	}

@@ -48,7 +48,7 @@
  * caching for reuse in a socket.
  */
 #define ISC_NM_HANDLES_STACK_SIZE 600
-#define ISC_NM_REQS_STACK_SIZE	  600
+#define ISC_NM_REQS_STACK_SIZE 600
 
 /*%
  * Shortcut index arrays to get access to statistics counters.
@@ -83,8 +83,8 @@ static const isc_statscounter_t udp6statsindex[] = {
 };
 
 static const isc_statscounter_t tcp4statsindex[] = {
-	isc_sockstatscounter_tcp4open,	      isc_sockstatscounter_tcp4openfail,
-	isc_sockstatscounter_tcp4close,	      isc_sockstatscounter_tcp4bindfail,
+	isc_sockstatscounter_tcp4open,        isc_sockstatscounter_tcp4openfail,
+	isc_sockstatscounter_tcp4close,       isc_sockstatscounter_tcp4bindfail,
 	isc_sockstatscounter_tcp4connectfail, isc_sockstatscounter_tcp4connect,
 	isc_sockstatscounter_tcp4acceptfail,  isc_sockstatscounter_tcp4accept,
 	isc_sockstatscounter_tcp4sendfail,    isc_sockstatscounter_tcp4recvfail,
@@ -92,8 +92,8 @@ static const isc_statscounter_t tcp4statsindex[] = {
 };
 
 static const isc_statscounter_t tcp6statsindex[] = {
-	isc_sockstatscounter_tcp6open,	      isc_sockstatscounter_tcp6openfail,
-	isc_sockstatscounter_tcp6close,	      isc_sockstatscounter_tcp6bindfail,
+	isc_sockstatscounter_tcp6open,        isc_sockstatscounter_tcp6openfail,
+	isc_sockstatscounter_tcp6close,       isc_sockstatscounter_tcp6bindfail,
 	isc_sockstatscounter_tcp6connectfail, isc_sockstatscounter_tcp6connect,
 	isc_sockstatscounter_tcp6acceptfail,  isc_sockstatscounter_tcp6accept,
 	isc_sockstatscounter_tcp6sendfail,    isc_sockstatscounter_tcp6recvfail,
@@ -3173,20 +3173,20 @@ isc_nm_checkaddr(const isc_sockaddr_t *addr, isc_socktype_t type) {
 }
 
 #if defined(TCP_CONNECTIONTIMEOUT)
-#define TIMEOUT_TYPE	int
-#define TIMEOUT_DIV	1000
+#define TIMEOUT_TYPE int
+#define TIMEOUT_DIV 1000
 #define TIMEOUT_OPTNAME TCP_CONNECTIONTIMEOUT
 #elif defined(TCP_RXT_CONNDROPTIME)
-#define TIMEOUT_TYPE	int
-#define TIMEOUT_DIV	1000
+#define TIMEOUT_TYPE int
+#define TIMEOUT_DIV 1000
 #define TIMEOUT_OPTNAME TCP_RXT_CONNDROPTIME
 #elif defined(TCP_USER_TIMEOUT)
-#define TIMEOUT_TYPE	unsigned int
-#define TIMEOUT_DIV	1
+#define TIMEOUT_TYPE unsigned int
+#define TIMEOUT_DIV 1
 #define TIMEOUT_OPTNAME TCP_USER_TIMEOUT
 #elif defined(TCP_KEEPINIT)
-#define TIMEOUT_TYPE	int
-#define TIMEOUT_DIV	1000
+#define TIMEOUT_TYPE int
+#define TIMEOUT_DIV 1000
 #define TIMEOUT_OPTNAME TCP_KEEPINIT
 #endif
 

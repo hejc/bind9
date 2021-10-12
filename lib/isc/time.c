@@ -28,10 +28,10 @@
 #include <isc/tm.h>
 #include <isc/util.h>
 
-#define NS_PER_S  1000000000 /*%< Nanoseconds per second. */
-#define NS_PER_US 1000	     /*%< Nanoseconds per microsecond. */
-#define NS_PER_MS 1000000    /*%< Nanoseconds per millisecond. */
-#define MS_PER_S  1000	     /*%< Milliseonds per second. */
+#define NS_PER_S 1000000000 /*%< Nanoseconds per second. */
+#define NS_PER_US 1000      /*%< Nanoseconds per microsecond. */
+#define NS_PER_MS 1000000   /*%< Nanoseconds per millisecond. */
+#define MS_PER_S 1000       /*%< Milliseonds per second. */
 
 #if defined(CLOCK_REALTIME)
 #define CLOCKSOURCE_HIRES CLOCK_REALTIME

@@ -722,7 +722,7 @@ protoneg_check_protocol(const uint8_t **pout, uint8_t *pout_len,
 }
 
 /* dot prepended by its length (3 bytes) */
-#define DOT_PROTO_ALPN	   "\x3" ISC_TLS_DOT_PROTO_ALPN_ID
+#define DOT_PROTO_ALPN "\x3" ISC_TLS_DOT_PROTO_ALPN_ID
 #define DOT_PROTO_ALPN_LEN (sizeof(DOT_PROTO_ALPN) - 1)
 
 static bool

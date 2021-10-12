@@ -65,8 +65,8 @@ isc_netaddr_eqprefix(const isc_netaddr_t *a, const isc_netaddr_t *b,
 		     unsigned int prefixlen) {
 	const unsigned char *pa = NULL, *pb = NULL;
 	unsigned int ipabytes = 0; /* Length of whole IP address in bytes */
-	unsigned int nbytes;	   /* Number of significant whole bytes */
-	unsigned int nbits;	   /* Number of significant leftover bits */
+	unsigned int nbytes;       /* Number of significant whole bytes */
+	unsigned int nbits;        /* Number of significant leftover bits */
 
 	REQUIRE(a != NULL && b != NULL);
 

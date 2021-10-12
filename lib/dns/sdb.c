@@ -100,21 +100,21 @@ typedef struct sdb_rdatasetiter {
  */
 #define VALID_SDB(sdb) ((sdb) != NULL && (sdb)->common.impmagic == SDB_MAGIC)
 
-#define SDBLOOKUP_MAGIC	      ISC_MAGIC('S', 'D', 'B', 'L')
+#define SDBLOOKUP_MAGIC ISC_MAGIC('S', 'D', 'B', 'L')
 #define VALID_SDBLOOKUP(sdbl) ISC_MAGIC_VALID(sdbl, SDBLOOKUP_MAGIC)
-#define VALID_SDBNODE(sdbn)   VALID_SDBLOOKUP(sdbn)
+#define VALID_SDBNODE(sdbn) VALID_SDBLOOKUP(sdbn)
 
 /* These values are taken from RFC1537 */
-#define SDB_DEFAULT_REFRESH 28800U  /* 8 hours */
-#define SDB_DEFAULT_RETRY   7200U   /* 2 hours */
-#define SDB_DEFAULT_EXPIRE  604800U /* 7 days */
-#define SDB_DEFAULT_MINIMUM 86400U  /* 1 day */
+#define SDB_DEFAULT_REFRESH 28800U /* 8 hours */
+#define SDB_DEFAULT_RETRY 7200U    /* 2 hours */
+#define SDB_DEFAULT_EXPIRE 604800U /* 7 days */
+#define SDB_DEFAULT_MINIMUM 86400U /* 1 day */
 
 /* This is a reasonable value */
 #define SDB_DEFAULT_TTL (60 * 60 * 24)
 
 #ifdef __COVERITY__
-#define MAYBE_LOCK(sdb)	  LOCK(&sdb->implementation->driverlock)
+#define MAYBE_LOCK(sdb) LOCK(&sdb->implementation->driverlock)
 #define MAYBE_UNLOCK(sdb) UNLOCK(&sdb->implementation->driverlock)
 #else /* ifdef __COVERITY__ */
 #define MAYBE_LOCK(sdb)                                          \
@@ -959,7 +959,7 @@ findext(dns_db_t *db, const dns_name_t *name, dns_dbversion_t *version,
 			continue;
 		}
 
-	skip:
+skip:
 		/*
 		 * If we're looking for ANY, we're done.
 		 */
@@ -1262,32 +1262,32 @@ settask(dns_db_t *db, isc_task_t *task) {
 }
 
 static dns_dbmethods_t sdb_methods = {
-	attach,		detach,
-	beginload,	endload,
-	dump,		currentversion,
-	newversion,	attachversion,
-	closeversion,	NULL, /* findnode */
-	NULL,		      /* find */
-	findzonecut,	attachnode,
-	detachnode,	expirenode,
-	printnode,	createiterator,
-	findrdataset,	allrdatasets,
-	addrdataset,	subtractrdataset,
+	attach,         detach,
+	beginload,      endload,
+	dump,           currentversion,
+	newversion,     attachversion,
+	closeversion,   NULL, /* findnode */
+	NULL,                 /* find */
+	findzonecut,    attachnode,
+	detachnode,     expirenode,
+	printnode,      createiterator,
+	findrdataset,   allrdatasets,
+	addrdataset,    subtractrdataset,
 	deleterdataset, issecure,
-	nodecount,	ispersistent,
-	overmem,	settask,
+	nodecount,      ispersistent,
+	overmem,        settask,
 	getoriginnode, /* getoriginnode */
-	NULL,	       /* transfernode */
-	NULL,	       /* getnsec3parameters */
-	NULL,	       /* findnsec3node */
-	NULL,	       /* setsigningtime */
-	NULL,	       /* getsigningtime */
-	NULL,	       /* resigned */
-	NULL,	       /* isdnssec */
-	NULL,	       /* getrrsetstats */
-	NULL,	       /* rpz_attach */
-	NULL,	       /* rpz_ready */
-	findnodeext,	findext,
+	NULL,          /* transfernode */
+	NULL,          /* getnsec3parameters */
+	NULL,          /* findnsec3node */
+	NULL,          /* setsigningtime */
+	NULL,          /* getsigningtime */
+	NULL,          /* resigned */
+	NULL,          /* isdnssec */
+	NULL,          /* getrrsetstats */
+	NULL,          /* rpz_attach */
+	NULL,          /* rpz_ready */
+	findnodeext,    findext,
 	NULL, /* setcachestats */
 	NULL, /* hashsize */
 	NULL, /* nodefullname */

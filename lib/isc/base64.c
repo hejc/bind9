@@ -91,10 +91,10 @@ isc_base64_totext(isc_region_t *source, int wordlength, const char *wordbreak,
  * State of a base64 decoding process in progress.
  */
 typedef struct {
-	int length;	      /*%< Desired length of binary data or -1 */
+	int length;           /*%< Desired length of binary data or -1 */
 	isc_buffer_t *target; /*%< Buffer for resulting binary data */
-	int digits;	      /*%< Number of buffered base64 digits */
-	bool seen_end;	      /*%< True if "=" end marker seen */
+	int digits;           /*%< Number of buffered base64 digits */
+	bool seen_end;        /*%< True if "=" end marker seen */
 	int val[4];
 } base64_decode_ctx_t;
 

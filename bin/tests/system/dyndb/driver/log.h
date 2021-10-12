@@ -16,7 +16,7 @@
 
 #define log_error(format, ...) log_write(ISC_LOG_ERROR, format, ##__VA_ARGS__)
 
-#define log_info(format, ...) log_write(ISC_LOG_INFO, format, ##__VA_ARGS__)
+#define log_info(format, ...)  log_write(ISC_LOG_INFO, format, ##__VA_ARGS__)
 
 void
 log_write(int level, const char *format, ...) ISC_FORMAT_PRINTF(2, 3);

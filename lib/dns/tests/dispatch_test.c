@@ -41,14 +41,14 @@
 uv_sem_t sem;
 
 /* Timeouts in miliseconds */
-#define T_SERVER_INIT	    5000
-#define T_SERVER_IDLE	    5000
-#define T_SERVER_KEEPALIVE  5000
+#define T_SERVER_INIT 5000
+#define T_SERVER_IDLE 5000
+#define T_SERVER_KEEPALIVE 5000
 #define T_SERVER_ADVERTISED 5000
 
-#define T_CLIENT_INIT	    2000
-#define T_CLIENT_IDLE	    2000
-#define T_CLIENT_KEEPALIVE  2000
+#define T_CLIENT_INIT 2000
+#define T_CLIENT_IDLE 2000
+#define T_CLIENT_KEEPALIVE 2000
 #define T_CLIENT_ADVERTISED 2000
 
 #define T_CLIENT_CONNECT 1000

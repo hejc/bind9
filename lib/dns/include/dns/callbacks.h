@@ -32,7 +32,7 @@ ISC_LANG_BEGINDECLS
 #define DNS_CALLBACK_VALID(cb) ISC_MAGIC_VALID(cb, DNS_CALLBACK_MAGIC)
 
 struct dns_rdatacallbacks {
-	unsigned int magic;
+	unsigned int          magic;
 
 	/*%
 	 * dns_load_master calls this when it has rdatasets to commit.
@@ -43,8 +43,8 @@ struct dns_rdatacallbacks {
 	 * dns_master_load*() call this when loading a raw zonefile,
 	 * to pass back information obtained from the file header
 	 */
-	dns_rawdatafunc_t rawdata;
-	dns_zone_t	   *zone;
+	dns_rawdatafunc_t     rawdata;
+	dns_zone_t           *zone;
 
 	/*%
 	 * dns_load_master / dns_rdata_fromtext call this to issue a error.
