@@ -218,9 +218,10 @@ void (*dighost_shutdown)(void);
 
 /* forward declarations */
 
-#define cancel_lookup(l) _cancel_lookup(l, __FILE__, __LINE__)
+#define cancel_lookup(l) dighost__cancel_lookup(l, __FILE__, __LINE__)
 static void
-_cancel_lookup(dig_lookup_t *lookup, const char *file, unsigned int line);
+dighost__cancel_lookup(dig_lookup_t *lookup, const char *file,
+		       unsigned int line);
 
 static void
 recv_done(isc_nmhandle_t *handle, isc_result_t eresult, isc_region_t *region,
@@ -1521,7 +1522,7 @@ check_if_done(void) {
 }
 
 static void
-_destroy_lookup(dig_lookup_t *lookup) {
+dig__destroy_lookup(dig_lookup_t *lookup) {
 	dig_server_t *s;
 	void *ptr;
 
@@ -1577,10 +1578,10 @@ _destroy_lookup(dig_lookup_t *lookup) {
 	isc_mem_free(mctx, lookup);
 }
 
-#define lookup_attach(s, t) _lookup_attach(s, t, __FILE__, __LINE__)
+#define lookup_attach(s, t) dighost__lookup_attach(s, t, __FILE__, __LINE__)
 static void
-_lookup_attach(dig_lookup_t *lookup, dig_lookup_t **lookupp, const char *file,
-	       unsigned int line) {
+dighost__lookup_attach(dig_lookup_t *lookup, dig_lookup_t **lookupp,
+		       const char *file, unsigned int line) {
 	REQUIRE(DIG_VALID_LOOKUP(lookup));
 	REQUIRE(lookupp != NULL && *lookupp == NULL);
 
@@ -1592,9 +1593,10 @@ _lookup_attach(dig_lookup_t *lookup, dig_lookup_t **lookupp, const char *file,
 	*lookupp = lookup;
 }
 
-#define lookup_detach(l) _lookup_detach(l, __FILE__, __LINE__)
+#define lookup_detach(l) dighost__lookup_detach(l, __FILE__, __LINE__)
 static void
-_lookup_detach(dig_lookup_t **lookupp, const char *file, unsigned int line) {
+dighost__lookup_detach(dig_lookup_t **lookupp, const char *file,
+		       unsigned int line) {
 	REQUIRE(DIG_VALID_LOOKUP(*lookupp));
 
 	dig_lookup_t *lookup = *lookupp;
@@ -1604,7 +1606,7 @@ _lookup_detach(dig_lookup_t **lookupp, const char *file, unsigned int line) {
 	      isc_refcount_current(&lookup->references) - 1);
 
 	if (isc_refcount_decrement(&lookup->references) == 1) {
-		_destroy_lookup(lookup);
+		dig__destroy_lookup(lookup);
 		if (lookup == current_lookup) {
 			current_lookup = NULL;
 			start_lookup();
@@ -1617,7 +1619,7 @@ destroy_lookup(dig_lookup_t *lookup) {
 	REQUIRE(DIG_VALID_LOOKUP(lookup));
 
 	REQUIRE(isc_refcount_decrement(&lookup->references) == 1);
-	_destroy_lookup(lookup);
+	dig__destroy_lookup(lookup);
 }
 
 /*%
@@ -1642,11 +1644,11 @@ destroy_query(dig_query_t *query, const char *file, unsigned int line) {
 	isc_mem_free(mctx, query);
 }
 
-#define query_attach(s, t) _query_attach(s, t, __FILE__, __LINE__)
+#define query_attach(s, t) dighost__query_attach(s, t, __FILE__, __LINE__)
 
 static void
-_query_attach(dig_query_t *source, dig_query_t **targetp, const char *file,
-	      unsigned int line) {
+dighost__query_attach(dig_query_t *source, dig_query_t **targetp,
+		      const char *file, unsigned int line) {
 	REQUIRE(DIG_VALID_QUERY(source));
 	REQUIRE(targetp != NULL && *targetp == NULL);
 
@@ -1658,10 +1660,11 @@ _query_attach(dig_query_t *source, dig_query_t **targetp, const char *file,
 	*targetp = source;
 }
 
-#define query_detach(q) _query_detach(q, __FILE__, __LINE__)
+#define query_detach(q) dighost__query_detach(q, __FILE__, __LINE__)
 
 static void
-_query_detach(dig_query_t **queryp, const char *file, unsigned int line) {
+dighost__query_detach(dig_query_t **queryp, const char *file,
+		      unsigned int line) {
 	dig_query_t *query = NULL;
 	dig_lookup_t *lookup = NULL;
 
@@ -2063,11 +2066,11 @@ compute_cookie(unsigned char *clientcookie, size_t len) {
 	memmove(clientcookie, cookie_secret, 8);
 }
 
-#define new_query(l, s, u) _new_query(l, s, u, __FILE__, __LINE__)
+#define new_query(l, s, u) dighost__new_query(l, s, u, __FILE__, __LINE__)
 
 static dig_query_t *
-_new_query(dig_lookup_t *lookup, char *servname, char *userarg,
-	   const char *file, unsigned int line) {
+dighost__new_query(dig_lookup_t *lookup, char *servname, char *userarg,
+		   const char *file, unsigned int line) {
 	dig_query_t *query = NULL;
 
 	query = isc_mem_allocate(mctx, sizeof(dig_query_t));
@@ -2657,7 +2660,8 @@ send_done(isc_nmhandle_t *handle, isc_result_t eresult, void *arg) {
  */
 
 static void
-_cancel_lookup(dig_lookup_t *lookup, const char *file, unsigned int line) {
+dighost__cancel_lookup(dig_lookup_t *lookup, const char *file,
+		       unsigned int line) {
 	dig_query_t *query, *next;
 
 	debug("%s:%u:%s()", file, line, __func__);

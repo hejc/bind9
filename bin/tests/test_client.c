@@ -282,7 +282,7 @@ parse_options(int argc, char **argv) {
 }
 
 static void
-_signal(int sig, void (*handler)(int)) {
+signal_handler(int sig, void (*handler)(int)) {
 	struct sigaction sa = { .sa_handler = handler };
 
 	RUNTIME_CHECK(sigfillset(&sa.sa_mask) == 0);
@@ -293,10 +293,10 @@ static void
 setup(void) {
 	sigset_t sset;
 
-	_signal(SIGPIPE, SIG_IGN);
-	_signal(SIGHUP, SIG_DFL);
-	_signal(SIGTERM, SIG_DFL);
-	_signal(SIGINT, SIG_DFL);
+	signal_handler(SIGPIPE, SIG_IGN);
+	signal_handler(SIGHUP, SIG_DFL);
+	signal_handler(SIGTERM, SIG_DFL);
+	signal_handler(SIGINT, SIG_DFL);
 
 	RUNTIME_CHECK(sigemptyset(&sset) == 0);
 	RUNTIME_CHECK(sigaddset(&sset, SIGHUP) == 0);

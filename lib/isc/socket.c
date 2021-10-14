@@ -5204,7 +5204,7 @@ isc_socket_hasreuseport(void) {
 
 #if defined(HAVE_LIBXML2) || defined(HAVE_JSON_C)
 static const char *
-_socktype(isc_sockettype_t type) {
+isc__socket_socktype(isc_sockettype_t type) {
 	switch (type) {
 	case isc_sockettype_udp:
 		return ("udp");
@@ -5263,7 +5263,7 @@ isc_socketmgr_renderxml(isc_socketmgr_t *mgr, void *writer0) {
 
 		TRY0(xmlTextWriterWriteElement(
 			writer, ISC_XMLCHAR "type",
-			ISC_XMLCHAR _socktype(sock->type)));
+			ISC_XMLCHAR isc__socket_socktype(sock->type)));
 
 		if (sock->connected) {
 			isc_sockaddr_format(&sock->peer_address, peerbuf,
@@ -5372,7 +5372,7 @@ isc_socketmgr_renderjson(isc_socketmgr_t *mgr, void *stats0) {
 		CHECKMEM(obj);
 		json_object_object_add(entry, "references", obj);
 
-		obj = json_object_new_string(_socktype(sock->type));
+		obj = json_object_new_string(isc__socket_socktype(sock->type));
 		CHECKMEM(obj);
 		json_object_object_add(entry, "type", obj);
 
