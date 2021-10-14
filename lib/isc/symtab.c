@@ -109,7 +109,6 @@ static inline unsigned int
 hash(const char *key, bool case_sensitive) {
 	const char *s;
 	unsigned int h = 0;
-	int c;
 
 	/*
 	 * This hash function is similar to the one Ousterhout
@@ -122,7 +121,7 @@ hash(const char *key, bool case_sensitive) {
 		}
 	} else {
 		for (s = key; *s != '\0'; s++) {
-			c = *s;
+			int c = (unsigned char)*s;
 			c = tolower((unsigned char)c);
 			h += (h << 3) + c;
 		}

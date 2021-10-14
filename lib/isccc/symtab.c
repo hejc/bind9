@@ -130,7 +130,6 @@ hash(const char *key, bool case_sensitive) {
 	const char *s;
 	unsigned int h = 0;
 	unsigned int g;
-	int c;
 
 	/*
 	 * P. J. Weinberger's hash function, adapted from p. 436 of
@@ -148,7 +147,7 @@ hash(const char *key, bool case_sensitive) {
 		}
 	} else {
 		for (s = key; *s != '\0'; s++) {
-			c = *s;
+			int c = (unsigned char)*s;
 			c = tolower((unsigned char)c);
 			h = (h << 4) + c;
 			if ((g = (h & 0xf0000000)) != 0) {

@@ -224,7 +224,7 @@ isc_base64_decodestring(const char *cstr, isc_buffer_t *target) {
 
 	base64_decode_init(&ctx, -1, target);
 	for (;;) {
-		int c = *cstr++;
+		int c = (unsigned char)*cstr++;
 		if (c == '\0') {
 			break;
 		}

@@ -2,6 +2,7 @@
 CLANG_TIDY_CHECKS="-*"
 CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,bugprone-macro-parentheses"
 CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,bugprone-reserved-identifier"
+CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,bugprone-signed-char-misuse"
 CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,readability-braces-around-statements"
 CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,readability-redundant-control-flow"
 CLANG_TIDY_CHECKS="$CLANG_TIDY_CHECKS,readability-uppercase-literal-suffix"

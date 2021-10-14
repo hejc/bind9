@@ -120,7 +120,7 @@ isc_commandline_parse(int argc, char *const *argv, const char *options) {
 		}
 	}
 
-	isc_commandline_option = *place++;
+	isc_commandline_option = (unsigned char)*place++;
 	option = strchr(options, isc_commandline_option);
 
 	/*

@@ -343,7 +343,7 @@ inside:
 				if (seen_ce) {
 					range_start = 256;
 				} else {
-					range_start = *c;
+					range_start = (unsigned char)*c;
 				}
 				seen_ce = true;
 				++c;

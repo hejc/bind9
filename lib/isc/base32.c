@@ -352,7 +352,7 @@ base32_decodestring(const char *cstr, const char base[], bool pad,
 
 	base32_decode_init(&ctx, -1, base, pad, target);
 	for (;;) {
-		int c = *cstr++;
+		int c = (unsigned char)*cstr++;
 		if (c == '\0') {
 			break;
 		}

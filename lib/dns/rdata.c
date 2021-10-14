@@ -363,7 +363,7 @@ locator_pton(const char *src, unsigned char *dst) {
 	endp = tp + NS_LOCATORSZ;
 	seen_xdigits = 0;
 	val = 0;
-	while ((ch = *src++) != '\0') {
+	while ((ch = (unsigned char)*src++) != '\0') {
 		const char *pch;
 
 		pch = strchr((xdigits = xdigits_l), ch);
