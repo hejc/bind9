@@ -235,7 +235,6 @@ read_cb(isc_nmhandle_t *handle, isc_result_t eresult, isc_region_t *region,
 	memmove(reply->base, region->base, region->length);
 
 	isc_nm_send(handle, reply, send_cb, reply);
-	return;
 }
 
 static void

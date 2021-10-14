@@ -1261,8 +1261,6 @@ http_do_bio(isc_nm_http_session_t *session, isc_nmhandle_t *send_httphandle,
 		INSIST(send_cbarg == NULL);
 		(void)http_send_outgoing(session, NULL, NULL, NULL);
 	}
-
-	return;
 }
 
 static isc_result_t

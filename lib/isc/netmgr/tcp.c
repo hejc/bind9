@@ -757,8 +757,6 @@ isc__nm_tcp_read(isc_nmhandle_t *handle, isc_nm_recv_cb_t cb, void *cbarg) {
 	 */
 	isc__nm_enqueue_ievent(&sock->mgr->workers[sock->tid],
 			       (isc__netievent_t *)ievent);
-
-	return;
 }
 
 void
@@ -801,8 +799,6 @@ isc__nm_tcp_pauseread(isc_nmhandle_t *handle) {
 
 	isc__nm_maybe_enqueue_ievent(&sock->mgr->workers[sock->tid],
 				     (isc__netievent_t *)ievent);
-
-	return;
 }
 
 void
@@ -1083,8 +1079,6 @@ isc__nm_tcp_send(isc_nmhandle_t *handle, const isc_region_t *region,
 	ievent = isc__nm_get_netievent_tcpsend(sock->mgr, sock, uvreq);
 	isc__nm_maybe_enqueue_ievent(&sock->mgr->workers[sock->tid],
 				     (isc__netievent_t *)ievent);
-
-	return;
 }
 
 static void

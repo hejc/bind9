@@ -448,7 +448,6 @@ isc_netaddr_fromv4mapped(isc_netaddr_t *t, const isc_netaddr_t *s) {
 	memset(t, 0, sizeof(*t));
 	t->family = AF_INET;
 	memmove(&t->type.in, (char *)&src->type.in6 + 12, 4);
-	return;
 }
 
 bool

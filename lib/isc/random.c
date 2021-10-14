@@ -160,7 +160,6 @@ isc_random_buf(void *buf, size_t buflen) {
 	}
 	r = next();
 	memmove((uint8_t *)buf + i, &r, buflen % sizeof(r));
-	return;
 }
 
 uint32_t

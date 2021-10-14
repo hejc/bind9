@@ -273,7 +273,6 @@ try_ipv6only(void) {
 
 close:
 	close(s);
-	return;
 #endif /* IPV6_V6ONLY */
 }
 

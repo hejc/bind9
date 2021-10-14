@@ -547,7 +547,6 @@ cleanup:
 	if (--onfly == 0) {
 		isc_app_shutdown();
 	}
-	return;
 }
 
 /*%
@@ -777,7 +776,6 @@ sendqueries(isc_task_t *task, isc_event_t *event) {
 	if (onfly == 0) {
 		isc_app_shutdown();
 	}
-	return;
 }
 
 ISC_NORETURN static void
@@ -1655,7 +1653,6 @@ need_value:
 		fprintf(stderr, "Invalid option: +%s\n", option);
 		usage();
 	}
-	return;
 }
 
 /*%

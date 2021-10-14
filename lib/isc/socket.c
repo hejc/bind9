@@ -2972,7 +2972,6 @@ soft_error:
 	UNLOCK(&sock->lock);
 
 	inc_stats(manager->stats, sock->statsindex[STATID_ACCEPTFAIL]);
-	return;
 }
 
 static void

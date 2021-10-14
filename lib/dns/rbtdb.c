@@ -5548,8 +5548,6 @@ overmem(dns_db_t *db, bool over) {
 
 	UNUSED(db);
 	UNUSED(over);
-
-	return;
 }
 
 static void

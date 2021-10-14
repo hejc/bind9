@@ -173,7 +173,6 @@ route_event(isc_task_t *task, isc_event_t *event) {
 		ns_interfacemgr_detach(&mgr);
 	}
 	isc_event_free(&event);
-	return;
 }
 #endif /* ifdef USE_ROUTE_SOCKET */
 
@@ -1181,7 +1180,6 @@ ignore_interface:
 			      "ignoring %s interface %s: %s",
 			      (family == AF_INET) ? "IPv4" : "IPv6",
 			      interface.name, isc_result_totext(result));
-		continue;
 	}
 	if (result != ISC_R_NOMORE) {
 		UNEXPECTED_ERROR(__FILE__, __LINE__,

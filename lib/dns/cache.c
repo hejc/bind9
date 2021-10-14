@@ -568,8 +568,6 @@ begin_cleaning(cache_cleaner_t *cleaner) {
 		cleaner->state = cleaner_s_busy;
 		isc_task_send(cleaner->task, &cleaner->resched_event);
 	}
-
-	return;
 }
 
 static void
@@ -757,7 +755,6 @@ incremental_cleaning_action(isc_task_t *task, isc_event_t *event) {
 
 	isc_task_send(task, &event);
 	INSIST(CLEANER_BUSY(cleaner));
-	return;
 }
 
 /*

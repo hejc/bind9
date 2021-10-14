@@ -723,7 +723,6 @@ genname(char *name, int it, char *buffer, size_t length) {
 				}
 				/* Skip past closing brace. */
 				while (*name != '\0' && *name++ != '}') {
-					continue;
 				}
 			}
 			if (nibblemode) {

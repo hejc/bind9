@@ -83,8 +83,6 @@ isc_thread_create(isc_threadfunc_t func, isc_threadarg_t arg,
 	}
 
 	pthread_attr_destroy(&attr);
-
-	return;
 }
 
 void

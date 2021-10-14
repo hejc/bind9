@@ -1984,8 +1984,6 @@ addonlevel(dns_rbtnode_t *node, dns_rbtnode_t *current, int order,
 	MAKE_BLACK(root);
 	ENSURE(IS_ROOT(root));
 	*rootp = root;
-
-	return;
 }
 
 /*

@@ -1498,7 +1498,6 @@ cleanup:
 		      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR,
 		      "failed at rdtypestat_dump()");
 	dumparg->result = ISC_R_FAILURE;
-	return;
 #endif /* ifdef HAVE_LIBXML2 */
 }
 
@@ -1641,7 +1640,6 @@ cleanup:
 		      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR,
 		      "failed at opcodestat_dump()");
 	dumparg->result = ISC_R_FAILURE;
-	return;
 #endif /* ifdef HAVE_LIBXML2 */
 }
 
@@ -1697,7 +1695,6 @@ cleanup:
 		      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR,
 		      "failed at rcodestat_dump()");
 	dumparg->result = ISC_R_FAILURE;
-	return;
 #endif /* ifdef HAVE_LIBXML2 */
 }
 
@@ -1750,7 +1747,6 @@ cleanup:
 		      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR,
 		      "failed at dnssecsignstat_dump()");
 	dumparg->result = ISC_R_FAILURE;
-	return;
 #endif /* ifdef HAVE_LIBXML2 */
 }
 #endif /* defined(EXTENDED_STATS) */

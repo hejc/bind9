@@ -781,7 +781,6 @@ isc__nm_async_tlsdnsshutdown(isc__networker_t *worker, isc__netievent_t *ev0) {
 	default:
 		tls_error(sock, ISC_R_TLSERROR);
 	}
-	return;
 }
 
 void
@@ -873,8 +872,6 @@ isc__nm_tlsdns_read(isc_nmhandle_t *handle, isc_nm_recv_cb_t cb, void *cbarg) {
 	 */
 	isc__nm_enqueue_ievent(&sock->mgr->workers[sock->tid],
 			       (isc__netievent_t *)ievent);
-
-	return;
 }
 
 void
@@ -1626,7 +1623,6 @@ isc__nm_tlsdns_send(isc_nmhandle_t *handle, isc_region_t *region,
 	ievent = isc__nm_get_netievent_tlsdnssend(sock->mgr, sock, uvreq);
 	isc__nm_enqueue_ievent(&sock->mgr->workers[sock->tid],
 			       (isc__netievent_t *)ievent);
-	return;
 }
 
 /*

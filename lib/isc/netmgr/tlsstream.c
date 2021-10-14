@@ -688,7 +688,6 @@ isc__nm_async_tlssend(isc__networker_t *worker, isc__netievent_t *ev0) {
 	tls_do_bio(sock, NULL, req, false);
 done:
 	isc__nm_uvreq_put(&req, sock);
-	return;
 }
 
 void

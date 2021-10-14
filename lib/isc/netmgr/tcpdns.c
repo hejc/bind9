@@ -715,8 +715,6 @@ isc__nm_tcpdns_read(isc_nmhandle_t *handle, isc_nm_recv_cb_t cb, void *cbarg) {
 	 */
 	isc__nm_enqueue_ievent(&sock->mgr->workers[sock->tid],
 			       (isc__netievent_t *)ievent);
-
-	return;
 }
 
 void
@@ -1083,8 +1081,6 @@ isc__nm_tcpdns_send(isc_nmhandle_t *handle, isc_region_t *region,
 	ievent = isc__nm_get_netievent_tcpdnssend(sock->mgr, sock, uvreq);
 	isc__nm_maybe_enqueue_ievent(&sock->mgr->workers[sock->tid],
 				     (isc__netievent_t *)ievent);
-
-	return;
 }
 
 static void

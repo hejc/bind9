@@ -1524,9 +1524,7 @@ dns_journal_rollforward(dns_journal_t *j, dns_db_t *db, unsigned int options) {
 		CHECK(dns_journal_iter_init(j, start_serial, db_serial, NULL));
 		for (result = dns_journal_first_rr(j); result == ISC_R_SUCCESS;
 		     result = dns_journal_next_rr(j))
-		{
-			continue;
-		}
+		{ }
 	}
 
 	if (db_serial == end_serial) {

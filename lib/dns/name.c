@@ -2185,8 +2185,6 @@ dns_name_split(const dns_name_t *name, unsigned int suffixlabels,
 		dns_name_getlabelsequence(name, splitlabel, suffixlabels,
 					  suffix);
 	}
-
-	return;
 }
 
 void
