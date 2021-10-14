@@ -918,7 +918,7 @@ name2ipkey(int log_level, const dns_rpz_zones_t *rpzs, dns_rpz_num_t rpz_num,
 				cp += 3;
 			} else {
 				l = strtoul(cp, &cp2, 16);
-				if (l > 0xffffu ||
+				if (l > 0xffffU ||
 				    (*cp2 != '.' && *cp2 != '\0')) {
 					if (*cp2 == '.') {
 						*cp2 = '\0';

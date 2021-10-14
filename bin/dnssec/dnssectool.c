@@ -305,13 +305,13 @@ strtotime(const char *str, int64_t now, int64_t base, bool *setp) {
 	 *   [+-]offset
 	 */
 	n = strspn(str, "0123456789");
-	if ((n == 8u || n == 14u) &&
+	if ((n == 8U || n == 14U) &&
 	    (str[n] == '\0' || str[n] == '-' || str[n] == '+')) {
 		char timestr[15];
 
 		strlcpy(timestr, str, sizeof(timestr));
 		timestr[n] = 0;
-		if (n == 8u) {
+		if (n == 8U) {
 			strlcat(timestr, "000000", sizeof(timestr));
 		}
 		result = dns_time64_fromtext(timestr, &val);
