@@ -526,9 +526,9 @@ dumpraw_test(void **state) {
 
 	dns_db_currentversion(db, &version);
 
-	result = dns_master_dump(dt_mctx, db, version,
-				 &dns_master_style_default, "test.dump",
-				 dns_masterformat_raw, NULL);
+	result =
+		dns_master_dump(dt_mctx, db, version, &dns_master_style_default,
+				"test.dump", dns_masterformat_raw, NULL);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	result = test_master(NULL, "test.dump", dns_masterformat_raw, nullmsg,
@@ -542,9 +542,9 @@ dumpraw_test(void **state) {
 	header.flags |= DNS_MASTERRAW_SOURCESERIALSET;
 
 	unlink("test.dump");
-	result = dns_master_dump(dt_mctx, db, version,
-				 &dns_master_style_default, "test.dump",
-				 dns_masterformat_raw, &header);
+	result =
+		dns_master_dump(dt_mctx, db, version, &dns_master_style_default,
+				"test.dump", dns_masterformat_raw, &header);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	result = test_master(NULL, "test.dump", dns_masterformat_raw, nullmsg,

@@ -465,15 +465,15 @@ openssleddsa_tofile(const dst_key_t *key, const char *directory) {
 	}
 	if (key->engine != NULL) {
 		priv.elements[i].tag = TAG_EDDSA_ENGINE;
-		priv.elements[i].length = (unsigned short)strlen(key->engine) +
-					  1;
+		priv.elements[i].length =
+			(unsigned short)strlen(key->engine) + 1;
 		priv.elements[i].data = (unsigned char *)key->engine;
 		i++;
 	}
 	if (key->label != NULL) {
 		priv.elements[i].tag = TAG_EDDSA_LABEL;
-		priv.elements[i].length = (unsigned short)strlen(key->label) +
-					  1;
+		priv.elements[i].length =
+			(unsigned short)strlen(key->label) + 1;
 		priv.elements[i].data = (unsigned char *)key->label;
 		i++;
 	}

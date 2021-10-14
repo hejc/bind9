@@ -327,13 +327,13 @@ static dns_name_t const in_addr_arpa =
 
 static unsigned char ip6_int_data[] = "\003IP6\003INT";
 static unsigned char ip6_int_offsets[] = { 0, 4, 8 };
-static dns_name_t const ip6_int = DNS_NAME_INITABSOLUTE(ip6_int_data,
-							ip6_int_offsets);
+static dns_name_t const ip6_int =
+	DNS_NAME_INITABSOLUTE(ip6_int_data, ip6_int_offsets);
 
 static unsigned char ip6_arpa_data[] = "\003IP6\004ARPA";
 static unsigned char ip6_arpa_offsets[] = { 0, 4, 9 };
-static dns_name_t const ip6_arpa = DNS_NAME_INITABSOLUTE(ip6_arpa_data,
-							 ip6_arpa_offsets);
+static dns_name_t const ip6_arpa =
+	DNS_NAME_INITABSOLUTE(ip6_arpa_data, ip6_arpa_offsets);
 
 static inline bool
 dns_master_isprimary(dns_loadctx_t *lctx) {
@@ -1771,9 +1771,9 @@ bad_class:
 		 * Find a rdata structure.
 		 */
 		if (rdcount == rdata_size) {
-			new_rdata = grow_rdata(rdata_size + RDSZ, rdata,
-					       rdata_size, &current_list,
-					       &glue_list, mctx);
+			new_rdata =
+				grow_rdata(rdata_size + RDSZ, rdata, rdata_size,
+					   &current_list, &glue_list, mctx);
 			if (new_rdata == NULL) {
 				result = ISC_R_NOMEMORY;
 				goto log_and_cleanup;
@@ -1959,8 +1959,8 @@ bad_class:
 
 		if (type == dns_rdatatype_rrsig && lctx->warn_sigexpired) {
 			dns_rdata_rrsig_t sig;
-			result = dns_rdata_tostruct(&rdata[rdcount], &sig,
-						    NULL);
+			result =
+				dns_rdata_tostruct(&rdata[rdcount], &sig, NULL);
 			RUNTIME_CHECK(result == ISC_R_SUCCESS);
 			if (isc_serial_lt(sig.timeexpire, lctx->now)) {
 				(*callbacks->warn)(callbacks,

@@ -280,9 +280,9 @@ tls_process_outgoing(isc_nmsocket_t *sock, bool finish,
 
 	/* Data from TLS to network */
 	if (send_data != NULL) {
-		pending = tls_send_outgoing(sock, finish, send_data->handle,
-					    send_data->cb.send,
-					    send_data->cbarg);
+		pending =
+			tls_send_outgoing(sock, finish, send_data->handle,
+					  send_data->cb.send, send_data->cbarg);
 	} else {
 		bool received_shutdown =
 			((SSL_get_shutdown(sock->tlsstream.tls) &

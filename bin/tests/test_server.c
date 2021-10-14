@@ -267,9 +267,9 @@ run(void) {
 					  &sock);
 		break;
 	case TCP:
-		result = isc_nm_listentcpdns(netmgr, &sockaddr, read_cb, NULL,
-					     accept_cb, NULL, 0, 0, NULL,
-					     &sock);
+		result =
+			isc_nm_listentcpdns(netmgr, &sockaddr, read_cb, NULL,
+					    accept_cb, NULL, 0, 0, NULL, &sock);
 		break;
 	case DOT: {
 		isc_tlsctx_createserver(NULL, NULL, &tls_ctx);

@@ -155,8 +155,8 @@ tostruct_isdn(ARGS_TOSTRUCT) {
 	} else {
 		isdn->subaddress_len = uint8_fromregion(&r);
 		isc_region_consume(&r, 1);
-		isdn->subaddress = mem_maybedup(mctx, r.base,
-						isdn->subaddress_len);
+		isdn->subaddress =
+			mem_maybedup(mctx, r.base, isdn->subaddress_len);
 		if (isdn->subaddress == NULL) {
 			goto cleanup;
 		}

@@ -93,8 +93,8 @@ dyndb_init(isc_mem_t *mctx, const char *name, const char *parameters,
 		  name, file, line);
 
 	/* Finally, create the instance. */
-	result = new_sample_instance(mctx, name, argc, argv, dctx,
-				     &sample_inst);
+	result =
+		new_sample_instance(mctx, name, argc, argv, dctx, &sample_inst);
 	if (result != ISC_R_SUCCESS) {
 		log_write(ISC_LOG_ERROR,
 			  "dyndb_init: new_sample_instance -> %s\n",

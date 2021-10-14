@@ -583,8 +583,8 @@ dns_test_difffromchanges(dns_diff_t *diff, const zonechange_t *changes,
 		 * Parse owner name.
 		 */
 		name = dns_fixedname_initname(&fixedname);
-		result = dns_name_fromstring(name, changes[i].owner, 0,
-					     dt_mctx);
+		result =
+			dns_name_fromstring(name, changes[i].owner, 0, dt_mctx);
 		if (result != ISC_R_SUCCESS) {
 			break;
 		}

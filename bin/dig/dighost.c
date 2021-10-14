@@ -670,8 +670,8 @@ cloneopts(dig_lookup_t *looknew, dig_lookup_t *lookold) {
 		len = lookold->ednsopts[i].length;
 		if (len != 0) {
 			INSIST(lookold->ednsopts[i].value != NULL);
-			looknew->ednsopts[i].value = isc_mem_allocate(mctx,
-								      len);
+			looknew->ednsopts[i].value =
+				isc_mem_allocate(mctx, len);
 			memmove(looknew->ednsopts[i].value,
 				lookold->ednsopts[i].value, len);
 		}
@@ -3795,7 +3795,8 @@ recv_done(isc_nmhandle_t *handle, isc_result_t eresult, isc_region_t *region,
 				{
 					char namestr[DNS_NAME_FORMATSIZE];
 					char typebuf[DNS_RDATATYPE_FORMATSIZE];
-					char classbuf[DNS_RDATACLASS_FORMATSIZE];
+					char classbuf
+						[DNS_RDATACLASS_FORMATSIZE];
 					dns_name_format(name, namestr,
 							sizeof(namestr));
 					dns_rdatatype_format(rdataset->type,

@@ -208,8 +208,8 @@ address_ok(isc_sockaddr_t *sockaddr, controllistener_t *listener) {
 
 	isc_netaddr_fromsockaddr(&netaddr, sockaddr);
 
-	result = dns_acl_match(&netaddr, NULL, listener->acl, env, &match,
-			       NULL);
+	result =
+		dns_acl_match(&netaddr, NULL, listener->acl, env, &match, NULL);
 	return (result == ISC_R_SUCCESS && match > 0);
 }
 
@@ -429,8 +429,8 @@ control_recvmessage(isc_nmhandle_t *handle, isc_result_t result, void *arg) {
 
 		ccregion.rstart = isc_buffer_base(conn->ccmsg.buffer);
 		ccregion.rend = isc_buffer_used(conn->ccmsg.buffer);
-		conn->secret.rstart = isc_mem_get(listener->mctx,
-						  key->secret.length);
+		conn->secret.rstart =
+			isc_mem_get(listener->mctx, key->secret.length);
 		memmove(conn->secret.rstart, key->secret.base,
 			key->secret.length);
 		conn->secret.rend = conn->secret.rstart + key->secret.length;
@@ -790,8 +790,8 @@ register_keys(const cfg_obj_t *control, const cfg_obj_t *keylist,
 			}
 
 			keyid->secret.length = isc_buffer_usedlength(&b);
-			keyid->secret.base = isc_mem_get(mctx,
-							 keyid->secret.length);
+			keyid->secret.base =
+				isc_mem_get(mctx, keyid->secret.length);
 			memmove(keyid->secret.base, isc_buffer_base(&b),
 				keyid->secret.length);
 		}
@@ -834,8 +834,8 @@ get_rndckey(isc_mem_t *mctx, controlkeylist_t *keyids) {
 	CHECK(cfg_map_get(config, "key", &key));
 
 	keyid = isc_mem_get(mctx, sizeof(*keyid));
-	keyid->keyname = isc_mem_strdup(mctx,
-					cfg_obj_asstring(cfg_map_getname(key)));
+	keyid->keyname =
+		isc_mem_strdup(mctx, cfg_obj_asstring(cfg_map_getname(key)));
 	keyid->secret.base = NULL;
 	keyid->secret.length = 0;
 	keyid->algorithm = DST_ALG_UNKNOWN;

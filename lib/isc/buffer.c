@@ -580,9 +580,9 @@ isc_buffer_reserve(isc_buffer_t **dynbuffer, unsigned int size) {
 		return (ISC_R_NOMEMORY);
 	}
 
-	(*dynbuffer)->base = isc_mem_reget((*dynbuffer)->mctx,
-					   (*dynbuffer)->base,
-					   (*dynbuffer)->length, len);
+	(*dynbuffer)->base =
+		isc_mem_reget((*dynbuffer)->mctx, (*dynbuffer)->base,
+			      (*dynbuffer)->length, len);
 	(*dynbuffer)->length = (unsigned int)len;
 
 	return (ISC_R_SUCCESS);

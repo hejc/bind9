@@ -252,8 +252,8 @@ restart:
 			*p++ = '\0';
 		}
 
-		result = isc_commandline_strtoargv(mctx, p, argcp, argvp,
-						   n + 1);
+		result =
+			isc_commandline_strtoargv(mctx, p, argcp, argvp, n + 1);
 		if (result != ISC_R_SUCCESS) {
 			return (result);
 		}

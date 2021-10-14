@@ -346,9 +346,9 @@ isc_ratelimiter_release(isc_ratelimiter_t *rl) {
 		break;
 	case isc_ratelimiter_stalled:
 		if (!ISC_LIST_EMPTY(rl->pending)) {
-			result = isc_timer_reset(rl->timer,
-						 isc_timertype_ticker, NULL,
-						 &rl->interval, false);
+			result =
+				isc_timer_reset(rl->timer, isc_timertype_ticker,
+						NULL, &rl->interval, false);
 			if (result == ISC_R_SUCCESS) {
 				rl->state = isc_ratelimiter_ratelimited;
 			}

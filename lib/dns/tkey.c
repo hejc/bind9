@@ -1360,8 +1360,8 @@ dns_tkey_processgssresponse(dns_message_t *qmsg, dns_message_t *rmsg,
 	 * specifies it should be in the ADDITIONAL section.  Check first
 	 * where it should be, and then where it may be.
 	 */
-	result = find_tkey(qmsg, &tkeyname, &qtkeyrdata,
-			   DNS_SECTION_ADDITIONAL);
+	result =
+		find_tkey(qmsg, &tkeyname, &qtkeyrdata, DNS_SECTION_ADDITIONAL);
 	if (result == ISC_R_NOTFOUND) {
 		result = find_tkey(qmsg, &tkeyname, &qtkeyrdata,
 				   DNS_SECTION_ANSWER);

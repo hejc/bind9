@@ -237,8 +237,8 @@ parse_options(int argc, char **argv) {
 	{
 		struct addrinfo hints = {
 			.ai_family = family,
-			.ai_socktype = (protocol == UDP) ? SOCK_DGRAM
-							 : SOCK_STREAM,
+			.ai_socktype =
+				(protocol == UDP) ? SOCK_DGRAM : SOCK_STREAM,
 		};
 		struct addrinfo *result = NULL;
 		int r = getaddrinfo(address, NULL, &hints, &result);
@@ -256,8 +256,8 @@ parse_options(int argc, char **argv) {
 	{
 		struct addrinfo hints = {
 			.ai_family = family,
-			.ai_socktype = (protocol == UDP) ? SOCK_DGRAM
-							 : SOCK_STREAM,
+			.ai_socktype =
+				(protocol == UDP) ? SOCK_DGRAM : SOCK_STREAM,
 		};
 		struct addrinfo *result = NULL;
 		int r = getaddrinfo(argv[optind], port, &hints, &result);
@@ -413,10 +413,10 @@ run(void) {
 	case HTTPS_GET:
 	case HTTPS_POST:
 	case HTTP_POST: {
-		bool is_https = (protocol == HTTPS_POST ||
-				 protocol == HTTPS_GET);
-		bool is_post = (protocol == HTTPS_POST ||
-				protocol == HTTP_POST);
+		bool is_https =
+			(protocol == HTTPS_POST || protocol == HTTPS_GET);
+		bool is_post =
+			(protocol == HTTPS_POST || protocol == HTTP_POST);
 		char req_url[256];
 		isc_nm_http_makeuri(is_https, &sockaddr_remote, NULL, 0,
 				    ISC_NM_HTTP_DEFAULT_PATH, req_url,

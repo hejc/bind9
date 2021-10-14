@@ -249,10 +249,10 @@ dlopen_dlz_create(const char *dlzname, unsigned int argc, char *argv[],
 	/* Find the symbols */
 	cd->dlz_version =
 		(dlz_dlopen_version_t *)dl_load_symbol(cd, "dlz_version", true);
-	cd->dlz_create = (dlz_dlopen_create_t *)dl_load_symbol(cd, "dlz_create",
-							       true);
-	cd->dlz_lookup = (dlz_dlopen_lookup_t *)dl_load_symbol(cd, "dlz_lookup",
-							       true);
+	cd->dlz_create =
+		(dlz_dlopen_create_t *)dl_load_symbol(cd, "dlz_create", true);
+	cd->dlz_lookup =
+		(dlz_dlopen_lookup_t *)dl_load_symbol(cd, "dlz_lookup", true);
 	cd->dlz_findzonedb = (dlz_dlopen_findzonedb_t *)dl_load_symbol(
 		cd, "dlz_findzonedb", true);
 

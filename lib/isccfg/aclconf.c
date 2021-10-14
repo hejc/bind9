@@ -707,9 +707,9 @@ cfg_acl_fromconfig2(const cfg_obj_t *caml, const cfg_obj_t *cctx,
 		iptab = dacl->iptable;
 
 		if (nest_level != 0) {
-			result = dns_acl_create(mctx,
-						cfg_list_length(ce, false),
-						&de->nestedacl);
+			result =
+				dns_acl_create(mctx, cfg_list_length(ce, false),
+					       &de->nestedacl);
 			if (result != ISC_R_SUCCESS) {
 				goto cleanup;
 			}

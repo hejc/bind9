@@ -546,8 +546,8 @@ isc_rwlock_downgrade(isc_rwlock_t *rwl) {
 	REQUIRE(VALID_RWLOCK(rwl));
 
 	/* Become an active reader. */
-	prev_readers = atomic_fetch_add_release(&rwl->cnt_and_flag,
-						READER_INCR);
+	prev_readers =
+		atomic_fetch_add_release(&rwl->cnt_and_flag, READER_INCR);
 	/* We must have been a writer. */
 	INSIST((prev_readers & WRITER_ACTIVE) != 0);
 

@@ -799,9 +799,9 @@ ns_xfr_start(ns_client_t *client, dns_rdatatype_t reqtype) {
 		 * databases for a match.
 		 */
 		if (!ISC_LIST_EMPTY(client->view->dlz_searched)) {
-			result = dns_dlzallowzonexfr(client->view,
-						     question_name,
-						     &client->peeraddr, &db);
+			result =
+				dns_dlzallowzonexfr(client->view, question_name,
+						    &client->peeraddr, &db);
 			if (result == ISC_R_DEFAULT) {
 				useviewacl = true;
 				result = ISC_R_SUCCESS;

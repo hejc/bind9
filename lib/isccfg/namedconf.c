@@ -1889,8 +1889,10 @@ static cfg_clausedef_t rrl_clauses[] = {
 
 static cfg_clausedef_t *rrl_clausesets[] = { rrl_clauses, NULL };
 
-static cfg_type_t cfg_type_rrl = { "rate-limit", cfg_parse_map, cfg_print_map,
-				   cfg_doc_map,  &cfg_rep_map,  rrl_clausesets };
+static cfg_type_t cfg_type_rrl = {
+	"rate-limit", cfg_parse_map, cfg_print_map,
+	cfg_doc_map,  &cfg_rep_map,  rrl_clausesets
+};
 
 static isc_result_t
 parse_optional_uint32(cfg_parser_t *pctx, const cfg_type_t *type,
@@ -3221,10 +3223,10 @@ doc_querysource(cfg_printer_t *pctx, const cfg_type_t *type) {
 			     " [ dscp <integer> ]");
 }
 
-static unsigned int sockaddr4wild_flags = CFG_ADDR_WILDOK | CFG_ADDR_V4OK |
-					  CFG_ADDR_DSCPOK;
-static unsigned int sockaddr6wild_flags = CFG_ADDR_WILDOK | CFG_ADDR_V6OK |
-					  CFG_ADDR_DSCPOK;
+static unsigned int sockaddr4wild_flags =
+	CFG_ADDR_WILDOK | CFG_ADDR_V4OK | CFG_ADDR_DSCPOK;
+static unsigned int sockaddr6wild_flags =
+	CFG_ADDR_WILDOK | CFG_ADDR_V6OK | CFG_ADDR_DSCPOK;
 
 static cfg_type_t cfg_type_querysource4 = {
 	"querysource4", parse_querysource,   NULL, doc_querysource,
@@ -3245,8 +3247,8 @@ static cfg_type_t cfg_type_querysource = { "querysource",     NULL,
  * It allows both socket address families, but also allows "*",
  * which is gratuitously interpreted as the IPv4 wildcard address.
  */
-static unsigned int controls_sockaddr_flags = CFG_ADDR_V4OK | CFG_ADDR_V6OK |
-					      CFG_ADDR_WILDOK;
+static unsigned int controls_sockaddr_flags =
+	CFG_ADDR_V4OK | CFG_ADDR_V6OK | CFG_ADDR_WILDOK;
 static cfg_type_t cfg_type_controls_sockaddr = {
 	"controls_sockaddr", cfg_parse_sockaddr, cfg_print_sockaddr,
 	cfg_doc_sockaddr,    &cfg_rep_sockaddr,  &controls_sockaddr_flags

@@ -2192,8 +2192,8 @@ dns_message_renderend(dns_message_t *msg) {
 		isc_buffer_clear(msg->buffer);
 		isc_buffer_add(msg->buffer, DNS_MESSAGE_HEADERLEN);
 		dns_compress_rollback(msg->cctx, 0);
-		result = dns_message_rendersection(msg, DNS_SECTION_QUESTION,
-						   0);
+		result =
+			dns_message_rendersection(msg, DNS_SECTION_QUESTION, 0);
 		if (result != ISC_R_SUCCESS && result != ISC_R_NOSPACE) {
 			return (result);
 		}
@@ -2249,8 +2249,8 @@ dns_message_renderend(dns_message_t *msg) {
 		/* Aligned used length + reserved to padding block */
 		used = isc_buffer_usedlength(msg->buffer);
 		if (msg->padding != 0) {
-			padsize = ((uint16_t)used + msg->reserved) %
-				  msg->padding;
+			padsize =
+				((uint16_t)used + msg->reserved) % msg->padding;
 		}
 		if (padsize != 0) {
 			padsize = msg->padding - padsize;
@@ -3714,8 +3714,8 @@ dns_message_pseudosectiontoyaml(dns_message_t *msg, dns_pseudosection_t section,
 
 				optdata = isc_buffer_current(&optbuf);
 				if (extra_text) {
-					utf8ok = isc_utf8_valid(optdata,
-								optlen);
+					utf8ok =
+						isc_utf8_valid(optdata, optlen);
 				}
 				if (!utf8ok) {
 					for (i = 0; i < optlen; i++) {
@@ -4071,8 +4071,8 @@ dns_message_pseudosectiontotext(dns_message_t *msg, dns_pseudosection_t section,
 
 				optdata = isc_buffer_current(&optbuf);
 				if (optcode == DNS_OPT_EDE) {
-					utf8ok = isc_utf8_valid(optdata,
-								optlen);
+					utf8ok =
+						isc_utf8_valid(optdata, optlen);
 				}
 				if (!utf8ok) {
 					for (i = 0; i < optlen; i++) {

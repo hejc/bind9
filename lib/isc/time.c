@@ -269,8 +269,8 @@ isc_time_subtract(const isc_time_t *t, const isc_interval_t *i,
 	if (t->nanoseconds >= i->nanoseconds) {
 		result->nanoseconds = t->nanoseconds - i->nanoseconds;
 	} else {
-		result->nanoseconds = NS_PER_S - i->nanoseconds +
-				      t->nanoseconds;
+		result->nanoseconds =
+			NS_PER_S - i->nanoseconds + t->nanoseconds;
 		result->seconds--;
 	}
 

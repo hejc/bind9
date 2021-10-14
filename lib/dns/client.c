@@ -240,9 +240,9 @@ createview(isc_mem_t *mctx, dns_rdataclass_t rdclass, isc_taskmgr_t *taskmgr,
 		return (result);
 	}
 
-	result = dns_view_createresolver(view, taskmgr, ntasks, 1, nm, timermgr,
-					 0, dispatchmgr, dispatchv4,
-					 dispatchv6);
+	result =
+		dns_view_createresolver(view, taskmgr, ntasks, 1, nm, timermgr,
+					0, dispatchmgr, dispatchv4, dispatchv6);
 	if (result != ISC_R_SUCCESS) {
 		dns_view_detach(&view);
 		return (result);

@@ -952,8 +952,8 @@ import_rdataset(dns_adbname_t *adbname, dns_rdataset_t *rdataset,
 			goto fail;
 		}
 
-		foundentry = find_entry_and_lock(adb, &sockaddr, &addr_bucket,
-						 now);
+		foundentry =
+			find_entry_and_lock(adb, &sockaddr, &addr_bucket, now);
 		if (foundentry == NULL) {
 			dns_adbentry_t *entry;
 
@@ -1291,8 +1291,8 @@ shutdown_names(dns_adb_t *adb) {
 			while (name != NULL) {
 				next_name = ISC_LIST_NEXT(name, plink);
 				INSIST(!result);
-				result = kill_name(&name,
-						   DNS_EVENT_ADBSHUTDOWN);
+				result =
+					kill_name(&name, DNS_EVENT_ADBSHUTDOWN);
 				name = next_name;
 			}
 		}

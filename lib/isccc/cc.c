@@ -308,10 +308,10 @@ isccc_cc_towire(isccc_sexpr_t *alist, isc_buffer_t **buffer, uint32_t algorithm,
 	unsigned int hmac_base, signed_base;
 	isc_result_t result;
 
-	result = isc_buffer_reserve(buffer,
-				    4 + ((algorithm == ISCCC_ALG_HMACMD5)
-						 ? sizeof(auth_hmd5)
-						 : sizeof(auth_hsha)));
+	result =
+		isc_buffer_reserve(buffer, 4 + ((algorithm == ISCCC_ALG_HMACMD5)
+							? sizeof(auth_hmd5)
+							: sizeof(auth_hsha)));
 	if (result != ISC_R_SUCCESS) {
 		return (ISC_R_NOSPACE);
 	}

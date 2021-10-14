@@ -1494,9 +1494,9 @@ xml_renderctx(isc_mem_t *ctx, summarystat_t *summary, xmlTextWriterPtr writer) {
 	summary->contextsize += sizeof(*ctx);
 #if ISC_MEM_TRACKLINES
 	if (ctx->debuglist != NULL) {
-		summary->contextsize += DEBUG_TABLE_COUNT *
-						sizeof(debuglist_t) +
-					ctx->debuglistcnt * sizeof(debuglink_t);
+		summary->contextsize +=
+			DEBUG_TABLE_COUNT * sizeof(debuglist_t) +
+			ctx->debuglistcnt * sizeof(debuglink_t);
 	}
 #endif /* if ISC_MEM_TRACKLINES */
 	TRY0(xmlTextWriterStartElement(writer, ISC_XMLCHAR "references"));
@@ -1635,9 +1635,9 @@ json_renderctx(isc_mem_t *ctx, summarystat_t *summary, json_object *array) {
 	summary->malloced += isc_mem_malloced(ctx);
 #if ISC_MEM_TRACKLINES
 	if (ctx->debuglist != NULL) {
-		summary->contextsize += DEBUG_TABLE_COUNT *
-						sizeof(debuglist_t) +
-					ctx->debuglistcnt * sizeof(debuglink_t);
+		summary->contextsize +=
+			DEBUG_TABLE_COUNT * sizeof(debuglist_t) +
+			ctx->debuglistcnt * sizeof(debuglink_t);
 	}
 #endif /* if ISC_MEM_TRACKLINES */
 

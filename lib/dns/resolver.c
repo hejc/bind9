@@ -595,8 +595,8 @@ dns_resolver_setfuzzing(void) {
 
 static unsigned char ip6_arpa_data[] = "\003IP6\004ARPA";
 static unsigned char ip6_arpa_offsets[] = { 0, 4, 9 };
-static const dns_name_t ip6_arpa = DNS_NAME_INITABSOLUTE(ip6_arpa_data,
-							 ip6_arpa_offsets);
+static const dns_name_t ip6_arpa =
+	DNS_NAME_INITABSOLUTE(ip6_arpa_data, ip6_arpa_offsets);
 
 static unsigned char underscore_data[] = "\001_";
 static unsigned char underscore_offsets[] = { 0 };
@@ -1849,8 +1849,8 @@ fctx_setretryinterval(fetchctx_t *fctx, unsigned int rtt) {
 	 * expiration of the fetch, or for more than 10 seconds total.
 	 */
 	if ((fctx->options & DNS_FETCHOPT_TRYSTALE_ONTIMEOUT) != 0) {
-		uint64_t stale = isc_time_microdiff(&fctx->expires_try_stale,
-						    &now);
+		uint64_t stale =
+			isc_time_microdiff(&fctx->expires_try_stale, &now);
 		if (stale >= US_PER_MSEC && us > stale) {
 			FCTXTRACE("setting stale timeout");
 			us = stale;
@@ -4817,9 +4817,9 @@ fctx_create(dns_resolver_t *res, isc_task_t *task, const dns_name_t *name,
 	 * the name in fctx to proper length.
 	 */
 	if ((options & DNS_FETCHOPT_QMINIMIZE) != 0) {
-		fctx->ip6arpaskip = (options & DNS_FETCHOPT_QMIN_SKIP_IP6A) !=
-					    0 &&
-				    dns_name_issubdomain(fctx->name, &ip6_arpa);
+		fctx->ip6arpaskip =
+			(options & DNS_FETCHOPT_QMIN_SKIP_IP6A) != 0 &&
+			dns_name_issubdomain(fctx->name, &ip6_arpa);
 		result = fctx_minimize_qname(fctx);
 		if (result != ISC_R_SUCCESS) {
 			goto cleanup_mctx;
@@ -5386,8 +5386,8 @@ validated(isc_task_t *task, isc_event_t *event) {
 			covers = fctx->type;
 		}
 
-		result = dns_db_findnode(fctx->cache, vevent->name, true,
-					 &node);
+		result =
+			dns_db_findnode(fctx->cache, vevent->name, true, &node);
 		if (result != ISC_R_SUCCESS) {
 			goto noanswer_response;
 		}
@@ -6318,9 +6318,9 @@ ncache_adderesult(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
 		ardataset = &rdataset;
 	}
 	if (secure) {
-		result = dns_ncache_addoptout(message, cache, node, covers, now,
-					      minttl, maxttl, optout,
-					      ardataset);
+		result =
+			dns_ncache_addoptout(message, cache, node, covers, now,
+					     minttl, maxttl, optout, ardataset);
 	} else {
 		result = dns_ncache_add(message, cache, node, covers, now,
 					minttl, maxttl, ardataset);
@@ -7261,8 +7261,8 @@ resquery_response(isc_result_t eresult, isc_region_t *region, void *arg) {
 	}
 
 	if (query->tsigkey != NULL) {
-		result = dns_message_settsigkey(query->rmessage,
-						query->tsigkey);
+		result =
+			dns_message_settsigkey(query->rmessage, query->tsigkey);
 		if (result != ISC_R_SUCCESS) {
 			FCTXTRACE3("unable to set tsig key", result);
 			rctx_done(&rctx, result);

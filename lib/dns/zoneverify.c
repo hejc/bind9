@@ -157,9 +157,9 @@ has_dname(const vctx_t *vctx, dns_dbnode_t *node) {
 	isc_result_t result;
 
 	dns_rdataset_init(&dnameset);
-	result = dns_db_findrdataset(vctx->db, node, vctx->ver,
-				     dns_rdatatype_dname, 0, 0, &dnameset,
-				     NULL);
+	result =
+		dns_db_findrdataset(vctx->db, node, vctx->ver,
+				    dns_rdatatype_dname, 0, 0, &dnameset, NULL);
 	if (dns_rdataset_isassociated(&dnameset)) {
 		dns_rdataset_disassociate(&dnameset);
 	}
@@ -579,9 +579,9 @@ record_found(const vctx_t *vctx, const dns_name_t *name, dns_dbnode_t *node,
 	}
 
 	dns_rdataset_init(&rdataset);
-	result = dns_db_findrdataset(vctx->db, node, vctx->ver,
-				     dns_rdatatype_nsec3, 0, 0, &rdataset,
-				     NULL);
+	result =
+		dns_db_findrdataset(vctx->db, node, vctx->ver,
+				    dns_rdatatype_nsec3, 0, 0, &rdataset, NULL);
 	if (result != ISC_R_SUCCESS) {
 		return (ISC_R_SUCCESS);
 	}
@@ -1668,15 +1668,14 @@ determine_active_algorithms(vctx_t *vctx, bool ignore_kskflag,
 
 	for (size_t i = 0; i < ARRAY_SIZE(vctx->act_algorithms); i++) {
 		if (ignore_kskflag) {
-			vctx->act_algorithms[i] = (vctx->ksk_algorithms[i] !=
-							   0 ||
-						   vctx->zsk_algorithms[i] != 0)
-							  ? 1
-							  : 0;
+			vctx->act_algorithms[i] =
+				(vctx->ksk_algorithms[i] != 0 ||
+				 vctx->zsk_algorithms[i] != 0)
+					? 1
+					: 0;
 		} else {
-			vctx->act_algorithms[i] = vctx->ksk_algorithms[i] != 0
-							  ? 1
-							  : 0;
+			vctx->act_algorithms[i] =
+				vctx->ksk_algorithms[i] != 0 ? 1 : 0;
 		}
 		if (vctx->act_algorithms[i] != 0) {
 			dns_secalg_format(i, algbuf, sizeof(algbuf));
@@ -1817,8 +1816,8 @@ verify_nodes(vctx_t *vctx, isc_result_t *vresult) {
 			    (zonecut != NULL &&
 			     dns_name_issubdomain(nextname, zonecut)))
 			{
-				result = check_no_nsec(vctx, nextname,
-						       nextnode);
+				result =
+					check_no_nsec(vctx, nextname, nextnode);
 				if (result != ISC_R_SUCCESS) {
 					dns_db_detachnode(vctx->db, &node);
 					dns_db_detachnode(vctx->db, &nextnode);

@@ -217,8 +217,8 @@ dns_nsec3_typepresent(dns_rdata_t *rdata, dns_rdatatype_t type) {
 			continue;
 		}
 		if (type < (window * 256) + len * 8) {
-			present = dns_nsec_isset(&nsec3.typebits[i],
-						 type % 256);
+			present =
+				dns_nsec_isset(&nsec3.typebits[i], type % 256);
 		}
 		break;
 	}
@@ -361,8 +361,8 @@ name_exists(dns_db_t *db, dns_dbversion_t *version, const dns_name_t *name,
 		return (result);
 	}
 
-	result = dns_db_allrdatasets(db, node, version, (isc_stdtime_t)0,
-				     &iter);
+	result =
+		dns_db_allrdatasets(db, node, version, (isc_stdtime_t)0, &iter);
 	if (result != ISC_R_SUCCESS) {
 		goto cleanup_node;
 	}
@@ -920,9 +920,9 @@ dns_nsec3_addnsec3s(dns_db_t *db, dns_dbversion_t *version,
 		return (result);
 	}
 
-	result = dns_db_findrdataset(db, node, version,
-				     dns_rdatatype_nsec3param, 0, 0, &rdataset,
-				     NULL);
+	result =
+		dns_db_findrdataset(db, node, version, dns_rdatatype_nsec3param,
+				    0, 0, &rdataset, NULL);
 	dns_db_detachnode(db, &node);
 	if (result == ISC_R_NOTFOUND) {
 		return (ISC_R_SUCCESS);
@@ -1256,9 +1256,9 @@ dns_nsec3_addnsec3sx(dns_db_t *db, dns_dbversion_t *version,
 		goto failure;
 	}
 
-	result = dns_db_findrdataset(db, node, version,
-				     dns_rdatatype_nsec3param, 0, 0, &rdataset,
-				     NULL);
+	result =
+		dns_db_findrdataset(db, node, version, dns_rdatatype_nsec3param,
+				    0, 0, &rdataset, NULL);
 	if (result == ISC_R_NOTFOUND) {
 		goto try_private;
 	}
@@ -1682,9 +1682,9 @@ dns_nsec3_delnsec3sx(dns_db_t *db, dns_dbversion_t *version,
 		return (result);
 	}
 
-	result = dns_db_findrdataset(db, node, version,
-				     dns_rdatatype_nsec3param, 0, 0, &rdataset,
-				     NULL);
+	result =
+		dns_db_findrdataset(db, node, version, dns_rdatatype_nsec3param,
+				    0, 0, &rdataset, NULL);
 	if (result == ISC_R_NOTFOUND) {
 		goto try_private;
 	}
@@ -1794,9 +1794,9 @@ dns_nsec3_activex(dns_db_t *db, dns_dbversion_t *version, bool complete,
 		return (result);
 	}
 
-	result = dns_db_findrdataset(db, node, version,
-				     dns_rdatatype_nsec3param, 0, 0, &rdataset,
-				     NULL);
+	result =
+		dns_db_findrdataset(db, node, version, dns_rdatatype_nsec3param,
+				    0, 0, &rdataset, NULL);
 
 	if (result == ISC_R_NOTFOUND) {
 		goto try_private;

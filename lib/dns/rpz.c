@@ -726,8 +726,8 @@ ip2name(const dns_rpz_cidr_key_t *tgt_ip, dns_rpz_prefix_t tgt_prefix,
 			w[i * 2 + 1] =
 				((tgt_ip->w[DNS_RPZ_CIDR_WORDS - 1 - i] >> 16) &
 				 0xffff);
-			w[i * 2] = tgt_ip->w[DNS_RPZ_CIDR_WORDS - 1 - i] &
-				   0xffff;
+			w[i * 2] =
+				tgt_ip->w[DNS_RPZ_CIDR_WORDS - 1 - i] & 0xffff;
 		}
 		/*
 		 * Find the start and length of the first longest sequence
@@ -1525,10 +1525,10 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	memset(zone, 0, sizeof(*zone));
 	isc_refcount_init(&zone->refs, 1);
 
-	result = isc_timer_create(rpzs->timermgr, isc_timertype_inactive, NULL,
-				  NULL, rpzs->updater,
-				  dns_rpz_update_taskaction, zone,
-				  &zone->updatetimer);
+	result =
+		isc_timer_create(rpzs->timermgr, isc_timertype_inactive, NULL,
+				 NULL, rpzs->updater, dns_rpz_update_taskaction,
+				 zone, &zone->updatetimer);
 	if (result != ISC_R_SUCCESS) {
 		goto cleanup_timer;
 	}

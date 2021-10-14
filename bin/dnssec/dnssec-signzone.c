@@ -402,9 +402,9 @@ keythatsigned(dns_rdata_rrsig_t *rrsig) {
 		return (key);
 	}
 
-	result = dst_key_fromfile(&rrsig->signer, rrsig->keyid,
-				  rrsig->algorithm, DST_TYPE_PUBLIC, directory,
-				  mctx, &pubkey);
+	result =
+		dst_key_fromfile(&rrsig->signer, rrsig->keyid, rrsig->algorithm,
+				 DST_TYPE_PUBLIC, directory, mctx, &pubkey);
 	if (result != ISC_R_SUCCESS) {
 		isc_rwlock_unlock(&keylist_lock, isc_rwlocktype_write);
 		return (NULL);
@@ -897,8 +897,8 @@ static const unsigned char *
 hashlist_findnext(const hashlist_t *l,
 		  const unsigned char hash[NSEC3_MAX_HASH_LENGTH]) {
 	size_t entries = l->entries;
-	const unsigned char *next = bsearch(hash, l->hashbuf, l->entries,
-					    l->length, hashlist_comp);
+	const unsigned char *next =
+		bsearch(hash, l->hashbuf, l->entries, l->length, hashlist_comp);
 	INSIST(next != NULL);
 
 	do {
@@ -2964,9 +2964,9 @@ set_nsec3params(bool update, bool set_salt, bool set_optout, bool set_iter) {
 	dns_rdataset_init(&rdataset);
 
 	orig_saltlen = sizeof(orig_salt);
-	result = dns_db_getnsec3parameters(gdb, ver, &orig_hash, NULL,
-					   &orig_iter, orig_salt,
-					   &orig_saltlen);
+	result =
+		dns_db_getnsec3parameters(gdb, ver, &orig_hash, NULL,
+					  &orig_iter, orig_salt, &orig_saltlen);
 	if (result != ISC_R_SUCCESS) {
 		goto cleanup;
 	}
@@ -3067,9 +3067,8 @@ writeset(const char *prefix, dns_rdatatype_t type) {
 	unsigned char dsbuf[DNS_DS_BUFFERSIZE];
 	unsigned char keybuf[DST_KEY_MAXSIZE];
 	unsigned int filenamelen;
-	const dns_master_style_t *style = (type == dns_rdatatype_dnskey)
-						  ? masterstyle
-						  : dsstyle;
+	const dns_master_style_t *style =
+		(type == dns_rdatatype_dnskey) ? masterstyle : dsstyle;
 
 	isc_buffer_init(&namebuf, namestr, sizeof(namestr));
 	result = dns_name_tofilenametext(gorigin, false, &namebuf);
@@ -3134,9 +3133,9 @@ writeset(const char *prefix, dns_rdatatype_t type) {
 						   DNS_DSDIGEST_SHA256, dsbuf,
 						   &ds);
 			check_result(result, "dns_ds_buildrdata");
-			result = dns_difftuple_create(mctx,
-						      DNS_DIFFOP_ADDRESIGN,
-						      name, 0, &ds, &tuple);
+			result =
+				dns_difftuple_create(mctx, DNS_DIFFOP_ADDRESIGN,
+						     name, 0, &ds, &tuple);
 		} else {
 			result = dns_difftuple_create(
 				mctx, DNS_DIFFOP_ADDRESIGN, gorigin,

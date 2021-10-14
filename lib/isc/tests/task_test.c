@@ -624,8 +624,8 @@ task_exclusive(void **state) {
 
 		if (i == 6) {
 			/* task chosen from the middle of the range */
-			result = isc_task_create_bound(taskmgr, 0, &tasks[i],
-						       0);
+			result =
+				isc_task_create_bound(taskmgr, 0, &tasks[i], 0);
 			assert_int_equal(result, ISC_R_SUCCESS);
 
 			isc_taskmgr_setexcltask(taskmgr, tasks[6]);

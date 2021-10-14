@@ -356,8 +356,8 @@ tostruct_amtrelay(ARGS_TOSTRUCT) {
 
 	default:
 		if (region.length != 0) {
-			amtrelay->data = mem_maybedup(mctx, region.base,
-						      region.length);
+			amtrelay->data =
+				mem_maybedup(mctx, region.base, region.length);
 			if (amtrelay->data == NULL) {
 				return (ISC_R_NOMEMORY);
 			}

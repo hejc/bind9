@@ -622,8 +622,8 @@ dns_diff_print(dns_diff_t *diff, FILE *file) {
 		}
 again:
 		isc_buffer_init(&buf, mem, size);
-		result = dns_rdataset_totext(&rds, &t->name, false, false,
-					     &buf);
+		result =
+			dns_rdataset_totext(&rds, &t->name, false, false, &buf);
 
 		if (result == ISC_R_NOSPACE) {
 			isc_mem_put(diff->mctx, mem, size);

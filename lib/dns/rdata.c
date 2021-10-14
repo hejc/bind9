@@ -339,8 +339,8 @@ generic_rdata_in_svcb_current(dns_rdata_in_svcb_t *, isc_region_t *);
 static unsigned char gc_msdcs_data[] = "\002gc\006_msdcs";
 static unsigned char gc_msdcs_offset[] = { 0, 3 };
 
-static dns_name_t const gc_msdcs = DNS_NAME_INITNONABSOLUTE(gc_msdcs_data,
-							    gc_msdcs_offset);
+static dns_name_t const gc_msdcs =
+	DNS_NAME_INITNONABSOLUTE(gc_msdcs_data, gc_msdcs_offset);
 
 /*%
  *	convert presentation level address to network order binary form.

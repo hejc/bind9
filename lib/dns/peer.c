@@ -743,8 +743,8 @@ dns_peer_setnotifysource(dns_peer_t *peer,
 		peer->notify_source = NULL;
 	}
 	if (notify_source != NULL) {
-		peer->notify_source = isc_mem_get(peer->mem,
-						  sizeof(*peer->notify_source));
+		peer->notify_source =
+			isc_mem_get(peer->mem, sizeof(*peer->notify_source));
 
 		*peer->notify_source = *notify_source;
 	}
@@ -773,8 +773,8 @@ dns_peer_setquerysource(dns_peer_t *peer, const isc_sockaddr_t *query_source) {
 		peer->query_source = NULL;
 	}
 	if (query_source != NULL) {
-		peer->query_source = isc_mem_get(peer->mem,
-						 sizeof(*peer->query_source));
+		peer->query_source =
+			isc_mem_get(peer->mem, sizeof(*peer->query_source));
 
 		*peer->query_source = *query_source;
 	}

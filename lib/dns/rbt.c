@@ -1719,8 +1719,8 @@ hashtable_rehash_one(dns_rbt_t *rbt) {
 
 	/* Move the first non-empty node from old hashtable to new hashtable */
 	for (node = oldtable[rbt->hiter]; node != NULL; node = nextnode) {
-		uint32_t hash = hash_32(HASHVAL(node),
-					rbt->hashbits[rbt->hindex]);
+		uint32_t hash =
+			hash_32(HASHVAL(node), rbt->hashbits[rbt->hindex]);
 		nextnode = HASHNEXT(node);
 		HASHNEXT(node) = newtable[hash];
 		newtable[hash] = node;

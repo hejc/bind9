@@ -1332,8 +1332,8 @@ dns_dnssec_get_hints(dns_dnsseckey_t *key, isc_stdtime_t now) {
 	REQUIRE(key != NULL && key->key != NULL);
 
 	key->hint_publish = dst_key_is_published(key->key, now, &publish);
-	key->hint_sign = dst_key_is_signing(key->key, DST_BOOL_ZSK, now,
-					    &active);
+	key->hint_sign =
+		dst_key_is_signing(key->key, DST_BOOL_ZSK, now, &active);
 	key->hint_revoke = dst_key_is_revoked(key->key, now, &revoke);
 	key->hint_remove = dst_key_is_removed(key->key, now, &remove);
 

@@ -167,8 +167,8 @@ test_context_setup(void) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	ctx->rbt_distances = NULL;
-	result = dns_rbt_create(dt_mctx, delete_data, NULL,
-				&ctx->rbt_distances);
+	result =
+		dns_rbt_create(dt_mctx, delete_data, NULL, &ctx->rbt_distances);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	for (i = 0; i < domain_names_count; i++) {
@@ -867,8 +867,8 @@ insert_nodes(dns_rbt_t *mytree, char **names, size_t *names_count,
 			result = dns_rbt_addnode(mytree, name, &node);
 			if (result == ISC_R_SUCCESS) {
 				node->data = n;
-				names[*names_count] = isc_mem_strdup(dt_mctx,
-								     namebuf);
+				names[*names_count] =
+					isc_mem_strdup(dt_mctx, namebuf);
 				assert_non_null(names[*names_count]);
 				*names_count += 1;
 				break;

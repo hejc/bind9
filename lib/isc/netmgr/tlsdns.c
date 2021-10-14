@@ -1501,8 +1501,8 @@ accept_connection(isc_nmsocket_t *ssock, isc_quota_t *quota) {
 		goto failure;
 	}
 
-	result = isc_sockaddr_fromsockaddr(&local,
-					   (struct sockaddr *)&local_ss);
+	result =
+		isc_sockaddr_fromsockaddr(&local, (struct sockaddr *)&local_ss);
 	if (result != ISC_R_SUCCESS) {
 		goto failure;
 	}

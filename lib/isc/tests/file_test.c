@@ -119,8 +119,8 @@ isc_file_template_test(void **state) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 	assert_string_equal(buf, "/file-XXXXXXXX");
 
-	result = isc_file_template("noslash", "file-XXXXXXXX", buf,
-				   sizeof(buf));
+	result =
+		isc_file_template("noslash", "file-XXXXXXXX", buf, sizeof(buf));
 	assert_int_equal(result, ISC_R_SUCCESS);
 	assert_string_equal(buf, "file-XXXXXXXX");
 

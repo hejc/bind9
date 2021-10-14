@@ -1596,8 +1596,8 @@ configure_peer(const cfg_obj_t *cpeer, isc_mem_t *mctx, dns_peer_t **peerp) {
 		(void)cfg_map_get(cpeer, "notify-source-v6", &obj);
 	}
 	if (obj != NULL) {
-		result = dns_peer_setnotifysource(peer,
-						  cfg_obj_assockaddr(obj));
+		result =
+			dns_peer_setnotifysource(peer, cfg_obj_assockaddr(obj));
 		if (result != ISC_R_SUCCESS) {
 			goto cleanup;
 		}
@@ -3079,8 +3079,8 @@ configure_catz_zone(dns_view_t *view, const cfg_obj_t *config,
 
 	obj = cfg_tuple_get(catz_obj, "zone-directory");
 	if (!opts->in_memory && obj != NULL && cfg_obj_isstring(obj)) {
-		opts->zonedir = isc_mem_strdup(view->mctx,
-					       cfg_obj_asstring(obj));
+		opts->zonedir =
+			isc_mem_strdup(view->mctx, cfg_obj_asstring(obj));
 		if (isc_file_isdirectory(opts->zonedir) != ISC_R_SUCCESS) {
 			cfg_obj_log(obj, named_g_lctx, DNS_CATZ_ERROR_LEVEL,
 				    "catz: zone-directory '%s' "
@@ -3787,8 +3787,8 @@ configure_dnstap(const cfg_obj_t **maps, dns_view_t *view) {
 		}
 
 		obj = NULL;
-		result = named_config_get(maps, "fstrm-set-flush-timeout",
-					  &obj);
+		result =
+			named_config_get(maps, "fstrm-set-flush-timeout", &obj);
 		if (result == ISC_R_SUCCESS) {
 			i = cfg_obj_asuint32(obj);
 			fstrm_iothr_options_set_flush_timeout(fopt, i);
@@ -3926,8 +3926,8 @@ register_one_plugin(const cfg_obj_t *config, const cfg_obj_t *obj,
 	char full_path[PATH_MAX];
 	isc_result_t result;
 
-	result = ns_plugin_expandpath(plugin_path, full_path,
-				      sizeof(full_path));
+	result =
+		ns_plugin_expandpath(plugin_path, full_path, sizeof(full_path));
 	if (result != ISC_R_SUCCESS) {
 		isc_log_write(named_g_lctx, NAMED_LOGCATEGORY_GENERAL,
 			      NAMED_LOGMODULE_SERVER, ISC_LOG_ERROR,
@@ -4309,8 +4309,8 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
 
 	str = cfg_obj_asstring(obj);
 	if (strcasecmp(str, "fail") == 0) {
-		resopts |= DNS_RESOLVER_CHECKNAMES |
-			   DNS_RESOLVER_CHECKNAMESFAIL;
+		resopts |=
+			DNS_RESOLVER_CHECKNAMES | DNS_RESOLVER_CHECKNAMESFAIL;
 		view->checknames = true;
 	} else if (strcasecmp(str, "warn") == 0) {
 		resopts |= DNS_RESOLVER_CHECKNAMES;
@@ -6468,8 +6468,8 @@ configure_zone(const cfg_obj_t *config, const cfg_obj_t *zconfig,
 			 * Hint zones may also refer to delegation only points.
 			 */
 			only = NULL;
-			tresult = cfg_map_get(zoptions, "delegation-only",
-					      &only);
+			tresult =
+				cfg_map_get(zoptions, "delegation-only", &only);
 			if (tresult == ISC_R_SUCCESS && cfg_obj_asboolean(only))
 			{
 				dns_view_adddelegationonly(view, origin);
@@ -7432,9 +7432,9 @@ generate_session_key(const char *filename, const char *keynamestr,
 		      "generating session key for dynamic DNS");
 
 	/* generate key */
-	result = dst_key_generate(keyname, algtype, bits, 1, 0,
-				  DNS_KEYPROTO_ANY, dns_rdataclass_in, mctx,
-				  &key, NULL);
+	result =
+		dst_key_generate(keyname, algtype, bits, 1, 0, DNS_KEYPROTO_ANY,
+				 dns_rdataclass_in, mctx, &key, NULL);
 	if (result != ISC_R_SUCCESS) {
 		return (result);
 	}
@@ -8289,8 +8289,8 @@ check_lockfile(named_server_t *server, const cfg_obj_t *config,
 				server->mctx, named_g_defaultlockfile);
 		} else {
 			filename = cfg_obj_asstring(obj);
-			server->lockfile = isc_mem_strdup(server->mctx,
-							  filename);
+			server->lockfile =
+				isc_mem_strdup(server->mctx, filename);
 		}
 
 		if (server->lockfile == NULL) {
@@ -8300,8 +8300,8 @@ check_lockfile(named_server_t *server, const cfg_obj_t *config,
 
 	if (named_g_forcelock && named_g_defaultlockfile != NULL) {
 		INSIST(server->lockfile == NULL);
-		server->lockfile = isc_mem_strdup(server->mctx,
-						  named_g_defaultlockfile);
+		server->lockfile =
+			isc_mem_strdup(server->mctx, named_g_defaultlockfile);
 	}
 
 	if (server->lockfile == NULL) {
@@ -10152,8 +10152,8 @@ named_server_create(isc_mem_t *mctx, named_server_t **serverp) {
 	CHECKFATAL(server->statsfile == NULL ? ISC_R_NOMEMORY : ISC_R_SUCCESS,
 		   "isc_mem_strdup");
 
-	server->bindkeysfile = isc_mem_strdup(server->mctx,
-					      named_g_defaultbindkeys);
+	server->bindkeysfile =
+		isc_mem_strdup(server->mctx, named_g_defaultbindkeys);
 	CHECKFATAL(server->bindkeysfile == NULL ? ISC_R_NOMEMORY
 						: ISC_R_SUCCESS,
 		   "isc_mem_strdup");
@@ -10580,9 +10580,9 @@ zone_from_args(named_server_t *server, isc_lex_t *lex, const char *zonetxt,
 
 	if (viewtxt == NULL) {
 		if (redirect) {
-			result = dns_viewlist_find(&server->viewlist,
-						   "_default",
-						   dns_rdataclass_in, &view);
+			result =
+				dns_viewlist_find(&server->viewlist, "_default",
+						  dns_rdataclass_in, &view);
 			if (result != ISC_R_SUCCESS || view->redirect == NULL) {
 				result = ISC_R_NOTFOUND;
 				snprintf(problem, sizeof(problem),
@@ -12222,10 +12222,10 @@ named_server_status(named_server_t *server, isc_buffer_t **text) {
 					   DNS_ZONESTATE_XFERRUNNING);
 	xferdeferred = dns_zonemgr_getcount(server->zonemgr,
 					    DNS_ZONESTATE_XFERDEFERRED);
-	soaqueries = dns_zonemgr_getcount(server->zonemgr,
-					  DNS_ZONESTATE_SOAQUERY);
-	automatic = dns_zonemgr_getcount(server->zonemgr,
-					 DNS_ZONESTATE_AUTOMATIC);
+	soaqueries =
+		dns_zonemgr_getcount(server->zonemgr, DNS_ZONESTATE_SOAQUERY);
+	automatic =
+		dns_zonemgr_getcount(server->zonemgr, DNS_ZONESTATE_AUTOMATIC);
 
 	isc_time_formathttptimestamp(&named_g_boottime, boottime,
 				     sizeof(boottime));
@@ -12563,8 +12563,8 @@ named_server_tsiglist(named_server_t *server, isc_buffer_t **text) {
 	     view = ISC_LIST_NEXT(view, link))
 	{
 		RWLOCK(&view->statickeys->lock, isc_rwlocktype_read);
-		result = list_keynames(view, view->statickeys, text,
-				       &foundkeys);
+		result =
+			list_keynames(view, view->statickeys, text, &foundkeys);
 		RWUNLOCK(&view->statickeys->lock, isc_rwlocktype_read);
 		if (result != ISC_R_SUCCESS) {
 			return (result);
@@ -12955,8 +12955,8 @@ cleanup:
 		if (offsetok) {
 			isc_result_t result2;
 
-			result2 = isc_file_truncate(view->new_zone_file,
-						    offset);
+			result2 =
+				isc_file_truncate(view->new_zone_file, offset);
 			if (result2 != ISC_R_SUCCESS) {
 				isc_log_write(
 					named_g_lctx, NAMED_LOGCATEGORY_GENERAL,
@@ -13809,10 +13809,10 @@ do_addzone(named_server_t *server, ns_cfgctx_t *cfg, dns_view_t *view,
 
 	/* Mark view unfrozen and configure zone */
 	dns_view_thaw(view);
-	result = configure_zone(cfg->config, zoneobj, cfg->vconfig,
-				server->mctx, view, &server->viewlist,
-				&server->kasplist, cfg->actx, true, false,
-				false);
+	result =
+		configure_zone(cfg->config, zoneobj, cfg->vconfig, server->mctx,
+			       view, &server->viewlist, &server->kasplist,
+			       cfg->actx, true, false, false);
 	dns_view_freeze(view);
 
 	isc_task_endexclusive(server->task);
@@ -13997,10 +13997,10 @@ do_modzone(named_server_t *server, ns_cfgctx_t *cfg, dns_view_t *view,
 
 	/* Reconfigure the zone */
 	dns_view_thaw(view);
-	result = configure_zone(cfg->config, zoneobj, cfg->vconfig,
-				server->mctx, view, &server->viewlist,
-				&server->kasplist, cfg->actx, true, false,
-				true);
+	result =
+		configure_zone(cfg->config, zoneobj, cfg->vconfig, server->mctx,
+			       view, &server->viewlist, &server->kasplist,
+			       cfg->actx, true, false, true);
 	dns_view_freeze(view);
 
 	exclusive = false;
@@ -14043,8 +14043,8 @@ do_modzone(named_server_t *server, ns_cfgctx_t *cfg, dns_view_t *view,
 				view, cfg->conf_parser, cfg->config,
 				dns_zone_getorigin(zone), NULL);
 		} else {
-			const cfg_obj_t *voptions = cfg_tuple_get(cfg->vconfig,
-								  "options");
+			const cfg_obj_t *voptions =
+				cfg_tuple_get(cfg->vconfig, "options");
 			result = delete_zoneconf(
 				view, cfg->conf_parser, voptions,
 				dns_zone_getorigin(zone), NULL);
@@ -14343,8 +14343,8 @@ rmzone(isc_task_t *task, isc_event_t *event) {
 
 	if (!added && cfg != NULL) {
 		if (cfg->vconfig != NULL) {
-			const cfg_obj_t *voptions = cfg_tuple_get(cfg->vconfig,
-								  "options");
+			const cfg_obj_t *voptions =
+				cfg_tuple_get(cfg->vconfig, "options");
 			result = delete_zoneconf(
 				view, cfg->conf_parser, voptions,
 				dns_zone_getorigin(zone), NULL);

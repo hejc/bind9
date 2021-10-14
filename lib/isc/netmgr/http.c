@@ -369,8 +369,8 @@ new_http_cstream(isc_nmsocket_t *sock, http_cstream_t **streamp) {
 				    .uri = isc_mem_strdup(mctx, uri) };
 	ISC_LINK_INIT(stream, link);
 
-	result = isc_url_parse(stream->uri, strlen(stream->uri), 0,
-			       &stream->up);
+	result =
+		isc_url_parse(stream->uri, strlen(stream->uri), 0, &stream->up);
 	if (result != ISC_R_SUCCESS) {
 		isc_mem_free(mctx, stream->uri);
 		isc_mem_put(mctx, stream, sizeof(http_cstream_t));
@@ -537,8 +537,8 @@ on_server_data_chunk_recv_callback(int32_t stream_id, const uint8_t *data,
 							 h2->content_length),
 					MAX_DNS_MESSAGE_SIZE);
 			}
-			size_t new_bufsize = isc_buffer_usedlength(&h2->rbuf) +
-					     len;
+			size_t new_bufsize =
+				isc_buffer_usedlength(&h2->rbuf) + len;
 			if (new_bufsize <= MAX_DNS_MESSAGE_SIZE &&
 			    new_bufsize <= h2->content_length) {
 				isc_buffer_putmem(&h2->rbuf, data, len);
@@ -1288,8 +1288,8 @@ static void
 http_call_connect_cb(isc_nmsocket_t *sock, isc_nm_http_session_t *session,
 		     isc_result_t result) {
 	isc__nm_uvreq_t *req = NULL;
-	isc_nmhandle_t *httphandle = isc__nmhandle_get(sock, &sock->peer,
-						       &sock->iface);
+	isc_nmhandle_t *httphandle =
+		isc__nmhandle_get(sock, &sock->peer, &sock->iface);
 
 	REQUIRE(sock->connect_cb != NULL);
 
@@ -1458,8 +1458,8 @@ isc_nm_httpconnect(isc_nm_t *mgr, isc_sockaddr_t *local, isc_sockaddr_t *peer,
 		return;
 	}
 
-	sock->h2 = (isc_nmsocket_h2_t){ .connect.uri = isc_mem_strdup(mgr->mctx,
-								      uri),
+	sock->h2 = (isc_nmsocket_h2_t){ .connect.uri =
+						isc_mem_strdup(mgr->mctx, uri),
 					.connect.post = post,
 					.connect.tlsctx = tlsctx };
 	ISC_LINK_INIT(&sock->h2, link);
@@ -2126,9 +2126,9 @@ client_httpsend(isc_nmhandle_t *handle, isc_nmsocket_t *sock,
 	isc_nm_cb_t cb = req->cb.send;
 	void *cbarg = req->cbarg;
 
-	result = client_send(
-		handle,
-		&(isc_region_t){ (uint8_t *)req->uvbuf.base, req->uvbuf.len });
+	result =
+		client_send(handle, &(isc_region_t){ (uint8_t *)req->uvbuf.base,
+						     req->uvbuf.len });
 	if (result != ISC_R_SUCCESS) {
 		failed_send_cb(sock, req, result);
 		return;
@@ -3111,13 +3111,13 @@ isc_nm_http_makeuri(const bool https, const isc_sockaddr_t *sa,
 		host_port = ntohs(family == AF_INET ? sa->type.sin.sin_port
 						    : sa->type.sin6.sin6_port);
 		ipv6_addr = family == AF_INET6;
-		(void)inet_ntop(
-			family,
-			family == AF_INET
-				? (const struct sockaddr *)&sa->type.sin.sin_addr
-				: (const struct sockaddr *)&sa->type.sin6
-					  .sin6_addr,
-			saddr, sizeof(saddr));
+		(void)inet_ntop(family,
+				family == AF_INET
+					? (const struct sockaddr *)&sa->type.sin
+						  .sin_addr
+					: (const struct sockaddr *)&sa->type
+						  .sin6.sin6_addr,
+				saddr, sizeof(saddr));
 		host = saddr;
 	}
 

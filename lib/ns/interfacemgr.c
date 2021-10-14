@@ -268,8 +268,8 @@ ns_interfacemgr_create(isc_mem_t *mctx, ns_server_t *sctx,
 	mgr->magic = IFMGR_MAGIC;
 	*mgrp = mgr;
 
-	mgr->clientmgrs = isc_mem_get(mgr->mctx,
-				      mgr->ncpus * sizeof(mgr->clientmgrs[0]));
+	mgr->clientmgrs =
+		isc_mem_get(mgr->mctx, mgr->ncpus * sizeof(mgr->clientmgrs[0]));
 	for (size_t i = 0; i < (size_t)mgr->ncpus; i++) {
 		result = ns_clientmgr_create(mgr->sctx, mgr->taskmgr,
 					     mgr->timermgr, mgr->aclenv, (int)i,

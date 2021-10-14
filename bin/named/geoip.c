@@ -82,8 +82,8 @@ named_geoip_load(char *dir) {
 		      NAMED_LOGMODULE_SERVER, ISC_LOG_INFO,
 		      "looking for GeoIP2 databases in '%s'", dir);
 
-	named_g_geoip->country = open_geoip2(dir, "GeoIP2-Country.mmdb",
-					     &geoip_country);
+	named_g_geoip->country =
+		open_geoip2(dir, "GeoIP2-Country.mmdb", &geoip_country);
 	if (named_g_geoip->country == NULL) {
 		named_g_geoip->country = open_geoip2(
 			dir, "GeoLite2-Country.mmdb", &geoip_country);
@@ -91,19 +91,19 @@ named_geoip_load(char *dir) {
 
 	named_g_geoip->city = open_geoip2(dir, "GeoIP2-City.mmdb", &geoip_city);
 	if (named_g_geoip->city == NULL) {
-		named_g_geoip->city = open_geoip2(dir, "GeoLite2-City.mmdb",
-						  &geoip_city);
+		named_g_geoip->city =
+			open_geoip2(dir, "GeoLite2-City.mmdb", &geoip_city);
 	}
 
 	named_g_geoip->as = open_geoip2(dir, "GeoIP2-ASN.mmdb", &geoip_as);
 	if (named_g_geoip->as == NULL) {
-		named_g_geoip->as = open_geoip2(dir, "GeoLite2-ASN.mmdb",
-						&geoip_as);
+		named_g_geoip->as =
+			open_geoip2(dir, "GeoLite2-ASN.mmdb", &geoip_as);
 	}
 
 	named_g_geoip->isp = open_geoip2(dir, "GeoIP2-ISP.mmdb", &geoip_isp);
-	named_g_geoip->domain = open_geoip2(dir, "GeoIP2-Domain.mmdb",
-					    &geoip_domain);
+	named_g_geoip->domain =
+		open_geoip2(dir, "GeoIP2-Domain.mmdb", &geoip_domain);
 #else  /* if defined(HAVE_GEOIP2) */
 	UNUSED(dir);
 

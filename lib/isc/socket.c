@@ -2168,8 +2168,8 @@ again:
 				 */
 				memset(&sa, 0, sizeof(sa));
 				sa.nl_family = AF_NETLINK;
-				sa.nl_groups = RTMGRP_IPV4_IFADDR |
-					       RTMGRP_IPV6_IFADDR;
+				sa.nl_groups =
+					RTMGRP_IPV4_IFADDR | RTMGRP_IPV6_IFADDR;
 				n = bind(sock->fd, (struct sockaddr *)&sa,
 					 sizeof(sa));
 				if (n < 0) {
@@ -2428,14 +2428,14 @@ socket_create(isc_socketmgr_t *manager, int pf, isc_sockettype_t type,
 
 	switch (sock->type) {
 	case isc_sockettype_udp:
-		sock->statsindex = (pf == AF_INET) ? udp4statsindex
-						   : udp6statsindex;
+		sock->statsindex =
+			(pf == AF_INET) ? udp4statsindex : udp6statsindex;
 #define DCSPPKT(pf) (((pf) == AF_INET) ? ISC_NET_DSCPPKTV4 : ISC_NET_DSCPPKTV6)
 		sock->pktdscp = (isc_net_probedscp() & DCSPPKT(pf)) != 0;
 		break;
 	case isc_sockettype_tcp:
-		sock->statsindex = (pf == AF_INET) ? tcp4statsindex
-						   : tcp6statsindex;
+		sock->statsindex =
+			(pf == AF_INET) ? tcp4statsindex : tcp6statsindex;
 		break;
 	case isc_sockettype_unix:
 		sock->statsindex = unixstatsindex;
@@ -2834,7 +2834,8 @@ internal_accept(isc_socket_t *sock) {
 				"internal_accept(): "
 				"accept() returned peer address "
 				"family %u (expected %u)",
-				NEWCONNSOCK(dev)->peer_address.type.sa.sa_family,
+				NEWCONNSOCK(dev)
+					->peer_address.type.sa.sa_family,
 				sock->pf);
 			(void)close(fd);
 			goto soft_error;
@@ -2896,9 +2897,9 @@ internal_accept(isc_socket_t *sock) {
 		 * We already hold a lock on one fdlock in accepting thread,
 		 * we need to make sure that we don't double lock.
 		 */
-		bool same_bucket = (sock->threadid ==
-				    NEWCONNSOCK(dev)->threadid) &&
-				   (FDLOCK_ID(sock->fd) == lockid);
+		bool same_bucket =
+			(sock->threadid == NEWCONNSOCK(dev)->threadid) &&
+			(FDLOCK_ID(sock->fd) == lockid);
 
 		/*
 		 * Use minimum mtu if possible.
@@ -3630,20 +3631,20 @@ setup_thread(isc__socketthread_t *thread) {
 	 * FD_SETSIZE, but we separate the cases to avoid possible portability
 	 * issues regarding howmany() and the actual representation of fd_set.
 	 */
-	thread->fd_bufsize = howmany(manager->maxsocks, NFDBITS) *
-			     sizeof(fd_mask);
+	thread->fd_bufsize =
+		howmany(manager->maxsocks, NFDBITS) * sizeof(fd_mask);
 #else  /* if ISC_SOCKET_MAXSOCKETS > FD_SETSIZE */
 	thread->fd_bufsize = sizeof(fd_set);
 #endif /* if ISC_SOCKET_MAXSOCKETS > FD_SETSIZE */
 
-	thread->read_fds = isc_mem_get(thread->manager->mctx,
-				       thread->fd_bufsize);
-	thread->read_fds_copy = isc_mem_get(thread->manager->mctx,
-					    thread->fd_bufsize);
-	thread->write_fds = isc_mem_get(thread->manager->mctx,
-					thread->fd_bufsize);
-	thread->write_fds_copy = isc_mem_get(thread->manager->mctx,
-					     thread->fd_bufsize);
+	thread->read_fds =
+		isc_mem_get(thread->manager->mctx, thread->fd_bufsize);
+	thread->read_fds_copy =
+		isc_mem_get(thread->manager->mctx, thread->fd_bufsize);
+	thread->write_fds =
+		isc_mem_get(thread->manager->mctx, thread->fd_bufsize);
+	thread->write_fds_copy =
+		isc_mem_get(thread->manager->mctx, thread->fd_bufsize);
 	memset(thread->read_fds, 0, thread->fd_bufsize);
 	memset(thread->write_fds, 0, thread->fd_bufsize);
 

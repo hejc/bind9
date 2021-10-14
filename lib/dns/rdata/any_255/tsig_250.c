@@ -470,11 +470,10 @@ tostruct_any_tsig(ARGS_TOSTRUCT) {
 	 * Time Signed.
 	 */
 	INSIST(sr.length >= 6);
-	tsig->timesigned = ((uint64_t)sr.base[0] << 40) |
-			   ((uint64_t)sr.base[1] << 32) |
-			   ((uint64_t)sr.base[2] << 24) |
-			   ((uint64_t)sr.base[3] << 16) |
-			   ((uint64_t)sr.base[4] << 8) | (uint64_t)sr.base[5];
+	tsig->timesigned =
+		((uint64_t)sr.base[0] << 40) | ((uint64_t)sr.base[1] << 32) |
+		((uint64_t)sr.base[2] << 24) | ((uint64_t)sr.base[3] << 16) |
+		((uint64_t)sr.base[4] << 8) | (uint64_t)sr.base[5];
 	isc_region_consume(&sr, 6);
 
 	/*

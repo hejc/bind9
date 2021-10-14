@@ -1268,8 +1268,8 @@ named_zone_configure(const cfg_obj_t *config, const cfg_obj_t *vconfig,
 				ISC_UNREACHABLE();
 			}
 		}
-		notifytype = process_notifytype(notifytype, ztype, zname,
-						nodefault);
+		notifytype =
+			process_notifytype(notifytype, ztype, zname, nodefault);
 		if (raw != NULL) {
 			dns_zone_setnotifytype(raw, dns_notifytype_no);
 		}
@@ -2092,8 +2092,8 @@ named_zone_reusable(dns_zone_t *zone, const cfg_obj_t *zconfig,
 		has_raw = false;
 	}
 
-	inline_signing = named_zone_inlinesigning(zone, zconfig, vconfig,
-						  config, actx);
+	inline_signing =
+		named_zone_inlinesigning(zone, zconfig, vconfig, config, actx);
 	if (!inline_signing && has_raw) {
 		dns_zone_log(zone, ISC_LOG_DEBUG(1),
 			     "not reusable: old zone was inline-signing");

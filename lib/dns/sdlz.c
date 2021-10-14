@@ -776,8 +776,8 @@ createiterator(dns_db_t *db, unsigned int options,
 	sdlziter->common.methods = &dbiterator_methods;
 	sdlziter->common.db = NULL;
 	dns_db_attach(db, &sdlziter->common.db);
-	sdlziter->common.relative_names = ((options & DNS_DB_RELATIVENAMES) !=
-					   0);
+	sdlziter->common.relative_names =
+		((options & DNS_DB_RELATIVENAMES) != 0);
 	sdlziter->common.magic = DNS_DBITERATOR_MAGIC;
 	ISC_LIST_INIT(sdlziter->nodelist);
 	sdlziter->current = NULL;

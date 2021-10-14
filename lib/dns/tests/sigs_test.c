@@ -124,8 +124,8 @@ compare_tuples(const zonediff_t *expected, dns_difftuple_t *found,
 	 * Check owner name.
 	 */
 	expected_name = dns_fixedname_initname(&expected_fname);
-	result = dns_name_fromstring(expected_name, expected->owner, 0,
-				     dt_mctx);
+	result =
+		dns_name_fromstring(expected_name, expected->owner, 0, dt_mctx);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	dns_name_format(&found->name, found_name, sizeof(found_name));
 	assert_true(dns_name_equal(expected_name, &found->name));

@@ -140,8 +140,8 @@ const dns_name_t *dns_rootname = &root;
 static unsigned char wild_ndata[] = { "\001*" };
 static unsigned char wild_offsets[] = { 0 };
 
-static dns_name_t const wild = DNS_NAME_INITNONABSOLUTE(wild_ndata,
-							wild_offsets);
+static dns_name_t const wild =
+	DNS_NAME_INITNONABSOLUTE(wild_ndata, wild_offsets);
 
 const dns_name_t *dns_wildcardname = &wild;
 
@@ -979,10 +979,10 @@ dns_name_clone(const dns_name_t *source, dns_name_t *target) {
 	target->ndata = source->ndata;
 	target->length = source->length;
 	target->labels = source->labels;
-	target->attributes = source->attributes &
-			     (unsigned int)~(DNS_NAMEATTR_READONLY |
-					     DNS_NAMEATTR_DYNAMIC |
-					     DNS_NAMEATTR_DYNOFFSETS);
+	target->attributes =
+		source->attributes &
+		(unsigned int)~(DNS_NAMEATTR_READONLY | DNS_NAMEATTR_DYNAMIC |
+				DNS_NAMEATTR_DYNOFFSETS);
 	if (target->offsets != NULL && source->labels > 0) {
 		if (source->offsets != NULL) {
 			memmove(target->offsets, source->offsets,
@@ -1458,10 +1458,10 @@ no_escape:
 							return (ISC_R_NOSPACE);
 						}
 						*tdata++ = 0x5c;
-						*tdata++ = 0x30 +
-							   ((c / 100) % 10);
-						*tdata++ = 0x30 +
-							   ((c / 10) % 10);
+						*tdata++ =
+							0x30 + ((c / 100) % 10);
+						*tdata++ =
+							0x30 + ((c / 10) % 10);
 						*tdata++ = 0x30 + (c % 10);
 						trem -= 4;
 						ndata++;

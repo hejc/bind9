@@ -1561,8 +1561,8 @@ dns_update_signaturesinc(dns_update_log_t *log, dns_zone_t *zone, dns_db_t *db,
 
 		isc_stdtime_get(&now);
 		state->inception = now - 3600; /* Allow for some clock skew. */
-		state->expire = now +
-				dns__jitter_expire(zone, sigvalidityinterval);
+		state->expire =
+			now + dns__jitter_expire(zone, sigvalidityinterval);
 		state->soaexpire = now + sigvalidityinterval;
 		state->keyexpire = dns_zone_getkeyvalidityinterval(zone);
 		if (state->keyexpire == 0) {

@@ -1170,10 +1170,10 @@ stream_listen(isc_nm_accept_cb_t accept_cb, void *accept_cbarg,
 
 #if HAVE_LIBNGHTTP2
 	if (stream_use_TLS) {
-		result = isc_nm_listentls(listen_nm, &tcp_listen_addr,
-					  accept_cb, accept_cbarg,
-					  extrahandlesize, backlog, quota,
-					  tcp_listen_tlsctx, sockp);
+		result =
+			isc_nm_listentls(listen_nm, &tcp_listen_addr, accept_cb,
+					 accept_cbarg, extrahandlesize, backlog,
+					 quota, tcp_listen_tlsctx, sockp);
 		return (result);
 	}
 #endif
@@ -1267,8 +1267,8 @@ stream_timeout_recovery(void **state __attribute__((unused))) {
 	 * reads to time out.
 	 */
 	noanswer = true;
-	result = stream_listen(stream_accept_cb, NULL, 0, 0, NULL,
-			       &listen_sock);
+	result =
+		stream_listen(stream_accept_cb, NULL, 0, 0, NULL, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	/*
@@ -2408,10 +2408,10 @@ tlsdns_timeout_recovery(void **state __attribute__((unused))) {
 	 * reads to time out.
 	 */
 	noanswer = true;
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	/*
@@ -2447,10 +2447,10 @@ tlsdns_recv_one(void **state __attribute__((unused))) {
 
 	atomic_store(&nsends, 1);
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	isc_refcount_increment0(&active_cconnects);
@@ -2490,10 +2490,10 @@ tlsdns_recv_two(void **state __attribute__((unused))) {
 
 	atomic_store(&nsends, 2);
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	isc_refcount_increment0(&active_cconnects);
@@ -2542,10 +2542,10 @@ tlsdns_recv_send(void **state __attribute__((unused))) {
 
 	SKIP_IN_CI;
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	memset(threads, 0, sizeof(threads));
@@ -2589,10 +2589,10 @@ tlsdns_recv_half_send(void **state __attribute__((unused))) {
 
 	SKIP_IN_CI;
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	memset(threads, 0, sizeof(threads));
@@ -2637,10 +2637,10 @@ tlsdns_half_recv_send(void **state __attribute__((unused))) {
 
 	SKIP_IN_CI;
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	memset(threads, 0, sizeof(threads));
@@ -2688,10 +2688,10 @@ tlsdns_half_recv_half_send(void **state __attribute__((unused))) {
 
 	SKIP_IN_CI;
 
-	result = isc_nm_listentlsdns(listen_nm, &tcp_listen_addr,
-				     listen_read_cb, NULL, listen_accept_cb,
-				     NULL, 0, 0, NULL, tcp_listen_tlsctx,
-				     &listen_sock);
+	result =
+		isc_nm_listentlsdns(listen_nm, &tcp_listen_addr, listen_read_cb,
+				    NULL, listen_accept_cb, NULL, 0, 0, NULL,
+				    tcp_listen_tlsctx, &listen_sock);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	memset(threads, 0, sizeof(threads));

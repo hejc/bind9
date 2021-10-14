@@ -423,9 +423,9 @@ build_dbinstance(const char *allnodes_str, const char *allowxfr_str,
 	}
 
 	/* build lookup query, query list */
-	result = build_querylist(lookup_str, &db->zone, &db->record,
-				 &db->client, &db->lookup_q, REQUIRE_RECORD,
-				 log);
+	result =
+		build_querylist(lookup_str, &db->zone, &db->record, &db->client,
+				&db->lookup_q, REQUIRE_RECORD, log);
 	/* if unsuccessful, log err msg and cleanup */
 	if (result != ISC_R_SUCCESS) {
 		if (log != NULL) {

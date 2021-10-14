@@ -780,9 +780,9 @@ parse_command_line(int argc, char *argv[]) {
 			named_g_conffileset = true;
 			break;
 		case 'd':
-			named_g_debuglevel = parse_int(isc_commandline_argument,
-						       "debug "
-						       "level");
+			named_g_debuglevel =
+				parse_int(isc_commandline_argument, "debug "
+								    "level");
 			break;
 		case 'D':
 			/* Descriptive comment for 'ps'. */
@@ -920,10 +920,10 @@ create_managers(void) {
 		      "using %u UDP listener%s per interface", named_g_udpdisp,
 		      named_g_udpdisp == 1 ? "" : "s");
 
-	result = isc_managers_create(named_g_mctx, named_g_cpus,
-				     0 /* quantum */, maxsocks, &named_g_netmgr,
-				     &named_g_taskmgr, &named_g_timermgr,
-				     &named_g_socketmgr);
+	result =
+		isc_managers_create(named_g_mctx, named_g_cpus, 0 /* quantum */,
+				    maxsocks, &named_g_netmgr, &named_g_taskmgr,
+				    &named_g_timermgr, &named_g_socketmgr);
 	if (result != ISC_R_SUCCESS) {
 		return (result);
 	}

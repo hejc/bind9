@@ -355,9 +355,9 @@ check_address_records(dns_view_t *view, dns_db_t *hints, dns_db_t *db,
 
 	hresult = dns_db_find(hints, name, NULL, dns_rdatatype_a, 0, now, NULL,
 			      foundname, &hintrrset, NULL);
-	rresult = dns_db_find(db, name, NULL, dns_rdatatype_a,
-			      DNS_DBFIND_GLUEOK, now, NULL, foundname,
-			      &rootrrset, NULL);
+	rresult =
+		dns_db_find(db, name, NULL, dns_rdatatype_a, DNS_DBFIND_GLUEOK,
+			    now, NULL, foundname, &rootrrset, NULL);
 	if (hresult == ISC_R_SUCCESS &&
 	    (rresult == ISC_R_SUCCESS || rresult == DNS_R_GLUE))
 	{

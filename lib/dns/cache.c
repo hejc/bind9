@@ -232,8 +232,8 @@ dns_cache_create(isc_mem_t *cmctx, isc_mem_t *hmctx, isc_taskmgr_t *taskmgr,
 	cache->db_argv = NULL;
 
 	if (cache->db_argc != 0) {
-		cache->db_argv = isc_mem_get(cmctx,
-					     cache->db_argc * sizeof(char *));
+		cache->db_argv =
+			isc_mem_get(cmctx, cache->db_argc * sizeof(char *));
 
 		for (i = 0; i < cache->db_argc; i++) {
 			cache->db_argv[i] = NULL;
@@ -241,8 +241,8 @@ dns_cache_create(isc_mem_t *cmctx, isc_mem_t *hmctx, isc_taskmgr_t *taskmgr,
 
 		cache->db_argv[0] = (char *)hmctx;
 		for (i = extra; i < cache->db_argc; i++) {
-			cache->db_argv[i] = isc_mem_strdup(cmctx,
-							   db_argv[i - extra]);
+			cache->db_argv[i] =
+				isc_mem_strdup(cmctx, db_argv[i - extra]);
 		}
 	}
 

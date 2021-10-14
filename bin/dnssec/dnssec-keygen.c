@@ -946,8 +946,8 @@ main(int argc, char **argv) {
 			}
 			break;
 		case 'g':
-			ctx.generator = strtol(isc_commandline_argument, &endp,
-					       10);
+			ctx.generator =
+				strtol(isc_commandline_argument, &endp, 10);
 			if (*endp != '\0' || ctx.generator <= 0) {
 				fatal("-g requires a positive number");
 			}
@@ -976,8 +976,8 @@ main(int argc, char **argv) {
 		case 'm':
 			break;
 		case 'p':
-			ctx.protocol = strtol(isc_commandline_argument, &endp,
-					      10);
+			ctx.protocol =
+				strtol(isc_commandline_argument, &endp, 10);
 			if (*endp != '\0' || ctx.protocol < 0 ||
 			    ctx.protocol > 255) {
 				fatal("-p must be followed by a number "
@@ -992,8 +992,8 @@ main(int argc, char **argv) {
 			      "System random data is always used.\n");
 			break;
 		case 's':
-			ctx.signatory = strtol(isc_commandline_argument, &endp,
-					       10);
+			ctx.signatory =
+				strtol(isc_commandline_argument, &endp, 10);
 			if (*endp != '\0' || ctx.signatory < 0 ||
 			    ctx.signatory > 15) {
 				fatal("-s must be followed by a number "
@@ -1062,9 +1062,9 @@ main(int argc, char **argv) {
 				fatal("-R specified more than once");
 			}
 
-			ctx.revokekey = strtotime(isc_commandline_argument,
-						  ctx.now, ctx.now,
-						  &ctx.setrev);
+			ctx.revokekey =
+				strtotime(isc_commandline_argument, ctx.now,
+					  ctx.now, &ctx.setrev);
 			ctx.unsetrev = !ctx.setrev;
 			break;
 		case 'I':
@@ -1072,9 +1072,9 @@ main(int argc, char **argv) {
 				fatal("-I specified more than once");
 			}
 
-			ctx.inactive = strtotime(isc_commandline_argument,
-						 ctx.now, ctx.now,
-						 &ctx.setinact);
+			ctx.inactive =
+				strtotime(isc_commandline_argument, ctx.now,
+					  ctx.now, &ctx.setinact);
 			ctx.unsetinact = !ctx.setinact;
 			break;
 		case 'D':

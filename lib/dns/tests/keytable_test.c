@@ -155,9 +155,9 @@ create_dsstruct(dns_name_t *name, uint16_t flags, uint8_t proto, uint8_t alg,
 	 * Convert to wire format.
 	 */
 	isc_buffer_init(&rrdatabuf, rrdata, sizeof(rrdata));
-	result = dns_rdata_fromstruct(&rdata, dnskey.common.rdclass,
-				      dnskey.common.rdtype, &dnskey,
-				      &rrdatabuf);
+	result =
+		dns_rdata_fromstruct(&rdata, dnskey.common.rdclass,
+				     dnskey.common.rdtype, &dnskey, &rrdatabuf);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	/*
@@ -625,9 +625,9 @@ nta_test(void **state) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	/* Should be secure */
-	result = dns_view_issecuredomain(myview,
-					 str2name("test.secure.example"), now,
-					 true, &covered, &issecure);
+	result =
+		dns_view_issecuredomain(myview, str2name("test.secure.example"),
+					now, true, &covered, &issecure);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	assert_false(covered);
 	assert_true(issecure);

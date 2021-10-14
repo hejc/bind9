@@ -709,7 +709,8 @@ doh_receive_send_reply_cb(isc_nmhandle_t *handle, isc_result_t eresult,
 				eresult = isc__nm_http_request(
 					handle,
 					&(isc_region_t){
-						.base = (uint8_t *)send_msg.base,
+						.base = (uint8_t *)
+								send_msg.base,
 						.length = send_msg.len },
 					doh_receive_send_reply_cb, (void *)1);
 				if (eresult == ISC_R_CANCELED) {

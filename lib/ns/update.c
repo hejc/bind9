@@ -3116,9 +3116,9 @@ update_action(isc_task_t *task, isc_event_t *event) {
 					result = do_diff(&ctx.del_diff, db, ver,
 							 &diff);
 					if (result == ISC_R_SUCCESS) {
-						result = do_diff(&ctx.add_diff,
-								 db, ver,
-								 &diff);
+						result =
+							do_diff(&ctx.add_diff,
+								db, ver, &diff);
 					}
 					if (result != ISC_R_SUCCESS) {
 						dns_diff_clear(&ctx.del_diff);

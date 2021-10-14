@@ -1182,9 +1182,9 @@ db_find:
 			}
 			dns_db_detach(&db);
 		}
-		result = dns_db_find(view->hints, name, NULL, type, options,
-				     now, &node, foundname, rdataset,
-				     sigrdataset);
+		result =
+			dns_db_find(view->hints, name, NULL, type, options, now,
+				    &node, foundname, rdataset, sigrdataset);
 		if (result == ISC_R_SUCCESS || result == DNS_R_GLUE) {
 			/*
 			 * We just used a hint.  Let the resolver know it
@@ -1543,8 +1543,8 @@ dns_viewlist_findzone(dns_viewlist_t *list, const dns_name_t *name,
 		zp = (zone1 == NULL) ? &zone1 : &zone2;
 		LOCK(&view->lock);
 		if (view->zonetable != NULL) {
-			result = dns_zt_find(view->zonetable, name, 0, NULL,
-					     zp);
+			result =
+				dns_zt_find(view->zonetable, name, 0, NULL, zp);
 		} else {
 			result = ISC_R_NOTFOUND;
 		}
@@ -1612,8 +1612,8 @@ dns_view_gettransport(dns_view_t *view, const dns_transport_type_t type,
 	REQUIRE(DNS_VIEW_VALID(view));
 	REQUIRE(transportp != NULL && *transportp == NULL);
 
-	dns_transport_t *transport = dns_transport_find(type, name,
-							view->transports);
+	dns_transport_t *transport =
+		dns_transport_find(type, name, view->transports);
 	if (transport == NULL) {
 		return (ISC_R_NOTFOUND);
 	}
@@ -1747,9 +1747,9 @@ dns_view_adddelegationonly(dns_view_t *view, const dns_name_t *name) {
 	REQUIRE(DNS_VIEW_VALID(view));
 
 	if (view->delonly == NULL) {
-		view->delonly = isc_mem_get(view->mctx,
-					    sizeof(dns_namelist_t) *
-						    DNS_VIEW_DELONLYHASH);
+		view->delonly =
+			isc_mem_get(view->mctx, sizeof(dns_namelist_t) *
+							DNS_VIEW_DELONLYHASH);
 		for (hash = 0; hash < DNS_VIEW_DELONLYHASH; hash++) {
 			ISC_LIST_INIT(view->delonly[hash]);
 		}
@@ -1776,8 +1776,8 @@ dns_view_excludedelegationonly(dns_view_t *view, const dns_name_t *name) {
 	REQUIRE(DNS_VIEW_VALID(view));
 
 	if (view->rootexclude == NULL) {
-		view->rootexclude = isc_mem_get(view->mctx,
-						sizeof(dns_namelist_t) *
+		view->rootexclude =
+			isc_mem_get(view->mctx, sizeof(dns_namelist_t) *
 							DNS_VIEW_DELONLYHASH);
 		for (hash = 0; hash < DNS_VIEW_DELONLYHASH; hash++) {
 			ISC_LIST_INIT(view->rootexclude[hash]);

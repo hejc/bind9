@@ -1179,9 +1179,9 @@ dns_rrl(dns_view_t *view, const isc_sockaddr_t *client_addr, bool is_tcp,
 			UNLOCK(&rrl->lock);
 			return (DNS_RRL_RESULT_OK);
 		}
-		rrl_all_result = debit_rrl_entry(rrl, e_all, qps, scale,
-						 client_addr, now, log_buf,
-						 log_buf_len);
+		rrl_all_result =
+			debit_rrl_entry(rrl, e_all, qps, scale, client_addr,
+					now, log_buf, log_buf_len);
 		if (rrl_all_result != DNS_RRL_RESULT_OK) {
 			e = e_all;
 			rrl_result = rrl_all_result;

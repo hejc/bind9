@@ -102,8 +102,8 @@ isccc_sexpr_frombinary(const isccc_region_t *region) {
 		free(sexpr);
 		return (NULL);
 	}
-	sexpr->value.as_region.rend = sexpr->value.as_region.rstart +
-				      region_size;
+	sexpr->value.as_region.rend =
+		sexpr->value.as_region.rstart + region_size;
 	memmove(sexpr->value.as_region.rstart, region->rstart, region_size);
 	/*
 	 * NUL terminate.

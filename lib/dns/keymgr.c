@@ -1758,9 +1758,9 @@ keymgr_key_rollover(dns_kasp_key_t *kaspkey, dns_dnsseckey_t *active_key,
 		bool csk = (dns_kasp_key_ksk(kaspkey) &&
 			    dns_kasp_key_zsk(kaspkey));
 
-		isc_result_t result = keymgr_createkey(kaspkey, origin, rdclass,
-						       mctx, keyring, newkeys,
-						       &dst_key);
+		isc_result_t result =
+			keymgr_createkey(kaspkey, origin, rdclass, mctx,
+					 keyring, newkeys, &dst_key);
 		if (result != ISC_R_SUCCESS) {
 			return (result);
 		}
@@ -2387,8 +2387,10 @@ rollover_status(dns_dnsseckey_t *dkey, dns_kasp_t *kasp, isc_stdtime_t now,
 					isc_buffer_printf(buf,
 							  "  Next rollover "
 							  "scheduled on ");
-					retire_time = keymgr_prepublication_time(
-						dkey, kasp, lifetime, now);
+					retire_time =
+						keymgr_prepublication_time(
+							dkey, kasp, lifetime,
+							now);
 				} else {
 					isc_buffer_printf(
 						buf, "  Key will retire on ");

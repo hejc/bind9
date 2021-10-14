@@ -787,9 +787,9 @@ dlz_allnodes(const char *zone, void *dbdata, dns_sdlzallnodes_t *allnodes) {
 				strcat(tmpString, safeGet(row[j]));
 			}
 
-			result = db->putnamedrr(allnodes, safeGet(row[2]),
-						safeGet(row[1]), ttl,
-						tmpString);
+			result =
+				db->putnamedrr(allnodes, safeGet(row[2]),
+					       safeGet(row[1]), ttl, tmpString);
 			free(tmpString);
 		}
 
@@ -821,8 +821,8 @@ dlz_authority(const char *zone, void *dbdata, dns_sdlzlookup_t *lookup) {
 	sqlite3_res_t *rs = NULL;
 	sqlite3_instance_t *db = (sqlite3_instance_t *)dbdata;
 
-	result = sqlite3_get_resultset(zone, NULL, NULL, AUTHORITY, dbdata,
-				       &rs);
+	result =
+		sqlite3_get_resultset(zone, NULL, NULL, AUTHORITY, dbdata, &rs);
 	if (result == ISC_R_NOTIMPLEMENTED) {
 		return (result);
 	}

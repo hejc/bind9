@@ -498,8 +498,8 @@ isc_radix_insert(isc_radix_tree_t *radix, isc_radix_node_t **target,
 		for (i = 0; i < RADIX_FAMILIES; i++) {
 			int cur = radix->num_added_node;
 			if (source->node_num[i] != -1) {
-				new_node->node_num[i] = source->node_num[i] +
-							cur;
+				new_node->node_num[i] =
+					source->node_num[i] + cur;
 				new_node->data[i] = source->data[i];
 			}
 		}

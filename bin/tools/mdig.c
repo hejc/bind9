@@ -711,8 +711,8 @@ sendquery(struct query *query, isc_task_t *task) {
 				isc_buffer_t b;
 
 				isc_buffer_init(&b, cookie, sizeof(cookie));
-				result = isc_hex_decodestring(query->cookie,
-							      &b);
+				result =
+					isc_hex_decodestring(query->cookie, &b);
 				CHECK("isc_hex_decodestring", result);
 				opts[i].value = isc_buffer_base(&b);
 				opts[i].length = isc_buffer_usedlength(&b);
@@ -1352,9 +1352,9 @@ plus_option(char *option, struct query *query, bool global) {
 							query->edns = 0;
 							break;
 						}
-						result = parse_uint(&num, value,
-								    255,
-								    "edns");
+						result =
+							parse_uint(&num, value,
+								   255, "edns");
 						CHECK("parse_uint(edns)",
 						      result);
 						query->edns = num;

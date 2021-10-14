@@ -70,15 +70,17 @@ ns_sortlist_setup(dns_acl_t *acl, dns_aclenv_t *env, isc_netaddr_t *clientaddr,
 				    dns_aclelementtype_nestedacl) {
 					*argp = order_elt->nestedacl;
 					return (NS_SORTLISTTYPE_2ELEMENT);
-				} else if (order_elt->type ==
-						   dns_aclelementtype_localhost &&
-					   env->localhost != NULL)
+				} else if (
+					order_elt->type ==
+						dns_aclelementtype_localhost &&
+					env->localhost != NULL)
 				{
 					*argp = env->localhost;
 					return (NS_SORTLISTTYPE_2ELEMENT);
-				} else if (order_elt->type ==
-						   dns_aclelementtype_localnets &&
-					   env->localnets != NULL)
+				} else if (
+					order_elt->type ==
+						dns_aclelementtype_localnets &&
+					env->localnets != NULL)
 				{
 					*argp = env->localnets;
 					return (NS_SORTLISTTYPE_2ELEMENT);

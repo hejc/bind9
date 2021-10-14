@@ -320,8 +320,8 @@ udp_dscp_v6_test(void **state) {
 	isc_sockaddr_fromin6(&addr1, &in6, 0);
 	isc_sockaddr_fromin6(&addr2, &in6, 0);
 
-	result = isc_socket_create(socketmgr, PF_INET6, isc_sockettype_udp,
-				   &s1);
+	result =
+		isc_socket_create(socketmgr, PF_INET6, isc_sockettype_udp, &s1);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	result = isc_socket_bind(s1, &addr1, 0);
 	assert_int_equal(result, ISC_R_SUCCESS);
@@ -329,8 +329,8 @@ udp_dscp_v6_test(void **state) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 	assert_true(isc_sockaddr_getport(&addr1) != 0);
 
-	result = isc_socket_create(socketmgr, PF_INET6, isc_sockettype_udp,
-				   &s2);
+	result =
+		isc_socket_create(socketmgr, PF_INET6, isc_sockettype_udp, &s2);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	result = isc_socket_bind(s2, &addr2, 0);
 	assert_int_equal(result, ISC_R_SUCCESS);
@@ -486,8 +486,8 @@ tcp_dscp_v6_test(void **state) {
 	assert_true(n == 1);
 	isc_sockaddr_fromin6(&addr1, &in6, 0);
 
-	result = isc_socket_create(socketmgr, PF_INET6, isc_sockettype_tcp,
-				   &s1);
+	result =
+		isc_socket_create(socketmgr, PF_INET6, isc_sockettype_tcp, &s1);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	result = isc_socket_bind(s1, &addr1, 0);
@@ -499,8 +499,8 @@ tcp_dscp_v6_test(void **state) {
 	result = isc_socket_listen(s1, 3);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
-	result = isc_socket_create(socketmgr, PF_INET6, isc_sockettype_tcp,
-				   &s2);
+	result =
+		isc_socket_create(socketmgr, PF_INET6, isc_sockettype_tcp, &s2);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	result = isc_task_create(taskmgr, 0, &test_task);

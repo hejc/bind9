@@ -572,8 +572,8 @@ isdotlocal(dns_message_t *msg) {
 	isc_result_t result;
 	static unsigned char local_ndata[] = { "\005local\0" };
 	static unsigned char local_offsets[] = { 0, 6 };
-	static dns_name_t local = DNS_NAME_INITABSOLUTE(local_ndata,
-							local_offsets);
+	static dns_name_t local =
+		DNS_NAME_INITABSOLUTE(local_ndata, local_offsets);
 
 	for (result = dns_message_firstname(msg, DNS_SECTION_QUESTION);
 	     result == ISC_R_SUCCESS;
@@ -1322,9 +1322,9 @@ dnssec:
 								DEFAULT_EDNS_VERSION;
 							break;
 						}
-						result = parse_uint(&num, value,
-								    255,
-								    "edns");
+						result =
+							parse_uint(&num, value,
+								   255, "edns");
 						if (result != ISC_R_SUCCESS) {
 							warn("Couldn't parse "
 							     "edns");
@@ -1493,8 +1493,8 @@ dnssec:
 						value);
 					goto invalid_option;
 				}
-				lookup->https_path = isc_mem_strdup(mctx,
-								    value);
+				lookup->https_path =
+					isc_mem_strdup(mctx, value);
 			}
 #else
 			fprintf(stderr, ";; DoH support not enabled\n");
@@ -2253,8 +2253,8 @@ dash_option(char *option, char *next, dig_lookup_t **lookup,
 			*need_clone = true;
 			strlcpy((*lookup)->textname, value,
 				sizeof((*lookup)->textname));
-			(*lookup)->trace_root = ((*lookup)->trace ||
-						 (*lookup)->ns_search_only);
+			(*lookup)->trace_root =
+				((*lookup)->trace || (*lookup)->ns_search_only);
 			(*lookup)->new_search = true;
 			if (*firstarg) {
 				printgreeting(argc, argv, *lookup);
@@ -2352,8 +2352,8 @@ dash_option(char *option, char *next, dig_lookup_t **lookup,
 			strlcpy((*lookup)->textname, textname,
 				sizeof((*lookup)->textname));
 			debug("looking up %s", (*lookup)->textname);
-			(*lookup)->trace_root = ((*lookup)->trace ||
-						 (*lookup)->ns_search_only);
+			(*lookup)->trace_root =
+				((*lookup)->trace || (*lookup)->ns_search_only);
 			if (!(*lookup)->rdtypeset) {
 				(*lookup)->rdtype = dns_rdatatype_ptr;
 			}
@@ -2577,8 +2577,8 @@ parse_args(bool is_batchfile, bool config_only, int argc, char **argv) {
 					return;
 				}
 			} else {
-				addresscount = getaddresses(lookup, &rv[0][1],
-							    NULL);
+				addresscount =
+					getaddresses(lookup, &rv[0][1], NULL);
 				if (addresscount == 0) {
 					fatal("no valid addresses for '%s'\n",
 					      &rv[0][1]);

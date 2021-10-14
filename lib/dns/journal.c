@@ -771,8 +771,8 @@ dns_journal_open(isc_mem_t *mctx, const char *filename, unsigned int mode,
 	create = ((mode & DNS_JOURNAL_CREATE) != 0);
 	writable = ((mode & (DNS_JOURNAL_WRITE | DNS_JOURNAL_CREATE)) != 0);
 
-	result = journal_open(mctx, filename, writable, create, false,
-			      journalp);
+	result =
+		journal_open(mctx, filename, writable, create, false, journalp);
 	if (result == ISC_R_NOTFOUND) {
 		namelen = strlen(filename);
 		if (namelen > 4U && strcmp(filename + namelen - 4, ".jnl") == 0)

@@ -623,8 +623,8 @@ dns_rdataslab_merge(unsigned char *oslab, unsigned char *nslab,
 	 */
 	tcurrent += (tcount * 4);
 
-	offsettable = isc_mem_get(mctx,
-				  (ocount + oncount) * sizeof(unsigned int));
+	offsettable =
+		isc_mem_get(mctx, (ocount + oncount) * sizeof(unsigned int));
 	memset(offsettable, 0, (ocount + oncount) * sizeof(unsigned int));
 #endif /* if DNS_RDATASET_FIXED */
 
@@ -715,8 +715,8 @@ dns_rdataslab_merge(unsigned char *oslab, unsigned char *nslab,
 				do {
 					dns_rdata_reset(&nrdata);
 #if DNS_RDATASET_FIXED
-					norder = ncurrent[2] * 256 +
-						 ncurrent[3];
+					norder =
+						ncurrent[2] * 256 + ncurrent[3];
 					INSIST(norder < oncount);
 #endif /* if DNS_RDATASET_FIXED */
 					rdata_from_slab(&ncurrent, rdclass,

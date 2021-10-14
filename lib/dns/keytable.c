@@ -303,8 +303,8 @@ delete_ds(dns_keytable_t *keytable, dns_rbtnode_t *node, dns_rdata_ds_t *ds) {
 	/*
 	 * Replace knode with a new instance without the DS.
 	 */
-	node->data = new_keynode(NULL, keytable, knode->managed,
-				 knode->initial);
+	node->data =
+		new_keynode(NULL, keytable, knode->managed, knode->initial);
 	for (rdata = ISC_LIST_HEAD(knode->dslist->rdata); rdata != NULL;
 	     rdata = ISC_LIST_NEXT(rdata, link))
 	{

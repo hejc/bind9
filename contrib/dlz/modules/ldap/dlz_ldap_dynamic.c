@@ -212,9 +212,9 @@ ldap_connect(ldap_instance_t *dbi, dbinstance_t *dbc) {
 	}
 
 	/* set protocol version. */
-	ldap_result = ldap_set_option((LDAP *)dbc->dbconn,
-				      LDAP_OPT_PROTOCOL_VERSION,
-				      &(dbi->protocol));
+	ldap_result =
+		ldap_set_option((LDAP *)dbc->dbconn, LDAP_OPT_PROTOCOL_VERSION,
+				&(dbi->protocol));
 	if (ldap_result != LDAP_SUCCESS) {
 		result = ISC_R_NOPERM;
 		goto cleanup;
@@ -1000,8 +1000,8 @@ dlz_create(const char *dlzname, unsigned int argc, char *argv[], void **dbdata,
 	/* check that LDAP URL parameters make sense */
 	switch (argc) {
 	case 12:
-		result = ldap_checkURL(ldap, argv[11], 0,
-				       "allow zone transfer");
+		result =
+			ldap_checkURL(ldap, argv[11], 0, "allow zone transfer");
 		if (result != ISC_R_SUCCESS) {
 			goto cleanup;
 		}

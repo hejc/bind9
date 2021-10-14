@@ -267,8 +267,8 @@ cfg_create_tuple(cfg_parser_t *pctx, const cfg_type_t *type, cfg_obj_t **ret) {
 	}
 
 	CHECK(cfg_create_obj(pctx, type, &obj));
-	obj->value.tuple = isc_mem_get(pctx->mctx,
-				       nfields * sizeof(cfg_obj_t *));
+	obj->value.tuple =
+		isc_mem_get(pctx->mctx, nfields * sizeof(cfg_obj_t *));
 	for (f = fields, i = 0; f->name != NULL; f++, i++) {
 		obj->value.tuple[i] = NULL;
 	}
@@ -327,8 +327,8 @@ cfg_print_tuple(cfg_printer_t *pctx, const cfg_obj_t *obj) {
 			cfg_print_cstr(pctx, " ");
 		}
 		cfg_print_obj(pctx, fieldobj);
-		need_space = (need_space ||
-			      fieldobj->type->print != cfg_print_void);
+		need_space =
+			(need_space || fieldobj->type->print != cfg_print_void);
 	}
 }
 
@@ -2495,9 +2495,9 @@ done:
 		} else {
 			/* Single-valued clause */
 			if (result == ISC_R_NOTFOUND) {
-				bool callback = ((clause->flags &
-						  CFG_CLAUSEFLAG_CALLBACK) !=
-						 0);
+				bool callback =
+					((clause->flags &
+					  CFG_CLAUSEFLAG_CALLBACK) != 0);
 				CHECK(parse_symtab_elt(
 					pctx, clause->name, clause->type,
 					obj->value.map.symtab, callback));
@@ -3424,8 +3424,8 @@ cfg_type_t cfg_type_sockaddr = { "sockaddr",         cfg_parse_sockaddr,
 				 cfg_print_sockaddr, cfg_doc_sockaddr,
 				 &cfg_rep_sockaddr,  &sockaddr_flags };
 
-static unsigned int sockaddrdscp_flags = CFG_ADDR_V4OK | CFG_ADDR_V6OK |
-					 CFG_ADDR_DSCPOK;
+static unsigned int sockaddrdscp_flags =
+	CFG_ADDR_V4OK | CFG_ADDR_V6OK | CFG_ADDR_DSCPOK;
 cfg_type_t cfg_type_sockaddrdscp = { "sockaddr",         cfg_parse_sockaddr,
 				     cfg_print_sockaddr, cfg_doc_sockaddr,
 				     &cfg_rep_sockaddr,  &sockaddrdscp_flags };

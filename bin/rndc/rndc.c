@@ -273,8 +273,8 @@ get_addresses(const char *host, in_port_t port) {
 	REQUIRE(host != NULL);
 
 	if (*host == '/') {
-		result = isc_sockaddr_frompath(&serveraddrs[nserveraddrs],
-					       host);
+		result =
+			isc_sockaddr_frompath(&serveraddrs[nserveraddrs], host);
 		if (result == ISC_R_SUCCESS) {
 			nserveraddrs++;
 		}

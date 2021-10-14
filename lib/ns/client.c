@@ -296,8 +296,8 @@ client_allocsendbuf(ns_client_t *client, isc_buffer_t *buffer,
 
 	if (TCP_CLIENT(client)) {
 		INSIST(client->tcpbuf == NULL);
-		client->tcpbuf = isc_mem_get(client->mctx,
-					     NS_CLIENT_TCP_BUFFER_SIZE);
+		client->tcpbuf =
+			isc_mem_get(client->mctx, NS_CLIENT_TCP_BUFFER_SIZE);
 		data = client->tcpbuf;
 		isc_buffer_init(buffer, data, NS_CLIENT_TCP_BUFFER_SIZE);
 	} else {
@@ -465,8 +465,8 @@ ns_client_send(ns_client_t *client) {
 	 * Create an OPT for our reply.
 	 */
 	if ((client->attributes & NS_CLIENTATTR_WANTOPT) != 0) {
-		result = ns_client_addopt(client, client->message,
-					  &client->opt);
+		result =
+			ns_client_addopt(client, client->message, &client->opt);
 		if (result != ISC_R_SUCCESS) {
 			goto cleanup;
 		}
@@ -1451,8 +1451,8 @@ process_opt(ns_client_t *client, dns_rdataset_t *opt) {
 	if (client->ednsversion > DNS_EDNS_VERSION) {
 		ns_stats_increment(client->sctx->nsstats,
 				   ns_statscounter_badednsver);
-		result = ns_client_addopt(client, client->message,
-					  &client->opt);
+		result =
+			ns_client_addopt(client, client->message, &client->opt);
 		if (result == ISC_R_SUCCESS) {
 			result = DNS_R_BADVERS;
 		}
@@ -1519,8 +1519,8 @@ process_opt(ns_client_t *client, dns_rdataset_t *opt) {
 				isc_buffer_forward(&optbuf, optlen);
 				break;
 			case DNS_OPT_KEY_TAG:
-				result = process_keytag(client, &optbuf,
-							optlen);
+				result =
+					process_keytag(client, &optbuf, optlen);
 				if (result != ISC_R_SUCCESS) {
 					ns_client_error(client, result);
 					return (result);
@@ -2239,8 +2239,8 @@ ns__client_setup(ns_client_t *client, ns_clientmgr_t *mgr, bool new) {
 		dns_message_create(client->mctx, DNS_MESSAGE_INTENTPARSE,
 				   &client->message);
 
-		client->sendbuf = isc_mem_get(client->mctx,
-					      NS_CLIENT_SEND_BUFFER_SIZE);
+		client->sendbuf =
+			isc_mem_get(client->mctx, NS_CLIENT_SEND_BUFFER_SIZE);
 		/*
 		 * Set magic earlier than usual because ns_query_init()
 		 * and the functions it calls will require it.

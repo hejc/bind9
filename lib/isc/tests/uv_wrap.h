@@ -115,8 +115,8 @@ __wrap_uv_udp_bind(uv_udp_t *handle, const struct sockaddr *addr,
 	return (atomic_load(&__state_uv_udp_bind));
 }
 
-static atomic_int __state_uv_udp_connect
-	__attribute__((unused)) = ATOMIC_VAR_INIT(0);
+static atomic_int __state_uv_udp_connect __attribute__((unused)) =
+	ATOMIC_VAR_INIT(0);
 
 #if UV_VERSION_HEX >= UV_VERSION(1, 27, 0)
 int
@@ -128,8 +128,8 @@ __wrap_uv_udp_connect(uv_udp_t *handle, const struct sockaddr *addr) {
 }
 #endif /* UV_VERSION_HEX >= UV_VERSION(1, 27, 0) */
 
-static atomic_int __state_uv_udp_getpeername
-	__attribute__((unused)) = ATOMIC_VAR_INIT(0);
+static atomic_int __state_uv_udp_getpeername __attribute__((unused)) =
+	ATOMIC_VAR_INIT(0);
 
 #if UV_VERSION_HEX >= UV_VERSION(1, 27, 0)
 int

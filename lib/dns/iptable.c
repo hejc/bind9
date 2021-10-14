@@ -88,8 +88,8 @@ dns_iptable_addprefix(dns_iptable_t *tab, const isc_netaddr_t *addr,
 		/* any other prefix */
 		int fam = ISC_RADIX_FAMILY(&pfx);
 		if (node->data[fam] == NULL) {
-			node->data[fam] = pos ? &dns_iptable_pos
-					      : &dns_iptable_neg;
+			node->data[fam] =
+				pos ? &dns_iptable_pos : &dns_iptable_neg;
 		}
 	}
 

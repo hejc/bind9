@@ -1016,8 +1016,8 @@ process_queue(isc__networker_t *worker, netievent_type_t type) {
 
 void *
 isc__nm_get_netievent(isc_nm_t *mgr, isc__netievent_type type) {
-	isc__netievent_storage_t *event = isc_mem_get(mgr->mctx,
-						      sizeof(*event));
+	isc__netievent_storage_t *event =
+		isc_mem_get(mgr->mctx, sizeof(*event));
 
 	*event = (isc__netievent_storage_t){ .ni.type = type };
 	return (event);
@@ -2893,8 +2893,8 @@ isc__nm_drop_interlocked(isc_nm_t *mgr) {
 	}
 
 	LOCK(&mgr->lock);
-	int tid = atomic_exchange(&mgr->interlocked,
-				  ISC_NETMGR_NON_INTERLOCKED);
+	int tid =
+		atomic_exchange(&mgr->interlocked, ISC_NETMGR_NON_INTERLOCKED);
 	INSIST(tid != ISC_NETMGR_NON_INTERLOCKED);
 	BROADCAST(&mgr->wkstatecond);
 	UNLOCK(&mgr->lock);

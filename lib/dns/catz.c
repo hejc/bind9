@@ -2040,8 +2040,8 @@ dns_catz_postreconfig(dns_catz_zones_t *catzs) {
 			 * Merge the old zone with an empty one to remove
 			 * all members.
 			 */
-			result = dns_catz_new_zone(catzs, &newzone,
-						   &zone->name);
+			result =
+				dns_catz_new_zone(catzs, &newzone, &zone->name);
 			INSIST(result == ISC_R_SUCCESS);
 			dns_catz_zones_merge(zone, newzone);
 			dns_catz_zone_detach(&newzone);

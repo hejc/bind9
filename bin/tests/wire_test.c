@@ -83,8 +83,8 @@ printmessage(dns_message_t *msg) {
 		buf = isc_mem_get(mctx, len);
 
 		isc_buffer_init(&b, buf, len);
-		result = dns_message_totext(msg, &dns_master_style_debug, 0,
-					    &b);
+		result =
+			dns_message_totext(msg, &dns_master_style_debug, 0, &b);
 		if (result == ISC_R_NOSPACE) {
 			isc_mem_put(mctx, buf, len);
 			len *= 2;

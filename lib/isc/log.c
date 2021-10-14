@@ -682,8 +682,8 @@ isc_log_createchannel(isc_logconfig_t *lcfg, const char *name,
 		 * to scribble on it, so it needs to be definitely in
 		 * writable memory.
 		 */
-		FILE_NAME(channel) = isc_mem_strdup(mctx,
-						    destination->file.name);
+		FILE_NAME(channel) =
+			isc_mem_strdup(mctx, destination->file.name);
 		FILE_STREAM(channel) = NULL;
 		FILE_VERSIONS(channel) = destination->file.versions;
 		FILE_SUFFIX(channel) = destination->file.suffix;
@@ -1559,8 +1559,8 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
 
 		if (category_channels->module != NULL &&
 		    category_channels->module != module) {
-			category_channels = ISC_LIST_NEXT(category_channels,
-							  link);
+			category_channels =
+				ISC_LIST_NEXT(category_channels, link);
 			continue;
 		}
 

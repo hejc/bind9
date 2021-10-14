@@ -324,8 +324,8 @@ mysql_get_resultset(const char *zone, const char *record, const char *client,
 			free(dbi->record);
 		}
 
-		dbi->record = mysqldrv_escape_string((MYSQL *)dbi->dbconn,
-						     record);
+		dbi->record =
+			mysqldrv_escape_string((MYSQL *)dbi->dbconn, record);
 		if (dbi->record == NULL) {
 			result = ISC_R_NOMEMORY;
 			goto cleanup;
@@ -339,8 +339,8 @@ mysql_get_resultset(const char *zone, const char *record, const char *client,
 			free(dbi->client);
 		}
 
-		dbi->client = mysqldrv_escape_string((MYSQL *)dbi->dbconn,
-						     client);
+		dbi->client =
+			mysqldrv_escape_string((MYSQL *)dbi->dbconn, client);
 		if (dbi->client == NULL) {
 			result = ISC_R_NOMEMORY;
 			goto cleanup;
@@ -716,9 +716,9 @@ dlz_allnodes(const char *zone, void *dbdata, dns_sdlzallnodes_t *allnodes) {
 				strcat(tmpString, safeGet(row[j]));
 			}
 
-			result = db->putnamedrr(allnodes, safeGet(row[2]),
-						safeGet(row[1]), ttl,
-						tmpString);
+			result =
+				db->putnamedrr(allnodes, safeGet(row[2]),
+					       safeGet(row[1]), ttl, tmpString);
 			free(tmpString);
 		}
 

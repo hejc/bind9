@@ -546,8 +546,8 @@ match_keyset_dsset(dns_rdataset_t *keyset, dns_rdataset_t *dsset,
 			continue;
 		}
 
-		result = dns_dnssec_keyfromrdata(name, keyrdata, mctx,
-						 &ki->dst);
+		result =
+			dns_dnssec_keyfromrdata(name, keyrdata, mctx, &ki->dst);
 		if (result != ISC_R_SUCCESS) {
 			vbprintf(3,
 				 "dns_dnssec_keyfromrdata("
@@ -1091,8 +1091,8 @@ main(int argc, char *argv[]) {
 			}
 			break;
 		case 'm':
-			isc_mem_debugging = ISC_MEM_DEBUGTRACE |
-					    ISC_MEM_DEBUGRECORD;
+			isc_mem_debugging =
+				ISC_MEM_DEBUGTRACE | ISC_MEM_DEBUGRECORD;
 			break;
 		case 's':
 			startstr = isc_commandline_argument;
