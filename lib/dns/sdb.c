@@ -117,18 +117,18 @@ typedef struct sdb_rdatasetiter {
 #define MAYBE_LOCK(sdb) LOCK(&sdb->implementation->driverlock)
 #define MAYBE_UNLOCK(sdb) UNLOCK(&sdb->implementation->driverlock)
 #else /* ifdef __COVERITY__ */
-#define MAYBE_LOCK(sdb)                                          \
-	do {                                                     \
-		unsigned int flags = sdb->implementation->flags; \
-		if ((flags & DNS_SDBFLAG_THREADSAFE) == 0)       \
-			LOCK(&sdb->implementation->driverlock);  \
+#define MAYBE_LOCK(sdb)                                            \
+	do {                                                       \
+		unsigned int flags = (sdb)->implementation->flags; \
+		if ((flags & DNS_SDBFLAG_THREADSAFE) == 0)         \
+			LOCK(&(sdb)->implementation->driverlock);  \
 	} while (0)
 
-#define MAYBE_UNLOCK(sdb)                                         \
-	do {                                                      \
-		unsigned int flags = sdb->implementation->flags;  \
-		if ((flags & DNS_SDBFLAG_THREADSAFE) == 0)        \
-			UNLOCK(&sdb->implementation->driverlock); \
+#define MAYBE_UNLOCK(sdb)                                           \
+	do {                                                        \
+		unsigned int flags = (sdb)->implementation->flags;  \
+		if ((flags & DNS_SDBFLAG_THREADSAFE) == 0)          \
+			UNLOCK(&(sdb)->implementation->driverlock); \
 	} while (0)
 #endif /* ifdef __COVERITY__ */
 

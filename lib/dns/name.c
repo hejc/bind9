@@ -94,15 +94,15 @@ static unsigned char maptolower[] = {
 
 #define INIT_OFFSETS(name, var, default_offsets) \
 	if ((name)->offsets != NULL)             \
-		var = (name)->offsets;           \
+		(var) = (name)->offsets;         \
 	else                                     \
-		var = (default_offsets);
+		(var) = (default_offsets);
 
 #define SETUP_OFFSETS(name, var, default_offsets) \
 	if ((name)->offsets != NULL) {            \
-		var = (name)->offsets;            \
+		(var) = (name)->offsets;          \
 	} else {                                  \
-		var = (default_offsets);          \
+		(var) = (default_offsets);        \
 		set_offsets(name, var, NULL);     \
 	}
 
@@ -110,20 +110,20 @@ static unsigned char maptolower[] = {
  * Note:  If additional attributes are added that should not be set for
  *	  empty names, MAKE_EMPTY() must be changed so it clears them.
  */
-#define MAKE_EMPTY(name)                                    \
-	do {                                                \
-		name->ndata = NULL;                         \
-		name->length = 0;                           \
-		name->labels = 0;                           \
-		name->attributes &= ~DNS_NAMEATTR_ABSOLUTE; \
+#define MAKE_EMPTY(name)                                      \
+	do {                                                  \
+		(name)->ndata = NULL;                         \
+		(name)->length = 0;                           \
+		(name)->labels = 0;                           \
+		(name)->attributes &= ~DNS_NAMEATTR_ABSOLUTE; \
 	} while (0);
 
 /*%
  * A name is "bindable" if it can be set to point to a new value, i.e.
  * name->ndata and name->length may be changed.
  */
-#define BINDABLE(name)       \
-	((name->attributes & \
+#define BINDABLE(name)         \
+	(((name)->attributes & \
 	  (DNS_NAMEATTR_READONLY | DNS_NAMEATTR_DYNAMIC)) == 0)
 
 /*%

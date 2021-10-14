@@ -191,13 +191,14 @@ typedef enum {
 	((c) == '-' || (c) == '_' || (c) == '.' || (c) == '!' || (c) == '~' || \
 	 (c) == '*' || (c) == '\'' || (c) == '(' || (c) == ')')
 #define IS_USERINFO_CHAR(c)                                                    \
-	(isalnum((unsigned char)c) || IS_MARK(c) || (c) == '%' ||              \
+	(isalnum((unsigned char)(c)) || IS_MARK(c) || (c) == '%' ||            \
 	 (c) == ';' || (c) == ':' || (c) == '&' || (c) == '=' || (c) == '+' || \
 	 (c) == '$' || (c) == ',')
 
 #if HTTP_PARSER_STRICT
-#define IS_URL_CHAR(c) (BIT_AT(normal_url_char, (unsigned char)c))
-#define IS_HOST_CHAR(c) (isalnum((unsigned char)c) || (c) == '.' || (c) == '-')
+#define IS_URL_CHAR(c) (BIT_AT(normal_url_char, (unsigned char)(c)))
+#define IS_HOST_CHAR(c) \
+	(isalnum((unsigned char)(c)) || (c) == '.' || (c) == '-')
 #else
 #define IS_URL_CHAR(c) (BIT_AT(normal_url_char, (unsigned char)c) || ((c)&0x80))
 #define IS_HOST_CHAR(c) \

@@ -434,7 +434,7 @@ dst__privstruct_parse(dst_key_t *key, unsigned int alg, isc_lex_t *lex,
 			break;                           \
 		else if (ret != ISC_R_SUCCESS)           \
 			goto fail;                       \
-	} while ((*token).type != isc_tokentype_eol)
+	} while ((*(token)).type != isc_tokentype_eol)
 
 	/*
 	 * Read the description line.

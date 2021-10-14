@@ -212,33 +212,35 @@ task_send(dns_loadctx_t *lctx);
 static void
 loadctx_destroy(dns_loadctx_t *lctx);
 
-#define GETTOKENERR(lexer, options, token, eol, err)                      \
-	do {                                                              \
-		result = gettoken(lexer, options, token, eol, callbacks); \
-		switch (result) {                                         \
-		case ISC_R_SUCCESS:                                       \
-			break;                                            \
-		case ISC_R_UNEXPECTED:                                    \
-			goto insist_and_cleanup;                          \
-		default:                                                  \
-			if (MANYERRS(lctx, result)) {                     \
-				SETRESULT(lctx, result);                  \
-				LOGIT(result);                            \
-				read_till_eol = true;                     \
-				err goto next_line;                       \
-			} else                                            \
-				goto log_and_cleanup;                     \
-		}                                                         \
-		if ((token)->type == isc_tokentype_special) {             \
-			result = DNS_R_SYNTAX;                            \
-			if (MANYERRS(lctx, result)) {                     \
-				SETRESULT(lctx, result);                  \
-				LOGIT(result);                            \
-				read_till_eol = true;                     \
-				goto next_line;                           \
-			} else                                            \
-				goto log_and_cleanup;                     \
-		}                                                         \
+#define GETTOKENERR(lexer, options, token, eol, err)                                      \
+	do {                                                                              \
+		result = gettoken(lexer, options, token, eol, callbacks);                 \
+		switch (result) {                                                         \
+		case ISC_R_SUCCESS:                                                       \
+			break;                                                            \
+		case ISC_R_UNEXPECTED:                                                    \
+			goto insist_and_cleanup;                                          \
+		default:                                                                  \
+			if (MANYERRS(lctx, result)) {                                     \
+				SETRESULT(lctx, result);                                  \
+				LOGIT(result);                                            \
+				read_till_eol = true;                                     \
+				err goto next_line; /* NOLINT(bugprone-macro-parentheses) \
+						     */                                   \
+			} else {                                                          \
+				goto log_and_cleanup;                                     \
+			}                                                                 \
+		}                                                                         \
+		if ((token)->type == isc_tokentype_special) {                             \
+			result = DNS_R_SYNTAX;                                            \
+			if (MANYERRS(lctx, result)) {                                     \
+				SETRESULT(lctx, result);                                  \
+				LOGIT(result);                                            \
+				read_till_eol = true;                                     \
+				goto next_line;                                           \
+			} else                                                            \
+				goto log_and_cleanup;                                     \
+		}                                                                         \
 	} while (0)
 #define GETTOKEN(lexer, options, token, eol) \
 	GETTOKENERR(lexer, options, token, eol, {})
@@ -289,8 +291,8 @@ loadctx_destroy(dns_loadctx_t *lctx);
 		}                                              \
 	} while (0)
 
-#define MANYERRS(lctx, result)                                     \
-	((result != ISC_R_SUCCESS) && (result != ISC_R_IOERROR) && \
+#define MANYERRS(lctx, result)                                         \
+	(((result) != ISC_R_SUCCESS) && ((result) != ISC_R_IOERROR) && \
 	 ((lctx)->options & DNS_MASTER_MANYERRORS) != 0)
 
 #define SETRESULT(lctx, r)                           \
@@ -300,9 +302,9 @@ loadctx_destroy(dns_loadctx_t *lctx);
 	} while (0)
 
 #define LOGITFILE(result, filename)                                            \
-	if (result == ISC_R_INVALIDFILE || result == ISC_R_FILENOTFOUND ||     \
-	    result == ISC_R_IOERROR || result == ISC_R_TOOMANYOPENFILES ||     \
-	    result == ISC_R_NOPERM)                                            \
+	if ((result) == ISC_R_INVALIDFILE || (result) == ISC_R_FILENOTFOUND || \
+	    (result) == ISC_R_IOERROR || (result) == ISC_R_TOOMANYOPENFILES || \
+	    (result) == ISC_R_NOPERM)                                          \
 		(*callbacks->error)(callbacks, "%s: %s:%lu: %s: %s",           \
 				    "dns_master_load", source, line, filename, \
 				    isc_result_totext(result));                \
@@ -310,7 +312,7 @@ loadctx_destroy(dns_loadctx_t *lctx);
 		LOGIT(result)
 
 #define LOGIT(result)                                                 \
-	if (result == ISC_R_NOMEMORY)                                 \
+	if ((result) == ISC_R_NOMEMORY)                               \
 		(*callbacks->error)(callbacks, "dns_master_load: %s", \
 				    isc_result_totext(result));       \
 	else                                                          \

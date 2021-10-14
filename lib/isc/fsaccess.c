@@ -51,7 +51,7 @@ isc_fsaccess_set(const char *path, isc_fsaccess_t access) {
 
 #define SET_AND_CLEAR1(modebit)     \
 	if ((access & bits) != 0) { \
-		mode |= modebit;    \
+		mode |= (modebit);  \
 		access &= ~bits;    \
 	}
 #define SET_AND_CLEAR(user, group, other) \

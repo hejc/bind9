@@ -146,9 +146,9 @@ static void
 drain_queue(isc__networker_t *worker, netievent_type_t type);
 
 #define ENQUEUE_NETIEVENT(worker, queue, event) \
-	isc_queue_enqueue(worker->ievents[queue], (uintptr_t)event)
+	isc_queue_enqueue((worker)->ievents[queue], (uintptr_t)(event))
 #define DEQUEUE_NETIEVENT(worker, queue) \
-	(isc__netievent_t *)isc_queue_dequeue(worker->ievents[queue])
+	(isc__netievent_t *)isc_queue_dequeue((worker)->ievents[queue])
 
 #define ENQUEUE_PRIORITY_NETIEVENT(worker, event) \
 	ENQUEUE_NETIEVENT(worker, NETIEVENT_PRIORITY, event)
@@ -168,9 +168,9 @@ drain_queue(isc__networker_t *worker, netievent_type_t type);
 	DEQUEUE_NETIEVENT(worker, NETIEVENT_NORMAL)
 
 #define INCREMENT_NETIEVENT(worker, queue) \
-	atomic_fetch_add_release(&worker->nievents[queue], 1)
+	atomic_fetch_add_release(&(worker)->nievents[queue], 1)
 #define DECREMENT_NETIEVENT(worker, queue) \
-	atomic_fetch_sub_release(&worker->nievents[queue], 1)
+	atomic_fetch_sub_release(&(worker)->nievents[queue], 1)
 
 #define INCREMENT_PRIORITY_NETIEVENT(worker) \
 	INCREMENT_NETIEVENT(worker, NETIEVENT_PRIORITY)

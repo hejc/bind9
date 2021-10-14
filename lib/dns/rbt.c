@@ -64,7 +64,7 @@
 #define RBT_HASH_MAX_BITS 32
 #define RBT_HASH_OVERCOMMIT 3
 
-#define RBT_HASH_NEXTTABLE(hindex) ((hindex == 0) ? 1 : 0)
+#define RBT_HASH_NEXTTABLE(hindex) (((hindex) == 0) ? 1 : 0)
 
 #ifdef RBT_MEM_TEST
 #undef RBT_HASH_SIZE
@@ -119,7 +119,7 @@ struct dns_rbt {
 #define FINDCALLBACK(node) ((node)->find_callback)
 
 #define WANTEMPTYDATA_OR_DATA(options, node) \
-	((options & DNS_RBTFIND_EMPTYDATA) != 0 || DATA(node) != NULL)
+	(((options)&DNS_RBTFIND_EMPTYDATA) != 0 || DATA(node) != NULL)
 
 /*%
  * Structure elements from the rbtdb.c, not
@@ -147,7 +147,7 @@ struct dns_rbt {
 #define OLDOFFSETLEN(node) (OFFSETS(node)[-1])
 
 #define NODE_SIZE(node) \
-	(sizeof(*node) + OLDNAMELEN(node) + OLDOFFSETLEN(node) + 1)
+	(sizeof(*(node)) + OLDNAMELEN(node) + OLDOFFSETLEN(node) + 1)
 
 /*%
  * Color management.
@@ -258,8 +258,8 @@ maybe_rehash(dns_rbt_t *rbt, size_t size);
 static inline bool
 rehashing_in_progress(dns_rbt_t *rbt);
 
-#define TRY_NEXTTABLE(hindex, rbt)            \
-	(ISC_LIKELY(hindex == rbt->hindex) && \
+#define TRY_NEXTTABLE(hindex, rbt)                \
+	(ISC_LIKELY((hindex) == (rbt)->hindex) && \
 	 ISC_UNLIKELY(rehashing_in_progress(rbt)))
 
 static inline void

@@ -48,7 +48,7 @@
 
 #define MAP_SYM 1 /* Unique type for isc_symtab */
 
-#define TOKEN_STRING(pctx) (pctx->token.value.as_textregion.base)
+#define TOKEN_STRING(pctx) ((pctx)->token.value.as_textregion.base)
 
 /* Check a return value. */
 #define CHECK(op)                            \

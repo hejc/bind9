@@ -161,22 +161,24 @@ hash(const char *key, bool case_sensitive) {
 	return (h);
 }
 
-#define FIND(s, k, t, b, e)                                       \
-	b = hash((k), (s)->case_sensitive) % (s)->size;           \
-	if ((s)->case_sensitive) {                                \
-		for (e = ISC_LIST_HEAD((s)->table[b]); e != NULL; \
-		     e = ISC_LIST_NEXT(e, link)) {                \
-			if (((t) == 0 || e->type == (t)) &&       \
-			    strcmp(e->key, (k)) == 0)             \
-				break;                            \
-		}                                                 \
-	} else {                                                  \
-		for (e = ISC_LIST_HEAD((s)->table[b]); e != NULL; \
-		     e = ISC_LIST_NEXT(e, link)) {                \
-			if (((t) == 0 || e->type == (t)) &&       \
-			    strcasecmp(e->key, (k)) == 0)         \
-				break;                            \
-		}                                                 \
+#define FIND(s, k, t, b, e)                                           \
+	b = hash((k), (s)->case_sensitive) % (s)->size;               \
+	if ((s)->case_sensitive) {                                    \
+		for ((e) = ISC_LIST_HEAD((s)->table[b]); (e) != NULL; \
+		     (e) = ISC_LIST_NEXT(e, link))                    \
+		{                                                     \
+			if (((t) == 0 || (e)->type == (t)) &&         \
+			    strcmp((e)->key, (k)) == 0)               \
+				break;                                \
+		}                                                     \
+	} else {                                                      \
+		for ((e) = ISC_LIST_HEAD((s)->table[b]); (e) != NULL; \
+		     (e) = ISC_LIST_NEXT(e, link))                    \
+		{                                                     \
+			if (((t) == 0 || (e)->type == (t)) &&         \
+			    strcasecmp((e)->key, (k)) == 0)           \
+				break;                                \
+		}                                                     \
 	}
 
 isc_result_t

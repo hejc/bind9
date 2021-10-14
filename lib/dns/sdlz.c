@@ -166,16 +166,16 @@ typedef struct sdlz_rdatasetiter {
 #else /* ifdef __COVERITY__ */
 #define MAYBE_LOCK(imp)                                     \
 	do {                                                \
-		unsigned int flags = imp->flags;            \
+		unsigned int flags = (imp)->flags;          \
 		if ((flags & DNS_SDLZFLAG_THREADSAFE) == 0) \
-			LOCK(&imp->driverlock);             \
+			LOCK(&(imp)->driverlock);           \
 	} while (0)
 
 #define MAYBE_UNLOCK(imp)                                   \
 	do {                                                \
-		unsigned int flags = imp->flags;            \
+		unsigned int flags = (imp)->flags;          \
 		if ((flags & DNS_SDLZFLAG_THREADSAFE) == 0) \
-			UNLOCK(&imp->driverlock);           \
+			UNLOCK(&(imp)->driverlock);         \
 	} while (0)
 #endif /* ifdef __COVERITY__ */
 

@@ -343,7 +343,7 @@ load_parent_set(const char *path) {
 	free_db(&db, &node);
 }
 
-#define MAX_CDS_RDATA_TEXT_SIZE DNS_RDATA_MAXLENGTH * 2
+#define MAX_CDS_RDATA_TEXT_SIZE (DNS_RDATA_MAXLENGTH * 2)
 
 static isc_buffer_t *
 formatset(dns_rdataset_t *rdataset) {

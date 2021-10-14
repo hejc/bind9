@@ -154,7 +154,7 @@
 #endif /* ifndef SIZE_AS_PERCENT */
 
 #ifndef ARRAYSIZE
-#define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
+#define ARRAYSIZE(x) (sizeof(x) / sizeof((x)[0]))
 #endif
 
 #ifdef TUNE_LARGE
@@ -3171,19 +3171,19 @@ cleanup:
 		}                                                          \
 	} while (0)
 
-#define CHECK_RRL_RATE(rate, def, max_rate, name)                           \
-	do {                                                                \
-		obj = NULL;                                                 \
-		rrl->rate.str = name;                                       \
-		result = cfg_map_get(map, name, &obj);                      \
-		if (result == ISC_R_SUCCESS) {                              \
-			rrl->rate.r = cfg_obj_asuint32(obj);                \
-			CHECK_RRL(rrl->rate.r <= max_rate, name " %d > %d", \
-				  rrl->rate.r, max_rate);                   \
-		} else {                                                    \
-			rrl->rate.r = def;                                  \
-		}                                                           \
-		rrl->rate.scaled = rrl->rate.r;                             \
+#define CHECK_RRL_RATE(rate, def, max_rate, name)                             \
+	do {                                                                  \
+		obj = NULL;                                                   \
+		rrl->rate.str = name;                                         \
+		result = cfg_map_get(map, name, &obj);                        \
+		if (result == ISC_R_SUCCESS) {                                \
+			rrl->rate.r = cfg_obj_asuint32(obj);                  \
+			CHECK_RRL(rrl->rate.r <= (max_rate), name " %d > %d", \
+				  rrl->rate.r, max_rate);                     \
+		} else {                                                      \
+			rrl->rate.r = def;                                    \
+		}                                                             \
+		rrl->rate.scaled = rrl->rate.r;                               \
 	} while (0)
 
 static isc_result_t
@@ -8714,11 +8714,11 @@ load_configuration(const char *filename, named_server_t *server,
 	isc_nm_settimeouts(named_g_netmgr, initial, idle, keepalive,
 			   advertised);
 
-#define CAP_IF_NOT_ZERO(v, min, max) \
-	if (v > 0 && v < min) {      \
-		v = min;             \
-	} else if (v > max) {        \
-		v = max;             \
+#define CAP_IF_NOT_ZERO(v, min, max)  \
+	if ((v) > 0 && (v) < (min)) { \
+		(v) = min;            \
+	} else if ((v) > (max)) {     \
+		(v) = max;            \
 	}
 
 	/* Set the kernel send and receive buffer sizes */

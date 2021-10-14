@@ -130,9 +130,9 @@ failure:
 	return (result);
 }
 
-#define CHECK(f)                             \
-	if ((result = f) != ISC_R_SUCCESS) { \
-		goto failure;                \
+#define CHECK(f)                               \
+	if ((result = (f)) != ISC_R_SUCCESS) { \
+		goto failure;                  \
 	}
 
 static isc_result_t

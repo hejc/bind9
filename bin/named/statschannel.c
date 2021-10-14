@@ -2503,7 +2503,7 @@ render_xml_traffic(const char *url, isc_httpdurl_t *urlinfo,
 
 #define CHECKMEM(m)                              \
 	do {                                     \
-		if (m == NULL) {                 \
+		if ((m) == NULL) {               \
 			result = ISC_R_NOMEMORY; \
 			goto cleanup;            \
 		}                                \

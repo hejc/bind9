@@ -87,14 +87,15 @@
 #define VALATTR_FOUNDOPTOUT 0x00010000
 #define VALATTR_FOUNDUNKNOWN 0x00020000
 
-#define NEEDNODATA(val) ((val->attributes & VALATTR_NEEDNODATA) != 0)
-#define NEEDNOQNAME(val) ((val->attributes & VALATTR_NEEDNOQNAME) != 0)
-#define NEEDNOWILDCARD(val) ((val->attributes & VALATTR_NEEDNOWILDCARD) != 0)
-#define FOUNDNODATA(val) ((val->attributes & VALATTR_FOUNDNODATA) != 0)
-#define FOUNDNOQNAME(val) ((val->attributes & VALATTR_FOUNDNOQNAME) != 0)
-#define FOUNDNOWILDCARD(val) ((val->attributes & VALATTR_FOUNDNOWILDCARD) != 0)
-#define FOUNDCLOSEST(val) ((val->attributes & VALATTR_FOUNDCLOSEST) != 0)
-#define FOUNDOPTOUT(val) ((val->attributes & VALATTR_FOUNDOPTOUT) != 0)
+#define NEEDNODATA(val) (((val)->attributes & VALATTR_NEEDNODATA) != 0)
+#define NEEDNOQNAME(val) (((val)->attributes & VALATTR_NEEDNOQNAME) != 0)
+#define NEEDNOWILDCARD(val) (((val)->attributes & VALATTR_NEEDNOWILDCARD) != 0)
+#define FOUNDNODATA(val) (((val)->attributes & VALATTR_FOUNDNODATA) != 0)
+#define FOUNDNOQNAME(val) (((val)->attributes & VALATTR_FOUNDNOQNAME) != 0)
+#define FOUNDNOWILDCARD(val) \
+	(((val)->attributes & VALATTR_FOUNDNOWILDCARD) != 0)
+#define FOUNDCLOSEST(val) (((val)->attributes & VALATTR_FOUNDCLOSEST) != 0)
+#define FOUNDOPTOUT(val) (((val)->attributes & VALATTR_FOUNDOPTOUT) != 0)
 
 #define SHUTDOWN(v) (((v)->attributes & VALATTR_SHUTDOWN) != 0)
 #define CANCELED(v) (((v)->attributes & VALATTR_CANCELED) != 0)

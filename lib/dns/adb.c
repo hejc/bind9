@@ -436,7 +436,7 @@ log_quota(dns_adbentry_t *entry, const char *fmt, ...) ISC_FORMAT_PRINTF(2, 3);
 #define WANT_INET(x) (((x)&DNS_ADBFIND_INET) != 0)
 #define WANT_INET6(x) (((x)&DNS_ADBFIND_INET6) != 0)
 
-#define EXPIRE_OK(exp, now) ((exp == INT_MAX) || (exp < now))
+#define EXPIRE_OK(exp, now) (((exp) == INT_MAX) || ((exp) < (now)))
 
 /*
  * Find out if the flags on a name (nf) indicate if it is a hint or

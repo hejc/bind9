@@ -229,13 +229,13 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
  * Convenience macros.
  */
 
-#define FACILITY(channel) (channel->destination.facility)
-#define FILE_NAME(channel) (channel->destination.file.name)
-#define FILE_STREAM(channel) (channel->destination.file.stream)
-#define FILE_VERSIONS(channel) (channel->destination.file.versions)
-#define FILE_SUFFIX(channel) (channel->destination.file.suffix)
-#define FILE_MAXSIZE(channel) (channel->destination.file.maximum_size)
-#define FILE_MAXREACHED(channel) (channel->destination.file.maximum_reached)
+#define FACILITY(channel) ((channel)->destination.facility)
+#define FILE_NAME(channel) ((channel)->destination.file.name)
+#define FILE_STREAM(channel) ((channel)->destination.file.stream)
+#define FILE_VERSIONS(channel) ((channel)->destination.file.versions)
+#define FILE_SUFFIX(channel) ((channel)->destination.file.suffix)
+#define FILE_MAXSIZE(channel) ((channel)->destination.file.maximum_size)
+#define FILE_MAXREACHED(channel) ((channel)->destination.file.maximum_reached)
 
 /*@}*/
 /****

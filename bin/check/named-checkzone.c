@@ -56,7 +56,7 @@ static enum { progmode_check, progmode_compile } progmode;
 
 #define ERRRET(result, function)                                              \
 	do {                                                                  \
-		if (result != ISC_R_SUCCESS) {                                \
+		if ((result) != ISC_R_SUCCESS) {                              \
 			if (!quiet)                                           \
 				fprintf(stderr, "%s() returned %s\n",         \
 					function, isc_result_totext(result)); \

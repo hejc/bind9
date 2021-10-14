@@ -1508,7 +1508,7 @@ doio_recv(isc_socket_t *sock, isc_socketevent_t *dev) {
 		}
 
 #define SOFT_OR_HARD(_system, _isc)                                   \
-	if (recv_errno == _system) {                                  \
+	if (recv_errno == (_system)) {                                \
 		if (sock->connected) {                                \
 			dev->result = _isc;                           \
 			inc_stats(sock->manager->stats,               \
@@ -1518,7 +1518,7 @@ doio_recv(isc_socket_t *sock, isc_socketevent_t *dev) {
 		return (DOIO_SOFT);                                   \
 	}
 #define ALWAYS_HARD(_system, _isc)                            \
-	if (recv_errno == _system) {                          \
+	if (recv_errno == (_system)) {                        \
 		dev->result = _isc;                           \
 		inc_stats(sock->manager->stats,               \
 			  sock->statsindex[STATID_RECVFAIL]); \
@@ -1687,7 +1687,7 @@ resend:
 		}
 
 #define SOFT_OR_HARD(_system, _isc)                                   \
-	if (send_errno == _system) {                                  \
+	if (send_errno == (_system)) {                                \
 		if (sock->connected) {                                \
 			dev->result = _isc;                           \
 			inc_stats(sock->manager->stats,               \
@@ -1697,7 +1697,7 @@ resend:
 		return (DOIO_SOFT);                                   \
 	}
 #define ALWAYS_HARD(_system, _isc)                            \
-	if (send_errno == _system) {                          \
+	if (send_errno == (_system)) {                        \
 		dev->result = _isc;                           \
 		inc_stats(sock->manager->stats,               \
 			  sock->statsindex[STATID_SENDFAIL]); \
@@ -2430,7 +2430,7 @@ socket_create(isc_socketmgr_t *manager, int pf, isc_sockettype_t type,
 	case isc_sockettype_udp:
 		sock->statsindex = (pf == AF_INET) ? udp4statsindex
 						   : udp6statsindex;
-#define DCSPPKT(pf) ((pf == AF_INET) ? ISC_NET_DSCPPKTV4 : ISC_NET_DSCPPKTV6)
+#define DCSPPKT(pf) (((pf) == AF_INET) ? ISC_NET_DSCPPKTV4 : ISC_NET_DSCPPKTV6)
 		sock->pktdscp = (isc_net_probedscp() & DCSPPKT(pf)) != 0;
 		break;
 	case isc_sockettype_tcp:
@@ -5327,7 +5327,7 @@ error:
 #ifdef HAVE_JSON_C
 #define CHECKMEM(m)                              \
 	do {                                     \
-		if (m == NULL) {                 \
+		if ((m) == NULL) {               \
 			result = ISC_R_NOMEMORY; \
 			goto error;              \
 		}                                \

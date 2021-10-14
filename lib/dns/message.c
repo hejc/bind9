@@ -106,12 +106,12 @@ hexdump(const char *msg, const char *msg2, void *base, size_t len) {
  */
 #define SCRATCHPAD_SIZE 1232
 #define NAME_FILLCOUNT 4
-#define NAME_FREEMAX 8 * NAME_FILLCOUNT
+#define NAME_FREEMAX (8 * NAME_FILLCOUNT)
 #define OFFSET_COUNT 4
 #define RDATA_COUNT 8
 #define RDATALIST_COUNT 8
 #define RDATASET_FILLCOUNT 4
-#define RDATASET_FREEMAX 8 * RDATASET_FILLCOUNT
+#define RDATASET_FREEMAX (8 * RDATASET_FILLCOUNT)
 
 /*%
  * Text representation of the different items, for message_totext

@@ -85,9 +85,9 @@ typedef uint32_t rbtdb_rdatatype_t;
 
 #define RBTDB_RDATATYPE_BASE(type) ((dns_rdatatype_t)((type)&0xFFFF))
 #define RBTDB_RDATATYPE_EXT(type) ((dns_rdatatype_t)((type) >> 16))
-#define RBTDB_RDATATYPE_VALUE(base, ext)              \
-	((rbtdb_rdatatype_t)(((uint32_t)ext) << 16) | \
-	 (((uint32_t)base) & 0xffff))
+#define RBTDB_RDATATYPE_VALUE(base, ext)                \
+	((rbtdb_rdatatype_t)(((uint32_t)(ext)) << 16) | \
+	 (((uint32_t)(base)) & 0xffff))
 
 #define RBTDB_RDATATYPE_SIGNSEC \
 	RBTDB_RDATATYPE_VALUE(dns_rdatatype_rrsig, dns_rdatatype_nsec)
@@ -300,7 +300,7 @@ typedef ISC_LIST(dns_rbtnode_t) rbtnodelist_t;
 	  RDATASET_ATTR_STATCOUNT) != 0)
 
 #define RDATASET_ATTR_GET(header, attribute) \
-	(atomic_load_acquire(&(header)->attributes) & attribute)
+	(atomic_load_acquire(&(header)->attributes) & (attribute))
 #define RDATASET_ATTR_SET(header, attribute) \
 	atomic_fetch_or_release(&(header)->attributes, attribute)
 #define RDATASET_ATTR_CLR(header, attribute) \

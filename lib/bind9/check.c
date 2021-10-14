@@ -624,15 +624,15 @@ check_dns64(cfg_aclconfctx_t *actx, const cfg_obj_t *voptions,
 		}                                                          \
 	} while (0)
 
-#define CHECK_RRL_RATE(rate, def, max_rate, name)                          \
-	do {                                                               \
-		obj = NULL;                                                \
-		mresult = cfg_map_get(map, name, &obj);                    \
-		if (mresult == ISC_R_SUCCESS) {                            \
-			rate = cfg_obj_asuint32(obj);                      \
-			CHECK_RRL(rate <= max_rate, name " %d > %d", rate, \
-				  max_rate);                               \
-		}                                                          \
+#define CHECK_RRL_RATE(rate, def, max_rate, name)                              \
+	do {                                                                   \
+		obj = NULL;                                                    \
+		mresult = cfg_map_get(map, name, &obj);                        \
+		if (mresult == ISC_R_SUCCESS) {                                \
+			(rate) = cfg_obj_asuint32(obj);                        \
+			CHECK_RRL((rate) <= (max_rate), name " %d > %d", rate, \
+				  max_rate);                                   \
+		}                                                              \
 	} while (0)
 
 static isc_result_t

@@ -30,7 +30,7 @@
 #include <isccfg/log.h>
 #include <isccfg/namedconf.h>
 
-#define TOKEN_STRING(pctx) (pctx->token.value.as_textregion.base)
+#define TOKEN_STRING(pctx) ((pctx)->token.value.as_textregion.base)
 
 /*% Check a return value. */
 #define CHECK(op)                            \

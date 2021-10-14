@@ -75,7 +75,7 @@
 			break;                           \
 		if (ret != ISC_R_SUCCESS)                \
 			goto cleanup;                    \
-	} while ((*token).type == isc_tokentype_eol);
+	} while ((*(token)).type == isc_tokentype_eol);
 
 #define READLINE(lex, opt, token)                        \
 	do {                                             \
@@ -84,7 +84,7 @@
 			break;                           \
 		if (ret != ISC_R_SUCCESS)                \
 			goto cleanup;                    \
-	} while ((*token).type != isc_tokentype_eol)
+	} while ((*(token)).type != isc_tokentype_eol)
 
 #define BADTOKEN()                           \
 	{                                    \
