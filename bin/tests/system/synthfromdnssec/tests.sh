@@ -37,7 +37,7 @@ do
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    [ $ns -eq ${ns} ] && nxdomain=dig.out.ns${ns}.test$n
+    [ $ns -eq 2 ] && nxdomain=dig.out.ns${ns}.test$n
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -99,6 +99,7 @@ do
     esac
     echo_i "check synthesized NXDOMAIN response (synth-from-dnssec ${description};) ($n)"
     ret=0
+    nextpart ns1/named.run > /dev/null
     dig_with_opts b.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -106,8 +107,10 @@ do
     then
 	grep "example.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	nextpart ns1/named.run | grep b.example/A > /dev/null && ret=1
     else
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	nextpart ns1/named.run | grep b.example/A > /dev/null || ret=1
     fi
     digcomp $nxdomain dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
@@ -116,6 +119,7 @@ do
 
     echo_i "check synthesized NODATA response (synth-from-dnssec ${description};) ($n)"
     ret=0
+    nextpart ns1/named.run > /dev/null
     dig_with_opts nodata.example. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -123,8 +127,10 @@ do
     then
 	grep "example.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	nextpart ns1/named.run | grep nodata.example/AAAA > /dev/null && ret=1
     else
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	nextpart ns1/named.run | grep nodata.example/AAAA > /dev/null || ret=1
     fi
     digcomp $nodata dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
@@ -133,15 +139,18 @@ do
 
     echo_i "check synthesized wildcard response (synth-from-dnssec ${description};) ($n)"
     ret=0
+    nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
-	    grep "b\.wild-a\.example\..*IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	    grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	grep "b\.wild-a\.example\..*IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	nextpart ns1/named.run | grep b.wild-a.example/A > /dev/null && ret=1
     else
-	    grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	nextpart ns1/named.run | grep b.wild-a.example/A > /dev/null || ret=1
     fi
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -149,6 +158,7 @@ do
 
     echo_i "check synthesized wildcard CNAME response (synth-from-dnssec ${description};) ($n)"
     ret=0
+    nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-cname.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -156,8 +166,10 @@ do
     then
 	grep "b.wild-cname.example.*IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	grep "b.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	nextpart ns1/named.run | grep b.wild-cname.example/A > /dev/null && ret=1
     else
 	grep "b.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	nextpart ns1/named.run | grep b.wild-cname.example/A > /dev/null || ret=1
     fi
     grep "ns1.example.*.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
     n=$((n+1))
