@@ -707,7 +707,6 @@ export ARPANAME
 export BIGKEY
 export CDS
 export CHECKZONE
-export CYGWIN
 export DESCRIPTION
 export DIG
 export FEATURETEST
@@ -731,7 +730,6 @@ export NSUPDATE
 export NZD2NZF
 export PERL
 export PIPEQUERIES
-export PSSUSPEND
 export PYTHON
 export RESOLVE
 export RNDC

@@ -76,10 +76,8 @@ n=`expr $n + 1`
 ret=0
 echo_i "dumping initial stats for ns3 ($n)"
 rndc_stats ns3 10.53.0.3 || ret=1
-if [ ! "$CYGWIN" ]; then
-    nsock0nstat=`grep "UDP/IPv4 sockets active" $last_stats | awk '{print $1}'`
-    [ 0 -ne ${nsock0nstat:-0} ] || ret=1
-fi
+nsock0nstat=`grep "UDP/IPv4 sockets active" $last_stats | awk '{print $1}'`
+[ 0 -ne ${nsock0nstat:-0} ] || ret=1
 if [ $ret != 0 ]; then echo_i "failed"; fi
 status=`expr $status + $ret`
 n=`expr $n + 1`
@@ -108,15 +106,13 @@ if [ $ret != 0 ]; then echo_i "failed"; fi
 status=`expr $status + $ret`
 n=`expr $n + 1`
 
-if [ ! "$CYGWIN" ]; then
-    ret=0
-    echo_i "verifying active sockets output in named.stats ($n)"
-    nsock1nstat=`grep "UDP/IPv4 sockets active" $last_stats | awk '{print $1}'`
-    [ `expr ${nsock1nstat:-0} - ${nsock0nstat:-0}` -eq 1 ] || ret=1
-    if [ $ret != 0 ]; then echo_i "failed"; fi
-    status=`expr $status + $ret`
-    n=`expr $n + 1`
-fi
+ret=0
+echo_i "verifying active sockets output in named.stats ($n)"
+nsock1nstat=`grep "UDP/IPv4 sockets active" $last_stats | awk '{print $1}'`
+[ `expr ${nsock1nstat:-0} - ${nsock0nstat:-0}` -eq 1 ] || ret=1
+if [ $ret != 0 ]; then echo_i "failed"; fi
+status=`expr $status + $ret`
+n=`expr $n + 1`
 
 # there should be 1 UDP and no TCP queries.  As the TCP counter is zero
 # no status line is emitted.

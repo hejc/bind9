@@ -355,7 +355,7 @@ digcomp dig.out.ns1 dig.out.ns2 || ret=1
 
 echo_i "SIGKILL and restart server ns1"
 cd ns1
-$KILL -KILL `cat named.pid`
+kill -KILL `cat named.pid`
 rm named.pid
 cd ..
 sleep 10
@@ -398,13 +398,8 @@ END
 
 sleep 5
 
-if [ ! "$CYGWIN" ]; then
-    echo_i "SIGHUP secondary"
-    $KILL -HUP `cat ns2/named.pid`
-else
-    echo_i "reload secondary"
-    rndc_reload ns2 10.53.0.2
-fi
+echo_i "SIGHUP secondary"
+kill -HUP `cat ns2/named.pid`
 
 sleep 5
 
@@ -422,13 +417,8 @@ END
 
 sleep 5
 
-if [ ! "$CYGWIN" ]; then
-    echo_i "SIGHUP secondary again"
-    $KILL -HUP `cat ns2/named.pid`
-else
-    echo_i "reload secondary again"
-    rndc_reload ns2 10.53.0.2
-fi
+echo_i "reload secondary again"
+rndc_reload ns2 10.53.0.2
 
 sleep 5
 

@@ -66,18 +66,8 @@ export SYSTEMTEST_NO_CLEAN
 
 status=0
 
-if [ "$CYGWIN" ]; then
-    # Running on Windows: Cygwin "make" is available, but isn't being
-    # used for the build. So we create a special makefile for the purpose
-    # of parallel execution of system tests, and use that.
-    $SHELL parallel.sh > parallel.mk
-    make -f parallel.mk -j "$numproc" check
-    $SHELL testsummary.sh
-    status=$?
-else
-    # Running on Unix, use "make" to run tests in parallel.
-    make -j "$numproc" check
-    status=$?
-fi
+# use "make" to run tests in parallel.
+make -j "$numproc" check
+status=$?
 
 exit "$status"
