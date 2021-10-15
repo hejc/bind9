@@ -37,7 +37,7 @@ do
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    [ $ns -eq 2 ] && nxdomain=dig.out.ns${ns}.test$n
+    [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nxdomain.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -48,7 +48,7 @@ do
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    [ $ns -eq 2 ] && nodata=dig.out.ns${ns}.test$n
+    [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nodata.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -59,6 +59,7 @@ do
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-a.example.*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wild.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -69,6 +70,7 @@ do
     grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wildcname.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -112,7 +114,7 @@ do
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	nextpart ns1/named.run | grep b.example/A > /dev/null || ret=1
     fi
-    digcomp $nxdomain dig.out.ns${ns}.test$n || ret=1
+    digcomp nxdomain.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -132,7 +134,7 @@ do
 	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	nextpart ns1/named.run | grep nodata.example/AAAA > /dev/null || ret=1
     fi
-    digcomp $nodata dig.out.ns${ns}.test$n || ret=1
+    digcomp nodata.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -152,6 +154,7 @@ do
 	grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
 	nextpart ns1/named.run | grep b.wild-a.example/A > /dev/null || ret=1
     fi
+    digcomp wild.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
@@ -172,6 +175,7 @@ do
 	nextpart ns1/named.run | grep b.wild-cname.example/A > /dev/null || ret=1
     fi
     grep "ns1.example.*.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    digcomp wildcname.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
