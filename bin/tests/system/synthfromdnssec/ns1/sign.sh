@@ -21,6 +21,15 @@ cat "$infile" "$keyname.key" > "$zonefile"
 
 $SIGNER -P -o $zone $zonefile > /dev/null
 
+zone=insecure.example
+infile=insecure.example.db.in
+zonefile=insecure.example.db
+
+keyname=$($KEYGEN -q -a RSASHA256 -b 2048 -n zone $zone)
+cat "$infile" "$keyname.key" > "$zonefile"
+
+$SIGNER -P -o $zone $zonefile > /dev/null
+
 zone=dnamed
 infile=dnamed.db.in
 zonefile=dnamed.db
