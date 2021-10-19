@@ -103,7 +103,7 @@ typedef struct isc_timerevent {
  *** those functions which return an isc_result_t.
  ***/
 
-isc_result_t
+void
 isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 		 const isc_time_t *expires, const isc_interval_t *interval,
 		 isc_task_t *task, isc_taskaction_t action, void *arg,
@@ -155,15 +155,9 @@ isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
  *\li	An idle timeout will not be generated until at least Now + the
  *	timer's interval if 'timer' is a once timer with a non-zero
  *	interval.
- *
- * Returns:
- *
- *\li	Success
- *\li	No memory
- *\li	Unexpected error
  */
 
-isc_result_t
+void
 isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
 		const isc_time_t *expires, const isc_interval_t *interval,
 		bool purge);
@@ -190,15 +184,9 @@ isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
  *\li	An idle timeout will not be generated until at least Now + the
  *	timer's interval if 'timer' is a once timer with a non-zero
  *	interval.
- *
- * Returns:
- *
- *\li	Success
- *\li	No memory
- *\li	Unexpected error
  */
 
-isc_result_t
+void
 isc_timer_touch(isc_timer_t *timer);
 /*%<
  * Set the last-touched time of 'timer' to the current time.
@@ -212,11 +200,6 @@ isc_timer_touch(isc_timer_t *timer);
  *\li	An idle timeout will not be generated until at least Now + the
  *	timer's interval if 'timer' is a once timer with a non-zero
  *	interval.
- *
- * Returns:
- *
- *\li	Success
- *\li	Unexpected error
  */
 
 void

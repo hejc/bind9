@@ -506,16 +506,14 @@ basic(void **state) {
 
 	isc_time_settoepoch(&absolute);
 	isc_interval_set(&interval, 1, 0);
-	result = isc_timer_create(timermgr, isc_timertype_ticker, &absolute,
-				  &interval, task1, basic_tick, tick, &ti1);
-	assert_int_equal(result, ISC_R_SUCCESS);
+	isc_timer_create(timermgr, isc_timertype_ticker, &absolute, &interval,
+			 task1, basic_tick, tick, &ti1);
 
 	ti2 = NULL;
 	isc_time_settoepoch(&absolute);
 	isc_interval_set(&interval, 1, 0);
-	result = isc_timer_create(timermgr, isc_timertype_ticker, &absolute,
-				  &interval, task2, basic_tick, tock, &ti2);
-	assert_int_equal(result, ISC_R_SUCCESS);
+	isc_timer_create(timermgr, isc_timertype_ticker, &absolute, &interval,
+			 task2, basic_tick, tock, &ti2);
 
 	sleep(2);
 

@@ -8945,14 +8945,12 @@ load_configuration(const char *filename, named_server_t *server,
 	INSIST(result == ISC_R_SUCCESS);
 	interface_interval = cfg_obj_asduration(obj);
 	if (interface_interval == 0) {
-		CHECK(isc_timer_reset(server->interface_timer,
-				      isc_timertype_inactive, NULL, NULL,
-				      true));
+		isc_timer_reset(server->interface_timer, isc_timertype_inactive,
+				NULL, NULL, true);
 	} else if (server->interface_interval != interface_interval) {
 		isc_interval_set(&interval, interface_interval, 0);
-		CHECK(isc_timer_reset(server->interface_timer,
-				      isc_timertype_ticker, NULL, &interval,
-				      false));
+		isc_timer_reset(server->interface_timer, isc_timertype_ticker,
+				NULL, &interval, false);
 	}
 	server->interface_interval = interface_interval;
 
@@ -8972,24 +8970,22 @@ load_configuration(const char *filename, named_server_t *server,
 	INSIST(result == ISC_R_SUCCESS);
 	heartbeat_interval = cfg_obj_asuint32(obj) * 60;
 	if (heartbeat_interval == 0) {
-		CHECK(isc_timer_reset(server->heartbeat_timer,
-				      isc_timertype_inactive, NULL, NULL,
-				      true));
+		isc_timer_reset(server->heartbeat_timer, isc_timertype_inactive,
+				NULL, NULL, true);
 	} else if (server->heartbeat_interval != heartbeat_interval) {
 		isc_interval_set(&interval, heartbeat_interval, 0);
-		CHECK(isc_timer_reset(server->heartbeat_timer,
-				      isc_timertype_ticker, NULL, &interval,
-				      false));
+		isc_timer_reset(server->heartbeat_timer, isc_timertype_ticker,
+				NULL, &interval, false);
 	}
 	server->heartbeat_interval = heartbeat_interval;
 
 	isc_interval_set(&interval, 1200, 0);
-	CHECK(isc_timer_reset(server->pps_timer, isc_timertype_ticker, NULL,
-			      &interval, false));
+	isc_timer_reset(server->pps_timer, isc_timertype_ticker, NULL,
+			&interval, false);
 
 	isc_interval_set(&interval, named_g_tat_interval, 0);
-	CHECK(isc_timer_reset(server->tat_timer, isc_timertype_ticker, NULL,
-			      &interval, false));
+	isc_timer_reset(server->tat_timer, isc_timertype_ticker, NULL,
+			&interval, false);
 
 	/*
 	 * Write the PID file.
@@ -9828,27 +9824,21 @@ run_server(isc_task_t *task, isc_event_t *event) {
 					  true, &server->interfacemgr),
 		   "creating interface manager");
 
-	CHECKFATAL(isc_timer_create(named_g_timermgr, isc_timertype_inactive,
-				    NULL, NULL, server->task,
-				    interface_timer_tick, server,
-				    &server->interface_timer),
-		   "creating interface timer");
+	isc_timer_create(named_g_timermgr, isc_timertype_inactive, NULL, NULL,
+			 server->task, interface_timer_tick, server,
+			 &server->interface_timer);
 
-	CHECKFATAL(isc_timer_create(named_g_timermgr, isc_timertype_inactive,
-				    NULL, NULL, server->task,
-				    heartbeat_timer_tick, server,
-				    &server->heartbeat_timer),
-		   "creating heartbeat timer");
+	isc_timer_create(named_g_timermgr, isc_timertype_inactive, NULL, NULL,
+			 server->task, heartbeat_timer_tick, server,
+			 &server->heartbeat_timer);
 
-	CHECKFATAL(isc_timer_create(named_g_timermgr, isc_timertype_inactive,
-				    NULL, NULL, server->task, tat_timer_tick,
-				    server, &server->tat_timer),
-		   "creating trust anchor telemetry timer");
+	isc_timer_create(named_g_timermgr, isc_timertype_inactive, NULL, NULL,
+			 server->task, tat_timer_tick, server,
+			 &server->tat_timer);
 
-	CHECKFATAL(isc_timer_create(named_g_timermgr, isc_timertype_inactive,
-				    NULL, NULL, server->task, pps_timer_tick,
-				    server, &server->pps_timer),
-		   "creating pps timer");
+	isc_timer_create(named_g_timermgr, isc_timertype_inactive, NULL, NULL,
+			 server->task, pps_timer_tick, server,
+			 &server->pps_timer);
 
 	CHECKFATAL(
 		cfg_parser_create(named_g_mctx, named_g_lctx, &named_g_parser),

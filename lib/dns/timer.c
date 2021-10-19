@@ -45,8 +45,8 @@ dns_timer_setidle(isc_timer_t *timer, unsigned int maxtime,
 	 */
 	isc_interval_set(&idleinterval, idletime, 1);
 
-	CHECK(isc_timer_reset(timer, isc_timertype_once, &expires,
-			      &idleinterval, purge));
+	isc_timer_reset(timer, isc_timertype_once, &expires, &idleinterval,
+			purge);
 failure:
 	return (result);
 }

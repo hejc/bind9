@@ -110,7 +110,7 @@ schedule(isc_timer_t *timer, isc_time_t *now, bool signal_ok) {
 	 * Compute the new due time.
 	 */
 	if (timer->type != isc_timertype_once) {
-		result = isc_time_add(now, &timer->interval, &due);
+		isc_result_t result = isc_time_add(now, &timer->interval, &due);
 		if (result != ISC_R_SUCCESS) {
 			return (result);
 		}
@@ -225,7 +225,7 @@ destroy(isc_timer_t *timer) {
 	isc_mem_put(manager->mctx, timer, sizeof(*timer));
 }
 
-isc_result_t
+void
 isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 		 const isc_time_t *expires, const isc_interval_t *interval,
 		 isc_task_t *task, isc_taskaction_t action, void *arg,
@@ -318,11 +318,9 @@ isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 	APPEND(manager->timers, timer, link);
 
 	UNLOCK(&manager->lock);
-
-	return (ISC_R_SUCCESS);
 }
 
-isc_result_t
+void
 isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
 		const isc_time_t *expires, const isc_interval_t *interval,
 		bool purge) {
@@ -389,8 +387,6 @@ isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
 
 	UNLOCK(&timer->lock);
 	UNLOCK(&manager->lock);
-
-	return (ISC_R_SUCCESS);
 }
 
 isc_timertype_t
@@ -406,7 +402,7 @@ isc_timer_gettype(isc_timer_t *timer) {
 	return (t);
 }
 
-isc_result_t
+void
 isc_timer_touch(isc_timer_t *timer) {
 	/*
 	 * Set the last-touched time of 'timer' to the current time.
@@ -428,8 +424,6 @@ isc_timer_touch(isc_timer_t *timer) {
 	TIME_NOWPLUSINTERVAL(&timer->idle, &timer->interval);
 
 	UNLOCK(&timer->lock);
-
-	return (ISC_R_SUCCESS);
 }
 
 void

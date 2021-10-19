@@ -1689,10 +1689,8 @@ fctx_sendevents(fetchctx_t *fctx, isc_result_t result, int line) {
 				logit = true;
 			}
 			isc_interval_set(&i, 20 * 60, 0);
-			result = isc_timer_reset(fctx->res->spillattimer,
-						 isc_timertype_ticker, NULL, &i,
-						 true);
-			RUNTIME_CHECK(result == ISC_R_SUCCESS);
+			isc_timer_reset(fctx->res->spillattimer,
+					isc_timertype_ticker, NULL, &i, true);
 		}
 		UNLOCK(&fctx->res->lock);
 		if (logit) {
@@ -9794,7 +9792,6 @@ send_shutdown_events(dns_resolver_t *res) {
 static void
 spillattimer_countdown(isc_task_t *task, isc_event_t *event) {
 	dns_resolver_t *res = event->ev_arg;
-	isc_result_t result;
 	unsigned int count;
 	bool logit = false;
 
@@ -9809,10 +9806,8 @@ spillattimer_countdown(isc_task_t *task, isc_event_t *event) {
 		logit = true;
 	}
 	if (res->spillat <= res->spillatmin) {
-		result = isc_timer_reset(res->spillattimer,
-					 isc_timertype_inactive, NULL, NULL,
-					 true);
-		RUNTIME_CHECK(result == ISC_R_SUCCESS);
+		isc_timer_reset(res->spillattimer, isc_timertype_inactive, NULL,
+				NULL, true);
 	}
 	count = res->spillat;
 	UNLOCK(&res->lock);
@@ -9948,13 +9943,9 @@ dns_resolver_create(dns_view_t *view, isc_taskmgr_t *taskmgr,
 	}
 	isc_task_setname(task, "resolver_task", NULL);
 
-	result = isc_timer_create(timermgr, isc_timertype_inactive, NULL, NULL,
-				  task, spillattimer_countdown, res,
-				  &res->spillattimer);
+	isc_timer_create(timermgr, isc_timertype_inactive, NULL, NULL, task,
+			 spillattimer_countdown, res, &res->spillattimer);
 	isc_task_detach(&task);
-	if (result != ISC_R_SUCCESS) {
-		goto cleanup_primelock;
-	}
 
 	res->magic = RES_MAGIC;
 
@@ -10153,7 +10144,6 @@ void
 dns_resolver_shutdown(dns_resolver_t *res) {
 	unsigned int i;
 	fetchctx_t *fctx;
-	isc_result_t result;
 	bool is_false = false;
 	bool is_done = false;
 
@@ -10184,10 +10174,8 @@ dns_resolver_shutdown(dns_resolver_t *res) {
 		if (is_done) {
 			send_shutdown_events(res);
 		}
-		result = isc_timer_reset(res->spillattimer,
-					 isc_timertype_inactive, NULL, NULL,
-					 true);
-		RUNTIME_CHECK(result == ISC_R_SUCCESS);
+		isc_timer_reset(res->spillattimer, isc_timertype_inactive, NULL,
+				NULL, true);
 	}
 	UNLOCK(&res->lock);
 }

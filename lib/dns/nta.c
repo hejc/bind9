@@ -271,7 +271,6 @@ checkbogus(isc_task_t *task, isc_event_t *event) {
 
 static isc_result_t
 settimer(dns_ntatable_t *ntatable, dns_nta_t *nta, uint32_t lifetime) {
-	isc_result_t result;
 	isc_interval_t interval;
 	dns_view_t *view;
 
@@ -288,10 +287,10 @@ settimer(dns_ntatable_t *ntatable, dns_nta_t *nta, uint32_t lifetime) {
 	}
 
 	isc_interval_set(&interval, view->nta_recheck, 0);
-	result = isc_timer_create(ntatable->timermgr, isc_timertype_ticker,
-				  NULL, &interval, ntatable->task, checkbogus,
-				  nta, &nta->timer);
-	return (result);
+	isc_timer_create(ntatable->timermgr, isc_timertype_ticker, NULL,
+			 &interval, ntatable->task, checkbogus, nta,
+			 &nta->timer);
+	return (ISC_R_SUCCESS);
 }
 
 static isc_result_t

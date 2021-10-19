@@ -128,9 +128,8 @@ setup_test(isc_timertype_t timertype, isc_time_t *expires,
 	isc_mutex_unlock(&lasttime_mx);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
-	result = isc_timer_create(timermgr, timertype, expires, interval, task,
-				  action, (void *)timertype, &timer);
-	assert_int_equal(result, ISC_R_SUCCESS);
+	isc_timer_create(timermgr, timertype, expires, interval, task, action,
+			 (void *)timertype, &timer);
 
 	/*
 	 * Wait for shutdown processing to complete.
@@ -418,9 +417,8 @@ test_reset(isc_task_t *task, isc_event_t *event) {
 			subthread_assert_result_equal(result, ISC_R_SUCCESS);
 
 			isc_interval_set(&interval, 0, 0);
-			result = isc_timer_reset(timer, isc_timertype_once,
-						 &expires, &interval, false);
-			subthread_assert_result_equal(result, ISC_R_SUCCESS);
+			isc_timer_reset(timer, isc_timertype_once, &expires,
+					&interval, false);
 		}
 	} else {
 		subthread_assert_int_equal(event->ev_type, ISC_TIMEREVENT_LIFE);
@@ -463,7 +461,6 @@ static isc_task_t *task2 = NULL;
 
 static void
 tick_event(isc_task_t *task, isc_event_t *event) {
-	isc_result_t result;
 	isc_time_t expires;
 	isc_interval_t interval;
 
@@ -489,9 +486,8 @@ tick_event(isc_task_t *task, isc_event_t *event) {
 	if (tick == 0) {
 		isc_time_settoepoch(&expires);
 		isc_interval_set(&interval, seconds, 0);
-		result = isc_timer_reset(tickertimer, isc_timertype_ticker,
-					 &expires, &interval, true);
-		subthread_assert_result_equal(result, ISC_R_SUCCESS);
+		isc_timer_reset(tickertimer, isc_timertype_ticker, &expires,
+				&interval, true);
 
 		isc_task_shutdown(task);
 	}
@@ -559,10 +555,8 @@ purge(void **state) {
 	isc_interval_set(&interval, seconds, 0);
 
 	tickertimer = NULL;
-	result = isc_timer_create(timermgr, isc_timertype_ticker, &expires,
-				  &interval, task1, tick_event, NULL,
-				  &tickertimer);
-	assert_int_equal(result, ISC_R_SUCCESS);
+	isc_timer_create(timermgr, isc_timertype_ticker, &expires, &interval,
+			 task1, tick_event, NULL, &tickertimer);
 
 	oncetimer = NULL;
 
@@ -571,10 +565,8 @@ purge(void **state) {
 	assert_int_equal(result, ISC_R_SUCCESS);
 
 	isc_interval_set(&interval, 0, 0);
-	result = isc_timer_create(timermgr, isc_timertype_once, &expires,
-				  &interval, task2, once_event, NULL,
-				  &oncetimer);
-	assert_int_equal(result, ISC_R_SUCCESS);
+	isc_timer_create(timermgr, isc_timertype_once, &expires, &interval,
+			 task2, once_event, NULL, &oncetimer);
 
 	/*
 	 * Wait for shutdown processing to complete.

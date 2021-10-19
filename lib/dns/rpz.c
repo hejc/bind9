@@ -1525,13 +1525,9 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	memset(zone, 0, sizeof(*zone));
 	isc_refcount_init(&zone->refs, 1);
 
-	result = isc_timer_create(rpzs->timermgr, isc_timertype_inactive, NULL,
-				  NULL, rpzs->updater,
-				  dns_rpz_update_taskaction, zone,
-				  &zone->updatetimer);
-	if (result != ISC_R_SUCCESS) {
-		goto cleanup_timer;
-	}
+	isc_timer_create(rpzs->timermgr, isc_timertype_inactive, NULL, NULL,
+			 rpzs->updater, dns_rpz_update_taskaction, zone,
+			 &zone->updatetimer);
 
 	/*
 	 * This will never be used, but costs us nothing and
@@ -1578,7 +1574,6 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 cleanup_ht:
 	isc_timer_detach(&zone->updatetimer);
 
-cleanup_timer:
 	isc_refcount_decrementz(&zone->refs);
 	isc_refcount_destroy(&zone->refs);
 
@@ -1633,12 +1628,8 @@ dns_rpz_dbupdate_callback(dns_db_t *db, void *fn_arg) {
 				      dname, defer);
 			isc_interval_set(&interval, (unsigned int)defer, 0);
 			dns_db_currentversion(zone->db, &zone->dbversion);
-			result = isc_timer_reset(zone->updatetimer,
-						 isc_timertype_once, NULL,
-						 &interval, true);
-			if (result != ISC_R_SUCCESS) {
-				goto cleanup;
-			}
+			isc_timer_reset(zone->updatetimer, isc_timertype_once,
+					NULL, &interval, true);
 		} else {
 			isc_event_t *event;
 
@@ -1665,7 +1656,6 @@ dns_rpz_dbupdate_callback(dns_db_t *db, void *fn_arg) {
 		dns_db_currentversion(zone->db, &zone->dbversion);
 	}
 
-cleanup:
 	UNLOCK(&zone->rpzs->maint_lock);
 
 	return (result);
@@ -1686,9 +1676,8 @@ dns_rpz_update_taskaction(isc_task_t *task, isc_event_t *event) {
 	zone->updatepending = false;
 	zone->updaterunning = true;
 	dns_rpz_update_from_db(zone);
-	result = isc_timer_reset(zone->updatetimer, isc_timertype_inactive,
-				 NULL, NULL, true);
-	RUNTIME_CHECK(result == ISC_R_SUCCESS);
+	isc_timer_reset(zone->updatetimer, isc_timertype_inactive, NULL, NULL,
+			true);
 	result = isc_time_now(&zone->lastupdated);
 	RUNTIME_CHECK(result == ISC_R_SUCCESS);
 	UNLOCK(&zone->rpzs->maint_lock);

@@ -671,13 +671,9 @@ dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
 	}
 
 	new_zone->updatetimer = NULL;
-	result = isc_timer_create(catzs->timermgr, isc_timertype_inactive, NULL,
-				  NULL, catzs->updater,
-				  dns_catz_update_taskaction, new_zone,
-				  &new_zone->updatetimer);
-	if (result != ISC_R_SUCCESS) {
-		goto cleanup_ht;
-	}
+	isc_timer_create(catzs->timermgr, isc_timertype_inactive, NULL, NULL,
+			 catzs->updater, dns_catz_update_taskaction, new_zone,
+			 &new_zone->updatetimer);
 
 	isc_time_settoepoch(&new_zone->lastupdated);
 	new_zone->updatepending = false;
@@ -696,8 +692,6 @@ dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
 
 	return (ISC_R_SUCCESS);
 
-cleanup_ht:
-	isc_ht_destroy(&new_zone->entries);
 cleanup_name:
 	dns_name_free(&new_zone->name, catzs->mctx);
 	isc_mem_put(catzs->mctx, new_zone, sizeof(*new_zone));
@@ -1723,9 +1717,8 @@ dns_catz_update_taskaction(isc_task_t *task, isc_event_t *event) {
 	LOCK(&zone->catzs->lock);
 	zone->updatepending = false;
 	dns_catz_update_from_db(zone->db, zone->catzs);
-	result = isc_timer_reset(zone->updatetimer, isc_timertype_inactive,
-				 NULL, NULL, true);
-	RUNTIME_CHECK(result == ISC_R_SUCCESS);
+	isc_timer_reset(zone->updatetimer, isc_timertype_inactive, NULL, NULL,
+			true);
 	isc_event_free(&event);
 	result = isc_time_now(&zone->lastupdated);
 	RUNTIME_CHECK(result == ISC_R_SUCCESS);
@@ -1784,12 +1777,8 @@ dns_catz_dbupdate_callback(dns_db_t *db, void *fn_arg) {
 						 (unsigned int)tdiff,
 					 0);
 			dns_db_currentversion(db, &zone->dbversion);
-			result = isc_timer_reset(zone->updatetimer,
-						 isc_timertype_once, NULL,
-						 &interval, true);
-			if (result != ISC_R_SUCCESS) {
-				goto cleanup;
-			}
+			isc_timer_reset(zone->updatetimer, isc_timertype_once,
+					NULL, &interval, true);
 		} else {
 			isc_event_t *event;
 
