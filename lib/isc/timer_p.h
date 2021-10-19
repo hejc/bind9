@@ -15,7 +15,7 @@
 #include <isc/result.h>
 #include <isc/timer.h>
 
-isc_result_t
+void
 isc__timermgr_create(isc_mem_t *mctx, isc_timermgr_t **managerp);
 /*%<
  * Create a timer manager.
@@ -33,12 +33,6 @@ isc__timermgr_create(isc_mem_t *mctx, isc_timermgr_t **managerp);
  * Ensures:
  *
  *\li	'*managerp' is a valid isc_timermgr_t.
- *
- * Returns:
- *
- *\li	Success
- *\li	No memory
- *\li	Unexpected error
  */
 
 void

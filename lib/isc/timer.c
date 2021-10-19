@@ -616,7 +616,7 @@ set_index(void *what, unsigned int index) {
 	timer->index = index;
 }
 
-isc_result_t
+void
 isc__timermgr_create(isc_mem_t *mctx, isc_timermgr_t **managerp) {
 	isc_timermgr_t *manager;
 
@@ -643,8 +643,6 @@ isc__timermgr_create(isc_mem_t *mctx, isc_timermgr_t **managerp) {
 	isc_thread_setname(manager->thread, "isc-timer");
 
 	*managerp = manager;
-
-	return (ISC_R_SUCCESS);
 }
 
 void

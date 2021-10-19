@@ -52,13 +52,7 @@ isc_managers_create(isc_mem_t *mctx, size_t workers, size_t quantum,
 
 	REQUIRE(timermgrp == NULL || *timermgrp == NULL);
 	if (timermgrp != NULL) {
-		result = isc__timermgr_create(mctx, &timermgr);
-		if (result != ISC_R_SUCCESS) {
-			UNEXPECTED_ERROR(__FILE__, __LINE__,
-					 "isc_timermgr_create() failed: %s",
-					 isc_result_totext(result));
-			goto fail;
-		}
+		isc__timermgr_create(mctx, &timermgr);
 		*timermgrp = timermgr;
 	}
 
