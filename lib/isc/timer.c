@@ -240,7 +240,6 @@ isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 	REQUIRE(action != NULL);
 
 	isc_timer_t *timer;
-	isc_result_t result;
 	isc_time_t now;
 
 	/*
@@ -282,11 +281,7 @@ isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 	isc_refcount_init(&timer->references, 1);
 
 	if (type == isc_timertype_once && !isc_interval_iszero(interval)) {
-		result = isc_time_add(&now, interval, &timer->idle);
-		if (result != ISC_R_SUCCESS) {
-			isc_mem_put(manager->mctx, timer, sizeof(*timer));
-			return (result);
-		}
+		TIME_ADD(&now, interval, &timer->idle);
 	} else {
 		isc_time_settoepoch(&timer->idle);
 	}
@@ -321,24 +316,13 @@ isc_timer_create(isc_timermgr_t *manager, isc_timertype_t type,
 	 */
 
 	if (type != isc_timertype_inactive) {
-		result = schedule(timer, &now, true);
-	} else {
-		result = ISC_R_SUCCESS;
+		RUNTIME_CHECK(schedule(timer, &now, true) == ISC_R_SUCCESS);
 	}
-	if (result == ISC_R_SUCCESS) {
-		*timerp = timer;
-		APPEND(manager->timers, timer, link);
-	}
+
+	*timerp = timer;
+	APPEND(manager->timers, timer, link);
 
 	UNLOCK(&manager->lock);
-
-	if (result != ISC_R_SUCCESS) {
-		timer->magic = 0;
-		isc_mutex_destroy(&timer->lock);
-		isc_task_detach(&timer->task);
-		isc_mem_put(manager->mctx, timer, sizeof(*timer));
-		return (result);
-	}
 
 	return (ISC_R_SUCCESS);
 }
@@ -349,7 +333,6 @@ isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
 		bool purge) {
 	isc_time_t now;
 	isc_timermgr_t *manager;
-	isc_result_t result;
 
 	/*
 	 * Change the timer's type, expires, and interval values to the given
@@ -398,25 +381,21 @@ isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
 	timer->expires = *expires;
 	timer->interval = *interval;
 	if (type == isc_timertype_once && !isc_interval_iszero(interval)) {
-		result = isc_time_add(&now, interval, &timer->idle);
+		TIME_ADD(&now, interval, &timer->idle);
 	} else {
 		isc_time_settoepoch(&timer->idle);
-		result = ISC_R_SUCCESS;
 	}
 
-	if (result == ISC_R_SUCCESS) {
-		if (type == isc_timertype_inactive) {
-			deschedule(timer);
-			result = ISC_R_SUCCESS;
-		} else {
-			result = schedule(timer, &now, true);
-		}
+	if (type != isc_timertype_inactive) {
+		RUNTIME_CHECK(schedule(timer, &now, true) == ISC_R_SUCCESS);
+	} else {
+		deschedule(timer);
 	}
 
 	UNLOCK(&timer->lock);
 	UNLOCK(&manager->lock);
 
-	return (result);
+	return (ISC_R_SUCCESS);
 }
 
 isc_timertype_t
@@ -434,9 +413,6 @@ isc_timer_gettype(isc_timer_t *timer) {
 
 isc_result_t
 isc_timer_touch(isc_timer_t *timer) {
-	isc_result_t result;
-	isc_time_t now;
-
 	/*
 	 * Set the last-touched time of 'timer' to the current time.
 	 */
@@ -454,12 +430,11 @@ isc_timer_touch(isc_timer_t *timer) {
 	 * don't want to do.
 	 */
 
-	TIME_NOW(&now);
-	result = isc_time_add(&now, &timer->interval, &timer->idle);
+	TIME_NOWPLUSINTERVAL(&timer->idle, &timer->interval);
 
 	UNLOCK(&timer->lock);
 
-	return (result);
+	return (ISC_R_SUCCESS);
 }
 
 void

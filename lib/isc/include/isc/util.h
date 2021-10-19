@@ -343,6 +343,12 @@ mock_assert(const int result, const char *const expression,
 #define TIME_NOW(tp) RUNTIME_CHECK(isc_time_now((tp)) == ISC_R_SUCCESS)
 #define TIME_NOW_HIRES(tp) \
 	RUNTIME_CHECK(isc_time_now_hires((tp)) == ISC_R_SUCCESS)
+#define TIME_NOWPLUSINTERVAL(tp, ip) \
+	RUNTIME_CHECK(isc_time_nowplusinterval(tp, ip) == ISC_R_SUCCESS)
+#define TIME_ADD(tp, ip, rp) \
+	RUNTIME_CHECK(isc_time_add(tp, ip, rp) == ISC_R_SUCCESS)
+#define TIME_SUB(tp, ip, rp) \
+	RUNTIME_CHECK(isc_time_subtract(tp, ip, rp) == ISC_R_SUCCESS)
 
 /*%
  * Alignment

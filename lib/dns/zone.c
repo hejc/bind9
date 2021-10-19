@@ -1001,35 +1001,36 @@ zone_journal_rollforward(dns_zone_t *zone, dns_db_t *db, bool *needdump,
 static const unsigned int dbargc_default = 1;
 static const char *dbargv_default[] = { "rbt" };
 
-#define DNS_ZONE_JITTER_ADD(a, b, c)                                         \
-	do {                                                                 \
-		isc_interval_t _i;                                           \
-		uint32_t _j;                                                 \
-		_j = (b)-isc_random_uniform((b) / 4);                        \
-		isc_interval_set(&_i, _j, 0);                                \
-		if (isc_time_add((a), &_i, (c)) != ISC_R_SUCCESS) {          \
-			dns_zone_log(zone, ISC_LOG_WARNING,                  \
-				     "epoch approaching: upgrade required: " \
-				     "now + %s failed",                      \
-				     #b);                                    \
-			isc_interval_set(&_i, _j / 2, 0);                    \
-			(void)isc_time_add((a), &_i, (c));                   \
-		}                                                            \
-	} while (0)
+#define DNS_ZONE_JITTER_ADD(a, b, c) \
+	dns_zone_time_add(zone, (a), (b)-isc_random_uniform((b) / 4), (c))
 
-#define DNS_ZONE_TIME_ADD(a, b, c)                                           \
-	do {                                                                 \
-		isc_interval_t _i;                                           \
-		isc_interval_set(&_i, (b), 0);                               \
-		if (isc_time_add((a), &_i, (c)) != ISC_R_SUCCESS) {          \
-			dns_zone_log(zone, ISC_LOG_WARNING,                  \
-				     "epoch approaching: upgrade required: " \
-				     "now + %s failed",                      \
-				     #b);                                    \
-			isc_interval_set(&_i, (b) / 2, 0);                   \
-			(void)isc_time_add((a), &_i, (c));                   \
-		}                                                            \
-	} while (0)
+#define DNS_ZONE_TIME_ADD(a, b, c) dns_zone_time_add(zone, (a), (b), (c))
+
+static void
+dns_zone_time_add(dns_zone_t *zone, const isc_time_t *t, uint32_t s,
+		  isc_time_t *r) {
+	isc_interval_t i;
+	uint32_t sec = s;
+	bool failed = false;
+
+	while (true) {
+		isc_interval_set(&i, sec, 0);
+
+		if (isc_time_add(t, &i, r) == ISC_R_SUCCESS) {
+			break;
+		}
+
+		sec /= 2;
+		failed = true;
+	}
+
+	if (failed) {
+		dns_zone_log(zone, ISC_LOG_WARNING,
+			     "epoch approaching: upgrade required: "
+			     "now + %" PRIu32 " failed",
+			     s);
+	}
+}
 
 typedef struct nsec3param nsec3param_t;
 struct nsec3param {
