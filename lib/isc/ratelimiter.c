@@ -51,7 +51,7 @@ ratelimiter_tick(isc_task_t *task, isc_event_t *event);
 static void
 ratelimiter_shutdowncomplete(isc_task_t *task, isc_event_t *event);
 
-isc_result_t
+void
 isc_ratelimiter_create(isc_mem_t *mctx, isc_timermgr_t *timermgr,
 		       isc_task_t *task, isc_ratelimiter_t **ratelimiterp) {
 	isc_ratelimiter_t *rl;
@@ -85,10 +85,9 @@ isc_ratelimiter_create(isc_mem_t *mctx, isc_timermgr_t *timermgr,
 		       ratelimiter_shutdowncomplete, rl, rl, NULL, NULL);
 
 	*ratelimiterp = rl;
-	return (ISC_R_SUCCESS);
 }
 
-isc_result_t
+void
 isc_ratelimiter_setinterval(isc_ratelimiter_t *rl, isc_interval_t *interval) {
 	REQUIRE(rl != NULL);
 	REQUIRE(interval != NULL);
@@ -103,7 +102,6 @@ isc_ratelimiter_setinterval(isc_ratelimiter_t *rl, isc_interval_t *interval) {
 				&rl->interval, false);
 	}
 	UNLOCK(&rl->lock);
-	return (ISC_R_SUCCESS);
 }
 
 void

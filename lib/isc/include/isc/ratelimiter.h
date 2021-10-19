@@ -37,14 +37,14 @@ ISC_LANG_BEGINDECLS
 ***** Functions.
 *****/
 
-isc_result_t
+void
 isc_ratelimiter_create(isc_mem_t *mctx, isc_timermgr_t *timermgr,
 		       isc_task_t *task, isc_ratelimiter_t **ratelimiterp);
 /*%<
  * Create a rate limiter.  The execution interval is initially undefined.
  */
 
-isc_result_t
+void
 isc_ratelimiter_setinterval(isc_ratelimiter_t *rl, isc_interval_t *interval);
 /*!<
  * Set the minimum interval between event executions.

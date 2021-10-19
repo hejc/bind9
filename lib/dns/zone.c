@@ -18753,35 +18753,17 @@ dns_zonemgr_create(isc_mem_t *mctx, isc_taskmgr_t *taskmgr,
 	}
 
 	isc_task_setname(zmgr->task, "zmgr", zmgr);
-	result = isc_ratelimiter_create(mctx, timermgr, zmgr->task,
-					&zmgr->checkdsrl);
-	if (result != ISC_R_SUCCESS) {
-		goto free_task;
-	}
+	isc_ratelimiter_create(mctx, timermgr, zmgr->task, &zmgr->checkdsrl);
 
-	result = isc_ratelimiter_create(mctx, timermgr, zmgr->task,
-					&zmgr->notifyrl);
-	if (result != ISC_R_SUCCESS) {
-		goto free_checkdsrl;
-	}
+	isc_ratelimiter_create(mctx, timermgr, zmgr->task, &zmgr->notifyrl);
 
-	result = isc_ratelimiter_create(mctx, timermgr, zmgr->task,
-					&zmgr->refreshrl);
-	if (result != ISC_R_SUCCESS) {
-		goto free_notifyrl;
-	}
+	isc_ratelimiter_create(mctx, timermgr, zmgr->task, &zmgr->refreshrl);
 
-	result = isc_ratelimiter_create(mctx, timermgr, zmgr->task,
-					&zmgr->startupnotifyrl);
-	if (result != ISC_R_SUCCESS) {
-		goto free_refreshrl;
-	}
+	isc_ratelimiter_create(mctx, timermgr, zmgr->task,
+			       &zmgr->startupnotifyrl);
 
-	result = isc_ratelimiter_create(mctx, timermgr, zmgr->task,
-					&zmgr->startuprefreshrl);
-	if (result != ISC_R_SUCCESS) {
-		goto free_startupnotifyrl;
-	}
+	isc_ratelimiter_create(mctx, timermgr, zmgr->task,
+			       &zmgr->startuprefreshrl);
 
 	/* Key file I/O locks. */
 	zonemgr_keymgmt_init(zmgr);
@@ -18807,20 +18789,6 @@ dns_zonemgr_create(isc_mem_t *mctx, isc_taskmgr_t *taskmgr,
 	*zmgrp = zmgr;
 	return (ISC_R_SUCCESS);
 
-#if 0
- free_iolock:
-	isc_mutex_destroy(&zmgr->iolock);
-#endif /* if 0 */
-free_startupnotifyrl:
-	isc_ratelimiter_detach(&zmgr->startupnotifyrl);
-free_refreshrl:
-	isc_ratelimiter_detach(&zmgr->refreshrl);
-free_notifyrl:
-	isc_ratelimiter_detach(&zmgr->notifyrl);
-free_checkdsrl:
-	isc_ratelimiter_detach(&zmgr->checkdsrl);
-free_task:
-	isc_task_detach(&zmgr->task);
 free_urlock:
 	isc_rwlock_destroy(&zmgr->urlock);
 	isc_rwlock_destroy(&zmgr->rwlock);
@@ -19499,7 +19467,6 @@ setrl(isc_ratelimiter_t *rl, unsigned int *rate, unsigned int value) {
 	isc_interval_t interval;
 	uint32_t s, ns;
 	uint32_t pertic;
-	isc_result_t result;
 
 	if (value == 0) {
 		value = 1;
@@ -19521,8 +19488,7 @@ setrl(isc_ratelimiter_t *rl, unsigned int *rate, unsigned int value) {
 
 	isc_interval_set(&interval, s, ns);
 
-	result = isc_ratelimiter_setinterval(rl, &interval);
-	RUNTIME_CHECK(result == ISC_R_SUCCESS);
+	isc_ratelimiter_setinterval(rl, &interval);
 	isc_ratelimiter_setpertic(rl, pertic);
 
 	*rate = value;
