@@ -22348,7 +22348,7 @@ dns_zone_getserialupdatemethod(dns_zone_t *zone) {
 /*
  * Lock hierarchy: zmgr, zone, raw.
  */
-isc_result_t
+void
 dns_zone_link(dns_zone_t *zone, dns_zone_t *raw) {
 	dns_zonemgr_t *zmgr;
 
@@ -22399,7 +22399,6 @@ dns_zone_link(dns_zone_t *zone, dns_zone_t *raw) {
 	UNLOCK_ZONE(raw);
 	UNLOCK_ZONE(zone);
 	RWUNLOCK(&zmgr->rwlock, isc_rwlocktype_write);
-	return (ISC_R_SUCCESS);
 }
 
 void

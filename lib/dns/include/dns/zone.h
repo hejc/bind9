@@ -2534,7 +2534,7 @@ dns_zone_getserialupdatemethod(dns_zone_t *zone);
  * \li	'zone' to be valid.
  */
 
-isc_result_t
+void
 dns_zone_link(dns_zone_t *zone, dns_zone_t *raw);
 
 void

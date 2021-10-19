@@ -6706,7 +6706,7 @@ configure_zone(const cfg_obj_t *config, const cfg_obj_t *zconfig,
 			CHECK(dns_zone_setorigin(raw, origin));
 			dns_zone_setview(raw, view);
 			dns_zone_setstats(raw, named_g_server->zonestats);
-			CHECK(dns_zone_link(zone, raw));
+			dns_zone_link(zone, raw);
 		}
 		if (cfg_map_get(zoptions, "ixfr-from-differences",
 				&ixfrfromdiffs) == ISC_R_SUCCESS)
