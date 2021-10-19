@@ -399,7 +399,6 @@ record_nsec3(const vctx_t *vctx, const unsigned char *rawhash,
 	struct nsec3_chain_fixed *element;
 	size_t len;
 	unsigned char *cp;
-	isc_result_t result;
 
 	len = sizeof(*element) + nsec3->next_length * 2 + nsec3->salt_length;
 
@@ -415,13 +414,9 @@ record_nsec3(const vctx_t *vctx, const unsigned char *rawhash,
 	memmove(cp, rawhash, nsec3->next_length);
 	cp += nsec3->next_length;
 	memmove(cp, nsec3->next, nsec3->next_length);
-	result = isc_heap_insert(chains, element);
-	if (result != ISC_R_SUCCESS) {
-		zoneverify_log_error(vctx, "isc_heap_insert failed: %s",
-				     isc_result_totext(result));
-		isc_mem_put(vctx->mctx, element, len);
-	}
-	return (result);
+	isc_heap_insert(chains, element);
+
+	return (ISC_R_SUCCESS);
 }
 
 /*
@@ -1285,8 +1280,6 @@ verifyemptynodes(const vctx_t *vctx, const dns_name_t *name,
 static isc_result_t
 vctx_init(vctx_t *vctx, isc_mem_t *mctx, dns_zone_t *zone, dns_db_t *db,
 	  dns_dbversion_t *ver, dns_name_t *origin, dns_keytable_t *secroots) {
-	isc_result_t result;
-
 	memset(vctx, 0, sizeof(*vctx));
 
 	vctx->mctx = mctx;
@@ -1308,21 +1301,13 @@ vctx_init(vctx_t *vctx, isc_mem_t *mctx, dns_zone_t *zone, dns_db_t *db,
 	dns_rdataset_init(&vctx->nsec3paramsigs);
 
 	vctx->expected_chains = NULL;
-	result = isc_heap_create(mctx, chain_compare, NULL, 1024,
-				 &vctx->expected_chains);
-	if (result != ISC_R_SUCCESS) {
-		return (result);
-	}
+	isc_heap_create(mctx, chain_compare, NULL, 1024,
+			&vctx->expected_chains);
 
 	vctx->found_chains = NULL;
-	result = isc_heap_create(mctx, chain_compare, NULL, 1024,
-				 &vctx->found_chains);
-	if (result != ISC_R_SUCCESS) {
-		isc_heap_destroy(&vctx->expected_chains);
-		return (result);
-	}
+	isc_heap_create(mctx, chain_compare, NULL, 1024, &vctx->found_chains);
 
-	return (result);
+	return (ISC_R_SUCCESS);
 }
 
 static void

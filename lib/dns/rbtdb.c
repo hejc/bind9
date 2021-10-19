@@ -5969,14 +5969,12 @@ cname_and_other_data(dns_rbtnode_t *node, rbtdb_serial_t serial) {
 
 static isc_result_t
 resign_insert(dns_rbtdb_t *rbtdb, int idx, rdatasetheader_t *newheader) {
-	isc_result_t result;
-
 	INSIST(!IS_CACHE(rbtdb));
 	INSIST(newheader->heap_index == 0);
 	INSIST(!ISC_LINK_LINKED(newheader, link));
 
-	result = isc_heap_insert(rbtdb->heaps[idx], newheader);
-	return (result);
+	isc_heap_insert(rbtdb->heaps[idx], newheader);
+	return (ISC_R_SUCCESS);
 }
 
 /*
@@ -6399,13 +6397,7 @@ find_header:
 							 newheader, link);
 				}
 				INSIST(rbtdb->heaps != NULL);
-				result = isc_heap_insert(rbtdb->heaps[idx],
-							 newheader);
-				if (result != ISC_R_SUCCESS) {
-					free_rdataset(rbtdb, rbtdb->common.mctx,
-						      newheader);
-					return (result);
-				}
+				isc_heap_insert(rbtdb->heaps[idx], newheader);
 			} else if (RESIGN(newheader)) {
 				result = resign_insert(rbtdb, idx, newheader);
 				if (result != ISC_R_SUCCESS) {
@@ -6442,13 +6434,7 @@ find_header:
 			idx = newheader->node->locknum;
 			if (IS_CACHE(rbtdb)) {
 				INSIST(rbtdb->heaps != NULL);
-				result = isc_heap_insert(rbtdb->heaps[idx],
-							 newheader);
-				if (result != ISC_R_SUCCESS) {
-					free_rdataset(rbtdb, rbtdb->common.mctx,
-						      newheader);
-					return (result);
-				}
+				isc_heap_insert(rbtdb->heaps[idx], newheader);
 				if (ZEROTTL(newheader)) {
 					ISC_LIST_APPEND(rbtdb->rdatasets[idx],
 							newheader, link);
@@ -6507,12 +6493,7 @@ find_header:
 
 		idx = newheader->node->locknum;
 		if (IS_CACHE(rbtdb)) {
-			result = isc_heap_insert(rbtdb->heaps[idx], newheader);
-			if (result != ISC_R_SUCCESS) {
-				free_rdataset(rbtdb, rbtdb->common.mctx,
-					      newheader);
-				return (result);
-			}
+			isc_heap_insert(rbtdb->heaps[idx], newheader);
 			if (ZEROTTL(newheader)) {
 				ISC_LIST_APPEND(rbtdb->rdatasets[idx],
 						newheader, link);
@@ -8165,11 +8146,7 @@ dns_rbtdb_create(isc_mem_t *mctx, const dns_name_t *origin, dns_dbtype_t type,
 	}
 	sooner = IS_CACHE(rbtdb) ? ttl_sooner : resign_sooner;
 	for (i = 0; i < (int)rbtdb->node_lock_count; i++) {
-		result = isc_heap_create(hmctx, sooner, set_index, 0,
-					 &rbtdb->heaps[i]);
-		if (result != ISC_R_SUCCESS) {
-			goto cleanup_heaps;
-		}
+		isc_heap_create(hmctx, sooner, set_index, 0, &rbtdb->heaps[i]);
 	}
 
 	/*
@@ -8323,26 +8300,6 @@ dns_rbtdb_create(isc_mem_t *mctx, const dns_name_t *origin, dns_dbtype_t type,
 	*dbp = (dns_db_t *)rbtdb;
 
 	return (ISC_R_SUCCESS);
-
-cleanup_heaps:
-	if (rbtdb->heaps != NULL) {
-		for (i = 0; i < (int)rbtdb->node_lock_count; i++) {
-			if (rbtdb->heaps[i] != NULL) {
-				isc_heap_destroy(&rbtdb->heaps[i]);
-			}
-		}
-		isc_mem_put(hmctx, rbtdb->heaps,
-			    rbtdb->node_lock_count * sizeof(isc_heap_t *));
-	}
-
-	if (rbtdb->rdatasets != NULL) {
-		isc_mem_put(mctx, rbtdb->rdatasets,
-			    rbtdb->node_lock_count *
-				    sizeof(rdatasetheaderlist_t));
-	}
-	if (rbtdb->rrsetstats != NULL) {
-		dns_stats_detach(&rbtdb->rrsetstats);
-	}
 
 cleanup_node_locks:
 	isc_mem_put(mctx, rbtdb->node_locks,
