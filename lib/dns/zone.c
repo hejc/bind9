@@ -13855,6 +13855,30 @@ get_edns_expire(dns_zone_t *zone, dns_message_t *message, uint32_t *expirep) {
 	}
 }
 
+static inline isc_result_t
+settime_from_journal_or_masterfile(dns_zone_t *zone, isc_time_t *when) {
+	isc_result_t result;
+
+	/* Settime on journal */
+	if (zone->journal != NULL) {
+		result = isc_file_settime(zone->journal, when);
+		if (result == ISC_R_SUCCESS &&
+		    (DNS_ZONE_FLAG(zone, DNS_ZONEFLG_NEEDDUMP) ||
+		     DNS_ZONE_FLAG(zone, DNS_ZONEFLG_DUMPING)))
+		{
+			/*
+			 * If we are or will be dumping return, the timestamp on
+			 * masterfile will be updated after the dumping is done.
+			 */
+			return (ISC_R_SUCCESS);
+		}
+	}
+	/* Settime on masterfile */
+	result = isc_file_settime(zone->masterfile, when);
+
+	return (result);
+}
+
 /*
  * Set the file modification time zone->expire seconds before expiretime.
  */
@@ -13870,18 +13894,7 @@ setmodtime(dns_zone_t *zone, isc_time_t *expiretime) {
 		return;
 	}
 
-	result = ISC_R_FAILURE;
-	if (zone->journal != NULL) {
-		result = isc_file_settime(zone->journal, &when);
-	}
-	if (result == ISC_R_SUCCESS &&
-	    !DNS_ZONE_FLAG(zone, DNS_ZONEFLG_NEEDDUMP) &&
-	    !DNS_ZONE_FLAG(zone, DNS_ZONEFLG_DUMPING))
-	{
-		result = isc_file_settime(zone->masterfile, &when);
-	} else if (result != ISC_R_SUCCESS) {
-		result = isc_file_settime(zone->masterfile, &when);
-	}
+	result = settime_from_journal_or_masterfile(zone, &when);
 
 	/*
 	 * Someone removed the file from underneath us!
