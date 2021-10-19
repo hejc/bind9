@@ -156,6 +156,23 @@ do
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
+
+    echo_i "prime black lie NODATA response (synth-from-dnssec ${description};) ($n)"
+    ret=0
+    dig_with_opts black.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
+    if [ $ad = yes ]
+    then
+	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    else
+	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    fi
+    grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
+    grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    grep 'black.minimal.*3600.IN.NSEC.\\000.black.minimal. RRSIG NSEC' dig.out.ns${ns}.test$n > /dev/null || ret=1
+    [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n black.out
+    n=$((n+1))
+    if [ $ret != 0 ]; then echo_i "failed"; fi
+    status=$((status+ret))
 done
 
 echo_i "prime redirect response (+nodnssec) (synth-from-dnssec <default>;) ($n)"
@@ -350,6 +367,31 @@ do
     grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep nxdomaic.minimal/A > /dev/null || ret=1
     digcomp minimal.nxdomain.out dig.out.ns${ns}.test$n || ret=1
+    n=$((n+1))
+    if [ $ret != 0 ]; then echo_i "failed"; fi
+    status=$((status+ret))
+
+    echo_i "check back lie NODATA response (synth-from-dnssec ${description};) ($n)"
+    ret=0
+    nextpart ns1/named.run > /dev/null
+    dig_with_opts black.minimal. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
+    if [ ${ad} = yes ]
+    then
+	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    else
+	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    fi
+    grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
+    if [ ${synth} = yes ]
+    then
+	grep "minimal.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	nextpart ns1/named.run | grep black.minimal/AAAA > /dev/null && ret=1
+    else
+	grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	nextpart ns1/named.run | grep black.minimal/AAAA > /dev/null || ret=1
+    fi
+    digcomp black.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
     status=$((status+ret))
