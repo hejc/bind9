@@ -269,7 +269,7 @@ checkbogus(isc_task_t *task, isc_event_t *event) {
 	}
 }
 
-static isc_result_t
+static void
 settimer(dns_ntatable_t *ntatable, dns_nta_t *nta, uint32_t lifetime) {
 	isc_interval_t interval;
 	dns_view_t *view;
@@ -278,19 +278,18 @@ settimer(dns_ntatable_t *ntatable, dns_nta_t *nta, uint32_t lifetime) {
 	REQUIRE(VALID_NTA(nta));
 
 	if (ntatable->timermgr == NULL) {
-		return (ISC_R_SUCCESS);
+		return;
 	}
 
 	view = ntatable->view;
 	if (view->nta_recheck == 0 || lifetime <= view->nta_recheck) {
-		return (ISC_R_SUCCESS);
+		return;
 	}
 
 	isc_interval_set(&interval, view->nta_recheck, 0);
 	isc_timer_create(ntatable->timermgr, isc_timertype_ticker, NULL,
 			 &interval, ntatable->task, checkbogus, nta,
 			 &nta->timer);
-	return (ISC_R_SUCCESS);
 }
 
 static isc_result_t
@@ -354,7 +353,7 @@ dns_ntatable_add(dns_ntatable_t *ntatable, const dns_name_t *name, bool force,
 	result = dns_rbt_addnode(ntatable->table, name, &node);
 	if (result == ISC_R_SUCCESS) {
 		if (!force) {
-			(void)settimer(ntatable, nta, lifetime);
+			settimer(ntatable, nta, lifetime);
 		}
 		node->data = nta;
 		nta = NULL;
@@ -362,7 +361,7 @@ dns_ntatable_add(dns_ntatable_t *ntatable, const dns_name_t *name, bool force,
 		dns_nta_t *n = node->data;
 		if (n == NULL) {
 			if (!force) {
-				(void)settimer(ntatable, nta, lifetime);
+				settimer(ntatable, nta, lifetime);
 			}
 			node->data = nta;
 			nta = NULL;
