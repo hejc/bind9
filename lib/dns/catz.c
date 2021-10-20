@@ -608,7 +608,7 @@ dns_catz_catzs_set_view(dns_catz_zones_t *catzs, dns_view_t *view) {
 	catzs->view = view;
 }
 
-isc_result_t
+void
 dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
 		  const dns_name_t *name) {
 	dns_catz_zone_t *new_zone;
@@ -645,8 +645,6 @@ dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
 	new_zone->magic = DNS_CATZ_ZONE_MAGIC;
 
 	*zonep = new_zone;
-
-	return (ISC_R_SUCCESS);
 }
 
 isc_result_t
@@ -666,10 +664,7 @@ dns_catz_add_zone(dns_catz_zones_t *catzs, const dns_name_t *name,
 
 	LOCK(&catzs->lock);
 
-	result = dns_catz_new_zone(catzs, &new_zone, name);
-	if (result != ISC_R_SUCCESS) {
-		goto cleanup;
-	}
+	dns_catz_new_zone(catzs, &new_zone, name);
 
 	result = isc_ht_add(catzs->zones, new_zone->name.ndata,
 			    new_zone->name.length, new_zone);
@@ -1805,15 +1800,7 @@ dns_catz_update_from_db(dns_db_t *db, dns_catz_zones_t *catzs) {
 		      "catz: updating catalog zone '%s' with serial %d", bname,
 		      vers);
 
-	result = dns_catz_new_zone(catzs, &newzone, &db->origin);
-	if (result != ISC_R_SUCCESS) {
-		dns_db_closeversion(db, &oldzone->dbversion, false);
-		isc_log_write(dns_lctx, DNS_LOGCATEGORY_GENERAL,
-			      DNS_LOGMODULE_MASTER, ISC_LOG_ERROR,
-			      "catz: failed to create new zone - %s",
-			      isc_result_totext(result));
-		return;
-	}
+	dns_catz_new_zone(catzs, &newzone, &db->origin);
 
 	result = dns_db_createiterator(db, DNS_DB_NONSEC3, &it);
 	if (result != ISC_R_SUCCESS) {
@@ -1983,9 +1970,7 @@ dns_catz_postreconfig(dns_catz_zones_t *catzs) {
 			 * Merge the old zone with an empty one to remove
 			 * all members.
 			 */
-			result = dns_catz_new_zone(catzs, &newzone,
-						   &zone->name);
-			INSIST(result == ISC_R_SUCCESS);
+			dns_catz_new_zone(catzs, &newzone, &zone->name);
 			dns_catz_zones_merge(zone, newzone);
 			dns_catz_zone_detach(&newzone);
 
@@ -2002,9 +1987,8 @@ dns_catz_postreconfig(dns_catz_zones_t *catzs) {
 	isc_ht_iter_destroy(&iter);
 }
 
-isc_result_t
+void
 dns_catz_get_iterator(dns_catz_zone_t *catz, isc_ht_iter_t **itp) {
 	REQUIRE(DNS_CATZ_ZONE_VALID(catz));
 	isc_ht_iter_create(catz->entries, itp);
-	return (ISC_R_SUCCESS);
 }

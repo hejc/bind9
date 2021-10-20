@@ -3017,13 +3017,7 @@ configure_catz_zone(dns_view_t *view, const cfg_obj_t *config,
 		 * We have to walk through all the member zones and attach
 		 * them to current view
 		 */
-		result = dns_catz_get_iterator(zone, &it);
-		if (result != ISC_R_SUCCESS) {
-			cfg_obj_log(catz_obj, named_g_lctx,
-				    DNS_CATZ_ERROR_LEVEL,
-				    "catz: unable to create iterator");
-			goto cleanup;
-		}
+		dns_catz_get_iterator(zone, &it);
 
 		for (result = isc_ht_iter_first(it); result == ISC_R_SUCCESS;
 		     result = isc_ht_iter_next(it))

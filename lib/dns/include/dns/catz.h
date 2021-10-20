@@ -220,7 +220,7 @@ dns_catz_zone_detach(dns_catz_zone_t **zonep);
  * \li	'zonep' is not NULL and '*zonep' is not NULL.
  */
 
-isc_result_t
+void
 dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
 		  const dns_name_t *name);
 /*%<
@@ -230,7 +230,6 @@ dns_catz_new_zone(dns_catz_zones_t *catzs, dns_catz_zone_t **zonep,
  * \li	'catzs' is a valid dns_catz_zones_t.
  * \li	'zonep' is not NULL and '*zonep' is NULL.
  * \li	'name' is a valid dns_name_t.
- *
  */
 
 dns_name_t *
@@ -454,7 +453,7 @@ dns_catz_postreconfig(dns_catz_zones_t *catzs);
  * \li	'catzs' is a valid dns_catz_zones_t.
  */
 
-isc_result_t
+void
 dns_catz_get_iterator(dns_catz_zone_t *catz, isc_ht_iter_t **itp);
 /*%<
  * Get the hashtable iterator on catalog zone members, point '*itp' to it.
@@ -462,10 +461,6 @@ dns_catz_get_iterator(dns_catz_zone_t *catz, isc_ht_iter_t **itp);
  * Requires:
  * \li	'catzs' is a valid dns_catz_zones_t.
  * \li	'itp' is not NULL and '*itp' is NULL.
- *
- * Returns:
- * \li #ISC_R_SUCCESS		-- success
- * \li Any other value		-- failure
  */
 
 ISC_LANG_ENDDECLS
