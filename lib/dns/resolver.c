@@ -4653,7 +4653,7 @@ fctx_create(dns_resolver_t *res, isc_task_t *task, const dns_name_t *name,
 	dns_rdataset_init(&fctx->nsrrset);
 
 	TIME_NOW(&fctx->start);
-	fctx->now = (isc_stdtime_t)fctx->start.seconds;
+	fctx->now = (isc_stdtime_t)isc_time_seconds(&fctx->start);
 
 	if (client != NULL) {
 		isc_sockaddr_format(client, fctx->clientstr,
