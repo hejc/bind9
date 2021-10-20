@@ -24,6 +24,10 @@
 #include <fstrm.h>
 #endif
 
+#ifdef HAVE_LIBSYSTEMD
+#include <systemd/sd-daemon.h>
+#endif
+
 #include <isc/aes.h>
 #include <isc/app.h>
 #include <isc/attributes.h>
@@ -219,12 +223,27 @@
 		}                                                              \
 	} while (0)
 
+#if HAVE_LIBSYSTEMD
+#define CHECKFATAL(op, msg)                                         \
+	{                                                           \
+		result = (op);                                      \
+		if (result != ISC_R_SUCCESS) {                      \
+			sd_notifyf(0,                               \
+				   "STOPPING=1\n"                   \
+				   "STATUS=%s: %s",                 \
+				   msg, isc_result_totext(result)); \
+			fatal(server, msg, result);                 \
+		}                                                   \
+	}
+#else
 #define CHECKFATAL(op, msg)                         \
-	do {                                        \
+	{                                           \
 		result = (op);                      \
-		if (result != ISC_R_SUCCESS)        \
+		if (result != ISC_R_SUCCESS) {      \
 			fatal(server, msg, result); \
-	} while (0)
+		}                                   \
+	}
+#endif
 
 /*%
  * Maximum ADB size for views that share a cache.  Use this limit to suppress
@@ -9707,6 +9726,15 @@ view_loaded(void *arg) {
 			      "FIPS mode is %s",
 			      FIPS_mode() ? "enabled" : "disabled");
 #endif /* ifdef HAVE_FIPS_MODE */
+
+#if HAVE_LIBSYSTEMD
+		sd_notifyf(0,
+			   "READY=1\n"
+			   "STATUS=running\n"
+			   "MAINPID=%" PRId64 "\n",
+			   (int64_t)getpid());
+#endif /* HAVE_LIBSYSTEMD */
+
 		atomic_store(&server->reload_status, NAMED_RELOAD_DONE);
 
 		isc_log_write(named_g_lctx, NAMED_LOGCATEGORY_GENERAL,
@@ -10348,6 +10376,9 @@ reload(named_server_t *server) {
 	isc_result_t result;
 
 	atomic_store(&server->reload_status, NAMED_RELOAD_IN_PROGRESS);
+#if HAVE_LIBSYSTEMD
+	sd_notify(0, "RELOADING=1\n");
+#endif /* HAVE_LIBSYSTEMD */
 
 	CHECK(loadconfig(server));
 
@@ -10362,6 +10393,12 @@ reload(named_server_t *server) {
 			      "reloading zones failed: %s",
 			      isc_result_totext(result));
 		atomic_store(&server->reload_status, NAMED_RELOAD_FAILED);
+#if HAVE_LIBSYSTEMD
+		sd_notifyf(0,
+			   "READY=1\n"
+			   "STATUS=reloading zones failed: %s\n",
+			   isc_result_totext(result));
+#endif /* HAVE_LIBSYSTEMD */
 	}
 cleanup:
 	return (result);
@@ -10722,6 +10759,9 @@ isc_result_t
 named_server_reconfigcommand(named_server_t *server) {
 	isc_result_t result;
 	atomic_store(&server->reload_status, NAMED_RELOAD_IN_PROGRESS);
+#if HAVE_LIBSYSTEMD
+	sd_notify(0, "RELOADING=1\n");
+#endif /* HAVE_LIBSYSTEMD */
 
 	CHECK(loadconfig(server));
 
@@ -10736,6 +10776,12 @@ named_server_reconfigcommand(named_server_t *server) {
 			      "loading new zones failed: %s",
 			      isc_result_totext(result));
 		atomic_store(&server->reload_status, NAMED_RELOAD_FAILED);
+#if HAVE_LIBSYSTEMD
+		sd_notifyf(0,
+			   "READY=1\n"
+			   "STATUS=loading new zones failed: %s\n",
+			   isc_result_totext(result));
+#endif /* HAVE_LIBSYSTEMD */
 	}
 cleanup:
 	return (result);
