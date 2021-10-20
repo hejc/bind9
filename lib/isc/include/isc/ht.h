@@ -29,12 +29,8 @@ typedef struct isc_ht_iter isc_ht_iter_t;
  *\li	'htp' is not NULL and '*htp' is NULL.
  *\li	'mctx' is a valid memory context.
  *\li	'bits' >=1 and 'bits' <=32
- *
- * Returns:
- *\li	#ISC_R_NOMEMORY		-- not enough memory to create pool
- *\li	#ISC_R_SUCCESS		-- all is well.
  */
-isc_result_t
+void
 isc_ht_init(isc_ht_t **htp, isc_mem_t *mctx, uint8_t bits);
 
 /*%
@@ -99,7 +95,7 @@ isc_ht_delete(isc_ht_t *ht, const unsigned char *key, uint32_t keysize);
  *\li	'ht' is a valid hashtable
  *\li	'itp' is non NULL and '*itp' is NULL.
  */
-isc_result_t
+void
 isc_ht_iter_create(isc_ht_t *ht, isc_ht_iter_t **itp);
 
 /*%

@@ -1512,7 +1512,6 @@ cleanup_rbt:
 isc_result_t
 dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	dns_rpz_zone_t *zone;
-	isc_result_t result;
 
 	REQUIRE(rpzp != NULL && *rpzp == NULL);
 	REQUIRE(rpzs != NULL);
@@ -1522,7 +1521,11 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 
 	zone = isc_mem_get(rpzs->mctx, sizeof(*zone));
 
-	memset(zone, 0, sizeof(*zone));
+	*zone = (dns_rpz_zone_t){
+		.rpzs = rpzs,
+		.addsoa = true,
+	};
+
 	isc_refcount_init(&zone->refs, 1);
 
 	isc_timer_create(rpzs->timermgr, isc_timertype_inactive, NULL, NULL,
@@ -1534,10 +1537,7 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	 * simplifies update_from_db
 	 */
 
-	result = isc_ht_init(&zone->nodes, rpzs->mctx, 1);
-	if (result != ISC_R_SUCCESS) {
-		goto cleanup_ht;
-	}
+	isc_ht_init(&zone->nodes, rpzs->mctx, 1);
 
 	dns_name_init(&zone->origin, NULL);
 	dns_name_init(&zone->client_ip, NULL);
@@ -1550,17 +1550,8 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	dns_name_init(&zone->cname, NULL);
 
 	isc_time_settoepoch(&zone->lastupdated);
-	zone->updatepending = false;
-	zone->updaterunning = false;
-	zone->db = NULL;
-	zone->dbversion = NULL;
-	zone->updb = NULL;
-	zone->updbversion = NULL;
-	zone->updbit = NULL;
 	isc_refcount_increment(&rpzs->irefs);
-	zone->rpzs = rpzs;
-	zone->db_registered = false;
-	zone->addsoa = true;
+
 	ISC_EVENT_INIT(&zone->updateevent, sizeof(zone->updateevent), 0, NULL,
 		       0, NULL, NULL, NULL, NULL, NULL);
 
@@ -1570,16 +1561,6 @@ dns_rpz_new_zone(dns_rpz_zones_t *rpzs, dns_rpz_zone_t **rpzp) {
 	*rpzp = zone;
 
 	return (ISC_R_SUCCESS);
-
-cleanup_ht:
-	isc_timer_detach(&zone->updatetimer);
-
-	isc_refcount_decrementz(&zone->refs);
-	isc_refcount_destroy(&zone->refs);
-
-	isc_mem_put(rpzs->mctx, zone, sizeof(*zone));
-
-	return (result);
 }
 
 isc_result_t
@@ -1710,14 +1691,7 @@ setup_update(dns_rpz_zone_t *rpz) {
 		      ISC_LOG_DEBUG(1), "rpz: %s: using hashtable size %d",
 		      domain, hashsize);
 
-	result = isc_ht_init(&rpz->newnodes, rpz->rpzs->mctx, hashsize);
-	if (result != ISC_R_SUCCESS) {
-		isc_log_write(dns_lctx, DNS_LOGCATEGORY_GENERAL,
-			      DNS_LOGMODULE_MASTER, ISC_LOG_ERROR,
-			      "rpz: %s: failed to initialize hashtable - %s",
-			      domain, isc_result_totext(result));
-		goto cleanup;
-	}
+	isc_ht_init(&rpz->newnodes, rpz->rpzs->mctx, hashsize);
 
 	result = dns_db_createiterator(rpz->updb, DNS_DB_NONSEC3, &rpz->updbit);
 	if (result != ISC_R_SUCCESS) {
@@ -1824,17 +1798,7 @@ cleanup_quantum(isc_task_t *task, isc_event_t *event) {
 		 * Iterate over old ht with existing nodes deleted to
 		 * delete deleted nodes from RPZ
 		 */
-		result = isc_ht_iter_create(rpz->nodes, &iter);
-		if (result != ISC_R_SUCCESS) {
-			dns_name_format(&rpz->origin, domain,
-					DNS_NAME_FORMATSIZE);
-			isc_log_write(dns_lctx, DNS_LOGCATEGORY_GENERAL,
-				      DNS_LOGMODULE_MASTER, ISC_LOG_ERROR,
-				      "rpz: %s: failed to create HT "
-				      "iterator - %s",
-				      domain, isc_result_totext(result));
-			goto cleanup;
-		}
+		isc_ht_iter_create(rpz->nodes, &iter);
 	}
 
 	name = dns_fixedname_initname(&fname);
