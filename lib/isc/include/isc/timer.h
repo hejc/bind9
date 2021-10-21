@@ -187,22 +187,6 @@ isc_timer_reset(isc_timer_t *timer, isc_timertype_t type,
  */
 
 void
-isc_timer_touch(isc_timer_t *timer);
-/*%<
- * Set the last-touched time of 'timer' to the current time.
- *
- * Requires:
- *
- *\li	'timer' is a valid once timer.
- *
- * Ensures:
- *
- *\li	An idle timeout will not be generated until at least Now + the
- *	timer's interval if 'timer' is a once timer with a non-zero
- *	interval.
- */
-
-void
 isc_timer_attach(isc_timer_t *timer, isc_timer_t **timerp);
 /*%<
  * Attach *timerp to timer.
