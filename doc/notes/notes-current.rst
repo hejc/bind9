@@ -45,6 +45,11 @@ New Features
   so that their content can only match the machine name embedded in the
   Kerberos principal making the change. :gl:`#481`
 
+- Add libsystemd sd_notify() integration that allows the ``named`` to report
+  status to the supervisor.  This allows the systemd to wait until ``named`` is
+  fully started before starting other services that depend on name resolution.
+  :gl:`#1176`
+
 Removed Features
 ~~~~~~~~~~~~~~~~
 

@@ -1,3 +1,5 @@
+5746.	[func]		Add libsystemd sd_notify() support. [GL #1176]
+
 5745.	[bug]		Fetch context objects now use attach/detach
 			semantics to make it easier to find and debug
 			reference-counting errors, and several such errors
