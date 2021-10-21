@@ -10019,8 +10019,8 @@ prime_done(isc_task_t *task, isc_event_t *event) {
 	res->primefetch = NULL;
 	UNLOCK(&res->primelock);
 
-	INSIST(atomic_compare_exchange_strong_acq_rel(&res->priming,
-						      &(bool){ true }, false));
+	atomic_compare_exchange_enforced(&res->priming, &(bool){ true },
+					 false);
 
 	if (fevent->result == ISC_R_SUCCESS && res->view->cache != NULL &&
 	    res->view->hints != NULL)
@@ -10088,8 +10088,9 @@ dns_resolver_prime(dns_resolver_t *res) {
 
 		if (result != ISC_R_SUCCESS) {
 			isc_mem_put(res->mctx, rdataset, sizeof(*rdataset));
-			INSIST(atomic_compare_exchange_strong_acq_rel(
-				&res->priming, &(bool){ true }, false));
+			atomic_compare_exchange_enforced(&res->priming,
+							 &(bool){ true },
+							 false);
 		}
 		inc_stats(res, dns_resstatscounter_priming);
 	}

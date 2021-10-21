@@ -457,8 +457,7 @@ isc_nm_pause(isc_nm_t *mgr) {
 	}
 	UNLOCK(&mgr->lock);
 
-	REQUIRE(atomic_compare_exchange_strong(&mgr->paused, &(bool){ false },
-					       true));
+	atomic_compare_exchange_enforced(&mgr->paused, &(bool){ false }, true);
 }
 
 static void
@@ -508,8 +507,7 @@ isc_nm_resume(isc_nm_t *mgr) {
 	}
 	UNLOCK(&mgr->lock);
 
-	REQUIRE(atomic_compare_exchange_strong(&mgr->paused, &(bool){ true },
-					       false));
+	atomic_compare_exchange_enforced(&mgr->paused, &(bool){ true }, false);
 
 	isc__nm_drop_interlocked(mgr);
 }
@@ -1984,8 +1982,8 @@ isc__nm_failed_connect_cb(isc_nmsocket_t *sock, isc__nm_uvreq_t *req,
 	isc__nmsocket_timer_stop(sock);
 	uv_handle_set_data((uv_handle_t *)&sock->timer, sock);
 
-	INSIST(atomic_compare_exchange_strong(&sock->connecting,
-					      &(bool){ true }, false));
+	atomic_compare_exchange_enforced(&sock->connecting, &(bool){ true },
+					 false);
 
 	isc__nmsocket_clearcb(sock);
 	isc__nm_connectcb(sock, req, eresult, async);
@@ -2040,8 +2038,8 @@ isc__nmsocket_connecttimeout_cb(uv_timer_t *timer) {
 
 	/* Timer is not running, cleanup and shutdown everything */
 	if (!isc__nmsocket_timer_running(sock)) {
-		INSIST(atomic_compare_exchange_strong(&sock->connecting,
-						      &(bool){ true }, false));
+		atomic_compare_exchange_enforced(&sock->connecting,
+						 &(bool){ true }, false);
 		isc__nm_uvreq_put(&req, sock);
 		isc__nmsocket_clearcb(sock);
 		isc__nmsocket_shutdown(sock);

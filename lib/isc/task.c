@@ -1021,8 +1021,8 @@ isc__taskmgr_shutdown(isc_taskmgr_t *manager) {
 	/*
 	 * Make sure we only get called once.
 	 */
-	INSIST(atomic_compare_exchange_strong(&manager->exiting,
-					      &(bool){ false }, true));
+	atomic_compare_exchange_enforced(&manager->exiting, &(bool){ false },
+					 true);
 
 	/*
 	 * Post shutdown event(s) to every task (if they haven't already been
@@ -1129,15 +1129,16 @@ isc_task_beginexclusive(isc_task_t *task) {
 
 void
 isc_task_endexclusive(isc_task_t *task) {
-	isc_taskmgr_t *manager;
+	isc_taskmgr_t *manager = NULL;
 
 	REQUIRE(VALID_TASK(task));
 	REQUIRE(task->state == task_state_running);
-	manager = task->manager;
 
+	manager = task->manager;
 	isc_nm_resume(manager->netmgr);
-	REQUIRE(atomic_compare_exchange_strong(&manager->exclusive_req,
-					       &(bool){ true }, false));
+
+	atomic_compare_exchange_enforced(&manager->exclusive_req,
+					 &(bool){ true }, false);
 }
 
 void

@@ -196,8 +196,8 @@ isc__nm_async_tlsdnsconnect(isc__networker_t *worker, isc__netievent_t *ev0) {
 
 	result = tlsdns_connect_direct(sock, req);
 	if (result != ISC_R_SUCCESS) {
-		INSIST(atomic_compare_exchange_strong(&sock->connecting,
-						      &(bool){ true }, false));
+		atomic_compare_exchange_enforced(&sock->connecting,
+						 &(bool){ true }, false);
 		isc__nmsocket_clearcb(sock);
 		isc__nm_connectcb(sock, req, result, true);
 		atomic_store(&sock->active, false);
@@ -382,8 +382,8 @@ failure:
 		sock->tid = isc_nm_tid();
 	}
 
-	INSIST(atomic_compare_exchange_strong(&sock->connecting,
-					      &(bool){ true }, false));
+	atomic_compare_exchange_enforced(&sock->connecting, &(bool){ true },
+					 false);
 	isc__nmsocket_clearcb(sock);
 	isc__nm_connectcb(sock, req, result, true);
 	atomic_store(&sock->closed, true);
@@ -1105,8 +1105,9 @@ tls_cycle_input(isc_nmsocket_t *sock) {
 			isc__nmsocket_timer_stop(sock);
 			uv_handle_set_data((uv_handle_t *)&sock->timer, sock);
 
-			INSIST(atomic_compare_exchange_strong(
-				&sock->connecting, &(bool){ true }, false));
+			atomic_compare_exchange_enforced(&sock->connecting,
+							 &(bool){ true },
+							 false);
 			isc__nm_connectcb(sock, req, ISC_R_SUCCESS, true);
 		}
 		async_tlsdns_cycle(sock);

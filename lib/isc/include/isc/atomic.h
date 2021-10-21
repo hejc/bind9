@@ -17,6 +17,8 @@
 #include <isc/stdatomic.h>
 #endif
 
+#include <isc/util.h>
+
 /*
  * We define a few additional macros to make things easier
  */
@@ -69,3 +71,7 @@
 #define atomic_compare_exchange_strong_acq_rel(o, e, d) \
 	atomic_compare_exchange_strong_explicit(        \
 		(o), (e), (d), memory_order_acq_rel, memory_order_acquire)
+
+/* compare/exchange that MUST succeed */
+#define atomic_compare_exchange_enforced(o, e, d) \
+	RUNTIME_CHECK(atomic_compare_exchange_strong((o), (e), (d)))

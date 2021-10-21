@@ -112,8 +112,7 @@ tls_initialize(void) {
 			    "seeded' message in the OpenSSL FAQ)");
 	}
 
-	REQUIRE(atomic_compare_exchange_strong(&init_done, &(bool){ false },
-					       true));
+	atomic_compare_exchange_enforced(&init_done, &(bool){ false }, true);
 }
 
 void
@@ -150,8 +149,7 @@ tls_shutdown(void) {
 	}
 #endif
 
-	REQUIRE(atomic_compare_exchange_strong(&shut_done, &(bool){ false },
-					       true));
+	atomic_compare_exchange_enforced(&shut_done, &(bool){ false }, true);
 }
 
 void
