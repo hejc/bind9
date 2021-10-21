@@ -113,7 +113,6 @@ struct isc_logconfig {
 	ISC_LIST(isc_logchannel_t) channels;
 	ISC_LIST(isc_logchannellist_t) * channellists;
 	unsigned int channellist_count;
-	unsigned int duplicate_interval;
 	int_fast32_t highest_level;
 	char *tag;
 	bool dynamic;
@@ -221,8 +220,8 @@ greatest_version(isc_logfile_t *file, int versions, int *greatest);
 
 static void
 isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
-	     isc_logmodule_t *module, int level, bool write_once,
-	     const char *format, va_list args) ISC_FORMAT_PRINTF(6, 0);
+	     isc_logmodule_t *module, int level, const char *format,
+	     va_list args) ISC_FORMAT_PRINTF(5, 0);
 
 /*@{*/
 /*!
@@ -308,7 +307,6 @@ isc_logconfig_create(isc_log_t *lctx, isc_logconfig_t **lcfgp) {
 	lcfg->lctx = lctx;
 	lcfg->channellists = NULL;
 	lcfg->channellist_count = 0;
-	lcfg->duplicate_interval = 0;
 	lcfg->highest_level = level;
 	lcfg->tag = NULL;
 	lcfg->dynamic = false;
@@ -491,7 +489,6 @@ isc_logconfig_destroy(isc_logconfig_t **lcfgp) {
 	}
 	lcfg->tag = NULL;
 	lcfg->highest_level = 0;
-	lcfg->duplicate_interval = 0;
 	lcfg->magic = 0;
 
 	isc_mem_put(mctx, lcfg, sizeof(*lcfg));
@@ -778,7 +775,7 @@ isc_log_write(isc_log_t *lctx, isc_logcategory_t *category,
 	 */
 
 	va_start(args, format);
-	isc_log_doit(lctx, category, module, level, false, format, args);
+	isc_log_doit(lctx, category, module, level, format, args);
 	va_end(args);
 }
 
@@ -789,31 +786,7 @@ isc_log_vwrite(isc_log_t *lctx, isc_logcategory_t *category,
 	/*
 	 * Contract checking is done in isc_log_doit().
 	 */
-	isc_log_doit(lctx, category, module, level, false, format, args);
-}
-
-void
-isc_log_write1(isc_log_t *lctx, isc_logcategory_t *category,
-	       isc_logmodule_t *module, int level, const char *format, ...) {
-	va_list args;
-
-	/*
-	 * Contract checking is done in isc_log_doit().
-	 */
-
-	va_start(args, format);
-	isc_log_doit(lctx, category, module, level, true, format, args);
-	va_end(args);
-}
-
-void
-isc_log_vwrite1(isc_log_t *lctx, isc_logcategory_t *category,
-		isc_logmodule_t *module, int level, const char *format,
-		va_list args) {
-	/*
-	 * Contract checking is done in isc_log_doit().
-	 */
-	isc_log_doit(lctx, category, module, level, true, format, args);
+	isc_log_doit(lctx, category, module, level, format, args);
 }
 
 void
@@ -858,20 +831,6 @@ isc_log_getdebuglevel(isc_log_t *lctx) {
 	REQUIRE(VALID_CONTEXT(lctx));
 
 	return (atomic_load_acquire(&lctx->debug_level));
-}
-
-void
-isc_log_setduplicateinterval(isc_logconfig_t *lcfg, unsigned int interval) {
-	REQUIRE(VALID_CONFIG(lcfg));
-
-	lcfg->duplicate_interval = interval;
-}
-
-unsigned int
-isc_log_getduplicateinterval(isc_logconfig_t *lcfg) {
-	REQUIRE(VALID_CONTEXT(lcfg));
-
-	return (lcfg->duplicate_interval);
 }
 
 void
@@ -1472,8 +1431,8 @@ isc_log_wouldlog(isc_log_t *lctx, int level) {
 
 static void
 isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
-	     isc_logmodule_t *module, int level, bool write_once,
-	     const char *format, va_list args) {
+	     isc_logmodule_t *module, int level, const char *format,
+	     va_list args) {
 	int syslog_level;
 	const char *time_string;
 	char local_time[64];
@@ -1524,10 +1483,6 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
 
 	category_channels = ISC_LIST_HEAD(lcfg->channellists[category->id]);
 
-	/*
-	 * XXXDCL add duplicate filtering? (To not write multiple times
-	 * to the same source via various channels).
-	 */
 	do {
 		/*
 		 * If the channel list end was reached and a match was
@@ -1620,94 +1575,6 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
 		if (lctx->buffer[0] == '\0') {
 			(void)vsnprintf(lctx->buffer, sizeof(lctx->buffer),
 					format, args);
-
-			/*
-			 * Check for duplicates.
-			 */
-			if (write_once) {
-				isc_logmessage_t *message, *next;
-				isc_time_t oldest;
-				isc_interval_t interval;
-				size_t size;
-
-				isc_interval_set(&interval,
-						 lcfg->duplicate_interval, 0);
-
-				/*
-				 * 'oldest' is the age of the oldest
-				 * messages which fall within the
-				 * duplicate_interval range.
-				 */
-				TIME_NOW(&oldest);
-				isc_time_subtract(&oldest, &interval, &oldest);
-				message = ISC_LIST_HEAD(lctx->messages);
-
-				while (message != NULL) {
-					if (isc_time_compare(&message->time,
-							     &oldest) < 0) {
-						/*
-						 * This message is older
-						 * than the
-						 * duplicate_interval,
-						 * so it should be
-						 * dropped from the
-						 * history.
-						 *
-						 * Setting the interval
-						 * to be to be longer
-						 * will obviously not
-						 * cause the expired
-						 * message to spring
-						 * back into existence.
-						 */
-						next = ISC_LIST_NEXT(message,
-								     link);
-
-						ISC_LIST_UNLINK(lctx->messages,
-								message, link);
-
-						isc_mem_put(
-							lctx->mctx, message,
-							sizeof(*message) + 1 +
-								strlen(message->text));
-
-						message = next;
-						continue;
-					}
-
-					/*
-					 * This message is in the
-					 * duplicate filtering interval
-					 * ...
-					 */
-					if (strcmp(lctx->buffer,
-						   message->text) == 0) {
-						/*
-						 * ... and it is a
-						 * duplicate. Unlock the
-						 * mutex and get the
-						 * hell out of Dodge.
-						 */
-						goto unlock;
-					}
-
-					message = ISC_LIST_NEXT(message, link);
-				}
-
-				/*
-				 * It wasn't in the duplicate interval,
-				 * so add it to the message list.
-				 */
-				size = sizeof(isc_logmessage_t) +
-				       strlen(lctx->buffer) + 1;
-				message = isc_mem_get(lctx->mctx, size);
-				message->text = (char *)(message + 1);
-				size -= sizeof(isc_logmessage_t);
-				strlcpy(message->text, lctx->buffer, size);
-				TIME_NOW(&message->time);
-				ISC_LINK_INIT(message, link);
-				ISC_LIST_APPEND(lctx->messages, message, link);
-			}
 		}
 
 		utc = ((channel->flags & ISC_LOG_UTC) != 0);
@@ -1853,7 +1720,6 @@ isc_log_doit(isc_log_t *lctx, isc_logcategory_t *category,
 		}
 	} while (1);
 
-unlock:
 	UNLOCK(&lctx->lock);
 	RDUNLOCK(&lctx->lcfg_rwl);
 }
