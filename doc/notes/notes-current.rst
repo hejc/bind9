@@ -37,6 +37,10 @@ Feature Changes
 
 - None.
 
+- Restore NSEC Aggressive Cache (``synth-from-dnssec``) as active by default
+  following reworking of the code to find the potentially covering NSEC record.
+  :gl:`#1265`
+
 Bug Fixes
 ~~~~~~~~~
 
