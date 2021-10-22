@@ -67,6 +67,10 @@ Feature Changes
 - The default for ``dnssec-policy``'s ``nsec3param`` is changed to use
   no extra iterations and no salt. :gl:`#2956`.
 
+- Restore NSEC Aggressive Cache (``synth-from-dnssec``) as active by default
+  following reworking of the code to find the potentially covering NSEC record.
+  :gl:`#1265`
+
 Bug Fixes
 ~~~~~~~~~
 
