@@ -417,10 +417,10 @@ axfr_finalize_done_cb(void *data, isc_result_t result) {
 		ixfr_finalize(xfr);
 	}
 
-	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
 	isc_nmhandle_detach(&xfr->readhandle);
 	isc_nmhandle_detach(&offload->handle);
 	isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+	isc_refcount_decrement0(&xfr->recvs);
 	dns_xfrin_detach(&xfr); /* recv_xfr */
 }
 
@@ -573,7 +573,6 @@ xfrin_consume_done(void *data, isc_result_t result) {
 	}
 
 	if (result == ISC_R_TRYAXFR) {
-		fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
 		isc_nmhandle_detach(&xfr->readhandle);
 		dns_message_detach(&offload->msg);
 
@@ -585,6 +584,7 @@ xfrin_consume_done(void *data, isc_result_t result) {
 			xfrin_fail(xfr, result, "failed setting up socket");
 		}
 		isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+		isc_refcount_decrement0(&xfr->recvs);
 		dns_xfrin_detach(&xfr);
 		return;
 	} else if (result != ISC_R_SUCCESS) {
@@ -629,7 +629,6 @@ xfrin_consume_done(void *data, isc_result_t result) {
 		 */
 		/* The readhandle is still attached */
 		/* The recv_xfr is still attached */
-		isc_refcount_increment0(&xfr->recvs);
 		isc_nm_read(xfr->handle, xfrin_recv_done, offload->xfr);
 		isc_nmhandle_detach(&offload->handle);
 		isc_mem_put(xfr->mctx, offload, sizeof(*offload));
@@ -641,10 +640,10 @@ failure:
 		xfrin_fail(xfr, result, "failed while receiving responses");
 	}
 
-	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
 	isc_nmhandle_detach(&xfr->readhandle);
 	isc_nmhandle_detach(&offload->handle);
 	isc_mem_put(xfr->mctx, offload, sizeof(*offload));
+	isc_refcount_decrement0(&xfr->recvs);
 	dns_xfrin_detach(&xfr); /* recv_xfr */
 }
 
@@ -1535,8 +1534,6 @@ xfrin_recv_done(isc_nmhandle_t *handle, isc_result_t result,
 
 	REQUIRE(VALID_XFRIN(xfr));
 
-	isc_refcount_decrement0(&xfr->recvs);
-
 	if (atomic_load(&xfr->shuttingdown)) {
 		result = ISC_R_SHUTTINGDOWN;
 	}
@@ -1656,8 +1653,9 @@ early_failure:
 	if (result != ISC_R_SUCCESS) {
 		xfrin_fail(xfr, result, "failed while receiving responses");
 	}
-	fprintf(stderr, "detaching readhandle %p\n", xfr->readhandle);
 	isc_nmhandle_detach(&xfr->readhandle);
+	isc_refcount_decrement0(&xfr->recvs);
+
 	dns_xfrin_detach(&xfr); /* recv_xfr */
 }
 
