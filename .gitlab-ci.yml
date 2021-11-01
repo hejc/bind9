@@ -94,7 +94,7 @@ stages:
 # Alpine Linux
 
 .alpine-3.14-amd64: &alpine_3_14_amd64_image
-  image: "$CI_REGISTRY_IMAGE:alpine-3.14-amd64"
+  image: "$CI_REGISTRY_IMAGE-staging:alpine-3.14-amd64"
   <<: *linux_amd64
 
 # Oracle Linux
