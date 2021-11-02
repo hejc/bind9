@@ -26,6 +26,16 @@ dig_with_opts() {
     "$DIG" +tcp +noadd +nosea +nostat +nocmd +dnssec -p "$PORT" "$@"
 }
 
+check_ad_flag() {
+    if [ ${1} = yes ]
+    then
+	grep "flags:[^;]* ad[^;]*; QUERY" ${2} > /dev/null || return 1
+    else
+	grep "flags:[^;]* ad[^;]*; QUERY" ${2} > /dev/null && return 1
+    fi
+    return 0
+}
+
 for ns in 2 4 5 6
 do
     case $ns in
@@ -38,12 +48,7 @@ do
     echo_i "prime negative NXDOMAIN response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nxdomain.out
@@ -54,12 +59,7 @@ do
     echo_i "prime negative NODATA response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts nodata.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nodata.out
@@ -70,12 +70,7 @@ do
     echo_i "prime wildcard response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.wild-a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-a.example.*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wild.out
@@ -86,12 +81,7 @@ do
     echo_i "prime wildcard CNAME response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.wild-cname.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wildcname.out
@@ -102,7 +92,7 @@ do
     echo_i "prime insecure negative NXDOMAIN response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n insecure.nxdomain.out
@@ -113,7 +103,7 @@ do
     echo_i "prime insecure negative NODATA response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts nodata.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n insecure.nodata.out
@@ -124,7 +114,7 @@ do
     echo_i "prime insecure wildcard response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.wild-a.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-a.insecure.example.*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > insecure.wild.out
@@ -135,7 +125,7 @@ do
     echo_i "prime wildcard CNAME response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts a.wild-cname.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "a.wild-cname.insecure.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > insecure.wildcname.out
@@ -146,12 +136,7 @@ do
     echo_i "prime minimal NXDOMAIN response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts nxdomain.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "nxdomaia.minimal.*3600.IN.NSEC.nxdomaiz.minimal. RRSIG NSEC" dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -163,12 +148,7 @@ do
     echo_i "prime black lie NODATA response (synth-from-dnssec ${description};) ($n)"
     ret=0
     dig_with_opts black.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ $ad = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep 'black.minimal.*3600.IN.NSEC.\\000.black.minimal. RRSIG NSEC' dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -180,10 +160,10 @@ done
 
 echo_i "prime redirect response (+nodnssec) (synth-from-dnssec <default>;) ($n)"
 ret=0
-dig_with_opts +nodnssec a.redirect. @10.53.0.3 a > dig.out.ns2.test$n || ret=1
-grep "flags:[^;]* ad[ ;]" dig.out.ns2.test$n > /dev/null && ret=1
-grep "status: NOERROR," dig.out.ns2.test$n > /dev/null || ret=1
-grep 'a\.redirect\..*300.IN.A.100\.100\.100\.2' dig.out.ns2.test$n > /dev/null || ret=1
+dig_with_opts +nodnssec a.redirect. @10.53.0.3 a > dig.out.ns3.test$n || ret=1
+check_ad_flag no dig.out.ns3.test$n || ret=1
+grep "status: NOERROR," dig.out.ns3.test$n > /dev/null || ret=1
+grep 'a\.redirect\..*300.IN.A.100\.100\.100\.2' dig.out.ns3.test$n > /dev/null || ret=1
 n=$((n+1))
 if [ $ret != 0 ]; then echo_i "failed"; fi
 status=$((status+ret))
@@ -206,12 +186,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
@@ -231,12 +206,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts nodata.example. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
@@ -256,12 +226,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
@@ -281,12 +246,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-cname.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
@@ -307,7 +267,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep b.insecure.example/A > /dev/null || ret=1
@@ -320,7 +280,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts nodata.insecure.example. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep nodata.insecure.example/AAAA > /dev/null || ret=1
@@ -333,7 +293,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-a.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "b\.wild-a\.insecure\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep b.wild-a.insecure.example/A > /dev/null || ret=1
@@ -346,7 +306,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts b.wild-cname.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
+    check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "b.wild-cname.insecure.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep b.wild-cname.insecure.example/A > /dev/null || ret=1
@@ -360,12 +320,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts nxdomaic.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NXDOMAIN," dig.out.ns${ns}.test$n > /dev/null || ret=1
     grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
     nextpart ns1/named.run | grep nxdomaic.minimal/A > /dev/null || ret=1
@@ -378,12 +333,7 @@ do
     ret=0
     nextpart ns1/named.run > /dev/null
     dig_with_opts black.minimal. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
-    if [ ${ad} = yes ]
-    then
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null || ret=1
-    else
-	grep "flags:[^;]* ad[ ;]" dig.out.ns${ns}.test$n > /dev/null && ret=1
-    fi
+    check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     grep "status: NOERROR," dig.out.ns${ns}.test$n > /dev/null || ret=1
     if [ ${synth} = yes ]
     then
@@ -584,15 +534,15 @@ done
 echo_i "check redirect response (+dnssec) (synth-from-dnssec <default>;) ($n)"
 ret=0
 synth=${synth_default}
-dig_with_opts b.redirect. @10.53.0.3 a > dig.out.ns2.test$n || ret=1
-grep "flags:[^;]* ad[ ;]" dig.out.ns2.test$n > /dev/null || ret=1
-grep "status: NXDOMAIN," dig.out.ns2.test$n > /dev/null || ret=1
+dig_with_opts b.redirect. @10.53.0.3 a > dig.out.ns3.test$n || ret=1
+check_ad_flag yes dig.out.ns3.test$n || ret=1
+grep "status: NXDOMAIN," dig.out.ns3.test$n > /dev/null || ret=1
 if [ ${synth} = yes ]
 then
-    grep "^\....[0-9]*.IN.SOA" dig.out.ns2.test$n > /dev/null || ret=1
-    grep "^\..*3600.IN.SOA" dig.out.ns2.test$n > /dev/null && ret=1
+    grep "^\....[0-9]*.IN.SOA" dig.out.ns3.test$n > /dev/null || ret=1
+    grep "^\..*3600.IN.SOA" dig.out.ns3.test$n > /dev/null && ret=1
 else
-    grep "^\..*3600.IN.SOA" dig.out.ns2.test$n > /dev/null || ret=1
+    grep "^\..*3600.IN.SOA" dig.out.ns3.test$n > /dev/null || ret=1
 fi
 n=$((n+1))
 if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -600,10 +550,10 @@ status=$((status+ret))
 
 echo_i "check redirect response (+nodnssec) (synth-from-dnssec <default>;) ($n)"
 ret=0
-dig_with_opts +nodnssec b.redirect. @10.53.0.3 a > dig.out.ns2.test$n || ret=1
-grep "flags:[^;]* ad[ ;]" dig.out.ns2.test$n > /dev/null && ret=1
-grep "status: NOERROR," dig.out.ns2.test$n > /dev/null || ret=1
-grep 'b\.redirect\..*300.IN.A.100\.100\.100\.2' dig.out.ns2.test$n > /dev/null || ret=1
+dig_with_opts +nodnssec b.redirect. @10.53.0.3 a > dig.out.ns3.test$n || ret=1
+check_ad_flag no dig.out.ns3.test$n || ret=1
+grep "status: NOERROR," dig.out.ns3.test$n > /dev/null || ret=1
+grep 'b\.redirect\..*300.IN.A.100\.100\.100\.2' dig.out.ns3.test$n > /dev/null || ret=1
 n=$((n+1))
 if [ $ret != 0 ]; then echo_i "failed"; fi
 status=$((status+ret))
