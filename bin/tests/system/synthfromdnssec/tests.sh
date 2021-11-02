@@ -41,6 +41,19 @@ check_status() {
     return 0
 }
 
+check_synth_soa() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*[0-9]*.IN.SOA" ${2} > /dev/null || return 1
+    grep "^${name}.*3600.IN.SOA" ${2} > /dev/null && return 1
+    return 0
+)
+
+check_nosynth_soa() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*3600.IN.SOA" ${2} > /dev/null || return 1
+    return 0
+)
+
 for ns in 2 4 5 6
 do
     case $ns in
@@ -55,7 +68,7 @@ do
     dig_with_opts a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
-    grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nxdomain.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -66,7 +79,7 @@ do
     dig_with_opts nodata.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n nodata.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -99,7 +112,7 @@ do
     dig_with_opts a.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
-    grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa insecure.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n insecure.nxdomain.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -110,7 +123,7 @@ do
     dig_with_opts nodata.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa insecure.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n insecure.nodata.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -143,7 +156,7 @@ do
     dig_with_opts nxdomain.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
-    grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa minimal. dig.out.ns${ns}.test$n || ret=1
     grep "nxdomaia.minimal.*3600.IN.NSEC.nxdomaiz.minimal. RRSIG NSEC" dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n minimal.nxdomain.out
     n=$((n+1))
@@ -155,7 +168,7 @@ do
     dig_with_opts black.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa minimal. dig.out.ns${ns}.test$n || ret=1
     grep 'black.minimal.*3600.IN.NSEC.\\000.black.minimal. RRSIG NSEC' dig.out.ns${ns}.test$n > /dev/null || ret=1
     [ $ns -eq 2 ] && cp dig.out.ns${ns}.test$n black.out
     n=$((n+1))
@@ -195,11 +208,10 @@ do
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
     if [ ${synth} = yes ]
     then
-	grep "example.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	check_synth_soa example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.example/A > /dev/null && ret=1
     else
-	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	check_nosynth_soa example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.example/A > /dev/null || ret=1
     fi
     digcomp nxdomain.out dig.out.ns${ns}.test$n || ret=1
@@ -215,11 +227,10 @@ do
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
     if [ ${synth} = yes ]
     then
-	grep "example.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	check_synth_soa example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep nodata.example/AAAA > /dev/null && ret=1
     else
-	grep "example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	check_nosynth_soa example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep nodata.example/AAAA > /dev/null || ret=1
     fi
     digcomp nodata.out dig.out.ns${ns}.test$n || ret=1
@@ -274,7 +285,7 @@ do
     dig_with_opts b.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
-    grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa insecure.example. dig.out.ns${ns}.test$n || ret=1
     nextpart ns1/named.run | grep b.insecure.example/A > /dev/null || ret=1
     digcomp insecure.nxdomain.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
@@ -287,7 +298,7 @@ do
     dig_with_opts nodata.insecure.example. @10.53.0.${ns} aaaa > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "insecure.example.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa insecure.example. dig.out.ns${ns}.test$n || ret=1
     nextpart ns1/named.run | grep nodata.insecure.example/AAAA > /dev/null || ret=1
     digcomp insecure.nodata.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
@@ -327,7 +338,7 @@ do
     dig_with_opts nxdomaic.minimal. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NXDOMAIN dig.out.ns${ns}.test$n || ret=1
-    grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_soa minimal. dig.out.ns${ns}.test$n || ret=1
     nextpart ns1/named.run | grep nxdomaic.minimal/A > /dev/null || ret=1
     digcomp minimal.nxdomain.out dig.out.ns${ns}.test$n || ret=1
     n=$((n+1))
@@ -342,11 +353,10 @@ do
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
     if [ ${synth} = yes ]
     then
-	grep "minimal.*IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	check_synth_soa minimal. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep black.minimal/AAAA > /dev/null && ret=1
     else
-	grep "minimal.*3600.IN.SOA" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	check_nosynth_soa minimal. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep black.minimal/AAAA > /dev/null || ret=1
     fi
     digcomp black.out dig.out.ns${ns}.test$n || ret=1
@@ -544,10 +554,9 @@ check_ad_flag yes dig.out.ns3.test$n || ret=1
 check_status NXDOMAIN dig.out.ns3.test$n || ret=1
 if [ ${synth} = yes ]
 then
-    grep "^\....[0-9]*.IN.SOA" dig.out.ns3.test$n > /dev/null || ret=1
-    grep "^\..*3600.IN.SOA" dig.out.ns3.test$n > /dev/null && ret=1
+    check_synth_soa . dig.out.ns3.test$n || ret=1
 else
-    grep "^\..*3600.IN.SOA" dig.out.ns3.test$n > /dev/null || ret=1
+    check_nosynth_soa . dig.out.ns3.test$n || ret=1
 fi
 n=$((n+1))
 if [ $ret != 0 ]; then echo_i "failed"; fi
