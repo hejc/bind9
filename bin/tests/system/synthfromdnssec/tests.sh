@@ -54,6 +54,19 @@ check_nosynth_soa() (
     return 0
 )
 
+check_synth_a() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*[0-9]*.IN.A" ${2} > /dev/null || return 1
+    grep "^${name}.*3600.IN.A" ${2} > /dev/null && return 1
+    return 0
+)
+
+check_nosynth_a() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*3600.IN.A" ${2} > /dev/null || return 1
+    return 0
+)
+
 for ns in 2 4 5 6
 do
     case $ns in
@@ -90,7 +103,7 @@ do
     dig_with_opts a.wild-a.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "a.wild-a.example.*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_a a.wild-a.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wild.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -134,7 +147,7 @@ do
     dig_with_opts a.wild-a.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "a.wild-a.insecure.example.*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_a a.wild-a.insecure.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > insecure.wild.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -246,11 +259,10 @@ do
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
     if [ ${synth} = yes ]
     then
-	grep "b\.wild-a\.example\..*IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	check_synth_a b.wild-a.example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.wild-a.example/A > /dev/null && ret=1
     else
-	grep "b\.wild-a\.example\..*3600.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	check_nosynth_a b.wild-a.example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.wild-a.example/A > /dev/null || ret=1
     fi
     digcomp wild.out dig.out.ns${ns}.test$n || ret=1
