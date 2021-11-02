@@ -67,6 +67,19 @@ check_nosynth_a() (
     return 0
 )
 
+check_synth_cname() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*[0-9]*.IN.CNAME" ${2} > /dev/null || return 1
+    grep "^${name}.*3600.IN.CNAME" ${2} > /dev/null && return 1
+    return 0
+)
+
+check_nosynth_cname() (
+    name=$(echo "$1" | sed 's/\./\\./g')
+    grep "^${name}.*3600.IN.CNAME" ${2} > /dev/null || return 1
+    return 0
+)
+
 for ns in 2 4 5 6
 do
     case $ns in
@@ -114,7 +127,7 @@ do
     dig_with_opts a.wild-cname.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag $ad dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "a.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_cname a.wild-cname.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > wildcname.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -158,7 +171,7 @@ do
     dig_with_opts a.wild-cname.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "a.wild-cname.insecure.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_cname a.wild-cname.insecure.example. dig.out.ns${ns}.test$n || ret=1
     [ $ns -eq 2 ] && sed 's/^a\./b./' dig.out.ns${ns}.test$n > insecure.wildcname.out
     n=$((n+1))
     if [ $ret != 0 ]; then echo_i "failed"; fi
@@ -278,11 +291,10 @@ do
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
     if [ ${synth} = yes ]
     then
-	grep "b.wild-cname.example.*IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
-	grep "b.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null && ret=1
+	check_synth_cname b.wild-cname.example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.wild-cname.example/A > /dev/null && ret=1
     else
-	grep "b.wild-cname.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+	check_nosynth_cname b.wild-cname.example. dig.out.ns${ns}.test$n || ret=1
 	nextpart ns1/named.run | grep b.wild-cname.example/A > /dev/null || ret=1
     fi
     grep "ns1.example.*.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
@@ -336,7 +348,7 @@ do
     dig_with_opts b.wild-cname.insecure.example. @10.53.0.${ns} a > dig.out.ns${ns}.test$n || ret=1
     check_ad_flag no dig.out.ns${ns}.test$n || ret=1
     check_status NOERROR dig.out.ns${ns}.test$n || ret=1
-    grep "b.wild-cname.insecure.example.*3600.IN.CNAME" dig.out.ns${ns}.test$n > /dev/null || ret=1
+    check_nosynth_cname b.wild-cname.insecure.example dig.out.ns${ns}.test$n || ret=1
     nextpart ns1/named.run | grep b.wild-cname.insecure.example/A > /dev/null || ret=1
     grep "ns1.insecure.example.*.IN.A" dig.out.ns${ns}.test$n > /dev/null || ret=1
     digcomp insecure.wildcname.out dig.out.ns${ns}.test$n || ret=1
