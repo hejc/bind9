@@ -487,6 +487,7 @@ dlz_lookup(const char *zone, const char *name, void *dbdata,
 	}
 
 	if (strcmp(name, "source-addr") == 0) {
+		char ecsbuf[100] = "not supported";
 		strncpy(buf, "unknown", sizeof(buf));
 		if (methods != NULL && methods->sourceip != NULL &&
 		    (methods->version - methods->age <=
@@ -496,6 +497,16 @@ dlz_lookup(const char *zone, const char *name, void *dbdata,
 			methods->sourceip(clientinfo, &src);
 			fmt_address(src, buf, sizeof(buf));
 		}
+		if (clientinfo != NULL && clientinfo->version >= 3) {
+			if (clientinfo->ecs.addr.family != AF_UNSPEC) {
+				dns_ecs_format(&clientinfo->ecs, ecsbuf,
+					       sizeof(ecsbuf));
+			} else {
+				strcpy(ecsbuf, "not present");
+			}
+		}
+		i = strlen(buf);
+		snprintf(buf +i, sizeof(buf) - i - 1, " ECS %s", ecsbuf);
 
 		loginfo("dlz_example: lookup connection from %s", buf);
 
