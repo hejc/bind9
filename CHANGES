@@ -1,3 +1,5 @@
+5755.	[func]		Add ECS support to DLZ interface.
+
 5754.	[bug]		"tls" statements may omit "key-file" and "cert-file",
 			but if either one is specified, then both must be.
 			[GL #2986]
