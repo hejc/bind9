@@ -627,7 +627,7 @@ cfg_acl_fromconfig(const cfg_obj_t *caml, const cfg_obj_t *cctx,
 }
 
 isc_result_t
-cfg_acl_fromconfig2(const cfg_obj_t *caml, const cfg_obj_t *cctx,
+cfg_acl_fromconfig2(const cfg_obj_t *acl_data, const cfg_obj_t *cctx,
 		    isc_log_t *lctx, cfg_aclconfctx_t *ctx, isc_mem_t *mctx,
 		    unsigned int nest_level, uint16_t family,
 		    dns_acl_t **target) {
@@ -638,6 +638,9 @@ cfg_acl_fromconfig2(const cfg_obj_t *caml, const cfg_obj_t *cctx,
 	dns_iptable_t *iptab;
 	int new_nest_level = 0;
 	bool setpos;
+	const cfg_obj_t *caml = NULL;
+	const cfg_obj_t *obj_acl_tuple = NULL;
+	const cfg_obj_t *obj_port = NULL, *obj_proto = NULL;
 
 	if (nest_level != 0) {
 		new_nest_level = nest_level - 1;
@@ -646,6 +649,27 @@ cfg_acl_fromconfig2(const cfg_obj_t *caml, const cfg_obj_t *cctx,
 	REQUIRE(ctx != NULL);
 	REQUIRE(target != NULL);
 	REQUIRE(*target == NULL || DNS_ACL_VALID(*target));
+
+	REQUIRE(acl_data != NULL);
+	if (cfg_obj_islist(acl_data)) {
+		caml = acl_data;
+	} else {
+		INSIST(cfg_obj_istuple(acl_data));
+		caml = cfg_tuple_get(acl_data, "acl");
+		INSIST(caml != NULL);
+		obj_acl_tuple = cfg_tuple_get(acl_data, "tuple");
+		INSIST(obj_acl_tuple != NULL);
+		obj_port = cfg_tuple_get(obj_acl_tuple, "port");
+		obj_proto = cfg_tuple_get(obj_acl_tuple, "protocol");
+
+		if (obj_port != NULL && cfg_obj_isuint32(obj_port)) {
+			printf("port: %u\n", cfg_obj_asuint32(obj_port));
+		}
+
+		if (obj_proto != NULL && cfg_obj_isstring(obj_proto)) {
+			printf("protocol: %s\n", cfg_obj_asstring(obj_proto));
+		}
+	}
 
 	if (*target != NULL) {
 		/*

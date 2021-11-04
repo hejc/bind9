@@ -166,7 +166,8 @@ OPTIONS
   	allow-query-on { address_match_element; ... };
   	allow-recursion { address_match_element; ... };
   	allow-recursion-on { address_match_element; ... };
-  	allow-transfer { address_match_element; ... };
+  	allow-transfer [ port integer ] [ transport string ] {
+  	    address_match_element; ... };
   	allow-update { address_match_element; ... };
   	allow-update-forwarding { address_match_element; ... };
   	also-notify [ port integer ] [ dscp integer ] { (
@@ -607,7 +608,8 @@ VIEW
   	allow-query-on { address_match_element; ... };
   	allow-recursion { address_match_element; ... };
   	allow-recursion-on { address_match_element; ... };
-  	allow-transfer { address_match_element; ... };
+  	allow-transfer [ port integer ] [ transport string ] {
+  	    address_match_element; ... };
   	allow-update { address_match_element; ... };
   	allow-update-forwarding { address_match_element; ... };
   	also-notify [ port integer ] [ dscp integer ] { (
@@ -891,7 +893,8 @@ VIEW
   		allow-notify { address_match_element; ... };
   		allow-query { address_match_element; ... };
   		allow-query-on { address_match_element; ... };
-  		allow-transfer { address_match_element; ... };
+  		allow-transfer [ port integer ] [ transport string ] {
+  		    address_match_element; ... };
   		allow-update { address_match_element; ... };
   		allow-update-forwarding { address_match_element; ... };
   		also-notify [ port integer ] [ dscp integer ] { (
@@ -1011,7 +1014,8 @@ ZONE
   	allow-notify { address_match_element; ... };
   	allow-query { address_match_element; ... };
   	allow-query-on { address_match_element; ... };
-  	allow-transfer { address_match_element; ... };
+  	allow-transfer [ port integer ] [ transport string ] {
+  	    address_match_element; ... };
   	allow-update { address_match_element; ... };
   	allow-update-forwarding { address_match_element; ... };
   	also-notify [ port integer ] [ dscp integer ] { (
