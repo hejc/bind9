@@ -328,6 +328,14 @@ dns_nsec_noexistnodata(dns_rdatatype_t type, const dns_name_t *name,
 	}
 	dns_rdataset_current(nsecset, &rdata);
 
+	if (!dns_nsec_typepresent(&rdata, dns_rdatatype_rrsig) ||
+	    !dns_nsec_typepresent(&rdata, dns_rdatatype_nsec))
+	{
+		(*logit)(arg, ISC_LOG_DEBUG(3),
+			 "NSEC missing RRSIG and/or NSEC from type map");
+		return (ISC_R_IGNORE);
+	}
+
 	(*logit)(arg, ISC_LOG_DEBUG(3), "looking for relevant NSEC");
 	relation = dns_name_fullcompare(name, nsecname, &order, &olabels);
 
