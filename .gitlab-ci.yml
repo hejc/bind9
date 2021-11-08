@@ -517,6 +517,7 @@ pylint:
   script:
     - *configure
     - PYTHONPATH="$PYTHONPATH:$CI_PROJECT_DIR/bin/python"
+    - ./pythonpath.sh
     - pylint --rcfile $CI_PROJECT_DIR/.pylintrc $(git ls-files '*.py' | grep -vE '(ans\.py|dangerfile\.py)')
 
 tarball-create:
