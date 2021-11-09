@@ -9997,6 +9997,32 @@ checksignames(dns_name_t *signer, dns_rdataset_t *sigrdataset) {
 	return (ISC_R_SUCCESS);
 }
 
+static bool
+have_nsec_and_rrsig(dns_rdataset_t *nsecset) {
+	dns_rdataset_t rdataset;
+	isc_result_t result;
+	bool found = false;
+
+	dns_rdataset_init(&rdataset);
+	dns_rdataset_clone(nsecset, &rdataset);
+
+	for (result = dns_rdataset_first(&rdataset); result == ISC_R_SUCCESS;
+	     result = dns_rdataset_next(&rdataset))
+	{
+		dns_rdata_t rdata = DNS_RDATA_INIT;
+		dns_rdataset_current(&rdataset, &rdata);
+		if (!dns_nsec_typepresent(&rdata, dns_rdatatype_nsec) ||
+		    !dns_nsec_typepresent(&rdata, dns_rdatatype_rrsig))
+		{
+			dns_rdataset_disassociate(&rdataset);
+			return (false);
+		}
+		found = true;
+	}
+	dns_rdataset_disassociate(&rdataset);
+	return (found);
+}
+
 /*%
  * Handle covering NSEC responses.
  *
@@ -10066,6 +10092,14 @@ query_coveringnsec(query_ctx_t *qctx) {
 	result = checksignames(signer, qctx->sigrdataset);
 	if (result != ISC_R_SUCCESS) {
 		result = ISC_R_SUCCESS;
+		goto cleanup;
+	}
+
+	/*
+	 * If NSEC or RRSIG are missing from the type map
+	 * reject the NSEC RRset.
+	 */
+	if (!have_nsec_and_rrsig(qctx->rdataset)) {
 		goto cleanup;
 	}
 
