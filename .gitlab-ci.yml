@@ -939,7 +939,7 @@ unit:gcc:focal:amd64:
     - job: gcc:focal:amd64
       artifacts: true
 
-# Jobs for ASAN builds on Debian 10 "buster" (amd64)
+# Jobs for ASAN builds on Fedora 34 (amd64)
 
 gcc:asan:
   variables:
@@ -987,7 +987,7 @@ unit:clang:asan:
     - job: clang:asan
       artifacts: true
 
-# Jobs for TSAN builds on Debian 10 "buster" (amd64)
+# Jobs for TSAN builds on Fedora 34 (amd64)
 
 gcc:tsan:
   variables:
