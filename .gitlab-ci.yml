@@ -7,6 +7,9 @@ variables:
   CI_REGISTRY_IMAGE: registry.gitlab.isc.org/isc-projects/images/bind9
   CCACHE_DIR: "/ccache"
   SOFTHSM2_CONF: "/var/tmp/softhsm2/softhsm2.conf"
+  OPENSSL_ENGINES: "/var/tmp/engines"
+  DEFAULT_OPENSSL_CONF: "/etc/ssl/openssl.cnf"
+  OPENSSL_CONF: "/var/tmp/etc/openssl.cnf"
 
   GIT_DEPTH: 1
   BUILD_PARALLEL_JOBS: 6
@@ -267,10 +270,19 @@ stages:
   - test -n "${OUT_OF_TREE_WORKSPACE}" && mv "$(basename "${OUT_OF_TREE_WORKSPACE}")" "${OUT_OF_TREE_WORKSPACE}"
   - test -n "${OUT_OF_TREE_WORKSPACE}" && cd "${OUT_OF_TREE_WORKSPACE}"
 
+.setup_openssl: &setup_openssl
+    - sh -x bin/tests/prepare-openssl.sh
+
+.setup_softhsm: &setup_softhsm
+    - export SLOT=$(sh -x bin/tests/prepare-softhsm2.sh)
+    - test -n "${SLOT}" && test "${SLOT}" -gt 0
+
 .build: &build_job
   <<: *default_triggering_rules
   stage: build
   before_script:
+    - *setup_softhsm
+    - *setup_openssl
     - test -w "${CCACHE_DIR}" && export PATH="/usr/lib/ccache:${PATH}"
     - test -n "${OUT_OF_TREE_WORKSPACE}" && mkdir "${OUT_OF_TREE_WORKSPACE}" && cd "${OUT_OF_TREE_WORKSPACE}"
   script:
@@ -301,15 +313,10 @@ stages:
         sudo sh -x bin/tests/system/ifconfig.sh up;
       fi
 
-.setup_softhsm: &setup_softhsm
-    - export SLOT=$(sh -x bin/tests/prepare-softhsm2.sh)
-    - test -n "${SLOT}" && test "${SLOT}" -gt 0
-
 .system_test_common: &system_test_common
   <<: *default_triggering_rules
   stage: system
   before_script:
-    - *setup_softhsm
     - *retrieve_out_of_tree_workspace
     - *setup_interfaces
   script:
@@ -350,7 +357,6 @@ stages:
   <<: *default_triggering_rules
   stage: unit
   before_script:
-    - *setup_softhsm
     - *retrieve_out_of_tree_workspace
   script:
     - make -j${TEST_PARALLEL_JOBS:-1} -k unit V=1
@@ -670,6 +676,8 @@ gcc:buster:amd64:
   <<: *build_job
 
 system:gcc:buster:amd64:
+  variables:
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   <<: *debian_buster_amd64_image
   <<: *system_test_gcov_job
   needs:
@@ -948,6 +956,8 @@ gcc:asan:
   <<: *build_job
 
 system:gcc:asan:
+  variables:
+    SOFTHSM2_MODULE: "/lib64/libsofthsm2.so"
   <<: *fedora_34_amd64_image
   <<: *system_test_job
   needs:
@@ -997,6 +1007,7 @@ gcc:tsan:
 
 system:gcc:tsan:
   variables:
+    SOFTHSM2_MODULE: "/lib64/libsofthsm2.so"
     TSAN_OPTIONS: ${TSAN_OPTIONS_COMMON}
   <<: *fedora_34_amd64_image
   <<: *system_test_tsan_job
@@ -1024,6 +1035,7 @@ clang:tsan:
 
 system:clang:tsan:
   variables:
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
     TSAN_OPTIONS: ${TSAN_OPTIONS_COMMON}
   <<: *base_image
   <<: *system_test_tsan_job
@@ -1050,6 +1062,8 @@ clang:buster:amd64:
   <<: *build_job
 
 system:clang:buster:amd64:
+  variables:
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   <<: *debian_buster_amd64_image
   <<: *system_test_job
   needs:
@@ -1311,6 +1325,7 @@ respdiff:
     - *configure
     - *setup_interfaces
     - *setup_softhsm
+    - *setup_openssl
     - make -j${BUILD_PARALLEL_JOBS:-1} -k all V=1
     - make DESTDIR="${INSTALL_PATH}" install
     - git clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.isc.org/isc-private/bind-qa.git
