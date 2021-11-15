@@ -85,7 +85,6 @@
 	 )
 
    (eval setq flycheck-clang-include-path include-directories)
-   (eval setq flycheck-cppcheck-include-path include-directories)
    (eval setq flycheck-gcc-include-path include-directories)
    (eval setq flycheck-clang-args
 	 (list
@@ -99,17 +98,6 @@
 	  "-include"
 	  (expand-file-name
 	   (concat directory-of-current-dir-locals-file "config.h"))
-	  )
-	 )
-   (eval setq flycheck-cppcheck-args
-	 (list
-	  "--enable=all"
-	  "--suppress=missingIncludeSystem"
-	  "--suppress=nullPointerRedundantCheck"
-	  (concat "--suppressions-list=" (expand-file-name
-			       (concat directory-of-current-dir-locals-file "util/suppressions.txt")))
-	  (concat "-include=" (expand-file-name
-			       (concat directory-of-current-dir-locals-file "config.h")))
 	  )
 	 )
    )

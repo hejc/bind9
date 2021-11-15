@@ -1,3 +1,5 @@
+5758.	[test]		Drop cppcheck suppressions and workarounds. [GL #2886]
+
 5757.	[test]		Replace sed in nsupdate system test with awk to
 			construct the nsupdate command.  The sed expression
 			was not reliably changing the ttl. [GL #3003]

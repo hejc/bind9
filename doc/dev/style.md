@@ -580,9 +580,6 @@ Good:
     		[...]
     	}
 
-Integrating cppcheck with editor of your choice (f.e. flycheck with emacs) could
-be a great help in identifying places where variable scopes can be reduced.
-
 #### Initializing variables
 
 Static initializers should be used instead of memset.
