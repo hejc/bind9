@@ -111,7 +111,6 @@ struct isc_task {
 	isc_time_t tnow;
 	char name[16];
 	void *tag;
-	bool bound;
 	/* Protected by atomics */
 	atomic_bool shuttingdown;
 	atomic_bool privileged;
@@ -198,7 +197,7 @@ task_finished(isc_task_t *task) {
 isc_result_t
 isc_task_create(isc_taskmgr_t *manager, unsigned int quantum,
 		isc_task_t **taskp) {
-	return (isc_task_create_bound(manager, quantum, taskp, -1));
+	return (isc_task_create_bound(manager, quantum, taskp, 0));
 }
 
 isc_result_t
@@ -209,33 +208,19 @@ isc_task_create_bound(isc_taskmgr_t *manager, unsigned int quantum,
 
 	REQUIRE(VALID_MANAGER(manager));
 	REQUIRE(taskp != NULL && *taskp == NULL);
+	REQUIRE(threadid >= 0);
 
 	XTRACE("isc_task_create");
 
 	task = isc_mem_get(manager->mctx, sizeof(*task));
-	*task = (isc_task_t){ 0 };
+	*task = (isc_task_t){
+		.threadid = threadid,
+		.state = task_state_idle,
+	};
 
 	isc_taskmgr_attach(manager, &task->manager);
 
-	if (threadid == -1) {
-		/*
-		 * Task is not pinned to a queue, it's threadid will be
-		 * chosen when first task will be sent to it - either
-		 * randomly or specified by isc_task_sendto.
-		 */
-		task->bound = false;
-		task->threadid = -1;
-	} else {
-		/*
-		 * Task is pinned to a queue, it'll always be run
-		 * by a specific thread.
-		 */
-		task->bound = true;
-		task->threadid = threadid;
-	}
-
 	isc_mutex_init(&task->lock);
-	task->state = task_state_idle;
 
 	isc_refcount_init(&task->references, 1);
 	isc_refcount_init(&task->running, 0);
@@ -407,7 +392,7 @@ isc_task_detach(isc_task_t **taskp) {
 }
 
 static inline bool
-task_send(isc_task_t *task, isc_event_t **eventp, int c) {
+task_send(isc_task_t *task, isc_event_t **eventp) {
 	bool was_idle = false;
 	isc_event_t *event;
 
@@ -425,15 +410,8 @@ task_send(isc_task_t *task, isc_event_t **eventp, int c) {
 
 	XTRACE("task_send");
 
-	if (task->bound) {
-		c = task->threadid;
-	} else if (c < 0) {
-		c = -1;
-	}
-
 	if (task->state == task_state_idle) {
 		was_idle = true;
-		task->threadid = c;
 		INSIST(EMPTY(task->events));
 		task->state = task_state_ready;
 	}
@@ -447,16 +425,6 @@ task_send(isc_task_t *task, isc_event_t **eventp, int c) {
 
 void
 isc_task_send(isc_task_t *task, isc_event_t **eventp) {
-	isc_task_sendto(task, eventp, -1);
-}
-
-void
-isc_task_sendanddetach(isc_task_t **taskp, isc_event_t **eventp) {
-	isc_task_sendtoanddetach(taskp, eventp, -1);
-}
-
-void
-isc_task_sendto(isc_task_t *task, isc_event_t **eventp, int c) {
 	bool was_idle;
 
 	/*
@@ -472,7 +440,7 @@ isc_task_sendto(isc_task_t *task, isc_event_t **eventp, int c) {
 	 * some processing is deferred until after the lock is released.
 	 */
 	LOCK(&task->lock);
-	was_idle = task_send(task, eventp, c);
+	was_idle = task_send(task, eventp);
 	UNLOCK(&task->lock);
 
 	if (was_idle) {
@@ -496,7 +464,7 @@ isc_task_sendto(isc_task_t *task, isc_event_t **eventp, int c) {
 }
 
 void
-isc_task_sendtoanddetach(isc_task_t **taskp, isc_event_t **eventp, int c) {
+isc_task_sendanddetach(isc_task_t **taskp, isc_event_t **eventp) {
 	bool idle1, idle2;
 	isc_task_t *task;
 
@@ -511,7 +479,7 @@ isc_task_sendtoanddetach(isc_task_t **taskp, isc_event_t **eventp, int c) {
 	XTRACE("isc_task_sendanddetach");
 
 	LOCK(&task->lock);
-	idle1 = task_send(task, eventp, c);
+	idle1 = task_send(task, eventp);
 	idle2 = task_detach(task);
 	UNLOCK(&task->lock);
 

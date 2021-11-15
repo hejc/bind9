@@ -201,30 +201,10 @@ void
 isc_task_send(isc_task_t *task, isc_event_t **eventp);
 
 void
-isc_task_sendto(isc_task_t *task, isc_event_t **eventp, int c);
-/*%<
- * Send '*event' to 'task', if task is idle try starting it on cpu 'c'
- * If 'c' is smaller than 0 then cpu is selected randomly.
- *
- * Requires:
- *
- *\li	'task' is a valid task.
- *\li	eventp != NULL && *eventp != NULL.
- *
- * Ensures:
- *
- *\li	*eventp == NULL.
- */
-
-void
-isc_task_sendtoanddetach(isc_task_t **taskp, isc_event_t **eventp, int c);
-
-void
 isc_task_sendanddetach(isc_task_t **taskp, isc_event_t **eventp);
 /*%<
  * Send '*event' to '*taskp' and then detach '*taskp' from its
- * task. If task is idle try starting it on cpu 'c'
- * If 'c' is smaller than 0 then cpu is selected randomly.
+ * task.
  *
  * Requires:
  *
