@@ -14,5 +14,30 @@
 
 set -e
 
+if [ -z "$SOFTHSM2_CONF" ] ; then
+	echo_i "softhsm2 configuration not set, required for test"
+	exit 1
+fi
+
+if [ -z "$SOFTHSM2_MODULE" ] ; then
+	echo_i "softhsm2 module not set, required for test"
+	exit 1
+fi
+
+if [ -z "$OPENSSL_ENGINES" ] ; then
+	echo_i "openssl engines path not set, required for test"
+	exit 1
+fi
+
+echo_i "softhsm settings:"
+echo_i "openssl conf: $OPENSSL_CONF"
+echo_i "openssl engines: $OPENSSL_ENGINES"
+echo_i "softhsm conf: $SOFTHSM2_CONF"
+echo_i "softhsm module: $SOFTHSM2_MODULE"
+
+ldconfig
+
+softhsm2-util --show-slots
+
 printf '%s' "${HSMPIN:-1234}" > pin
 PWD=$(pwd)
