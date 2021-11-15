@@ -671,6 +671,7 @@ gcc:buster:amd64:
   variables:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON} --coverage -O0"
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
     EXTRA_CONFIGURE: "--with-libidn2 ${WITH_READLINE_LIBEDIT}"
   <<: *debian_buster_amd64_image
   <<: *build_job
@@ -951,6 +952,7 @@ gcc:asan:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=address,undefined"
     LDFLAGS: "-fsanitize=address,undefined"
+    SOFTHSM2_MODULE: "/lib64/libsofthsm2.so"
     EXTRA_CONFIGURE: "--with-libidn2 --without-jemalloc"
   <<: *fedora_34_amd64_image
   <<: *build_job
@@ -976,11 +978,14 @@ clang:asan:
     CC: ${CLANG}
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=address,undefined"
     LDFLAGS: "-fsanitize=address,undefined"
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
     EXTRA_CONFIGURE: "--with-libidn2 --without-jemalloc"
   <<: *base_image
   <<: *build_job
 
 system:clang:asan:
+  variables:
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   <<: *base_image
   <<: *system_test_job
   needs:
@@ -1001,6 +1006,7 @@ gcc:tsan:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=thread"
     LDFLAGS: "-fsanitize=thread"
+    SOFTHSM2_MODULE: "/lib64/libsofthsm2.so"
     EXTRA_CONFIGURE: "--with-libidn2 --enable-pthread-rwlock --without-jemalloc"
   <<: *fedora_34_amd64_image
   <<: *build_job
@@ -1031,6 +1037,7 @@ clang:tsan:
     CC: "${CLANG}"
     CFLAGS: "${CFLAGS_COMMON} -fsanitize=thread"
     LDFLAGS: "-fsanitize=thread"
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
     EXTRA_CONFIGURE: "--with-libidn2 --enable-pthread-rwlock --without-jemalloc"
 
 system:clang:tsan:
@@ -1058,6 +1065,7 @@ clang:buster:amd64:
   variables:
     CC: ${CLANG}
     CFLAGS: "${CFLAGS_COMMON} -Wenum-conversion"
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   <<: *debian_buster_amd64_image
   <<: *build_job
 
