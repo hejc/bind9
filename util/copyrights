@@ -455,6 +455,10 @@
 ./bin/tests/system/keepalive/expected		X	2017,2018,2019,2020,2021
 ./bin/tests/system/keepalive/setup.sh		SH	2017,2018,2019,2020,2021
 ./bin/tests/system/keepalive/tests.sh		SH	2017,2018,2019,2020,2021
+./bin/tests/system/keyfromlabel/clean.sh	SH	2021
+./bin/tests/system/keyfromlabel/prereq.sh	SH	2021
+./bin/tests/system/keyfromlabel/setup.sh	SH	2021
+./bin/tests/system/keyfromlabel/tests.sh	SH	2021
 ./bin/tests/system/keymgr2kasp/README		TXT.BRIEF	2021
 ./bin/tests/system/keymgr2kasp/clean.sh		SH	2021
 ./bin/tests/system/keymgr2kasp/ns3/setup.sh	SH	2021
