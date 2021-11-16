@@ -35,8 +35,6 @@ echo_i "openssl engines: $OPENSSL_ENGINES"
 echo_i "softhsm conf: $SOFTHSM2_CONF"
 echo_i "softhsm module: $SOFTHSM2_MODULE"
 
-ldconfig
-
 softhsm2-util --show-slots
 
 printf '%s' "${HSMPIN:-1234}" > pin
