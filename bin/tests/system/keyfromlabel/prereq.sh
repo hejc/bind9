@@ -11,7 +11,9 @@
 
 . ../conf.sh
 
-if ! command -v softhsm2-util >/dev/null 2>&1; then
-	echo_i "skip: softhsm2-util not available"
-	exit 255
+if [ -n "${SOFTHSM2_CONF}" ] && command -v softhsm2-util >/dev/null; then
+	exit 0
 fi
+
+echo_i "skip: softhsm2-util not available"
+exit 255
