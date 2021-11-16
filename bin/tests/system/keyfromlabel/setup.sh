@@ -35,6 +35,14 @@ echo_i "openssl engines: $OPENSSL_ENGINES"
 echo_i "softhsm conf: $SOFTHSM2_CONF"
 echo_i "softhsm module: $SOFTHSM2_MODULE"
 
+echo_i "----------------------------------"
+cat $OPENSSL_CONF
+echo_i "----------------------------------"
+
+echo_i "----------------------------------"
+cat $SOFTHSM2_CONF
+echo_i "----------------------------------"
+
 softhsm2-util --init-token --free --pin 1234 --so-pin 1234 --label "softhsm2" | awk '/^The token has been initialized and is reassigned to slot/ { print $NF }'
 
 softhsm2-util --show-slots
