@@ -7,7 +7,7 @@
 ; See the COPYRIGHT file distributed with this work for additional
 ; information regarding copyright ownership.
 
-$TTL 300
+$TTL 0
 . 			IN SOA	gson.nominum.com. a.root.servers.nil. (
 				2000042100   	; serial
 				600         	; refresh
@@ -20,3 +20,6 @@ a.root-servers.nil.	A	10.53.0.1
 
 example.		NS	ns2.example.
 ns2.example.		A	10.53.0.2
+
+cycle.			NS	ns.sub.example.
+cycle2.			NS	ns.cycle.

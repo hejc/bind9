@@ -8,7 +8,7 @@
 ; information regarding copyright ownership.
 
 $ORIGIN .
-$TTL 300	; 5 minutes
+$TTL 0
 example			IN SOA	mname1. . (
 				1	   ; serial
 				20	   ; refresh (20 seconds)
@@ -33,3 +33,6 @@ ns4.example.	        A	10.53.0.4
 3.example.              A       10.53.1.3
 4.example.              A       10.53.1.4
 5.example.              A       10.53.1.5
+
+sub.example.		NS	ns.cycle2.
+sub2.example.		NS	ns.cycle.
