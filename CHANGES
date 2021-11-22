@@ -1,4 +1,4 @@
-5760.	[bug]		dnssec-dsfromkey failed to omit revoked keys. [GL  #853]
+5760.	[bug]		dnssec-dsfromkey failed to omit revoked keys. [GL #853]
 
 5759.	[func]		Set Extended DNS Error Code 18 - Prohibited if query
 			access is denied to the specific client. [GL #1836]
