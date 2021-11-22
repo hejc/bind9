@@ -2906,7 +2906,7 @@ grep "DNSKEY.385 3 13" dig.out.ns4.test$n > /dev/null || ret=1	# revoked KSK
 grep "DNSKEY.257 3 13" dig.out.ns4.test$n > /dev/null || ret=1	# KSK
 test $(awk '$4 == "DNSKEY" { print }' dig.out.ns4.test$n | wc -l) -eq 3 || ret=1
 $DSFROMKEY -f dig.out.ns4.test$n revkey.example. > dsfromkey.out.test$n || ret=1
-test $(wc -l < dsfromkey.out.test$n) -eq 1 | ret=1
+test $(wc -l < dsfromkey.out.test$n) -eq 1 || ret=1
 n=$((n+1))
 test "$ret" -eq 0 || echo_i "failed"
 
