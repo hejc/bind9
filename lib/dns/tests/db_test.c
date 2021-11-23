@@ -70,7 +70,7 @@ getoriginnode_test(void **state) {
 
 	isc_mem_create(&mctx);
 
-	result = dns_db_create(mctx, "rbt", dns_rootname, dns_dbtype_zone,
+	result = dns_db_create(mctx, "zdb", dns_rootname, dns_dbtype_zone,
 			       dns_rdataclass_in, 0, NULL, &db);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
@@ -286,7 +286,7 @@ class_test(void **state) {
 
 	UNUSED(state);
 
-	result = dns_db_create(dt_mctx, "rbt", dns_rootname, dns_dbtype_zone,
+	result = dns_db_create(dt_mctx, "zdb", dns_rootname, dns_dbtype_zone,
 			       dns_rdataclass_in, 0, NULL, &db);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
@@ -308,7 +308,7 @@ dbtype_test(void **state) {
 	UNUSED(state);
 
 	/* DB has zone semantics */
-	result = dns_db_create(dt_mctx, "rbt", dns_rootname, dns_dbtype_zone,
+	result = dns_db_create(dt_mctx, "zdb", dns_rootname, dns_dbtype_zone,
 			       dns_rdataclass_in, 0, NULL, &db);
 	assert_int_equal(result, ISC_R_SUCCESS);
 	result = dns_db_load(db, "testdata/db/data.db", dns_masterformat_text,

@@ -232,7 +232,7 @@ static void
 load_db(const char *filename, dns_db_t **dbp, dns_dbnode_t **nodep) {
 	isc_result_t result;
 
-	result = dns_db_create(mctx, "rbt", name, dns_dbtype_zone, rdclass, 0,
+	result = dns_db_create(mctx, "zdb", name, dns_dbtype_zone, rdclass, 0,
 			       NULL, dbp);
 	check_result(result, "dns_db_create()");
 
@@ -960,7 +960,7 @@ update_diff(const char *cmd, uint32_t ttl, dns_rdataset_t *addset,
 	uint32_t save;
 
 	db = NULL;
-	result = dns_db_create(mctx, "rbt", name, dns_dbtype_zone, rdclass, 0,
+	result = dns_db_create(mctx, "zdb", name, dns_dbtype_zone, rdclass, 0,
 			       NULL, &db);
 	check_result(result, "dns_db_create()");
 

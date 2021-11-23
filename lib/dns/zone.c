@@ -999,7 +999,7 @@ zone_journal_rollforward(dns_zone_t *zone, dns_db_t *db, bool *needdump,
 #define ENTER zone_debuglog(zone, me, 1, "enter")
 
 static const unsigned int dbargc_default = 1;
-static const char *dbargv_default[] = { "rbt" };
+static const char *dbargv_default[] = { "zdb" };
 
 #define DNS_ZONE_JITTER_ADD(a, b, c)                                         \
 	do {                                                                 \
@@ -1895,14 +1895,12 @@ isc_result_t
 dns_zone_rpz_enable(dns_zone_t *zone, dns_rpz_zones_t *rpzs,
 		    dns_rpz_num_t rpz_num) {
 	/*
-	 * Only RBTDB zones can be used for response policy zones,
+	 * Only ZDB zones can be used for response policy zones,
 	 * because only they have the code to create the summary data.
 	 * Only zones that are loaded instead of mmap()ed create the
 	 * summary data and so can be policy zones.
 	 */
-	if (strcmp(zone->db_argv[0], "rbt") != 0 &&
-	    strcmp(zone->db_argv[0], "rbt64") != 0)
-	{
+	if (strcmp(zone->db_argv[0], "zdb") != 0) {
 		return (ISC_R_NOTIMPLEMENTED);
 	}
 
@@ -2068,7 +2066,7 @@ zone_load(dns_zone_t *zone, unsigned int flags, bool locked) {
 	isc_time_t now;
 	isc_time_t loadtime;
 	dns_db_t *db = NULL;
-	bool rbt, hasraw, is_dynamic;
+	bool zdb, hasraw, is_dynamic;
 
 	REQUIRE(DNS_ZONE_VALID(zone));
 
@@ -2125,10 +2123,10 @@ zone_load(dns_zone_t *zone, unsigned int flags, bool locked) {
 
 	INSIST(zone->db_argc >= 1);
 
-	rbt = strcmp(zone->db_argv[0], "rbt") == 0 ||
-	      strcmp(zone->db_argv[0], "rbt64") == 0;
+	zdb = strcmp(zone->db_argv[0], "zdb") == 0 ||
+	      strcmp(zone->db_argv[0], "zdb64") == 0;
 
-	if (zone->db != NULL && zone->masterfile == NULL && rbt) {
+	if (zone->db != NULL && zone->masterfile == NULL && zdb) {
 		/*
 		 * The zone has no master file configured.
 		 */
@@ -2276,7 +2274,7 @@ zone_load(dns_zone_t *zone, unsigned int flags, bool locked) {
 	if ((zone->type == dns_zone_secondary ||
 	     zone->type == dns_zone_mirror || zone->type == dns_zone_stub ||
 	     (zone->type == dns_zone_redirect && zone->primaries != NULL)) &&
-	    rbt)
+	    zdb)
 	{
 		if (zone->stream == NULL &&
 		    (zone->masterfile == NULL ||
@@ -11543,7 +11541,7 @@ zone_expire(dns_zone_t *zone) {
 		isc_result_t result;
 		dns_rpz_zone_t *rpz = zone->rpzs->zones[zone->rpz_num];
 
-		CHECK(dns_db_create(zone->mctx, "rbt", &zone->origin,
+		CHECK(dns_db_create(zone->mctx, "zdb", &zone->origin,
 				    dns_dbtype_zone, zone->rdclass, 0, NULL,
 				    &db));
 		CHECK(dns_rpz_dbupdate_callback(db, rpz));

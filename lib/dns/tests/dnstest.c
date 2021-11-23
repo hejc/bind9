@@ -348,8 +348,13 @@ dns_test_loaddb(dns_db_t **db, dns_dbtype_t dbtype, const char *origin,
 		return (result);
 	}
 
-	result = dns_db_create(dt_mctx, "rbt", name, dbtype, dns_rdataclass_in,
-			       0, NULL, db);
+	if (dbtype == dns_dbtype_cache) {
+		result = dns_db_create(dt_mctx, "rbt", name, dbtype,
+				       dns_rdataclass_in, 0, NULL, db);
+	} else {
+		result = dns_db_create(dt_mctx, "zdb", name, dbtype,
+				       dns_rdataclass_in, 0, NULL, db);
+	}
 	if (result != ISC_R_SUCCESS) {
 		return (result);
 	}

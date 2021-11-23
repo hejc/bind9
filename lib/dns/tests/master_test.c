@@ -510,7 +510,7 @@ dumpraw_test(void **state) {
 				   &target);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
-	result = dns_db_create(dt_mctx, "rbt", &dnsorigin, dns_dbtype_zone,
+	result = dns_db_create(dt_mctx, "zdb", &dnsorigin, dns_dbtype_zone,
 			       dns_rdataclass_in, 0, NULL, &db);
 	assert_int_equal(result, ISC_R_SUCCESS);
 
