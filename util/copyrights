@@ -105,8 +105,6 @@
 ./bin/rndc/rndc.rst				RST	2020,2021
 ./bin/rndc/util.c				C	2000,2001,2004,2005,2007,2015,2016,2018,2019,2020,2021
 ./bin/rndc/util.h				C	2000,2001,2004,2005,2007,2009,2016,2018,2019,2020,2021
-./bin/tests/prepare-openssl.sh			SH	2021
-./bin/tests/prepare-softhsm2.sh			SH	2020,2021
 ./bin/tests/startperf/README			X	2011,2018,2019,2020,2021
 ./bin/tests/startperf/clean.sh			SH	2011,2012,2016,2018,2019,2020,2021
 ./bin/tests/startperf/makenames.pl		PERL	2011,2012,2016,2018,2019,2020,2021

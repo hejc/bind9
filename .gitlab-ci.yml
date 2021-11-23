@@ -7,7 +7,7 @@ variables:
   CI_REGISTRY_IMAGE: registry.gitlab.isc.org/isc-projects/images/bind9
   CCACHE_DIR: "/ccache"
   SOFTHSM2_CONF: "/var/tmp/softhsm2/softhsm2.conf"
-  OPENSSL_ENGINES: "/var/tmp/engines"
+  OPENSSL_ENGINES: "/usr/lib/x86_64-linux-gnu/engines-1.1"
   DEFAULT_OPENSSL_CONF: "/etc/ssl/openssl.cnf"
   OPENSSL_CONF: "/var/tmp/etc/openssl.cnf"
 
@@ -270,19 +270,10 @@ stages:
   - test -n "${OUT_OF_TREE_WORKSPACE}" && mv "$(basename "${OUT_OF_TREE_WORKSPACE}")" "${OUT_OF_TREE_WORKSPACE}"
   - test -n "${OUT_OF_TREE_WORKSPACE}" && cd "${OUT_OF_TREE_WORKSPACE}"
 
-.setup_openssl: &setup_openssl
-    - sh -x bin/tests/prepare-openssl.sh
-
-.setup_softhsm: &setup_softhsm
-    - export SLOT=$(sh -x bin/tests/prepare-softhsm2.sh)
-    - test -n "${SLOT}" && test "${SLOT}" -gt 0
-
 .build: &build_job
   <<: *default_triggering_rules
   stage: build
   before_script:
-    - *setup_softhsm
-    - *setup_openssl
     - test -w "${CCACHE_DIR}" && export PATH="/usr/lib/ccache:${PATH}"
     - test -n "${OUT_OF_TREE_WORKSPACE}" && mkdir "${OUT_OF_TREE_WORKSPACE}" && cd "${OUT_OF_TREE_WORKSPACE}"
   script:
@@ -1332,8 +1323,6 @@ respdiff:
   script:
     - *configure
     - *setup_interfaces
-    - *setup_softhsm
-    - *setup_openssl
     - make -j${BUILD_PARALLEL_JOBS:-1} -k all V=1
     - make DESTDIR="${INSTALL_PATH}" install
     - git clone --depth 1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.isc.org/isc-private/bind-qa.git
