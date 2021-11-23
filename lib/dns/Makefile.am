@@ -240,6 +240,8 @@ libdns_la_SOURCES =			\
 	validator.c			\
 	view.c				\
 	xfrin.c				\
+	zdb.h				\
+	zdb.c				\
 	zone.c				\
 	zoneverify.c			\
 	zonekey.c			\

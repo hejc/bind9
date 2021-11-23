@@ -57,6 +57,7 @@ struct dns_dbimplementation {
  */
 
 #include "rbtdb.h"
+#include "zdb.h"
 
 unsigned int dns_pps = 0U;
 
@@ -65,6 +66,7 @@ static isc_rwlock_t implock;
 static isc_once_t once = ISC_ONCE_INIT;
 
 static dns_dbimplementation_t rbtimp;
+static dns_dbimplementation_t zdbimp;
 
 static void
 initialize(void) {
@@ -76,8 +78,15 @@ initialize(void) {
 	rbtimp.driverarg = NULL;
 	ISC_LINK_INIT(&rbtimp, link);
 
+	zdbimp.name = "zdb";
+	zdbimp.create = dns_zdb_create;
+	zdbimp.mctx = NULL;
+	zdbimp.driverarg = NULL;
+	ISC_LINK_INIT(&zdbimp, link);
+
 	ISC_LIST_INIT(implementations);
 	ISC_LIST_APPEND(implementations, &rbtimp, link);
+	ISC_LIST_APPEND(implementations, &zdbimp, link);
 }
 
 static inline dns_dbimplementation_t *
