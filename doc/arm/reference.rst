@@ -2416,6 +2416,15 @@ for details on how to specify IP address lists.
    statement set in ``options`` or ``view``. If not specified, the
    default is to allow transfers to all hosts.
 
+   Additionally, one could specify the transport level limitations.
+   In particular, one could restrict zone transfers to a specific port and
+   DNS transport protocol by using options ``port`` and
+   ``transport``. Please keep in mind that zone transfers are possible
+   to do only via TCP and TLS transports at the moment. Either of
+   these options can be specified.
+
+   For example: ``allow-transfer port 853 transport tls { any; };``
+
 ``blackhole``
    This specifies a list of addresses which the server does not accept queries
    from or use to resolve a query. Queries from these addresses are not
