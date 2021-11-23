@@ -809,6 +809,7 @@ gcc:out-of-tree:
 system:gcc:out-of-tree:
   variables:
     OUT_OF_TREE_WORKSPACE: /tmp/out_of_tree_workspace
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   needs:
     - job: gcc:out-of-tree
       artifacts: true
@@ -844,6 +845,8 @@ gcc:tarball:
       artifacts: true
 
 system:gcc:tarball:
+  variables:
+    SOFTHSM2_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
   <<: *base_image
   <<: *system_test_job
   <<: *schedules_tags_web_triggering_rules
