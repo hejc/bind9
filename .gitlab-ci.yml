@@ -127,7 +127,7 @@ stages:
   <<: *linux_amd64
 
 .debian-buster-amd64: &debian_buster_amd64_image
-  image: "$CI_REGISTRY_IMAGE:debian-buster-amd64"
+  image: "$CI_REGISTRY_IMAGE-staging:debian-buster-amd64"
   <<: *linux_amd64
 
 .debian-buster-amd64cross32: &debian_buster_amd64cross32_image
@@ -151,7 +151,7 @@ stages:
 # Fedora
 
 .fedora-34-amd64: &fedora_34_amd64_image
-  image: "$CI_REGISTRY_IMAGE:fedora-34-amd64"
+  image: "$CI_REGISTRY_IMAGE-staging:fedora-34-amd64"
   <<: *linux_amd64
 
 .fedora-34-arm64: &fedora_34_arm64_image
