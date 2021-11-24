@@ -14,6 +14,8 @@
 
 PWD=$(pwd)
 
+status=0
+
 keygen() {
 	type="$1"
 	bits="$2"
