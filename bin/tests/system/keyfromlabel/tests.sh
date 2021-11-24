@@ -57,12 +57,12 @@ do
 
 		echo_i "Get ZSK $alg $id-$zone $type:$bits"
 		ret=0
-		zsk=$(keyfromlabel $alg $zone keyfromlabel-zsk)
+		zsk=$(keyfromlabel $alg $zone zsk)
 		test -z "$zsk" && ret=1
 
 		echo_i "Get KSK $alg $id-$zone $type:$bits"
 		ret=0
-		ksk=$(keyfromlabel $alg $zone keyfromlabel-ksk -f KSK)
+		ksk=$(keyfromlabel $alg $zone ksk -f KSK)
 		test -z "$ksk" && ret=1
 
 		test "$ret" -eq 0 || echo_i "failed"
